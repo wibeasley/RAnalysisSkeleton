@@ -1,4 +1,6 @@
-RAnalysisSkeleton
-=================
+R Analysis Skeleton
+=========
 
-Files and settings commonly used in analysis projects with R
+This project contains the files and settings commonly used in analysis projects with R.  A developer can start  an analysis repository more quickly by copying these files.
+
+https://github.com/wibeasley/RAnalysisSkeleton/

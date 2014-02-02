@@ -1,3 +1,9 @@
+# RStudio files
+^.Rproj.user/
+
+# Protected Information
+UnsharedMaterial/
+
 # History files
 .Rhistory
 

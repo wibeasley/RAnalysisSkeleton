@@ -9,10 +9,10 @@
 pathCsv <- './UtilityScripts/PackageDependencyList.csv'
 
 if( !file.exists(pathCsv)) 
-  stop("The path `", pathCsv, "` was not found.  Make sure the working directory is set to the root of the repository.")
+  base::stop("The path `", pathCsv, "` was not found.  Make sure the working directory is set to the root of the repository.")
 #####################################
 ## @knitr LoadDatasets
-dsPackages <- read.csv(file=pathCsv, stringsAsFactors=FALSE)
+dsPackages <- utils::read.csv(file=pathCsv, stringsAsFactors=FALSE)
 
 rm(pathCsv)
 #####################################
@@ -24,16 +24,16 @@ rm(dsPackages)
 #####################################
 ## @knitr InstallCranPackages
 for( packageName in dsInstallFromCran$PackageName ) {
-  available <- require(packageName, character.only=TRUE) #Loads the packages, and indicates if it's available
+  available <- base::require(packageName, character.only=TRUE) #Loads the packages, and indicates if it's available
   if( !available ) {
-    install.packages(packageName, dependencies=TRUE)
-    require( packageName, character.only=TRUE)
+    utils::install.packages(packageName, dependencies=TRUE)
+    base::require( packageName, character.only=TRUE)
   }
 }
 rm(dsInstallFromCran, packageName, available)
 #####################################
 ## @knitr UpdateCranPackages
-update.packages(ask="graphics", checkBuilt=TRUE)
+utils::update.packages(ask="graphics", checkBuilt=TRUE)
 
 #####################################
 ## @knitr InstallDevtools
@@ -42,17 +42,21 @@ update.packages(ask="graphics", checkBuilt=TRUE)
 # This should follow the initial CRAN installation of `devtools`.  
 #   Installing the newest GitHub devtools version isn't always necessary, but it usually helps.
 
-devtools::build_github_devtools() 
+downloadLocation <- "./devtools.zip" #This is the default value.
+devtools::build_github_devtools(downloadLocation) 
+
+base::unlink(downloadLocation, recursive=FALSE) #Remove the file from disk.
+base::rm(downloadLocation)
 #####################################
 ## @knitr InstallGitHubPackages
 
-for( i in seq_len(nrow(dsInstallFromGitHub)) ) {
+for( i in base::seq_len(base::nrow(dsInstallFromGitHub)) ) {
   repositoryName <- dsInstallFromGitHub[i, "PackageName"]
   username <- dsInstallFromGitHub[i, "GitHubUsername"]
   devtools::install_github(repo=repositoryName, username=username)
 }
 
-rm(dsInstallFromGitHub, repositoryName, username)
+base::rm(dsInstallFromGitHub, repositoryName, username, i)
 
 #There will be a warning message for every  package that's called but not installed.  It will look like:
 #    Warning message:

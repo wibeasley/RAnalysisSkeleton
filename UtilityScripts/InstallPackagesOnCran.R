@@ -1,43 +1,56 @@
-#This code checks the user's installed packages against a list of packages (that we've manually compiled) 
-#   necessary for our repository's code to be fully operational. Missing packages are installed, while existing packages are not.
-#   If anyone sees a package that should be on there, please tell me.
+#This code checks the user's installed packages against the packages listed in `./UtilityScripts/PackageDependencyList.csv`.
+#   These are necessary for the repository's R code to be fully operational. 
+#   CRAN packages are installed only if they're not already; then they're updated if available.
+#   GitHub packages are installed regardless if they're already installed.
+#If anyone encounters a package that should be on there, please add it to `./UtilityScripts/PackageDependencyList.csv`
+
 rm(list=ls(all=TRUE)) #Clear the memory of variables set during previous runs.
+#####################################
+## @knitr DeclareGlobals
+pathCsv <- './UtilityScripts/PackageDependencyList.csv'
 
-packagesToInstall <- c(
-  "colorspace" #Explicit control over the HCL color scheme
-  , "devtools" #Used in the C1 survival for sourcing gists
-  , "digest" #Creates SHA hashes for the recruiting database
-  , "evaluate" #A package that Hadley et al use a lot in their packages.  It helps when things are passed by reference.
-  , "foreign" #Reads data in other formats
-  , "ggplot2" #Graphing
-  , "ggthemes" #Extra themes, scales and geoms for ggplot
-  , "googleVis" #JavaScript-based visualizations, like scrollable tables
-  , "ggmap" #Maps & graphics, based on ggplot
-  , "knitr" #For reporting
-  , "lme4" #Multilevel models
-  , "lubridate" #Consistent/convienent function signatures for manipulating dates
-  , "plyr" #Important for most of our data manipulation
-  , "random" #Creates random numbers for salts
-  , "RColorBrewer" #Explicit control over the Color Brewer colors.  See http://colorbrewer2.org/
-  , "RCurl" #Interact with the web APIs
-  , "reshape2" #Data manipulation not covered in plyr
-  , "RODBC" #For connecting to ODBC databases
-  , "stringr" #Consistent/convienent function signatures for manipulating text
-  , "testit" #has the useful `assert()` function
-  , "testthat" #Heavier testing framework that's good for package development
-  , "xtable" #Formats tables, especially for LaTeX output.
-  , "zipcode" #Database of zipcodes and their lat & long; also useful for flagging bad zipcodes
-) 
+if( !file.exists(pathCsv)) stop("The path `", pathCsv, "` was not found.  Make sure the working directory is set to the root of the repository.")
+#####################################
+## @knitr LoadDatasets
+dsPackages <- read.csv(file=pathCsv, stringsAsFactors=FALSE)
 
-for( packageName in packagesToInstall ) {
+rm(pathCsv)
+#####################################
+## @knitr TweakDatasets
+dsInstallFromCran <- dsPackages[dsPackages$Install & dsPackages$OnCran, ]
+dsInstallFromGitHub <- dsPackages[dsPackages$Install & nchar(dsPackages$GitHubUsername)>0, ]
+
+rm(dsPackages)
+#####################################
+## @knitr InstallDevtools
+# Installing the devtools package is different than the rest of the packages.  On Windows,
+#   the dll can't be overwritten while in use.  This function avoids that issue.
+
+devtools::build_github_devtools() 
+#####################################
+## @knitr InstallCranPackages
+for( packageName in dsInstallFromCran$PackageName ) {
   available <- require(packageName, character.only=TRUE) #Loads the packages, and indicates if it's available
   if( !available ) {
     install.packages(packageName, dependencies=TRUE)
     require( packageName, character.only=TRUE)
   }
 }
-
+rm(dsInstallFromCran, packageName, available)
+#####################################
+## @knitr UpdateCranPackages
 update.packages(ask="graphics", checkBuilt=TRUE)
+
+#####################################
+## @knitr InstallGitHubPackages
+
+for( i in seq_len(nrow(dsInstallFromGitHub)) ) {
+  repositoryName <- dsInstallFromGitHub[i, "PackageName"]
+  username <- dsInstallFromGitHub[i, "GitHubUsername"]
+  devtools::install_github(repo=repositoryName, username=username)
+}
+
+rm(dsInstallFromGitHub, repositoryName, username)
 
 #There will be a warning message for every  package that's called but not installed.  It will look like:
 #    Warning message:

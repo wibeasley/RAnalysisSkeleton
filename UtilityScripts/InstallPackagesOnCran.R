@@ -4,12 +4,12 @@
 #   GitHub packages are installed regardless if they're already installed.
 #If anyone encounters a package that should be on there, please add it to `./UtilityScripts/PackageDependencyList.csv`
 
-rm(list=ls(all=TRUE)) #Clear the memory of variables set during previous runs.
 #####################################
 ## @knitr DeclareGlobals
 pathCsv <- './UtilityScripts/PackageDependencyList.csv'
 
-if( !file.exists(pathCsv)) stop("The path `", pathCsv, "` was not found.  Make sure the working directory is set to the root of the repository.")
+if( !file.exists(pathCsv)) 
+  stop("The path `", pathCsv, "` was not found.  Make sure the working directory is set to the root of the repository.")
 #####################################
 ## @knitr LoadDatasets
 dsPackages <- read.csv(file=pathCsv, stringsAsFactors=FALSE)
@@ -21,12 +21,6 @@ dsInstallFromCran <- dsPackages[dsPackages$Install & dsPackages$OnCran, ]
 dsInstallFromGitHub <- dsPackages[dsPackages$Install & nchar(dsPackages$GitHubUsername)>0, ]
 
 rm(dsPackages)
-#####################################
-## @knitr InstallDevtools
-# Installing the devtools package is different than the rest of the packages.  On Windows,
-#   the dll can't be overwritten while in use.  This function avoids that issue.
-
-devtools::build_github_devtools() 
 #####################################
 ## @knitr InstallCranPackages
 for( packageName in dsInstallFromCran$PackageName ) {
@@ -41,6 +35,14 @@ rm(dsInstallFromCran, packageName, available)
 ## @knitr UpdateCranPackages
 update.packages(ask="graphics", checkBuilt=TRUE)
 
+#####################################
+## @knitr InstallDevtools
+# Installing the devtools package is different than the rest of the packages.  On Windows,
+#   the dll can't be overwritten while in use.  This function avoids that issue.
+# This should follow the initial CRAN installation of `devtools`.  
+#   Installing the newest GitHub devtools version isn't always necessary, but it usually helps.
+
+devtools::build_github_devtools() 
 #####################################
 ## @knitr InstallGitHubPackages
 

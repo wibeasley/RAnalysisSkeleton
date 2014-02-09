@@ -1,0 +1,19 @@
+﻿This is an example NEWS file.  Modify it.
+
+
+Version 1.0 (Developed 2014-02-03 through 2014-02-07)
+------------------------------------------------------------------------------
+New Features:
+* Ran regressions without standardizing variables
+
+Updates:
+* Added more code to check regression assumptions of pilot
+
+Version 0.1 (Developed 2014-01-29 through 2014-02-02)
+------------------------------------------------------------------------------
+New Features:
+* Added data & code to check regression assumptions of pilot
+
+GitHub Commits
+------------------------------------------------------------------------------
+For a detailed change log, please see https://github.com/wibeasley/RAnalysisSkeleton/commits/master

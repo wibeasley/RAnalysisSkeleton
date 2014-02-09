@@ -1,5 +1,7 @@
 # RStudio files
 .Rproj.user/
+
+# The devtools zip is downloaded when the package is updating itself 
 devtools.zip
 
 # Protected Information

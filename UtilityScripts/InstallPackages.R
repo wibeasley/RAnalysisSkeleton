@@ -21,7 +21,7 @@ rm(pathCsv)
 #####################################
 ## @knitr TweakDatasets
 dsInstallFromCran <- dsPackages[dsPackages$Install & dsPackages$OnCran, ]
-dsInstallFromGitHub <- dsPackages[dsPackages$Install & nchar(dsPackages$GitHubUsername)>0, ]
+dsInstallFromGitHub <- dsPackages[dsPackages$Install & !is.na(dsPackages$GitHubUsername) & nchar(dsPackages$GitHubUsername)>0, ]
 
 rm(dsPackages)
 #####################################
@@ -32,8 +32,9 @@ for( packageName in dsInstallFromCran$PackageName ) {
     utils::install.packages(packageName, dependencies=TRUE)
     base::require( packageName, character.only=TRUE)
   }
+  base::rm(available)
 }
-rm(dsInstallFromCran, packageName, available)
+rm(dsInstallFromCran, packageName)
 #####################################
 ## @knitr UpdateCranPackages
 utils::update.packages(ask="graphics", checkBuilt=TRUE)
@@ -57,9 +58,10 @@ for( i in base::seq_len(base::nrow(dsInstallFromGitHub)) ) {
   repositoryName <- dsInstallFromGitHub[i, "PackageName"]
   username <- dsInstallFromGitHub[i, "GitHubUsername"]
   devtools::install_github(repo=repositoryName, username=username)
+  base::rm(repositoryName, username)
 }
 
-base::rm(dsInstallFromGitHub, repositoryName, username, i)
+base::rm(dsInstallFromGitHub, i)
 
 #There will be a warning message for every  package that's called but not installed.  It will look like:
 #    Warning message:

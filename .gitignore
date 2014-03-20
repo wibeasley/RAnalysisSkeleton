@@ -4,12 +4,13 @@
 # The devtools zip is downloaded when the package is updating itself 
 devtools.zip
 
-# Protected Information
-UnsharedMaterial/
-DataUnshared/
+# Protected Information; see cubuspl42's answer in http://stackoverflow.com/questions/2415873/exceptions-in-gitignore
+UnsharedMaterial/*
+DataUnshared/*
 
 # Keep the README in the unshared directories
 !DataUnshared/README.md
+!DataUnshared/Contents.md
 
 # History files
 .Rhistory

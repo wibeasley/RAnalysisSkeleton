@@ -8,6 +8,9 @@ devtools.zip
 UnsharedMaterial/
 DataUnshared/
 
+# Keep the README in the unshared directories
+!DataUnshared/README.md
+
 # History files
 .Rhistory
 

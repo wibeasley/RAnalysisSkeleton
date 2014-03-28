@@ -1,20 +1,18 @@
-# RStudio files
+# R and RStudio files.
+.Rhistory
+.RData
 .Rproj.user/
 
-# The devtools zip is downloaded when the package is updating itself 
+# The devtools zip is downloaded when the package is updating itself.  If it's not deleted, there's no reason to commit it to the repository.
 devtools.zip
 
 # Protected Information; see cubuspl42's answer in http://stackoverflow.com/questions/2415873/exceptions-in-gitignore
-UnsharedMaterial/*
-DataUnshared/*
 
-# Keep the README in the unshared directories
+# Keep the README files in the unshared directories.  They provide documentation, and also force the directories to be created on other machines.
 !DataUnshared/README.md
 !DataUnshared/Contents.md
+!DataUnshared/Raw/README.md
+!DataUnshared/Derived/README.md
 
-# History files
-.Rhistory
-.RData
-
-# Example code in package build process
+# Example code in package build process with a wildcard.
 *-Ex.R

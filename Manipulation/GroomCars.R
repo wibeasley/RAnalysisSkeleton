@@ -4,9 +4,12 @@ rm(list=ls(all=TRUE))  #Clear the variables from previous runs.
 ############################
 ## @knitr LoadPackages
 require(plyr)
+require(ggplot2)
 
 ############################
 ## @knitr DeclareGlobals
+options(stringsAsFactors=FALSE) #By default, character/string variables will NOT be automatically converted to factors.
+
 pathInput <- "./DataPhiFree/Raw/mtcars_dataset.csv"
 pathOutput <- "./DataPhiFree/Derived/MotorTrendCarTest.rds"
 
@@ -14,13 +17,12 @@ prematureThresholdInWeeks <- 37 #Any infant under 37 weeks is considered prematu
 weeksPerYear <- 365.25/7
 daysPerWeek <- 7
 
-options(stringsAsFactors=FALSE) #By default
 ############################
 ## @knitr LoadData
 ds <- read.csv(pathInput)
 colnames(ds)
 
-#Info on dataset: http://stat.ethz.ch/R-manual/R-devel/library/datasets/html/mtcars.html
+# Dataset description can be found at: http://stat.ethz.ch/R-manual/R-devel/library/datasets/html/mtcars.html
 ds <- plyr::rename(ds, replace=c(
   "model" = "ModelName"
   , "mpg" = "MilesPerGallon"

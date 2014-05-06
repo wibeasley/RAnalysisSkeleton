@@ -1,0 +1,68 @@
+#############
+## If you decide to use these settings that eagerly excludes files, rename it to simply `.gitignore` (without the quotes) and place it in the root of the repository.
+#############
+# In root/base directory
+README.html
+
+#In DocumentationGlobal directory
+Gotchas.html
+PatternReportDesign.html
+PatternReportRun.html
+ReportChecklist.html
+ResourcesInstallation.html
+ResourcesOfficial.html
+ResourcesOpinions.html
+ProjectGuidelines.html
+
+#Anywhere
+*.zip
+*.Zip
+*.ZIP
+*.Rhistory
+*.Rproj.user
+
+#I'm afraid this might contain PHI if someone knew how to decode it.
+us.stackdump 
+
+#Data formats that potentially contain PHI
+*.rdata
+*.Rdata
+*.RData
+*.RDATA
+*.RDS
+*.rds
+*.csv
+*.mdb
+*.accdb
+*.sav
+*.sas7bdat
+*.xls
+*.xlsx
+
+#Dataset Exceptions
+!RecruitmentProductivity/RecruitingZones/ZipcodesToZone.csv
+!OsdhReports/AdministrativeRecordCounts/AdministrativeRecordCounts-2013-07-24.xlsx
+!OsdhReports/OsdhMaps/CountyCharacteristics.csv
+!PhiFreeDatasets/CountCountyFortified.csv
+!PhiFreeDatasets/MailerZipcodeZone.csv
+!PhiFreeDatasetsCache/RCAudit/MockUserListFromIrb.csv
+
+!Spatial/CarrieZipcode/ZipcodeAggregate.csv
+!Spatial/CarrieZipcode/CensusData/ACS_11_5YR_B01003_metadata.csv
+!Spatial/CarrieZipcode/CensusData/ACS_11_5YR_B01003_with_ann.csv
+
+!Recruitment/RecruitmentMetadata.xlsx
+
+#RData exceptions
+!OsdhReports/C1ActivityAapc/resultsBugs.RData
+!OsdhReports/C1ActivityAapc/resultsJags.RData
+
+#For LaTeX
+*.tex
+*.synctex.gz
+*.log
+
+#Exclude caches in case they contain PHI
+cache/
+*/cache/
+*/*/cache/

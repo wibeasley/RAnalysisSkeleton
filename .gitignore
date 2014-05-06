@@ -18,3 +18,4 @@ DataUnshared/*
 
 # Example code in package build process with a wildcard.
 *-Ex.R
+.Rproj.user

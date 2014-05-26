@@ -23,7 +23,7 @@ pathInstallPackages <- "./UtilityScripts/InstallPackages.R"
 if( !file.exists(pathInstallPackages)) {
   base::stop("The file `", pathInstallPackages, "` was not found.  Make sure the working directory is set to the root of the repository.")
 }
-# base::source(pathInstallPackages, local=new.env()) 
+base::source(pathInstallPackages, local=new.env()) 
 
 base::rm(pathInstallPackages)
 ###################################

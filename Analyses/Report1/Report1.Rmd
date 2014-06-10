@@ -26,7 +26,7 @@ opts_chunk$set(
 
 echoChunks <- FALSE
 options(width=120) #So the output is 50% wider than the default.
-read_chunk("./Analyses/Report1/Report1.R") 
+read_chunk("./Analyses/Report1/Report1.R") #This allows knitr to call chunks tagged in the underlying *.R file.
 ```
 <!-- Load the packages.  Suppress the output when loading packages. --> 
 ```{r LoadPackages, echo=echoChunks, message=FALSE}
@@ -41,11 +41,11 @@ read_chunk("./Analyses/Report1/Report1.R")
 ```
 
 <!-- Load the datasets.   -->
-```{r LoadDatasets, echo=echoChunks, results='show', message=FALSE}
+```{r LoadDat, echo=echoChunks, results='show', message=FALSE}
 ```
 
 <!-- Tweak the datasets.   -->
-```{r TweakDatasets, echo=echoChunks, results='show', message=FALSE}
+```{r TweakData, echo=echoChunks, results='show', message=FALSE}
 ```
 
 ## Notes
@@ -67,11 +67,11 @@ read_chunk("./Analyses/Report1/Report1.R")
 ```
 
 # Questions
-## Unanswered
+## Unanswered Questions
  1. What does `VS` stand for?  How was it measured?
  1. Where the cars at the Philly track measured with the same phluguerstometer and the Cleveland track?
  
-# Answered Questions
+## Answered Questions
  1. The Seattle track's phluguerstometer was producing flaky negative values; it's measurements have been dropped.
 
 # Session Information

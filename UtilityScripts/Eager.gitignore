@@ -40,6 +40,7 @@ us.stackdump
 *.xlsx
 
 # Dataset Exceptions
+!UtilityScripts/PackageDependencyList.csv
 !RecruitmentProductivity/RecruitingZones/ZipcodesToZone.csv
 !OsdhReports/AdministrativeRecordCounts/AdministrativeRecordCounts-2013-07-24.xlsx
 !OsdhReports/OsdhMaps/CountyCharacteristics.csv
@@ -57,6 +58,10 @@ us.stackdump
 !OsdhReports/C1ActivityAapc/resultsBugs.RData
 !OsdhReports/C1ActivityAapc/resultsJags.RData
 
+# Protected Information; see cubuspl42's answer in http://stackoverflow.com/questions/2415873/exceptions-in-gitignore
+UnsharedMaterial/*
+DataUnshared/*
+
 # For LaTeX
 *.tex
 *.synctex.gz
@@ -66,3 +71,6 @@ us.stackdump
 cache/
 */cache/
 */*/cache/
+
+# The devtools zip is downloaded when the package is updating itself.  If it's not deleted, there's no reason to commit it to the repository.
+devtools.zip

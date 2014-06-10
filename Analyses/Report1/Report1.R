@@ -87,12 +87,12 @@ HistogramContinuous <- function(
 }
 
 #####################################
-## @knitr LoadDatasets
+## @knitr LoadData
 # 'ds' stands for 'datasets'
 ds <- readRDS(pathInput)
 
 #####################################
-## @knitr TweakDatasets
+## @knitr TweakData
 # 
 # dropInfantWeightForGestationalAgeCategorySgaOrMissing <- (is.na(ds$InfantWeightForGestationalAgeCategory) | ds$InfantWeightForGestationalAgeCategory=="Sga")
 # cat("Number of patients excluded b/c Missing or `SGA` for InfantWeightForGestationalAgeCategory: ", sum(dropInfantWeightForGestationalAgeCategorySgaOrMissing, na.rm=T))

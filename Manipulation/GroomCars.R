@@ -2,6 +2,9 @@
 rm(list=ls(all=TRUE))  #Clear the variables from previous runs.
 
 ############################
+## @knitr LoadSources
+
+############################
 ## @knitr LoadPackages
 require(plyr)
 require(ggplot2)

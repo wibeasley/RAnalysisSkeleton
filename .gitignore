@@ -1,6 +1,7 @@
 # R and RStudio files.
 .Rhistory
 .RData
+.Rproj.user
 .Rproj.user/
 
 # The devtools zip is downloaded when the package is updating itself.  If it's not deleted, there's no reason to commit it to the repository.
@@ -10,6 +11,9 @@ devtools.zip
 UnsharedMaterial/*
 DataUnshared/*
 
+# Dataset Exceptions
+!UtilityScripts/PackageDependencyList.csv
+
 # Keep the README files in the unshared directories.  They provide documentation, and also force the directories to be created on other machines.
 !DataUnshared/README.md
 !DataUnshared/Contents.md
@@ -18,4 +22,8 @@ DataUnshared/*
 
 # Example code in package build process with a wildcard.
 *-Ex.R
-.Rproj.user
+
+# Exclude caches in case they contain PHI
+cache/
+*/cache/
+*/*/cache/

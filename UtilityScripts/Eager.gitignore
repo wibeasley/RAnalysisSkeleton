@@ -4,7 +4,7 @@
 # In root/base directory
 README.html
 
-#In DocumentationGlobal directory
+# In DocumentationGlobal directory
 Gotchas.html
 PatternReportDesign.html
 PatternReportRun.html
@@ -14,17 +14,17 @@ ResourcesOfficial.html
 ResourcesOpinions.html
 ProjectGuidelines.html
 
-#Anywhere
+# Anywhere
 *.zip
 *.Zip
 *.ZIP
 *.Rhistory
 *.Rproj.user
 
-#I'm afraid this might contain PHI if someone knew how to decode it.
+# I'm afraid this might contain PHI if someone knew how to decode it.
 us.stackdump 
 
-#Data formats that potentially contain PHI
+# Data formats that potentially contain PHI
 *.rdata
 *.Rdata
 *.RData
@@ -39,7 +39,8 @@ us.stackdump
 *.xls
 *.xlsx
 
-#Dataset Exceptions
+# Dataset Exceptions
+!UtilityScripts/PackageDependencyList.csv
 !RecruitmentProductivity/RecruitingZones/ZipcodesToZone.csv
 !OsdhReports/AdministrativeRecordCounts/AdministrativeRecordCounts-2013-07-24.xlsx
 !OsdhReports/OsdhMaps/CountyCharacteristics.csv
@@ -53,16 +54,23 @@ us.stackdump
 
 !Recruitment/RecruitmentMetadata.xlsx
 
-#RData exceptions
+# RData exceptions
 !OsdhReports/C1ActivityAapc/resultsBugs.RData
 !OsdhReports/C1ActivityAapc/resultsJags.RData
 
-#For LaTeX
+# Protected Information; see cubuspl42's answer in http://stackoverflow.com/questions/2415873/exceptions-in-gitignore
+UnsharedMaterial/*
+DataUnshared/*
+
+# For LaTeX
 *.tex
 *.synctex.gz
 *.log
 
-#Exclude caches in case they contain PHI
+# Exclude caches in case they contain PHI
 cache/
 */cache/
 */*/cache/
+
+# The devtools zip is downloaded when the package is updating itself.  If it's not deleted, there's no reason to commit it to the repository.
+devtools.zip

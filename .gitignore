@@ -11,6 +11,9 @@ devtools.zip
 UnsharedMaterial/*
 DataUnshared/*
 
+# Unnecessary files for knitr reports
+Analyses/Report1/Report1_files/*
+
 # Dataset Exceptions
 !UtilityScripts/PackageDependencyList.csv
 

@@ -5,28 +5,21 @@ This report covers the analyses used in the ZZZ project (Marcus Mark, PI).
 <!--  Set the working directory to the repository's base directory; this assumes the report is nested inside of two directories.-->
 
 
-
 <!-- Set the report-wide options, and point to the external code file. -->
 
-
 <!-- Load the packages.  Suppress the output when loading packages. --> 
-
 
 
 <!-- Load any Global functions and variables declared in the R file.  Suppress the output. --> 
 
 
-
 <!-- Declare any global functions specific to a Rmd output.  Suppress the output. --> 
-
 
 
 <!-- Load the datasets.   -->
 
 
-
 <!-- Tweak the datasets.   -->
-
 
 
 ## Notes
@@ -37,7 +30,6 @@ This report covers the analyses used in the ZZZ project (Marcus Mark, PI).
 
 # Marginals
 ![plot of chunk Marginals](FigureRaw/Marginals1.png) ![plot of chunk Marginals](FigureRaw/Marginals2.png) ![plot of chunk Marginals](FigureRaw/Marginals3.png) ![plot of chunk Marginals](FigureRaw/Marginals4.png) 
-
 
 # Scatterplots
 
@@ -102,7 +94,6 @@ Warning: There are other near singularities as well. 0.82901
 ```
 
 ![plot of chunk Scatterplots](FigureRaw/Scatterplots6.png) ![plot of chunk Scatterplots](FigureRaw/Scatterplots7.png) 
-
 
 # Models
 
@@ -203,25 +194,24 @@ Model 2: QuarterMileInSeconds ~ 1 + MilesPerGallon + ForwardGearCountF
 2     28 48.0  2      33.6 9.81 0.00059
 ```
 
-
 # Questions
-## Unanswered
+## Unanswered Questions
  1. What does `VS` stand for?  How was it measured?
  1. Where the cars at the Philly track measured with the same phluguerstometer and the Cleveland track?
  
-# Answered Questions
+## Answered Questions
  1. The Seattle track's phluguerstometer was producing flaky negative values; it's measurements have been dropped.
 
 # Session Information
-For the sake of documentation and reproducibility, the current report was build on a system using the following software.
+For the sake of documentation and reproducibility, the current report was rendered on a system using the following software.
 
 
 ```
-Report created by Will at 2014-05-05, 22:01 -0500
+Report rendered by Will at 2014-10-05, 17:55 -0500
 ```
 
 ```
-R version 3.1.0 Patched (2014-04-27 r65506)
+R version 3.1.1 Patched (2014-09-27 r66695)
 Platform: x86_64-w64-mingw32/x64 (64-bit)
 
 locale:
@@ -232,11 +222,10 @@ attached base packages:
 [1] stats     graphics  grDevices utils     datasets  methods   base     
 
 other attached packages:
-[1] ggplot2_0.9.3.1    RColorBrewer_1.0-5 scales_0.2.4       plyr_1.8.1         knitr_1.5         
+[1] ggplot2_1.0.0      RColorBrewer_1.0-5 scales_0.2.4       plyr_1.8.1         knitr_1.6         
 
 loaded via a namespace (and not attached):
- [1] colorspace_1.2-4 digest_0.6.4     evaluate_0.5.5   formatR_0.10     grid_3.1.0       gtable_0.1.2    
- [7] labeling_0.2     MASS_7.3-32      munsell_0.4.2    proto_0.3-10     Rcpp_0.11.1      reshape2_1.4    
-[13] stringr_0.6.2    tools_3.1.0     
+ [1] colorspace_1.2-4 digest_0.6.4     evaluate_0.5.5   formatR_1.0      grid_3.1.1       gtable_0.1.2    
+ [7] htmltools_0.2.6  labeling_0.3     MASS_7.3-34      munsell_0.4.2    proto_0.3-10     Rcpp_0.11.3     
+[13] reshape2_1.4     rmarkdown_0.3.3  stringr_0.6.2    tools_3.1.1      yaml_2.1.13     
 ```
-

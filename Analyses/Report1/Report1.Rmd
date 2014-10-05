@@ -1,3 +1,8 @@
+---
+output:
+  html_document:
+    keep_md: yes
+---
 Skeleton Report 1
 =================================================
 This report covers the analyses used in the ZZZ project (Marcus Mark, PI).
@@ -5,14 +10,13 @@ This report covers the analyses used in the ZZZ project (Marcus Mark, PI).
 <!--  Set the working directory to the repository's base directory; this assumes the report is nested inside of two directories.-->
 ```{r, echo=F, message=F} 
 # cat("Working directory: ", getwd())
-
+  library(knitr)
   opts_knit$set(root.dir='../../')  #Don't combine this call with any other chunk -especially one that uses file paths.
 ```
 
 <!-- Set the report-wide options, and point to the external code file. -->
 ```{r set_options, echo=F}
 # cat("Working directory: ", getwd())
-require(knitr)
 opts_chunk$set(
   results='show', 
   comment = NA, 
@@ -41,7 +45,7 @@ read_chunk("./Analyses/Report1/Report1.R") #This allows knitr to call chunks tag
 ```
 
 <!-- Load the datasets.   -->
-```{r LoadDat, echo=echoChunks, results='show', message=FALSE}
+```{r LoadData, echo=echoChunks, results='show', message=FALSE}
 ```
 
 <!-- Tweak the datasets.   -->
@@ -75,9 +79,9 @@ read_chunk("./Analyses/Report1/Report1.R") #This allows knitr to call chunks tag
  1. The Seattle track's phluguerstometer was producing flaky negative values; it's measurements have been dropped.
 
 # Session Information
-For the sake of documentation and reproducibility, the current report was build on a system using the following software.
+For the sake of documentation and reproducibility, the current report was rendered on a system using the following software.
 
 ```{r session_info, echo=FALSE}
-cat("Report created by", Sys.info()["user"], "at", strftime(Sys.time(), "%Y-%m-%d, %H:%M %z"))
+cat("Report rendered by", Sys.info()["user"], "at", strftime(Sys.time(), "%Y-%m-%d, %H:%M %z"))
 sessionInfo()
 ```

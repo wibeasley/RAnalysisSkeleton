@@ -28,10 +28,10 @@ base::source(pathInstallPackages, local=new.env())
 base::rm(pathInstallPackages)
 ###################################
 #' Load the necessary packages.
-base::require(base)
-base::require(knitr)
-base::require(markdown)
-base::require(testit)
+base::library(base)
+base::library(knitr)
+base::library(markdown)
+base::library(testit)
 
 ######################################################################################################
 #' The following example comes from https://github.com/wibeasley/Wats.  Rename the paths appropriately.

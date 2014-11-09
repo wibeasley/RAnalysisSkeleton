@@ -3,6 +3,7 @@ output:
   html_document:
     keep_md: yes
 ---
+<!-- rmarkdown v1 -->
 Skeleton Report 1
 =================================================
 This report covers the analyses used in the ZZZ project (Marcus Mark, PI).
@@ -32,7 +33,12 @@ echoChunks <- FALSE
 options(width=120) #So the output is 50% wider than the default.
 read_chunk("./Analyses/Report1/Report1.R") #This allows knitr to call chunks tagged in the underlying *.R file.
 ```
-<!-- Load the packages.  Suppress the output when loading packages. --> 
+
+<!-- Load the sources.  Suppress the output when loading sources. --> 
+```{r LoadSources, echo=echoChunks, message=FALSE}
+```
+
+<!-- Load 'sourced' R files.  Suppress the output when loading packages. --> 
 ```{r LoadPackages, echo=echoChunks, message=FALSE}
 ```
 
@@ -42,6 +48,7 @@ read_chunk("./Analyses/Report1/Report1.R") #This allows knitr to call chunks tag
 
 <!-- Declare any global functions specific to a Rmd output.  Suppress the output. --> 
 ```{r, echo=echoChunks, message=FALSE}
+#Put code in here.  It doesn't call a chunk in the codebehind file.
 ```
 
 <!-- Load the datasets.   -->

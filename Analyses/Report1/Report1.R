@@ -1,5 +1,11 @@
 rm(list=ls(all=TRUE)) #Clear the memory of variables from previous run. This is not called by knitr, because it's above the first chunk.
 #####################################
+## @knitr LoadSources
+#Load any source files that contain/define functions, but that don't load any other types of variables
+#   into memory.  Avoid side effects and don't pollute the global environment.
+# source("./SomethingSomething.R")
+
+#####################################
 ## @knitr LoadPackages
 # library(xtable)
 library(knitr)
@@ -127,7 +133,7 @@ HistogramDiscrete(dsObserved=ds, variableName="ForwardGearCountF")
 #####################################
 ## @knitr Scatterplots
 g1 <- ggplot(ds, aes(x=GrossHorsepower, y=QuarterMileInSeconds, color=ForwardGearCountF)) + 
-  geom_smooth(method="loess") +
+  geom_smooth(method="loess", span=2) +
   geom_point(shape=1) +
   theme_bw()
 g1

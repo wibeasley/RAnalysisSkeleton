@@ -1,3 +1,9 @@
+---
+output:
+  html_document:
+    keep_md: yes
+---
+<!-- rmarkdown v1 -->
 Skeleton Report 1
 =================================================
 This report covers the analyses used in the ZZZ project (Marcus Mark, PI).
@@ -7,7 +13,11 @@ This report covers the analyses used in the ZZZ project (Marcus Mark, PI).
 
 <!-- Set the report-wide options, and point to the external code file. -->
 
-<!-- Load the packages.  Suppress the output when loading packages. --> 
+
+<!-- Load the sources.  Suppress the output when loading sources. --> 
+
+
+<!-- Load 'sourced' R files.  Suppress the output when loading packages. --> 
 
 
 <!-- Load any Global functions and variables declared in the R file.  Suppress the output. --> 
@@ -29,71 +39,38 @@ This report covers the analyses used in the ZZZ project (Marcus Mark, PI).
 **Note 2**: The Seattle track's phluguerstometer was producing flaky negative values; it's measurements have been dropped.
 
 # Marginals
-![plot of chunk Marginals](FigureRaw/Marginals1.png) ![plot of chunk Marginals](FigureRaw/Marginals2.png) ![plot of chunk Marginals](FigureRaw/Marginals3.png) ![plot of chunk Marginals](FigureRaw/Marginals4.png) 
+![plot of chunk Marginals](FigureRaw/Marginals-1.png) ![plot of chunk Marginals](FigureRaw/Marginals-2.png) ![plot of chunk Marginals](FigureRaw/Marginals-3.png) ![plot of chunk Marginals](FigureRaw/Marginals-4.png) 
 
 # Scatterplots
+![plot of chunk Scatterplots](FigureRaw/Scatterplots-1.png) ![plot of chunk Scatterplots](FigureRaw/Scatterplots-2.png) ![plot of chunk Scatterplots](FigureRaw/Scatterplots-3.png) ![plot of chunk Scatterplots](FigureRaw/Scatterplots-4.png) ![plot of chunk Scatterplots](FigureRaw/Scatterplots-5.png) 
 
 ```
-Warning: span too small.   fewer data values than degrees of freedom.
-Warning: pseudoinverse used at 89.78
-Warning: neighborhood radius 85.22
-Warning: reciprocal condition number  0
-Warning: There are other near singularities as well. 25992
-Warning: span too small.   fewer data values than degrees of freedom.
-Warning: pseudoinverse used at 89.78
-Warning: neighborhood radius 85.22
-Warning: reciprocal condition number  0
-Warning: There are other near singularities as well. 25992
+Warning in simpleLoess(y, x, w, span, degree, parametric, drop.square, normalize, : span too small.  fewer data values
+than degrees of freedom.
 ```
 
-![plot of chunk Scatterplots](FigureRaw/Scatterplots1.png) ![plot of chunk Scatterplots](FigureRaw/Scatterplots2.png) ![plot of chunk Scatterplots](FigureRaw/Scatterplots3.png) 
-
 ```
-Warning: pseudoinverse used at 104.65
-Warning: neighborhood radius 18.35
-Warning: reciprocal condition number  5.5839e-017
-Warning: There are other near singularities as well. 4270.6
-Warning: pseudoinverse used at 104.65
-Warning: neighborhood radius 18.35
-Warning: reciprocal condition number  5.5839e-017
-Warning: There are other near singularities as well. 4270.6
+Warning in simpleLoess(y, x, w, span, degree, parametric, drop.square, normalize, : Chernobyl! trL>n 3
 ```
 
-![plot of chunk Scatterplots](FigureRaw/Scatterplots4.png) 
-
 ```
-Warning: span too small.   fewer data values than degrees of freedom.
-Warning: pseudoinverse used at 14.923
-Warning: neighborhood radius 4.777
-Warning: reciprocal condition number  0
-Warning: There are other near singularities as well. 116.14
-Warning: Chernobyl! trL>n 5
-Warning: Chernobyl! trL>n 5
-Warning: NaNs produced
-Warning: span too small.   fewer data values than degrees of freedom.
-Warning: pseudoinverse used at 14.923
-Warning: neighborhood radius 4.777
-Warning: reciprocal condition number  0
-Warning: There are other near singularities as well. 116.14
-Warning: NaNs produced
+Warning in simpleLoess(y, x, w, span, degree, parametric, drop.square, normalize, : Chernobyl! trL>n 3
 ```
 
-![plot of chunk Scatterplots](FigureRaw/Scatterplots5.png) 
-
 ```
-Warning: span too small.   fewer data values than degrees of freedom.
-Warning: pseudoinverse used at 15.189
-Warning: neighborhood radius 1.2105
-Warning: reciprocal condition number  0
-Warning: There are other near singularities as well. 0.82901
-Warning: span too small.   fewer data values than degrees of freedom.
-Warning: pseudoinverse used at 15.189
-Warning: neighborhood radius 1.2105
-Warning: reciprocal condition number  0
-Warning: There are other near singularities as well. 0.82901
+Warning in sqrt(sum.squares/one.delta): NaNs produced
 ```
 
-![plot of chunk Scatterplots](FigureRaw/Scatterplots6.png) ![plot of chunk Scatterplots](FigureRaw/Scatterplots7.png) 
+```
+Warning in predLoess(y, x, newx, s, weights, pars$robust, pars$span, pars$degree, : span too small.  fewer data values
+than degrees of freedom.
+```
+
+```
+Warning in qt(level/2 + 0.5, pred$df): NaNs produced
+```
+
+![plot of chunk Scatterplots](FigureRaw/Scatterplots-6.png) ![plot of chunk Scatterplots](FigureRaw/Scatterplots-7.png) 
 
 # Models
 
@@ -107,14 +84,14 @@ Call:
 lm(formula = QuarterMileInSeconds ~ 1, data = ds)
 
 Residuals:
-   Min     1Q Median     3Q    Max 
--3.349 -0.956 -0.139  1.051  5.051 
+    Min      1Q  Median      3Q     Max 
+-3.3487 -0.9562 -0.1387  1.0512  5.0512 
 
 Coefficients:
             Estimate Std. Error t value Pr(>|t|)
-(Intercept)   17.849      0.316    56.5   <2e-16
+(Intercept)  17.8487     0.3159    56.5   <2e-16
 
-Residual standard error: 1.79 on 31 degrees of freedom
+Residual standard error: 1.787 on 31 degrees of freedom
 ```
 
 ```
@@ -127,17 +104,17 @@ Call:
 lm(formula = QuarterMileInSeconds ~ 1 + MilesPerGallon, data = ds)
 
 Residuals:
-   Min     1Q Median     3Q    Max 
--2.816 -1.029  0.095  0.862  4.715 
+    Min      1Q  Median      3Q     Max 
+-2.8161 -1.0287  0.0954  0.8623  4.7149 
 
 Coefficients:
                Estimate Std. Error t value Pr(>|t|)
-(Intercept)     15.3548     1.0298   14.91  2.1e-15
-MilesPerGallon   0.1241     0.0492    2.53    0.017
+(Intercept)    15.35477    1.02978  14.911 2.05e-15
+MilesPerGallon  0.12414    0.04916   2.525   0.0171
 
 Residual standard error: 1.65 on 30 degrees of freedom
-Multiple R-squared:  0.175,	Adjusted R-squared:  0.148 
-F-statistic: 6.38 on 1 and 30 DF,  p-value: 0.0171
+Multiple R-squared:  0.1753,	Adjusted R-squared:  0.1478 
+F-statistic: 6.377 on 1 and 30 DF,  p-value: 0.01708
 ```
 
 ```
@@ -149,9 +126,9 @@ Analysis of Variance Table
 
 Model 1: QuarterMileInSeconds ~ 1
 Model 2: QuarterMileInSeconds ~ 1 + MilesPerGallon
-  Res.Df  RSS Df Sum of Sq    F Pr(>F)
-1     31 99.0                         
-2     30 81.6  1      17.4 6.38  0.017
+  Res.Df    RSS Df Sum of Sq      F  Pr(>F)
+1     31 98.988                            
+2     30 81.636  1    17.352 6.3767 0.01708
 ```
 
 ```
@@ -165,19 +142,19 @@ lm(formula = QuarterMileInSeconds ~ 1 + MilesPerGallon + ForwardGearCountF,
     data = ds)
 
 Residuals:
-   Min     1Q Median     3Q    Max 
--2.037 -0.588 -0.160  0.543  4.165 
+    Min      1Q  Median      3Q     Max 
+-2.0370 -0.5882 -0.1602  0.5428  4.1646 
 
 Coefficients:
                       Estimate Std. Error t value Pr(>|t|)
-(Intercept)            15.5585     0.8978   17.33  < 2e-16
-MilesPerGallon          0.1325     0.0516    2.57  0.01596
-ForwardGearCountFFour   0.1568     0.6682    0.23  0.81617
-ForwardGearCountFFive  -2.7505     0.7289   -3.77  0.00077
+(Intercept)           15.55851    0.89782  17.329  < 2e-16
+MilesPerGallon         0.13246    0.05164   2.565 0.015963
+ForwardGearCountFFour  0.15680    0.66819   0.235 0.816173
+ForwardGearCountFFive -2.75051    0.72888  -3.774 0.000768
 
-Residual standard error: 1.31 on 28 degrees of freedom
-Multiple R-squared:  0.515,	Adjusted R-squared:  0.463 
-F-statistic: 9.92 on 3 and 28 DF,  p-value: 0.000127
+Residual standard error: 1.309 on 28 degrees of freedom
+Multiple R-squared:  0.5151,	Adjusted R-squared:  0.4632 
+F-statistic: 9.916 on 3 and 28 DF,  p-value: 0.0001272
 ```
 
 ```
@@ -189,9 +166,9 @@ Analysis of Variance Table
 
 Model 1: QuarterMileInSeconds ~ 1 + MilesPerGallon
 Model 2: QuarterMileInSeconds ~ 1 + MilesPerGallon + ForwardGearCountF
-  Res.Df  RSS Df Sum of Sq    F  Pr(>F)
-1     30 81.6                          
-2     28 48.0  2      33.6 9.81 0.00059
+  Res.Df    RSS Df Sum of Sq      F    Pr(>F)
+1     30 81.636                              
+2     28 47.996  2     33.64 9.8124 0.0005896
 ```
 
 # Questions
@@ -207,25 +184,26 @@ For the sake of documentation and reproducibility, the current report was render
 
 
 ```
-Report rendered by Will at 2014-10-05, 17:55 -0500
+Report rendered by wibeasley at 2014-11-08, 20:32 -0600
 ```
 
 ```
-R version 3.1.1 Patched (2014-09-27 r66695)
-Platform: x86_64-w64-mingw32/x64 (64-bit)
+R version 3.1.2 (2014-10-31)
+Platform: x86_64-pc-linux-gnu (64-bit)
 
 locale:
-[1] LC_COLLATE=English_United States.1252  LC_CTYPE=English_United States.1252    LC_MONETARY=English_United States.1252
-[4] LC_NUMERIC=C                           LC_TIME=English_United States.1252    
+ [1] LC_CTYPE=en_US.UTF-8       LC_NUMERIC=C               LC_TIME=en_US.UTF-8        LC_COLLATE=en_US.UTF-8    
+ [5] LC_MONETARY=en_US.UTF-8    LC_MESSAGES=en_US.UTF-8    LC_PAPER=en_US.UTF-8       LC_NAME=C                 
+ [9] LC_ADDRESS=C               LC_TELEPHONE=C             LC_MEASUREMENT=en_US.UTF-8 LC_IDENTIFICATION=C       
 
 attached base packages:
 [1] stats     graphics  grDevices utils     datasets  methods   base     
 
 other attached packages:
-[1] ggplot2_1.0.0      RColorBrewer_1.0-5 scales_0.2.4       plyr_1.8.1         knitr_1.6         
+[1] ggplot2_1.0.0      RColorBrewer_1.0-5 scales_0.2.4       plyr_1.8.1         knitr_1.7         
 
 loaded via a namespace (and not attached):
- [1] colorspace_1.2-4 digest_0.6.4     evaluate_0.5.5   formatR_1.0      grid_3.1.1       gtable_0.1.2    
- [7] htmltools_0.2.6  labeling_0.3     MASS_7.3-34      munsell_0.4.2    proto_0.3-10     Rcpp_0.11.3     
-[13] reshape2_1.4     rmarkdown_0.3.3  stringr_0.6.2    tools_3.1.1      yaml_2.1.13     
+ [1] colorspace_1.2-4 digest_0.6.4     evaluate_0.5.5   formatR_1.0      grid_3.1.2       gtable_0.1.2    
+ [7] labeling_0.3     MASS_7.3-35      munsell_0.4.2    proto_0.3-10     Rcpp_0.11.3      reshape2_1.4    
+[13] stringr_0.6.2    tools_3.1.2     
 ```

@@ -36,8 +36,23 @@ for( packageName in dsInstallFromCran$PackageName ) {
 }
 rm(dsInstallFromCran, packageName)
 #####################################
+## @knitr CheckForLibCurl
+
+if( R.Version()$os=="linux-gnu" ) {
+  libcurl_results <- base::system("locate libcurl4")
+  libcurl_missing <- (libcurl_results==0)
+  
+  if( libcurl_missing )
+    base::warning("This Linux machine is possibly missing the 'libcurl' library.  ",
+            "Consider running `sudo apt-get install libcurl4-openssl-dev`.")
+  
+  base::rm(libcurl_results, libcurl_missing)
+}
+
+
+#####################################
 ## @knitr UpdateCranPackages
-utils::update.packages(ask="graphics", checkBuilt=TRUE)
+utils::update.packages(ask=FALSE, checkBuilt=TRUE)
 
 #####################################
 ## @knitr InstallDevtools
@@ -55,10 +70,11 @@ base::rm(downloadLocation)
 ## @knitr InstallGitHubPackages
 
 for( i in base::seq_len(base::nrow(dsInstallFromGitHub)) ) {
-  repositoryName <- dsInstallFromGitHub[i, "PackageName"]
+  package_name <- dsInstallFromGitHub[i, "PackageName"]
   username <- dsInstallFromGitHub[i, "GitHubUsername"]
-  devtools::install_github(repo=repositoryName, username=username)
-  base::rm(repositoryName, username)
+  repository_name <- paste0(username, "/", package_name)
+  devtools::install_github(repo=repository_name)
+  base::rm(package_name, username, repository_name)
 }
 
 base::rm(dsInstallFromGitHub, i)

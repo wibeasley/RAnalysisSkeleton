@@ -1,4 +1,4 @@
-PackageName,OnCran,Install,GitHubUsername,Description
+package_name,on_cran,install,github_username,description
 classInt,TRUE,TRUE,,"Choosing univariate class intervals for mapping or other graphics purposes."
 colorspace,TRUE,TRUE,,"Explicit control over the HCL color scheme."
 devtools,TRUE,TRUE,,"Used in the C1 survival for sourcing gists."

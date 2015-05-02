@@ -1,9 +1,3 @@
----
-output:
-  html_document:
-    keep_md: yes
----
-<!-- rmarkdown v1 -->
 Skeleton Report 1
 =================================================
 This report covers the analyses used in the ZZZ project (Marcus Mark, PI).
@@ -39,38 +33,32 @@ This report covers the analyses used in the ZZZ project (Marcus Mark, PI).
 **Note 2**: The Seattle track's phluguerstometer was producing flaky negative values; it's measurements have been dropped.
 
 # Marginals
-![plot of chunk Marginals](FigureRaw/Marginals-1.png) ![plot of chunk Marginals](FigureRaw/Marginals-2.png) ![plot of chunk Marginals](FigureRaw/Marginals-3.png) ![plot of chunk Marginals](FigureRaw/Marginals-4.png) 
+![](figure_raw/Marginals-1.png) ![](figure_raw/Marginals-2.png) ![](figure_raw/Marginals-3.png) ![](figure_raw/Marginals-4.png) 
 
 # Scatterplots
-![plot of chunk Scatterplots](FigureRaw/Scatterplots-1.png) ![plot of chunk Scatterplots](FigureRaw/Scatterplots-2.png) ![plot of chunk Scatterplots](FigureRaw/Scatterplots-3.png) ![plot of chunk Scatterplots](FigureRaw/Scatterplots-4.png) ![plot of chunk Scatterplots](FigureRaw/Scatterplots-5.png) 
+![](figure_raw/Scatterplots-1.png) ![](figure_raw/Scatterplots-2.png) ![](figure_raw/Scatterplots-3.png) ![](figure_raw/Scatterplots-4.png) ![](figure_raw/Scatterplots-5.png) 
 
 ```
-Warning in simpleLoess(y, x, w, span, degree, parametric, drop.square, normalize, : span too small.  fewer data values
-than degrees of freedom.
-```
-
-```
-Warning in simpleLoess(y, x, w, span, degree, parametric, drop.square, normalize, : Chernobyl! trL>n 3
+Warning in loop_apply(n, do.ply): span too small. fewer data values than degrees of freedom.
 ```
 
 ```
-Warning in simpleLoess(y, x, w, span, degree, parametric, drop.square, normalize, : Chernobyl! trL>n 3
+Warning in loop_apply(n, do.ply): Chernobyl! trL>n 3
 ```
 
 ```
-Warning in sqrt(sum.squares/one.delta): NaNs produced
+Warning in loop_apply(n, do.ply): Chernobyl! trL>n 3
 ```
 
 ```
-Warning in predLoess(y, x, newx, s, weights, pars$robust, pars$span, pars$degree, : span too small.  fewer data values
-than degrees of freedom.
+Warning in loop_apply(n, do.ply): span too small. fewer data values than degrees of freedom.
 ```
 
 ```
-Warning in qt(level/2 + 0.5, pred$df): NaNs produced
+Warning in loop_apply(n, do.ply): NaNs produced
 ```
 
-![plot of chunk Scatterplots](FigureRaw/Scatterplots-6.png) ![plot of chunk Scatterplots](FigureRaw/Scatterplots-7.png) 
+![](figure_raw/Scatterplots-6.png) ![](figure_raw/Scatterplots-7.png) 
 
 # Models
 
@@ -184,12 +172,13 @@ For the sake of documentation and reproducibility, the current report was render
 
 
 ```
-Report rendered by wibeasley at 2014-11-08, 20:32 -0600
+Report rendered by wibeasley at 2015-05-02, 11:49 -0500
 ```
 
 ```
-R version 3.1.2 (2014-10-31)
+R version 3.2.0 (2015-04-16)
 Platform: x86_64-pc-linux-gnu (64-bit)
+Running under: Ubuntu 14.04.2 LTS
 
 locale:
  [1] LC_CTYPE=en_US.UTF-8       LC_NUMERIC=C               LC_TIME=en_US.UTF-8        LC_COLLATE=en_US.UTF-8    
@@ -200,10 +189,11 @@ attached base packages:
 [1] stats     graphics  grDevices utils     datasets  methods   base     
 
 other attached packages:
-[1] ggplot2_1.0.0      RColorBrewer_1.0-5 scales_0.2.4       plyr_1.8.1         knitr_1.7         
+[1] ggplot2_1.0.1      RColorBrewer_1.1-2 scales_0.2.4       knitr_1.10        
 
 loaded via a namespace (and not attached):
- [1] colorspace_1.2-4 digest_0.6.4     evaluate_0.5.5   formatR_1.0      grid_3.1.2       gtable_0.1.2    
- [7] labeling_0.3     MASS_7.3-35      munsell_0.4.2    proto_0.3-10     Rcpp_0.11.3      reshape2_1.4    
-[13] stringr_0.6.2    tools_3.1.2     
+ [1] Rcpp_0.11.6       digest_0.6.8      MASS_7.3-40       grid_3.2.0        plyr_1.8.2        gtable_0.1.2     
+ [7] formatR_1.2       magrittr_1.5      evaluate_0.7      stringi_0.4-1     reshape2_1.4.1    rmarkdown_0.5.3.1
+[13] labeling_0.3      proto_0.3-10      tools_3.2.0       stringr_1.0.0     munsell_0.4.2     yaml_2.1.13      
+[19] colorspace_1.2-6  htmltools_0.2.6  
 ```

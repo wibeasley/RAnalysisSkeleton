@@ -22,7 +22,7 @@ ProjectGuidelines.html
 *.Rproj.user
 
 # I'm afraid this might contain PHI if someone knew how to decode it.
-us.stackdump 
+us.stackdump
 
 # Data formats that potentially contain PHI
 *.rdata
@@ -40,7 +40,7 @@ us.stackdump
 *.xlsx
 
 # Dataset Exceptions
-!UtilityScripts/PackageDependencyList.csv
+!utility/package_dependency_list.csv
 !RecruitmentProductivity/RecruitingZones/ZipcodesToZone.csv
 !OsdhReports/AdministrativeRecordCounts/AdministrativeRecordCounts-2013-07-24.xlsx
 !OsdhReports/OsdhMaps/CountyCharacteristics.csv

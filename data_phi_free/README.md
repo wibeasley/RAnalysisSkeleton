@@ -1,4 +1,4 @@
-`./DataPhiFree/` Directory
+`./data_phi_free/` Directory
 =========
 
 This directory should contain that DO NOT hold PHI, or any other sensitive information.  Files with PHI should **not** be stored in a GitHub repository, even a private GitHub repository.  We recommend using an enterprise database (such as MySQL or SQL Server) to store the data, and read & write the information to/from the software right before and after it's used.  

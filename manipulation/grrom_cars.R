@@ -6,15 +6,13 @@ rm(list=ls(all=TRUE))  #Clear the variables from previous runs.
 
 ############################
 ## @knitr LoadPackages
-require(plyr)
-require(ggplot2)
+library(plyr)
+library(ggplot2)
 
 ############################
 ## @knitr DeclareGlobals
-options(stringsAsFactors=FALSE) #By default, character/string variables will NOT be automatically converted to factors.
-
-pathInput <- "./DataPhiFree/Raw/mtcars_dataset.csv"
-pathOutput <- "./DataPhiFree/Derived/MotorTrendCarTest.rds"
+pathInput <- "./data_phi_free/raw/mtcars_dataset.csv"
+pathOutput <- "./data_phi_free/derived/motor_trend_car_test.rds"
 
 prematureThresholdInWeeks <- 37 #Any infant under 37 weeks is considered premature for the current project.  Exactly 37.0 weeks are retained.
 weeksPerYear <- 365.25/7
@@ -22,7 +20,7 @@ daysPerWeek <- 7
 
 ############################
 ## @knitr LoadData
-ds <- read.csv(pathInput)
+ds <- read.csv(pathInput, stringsAsFactors=FALSE)
 colnames(ds)
 
 # Dataset description can be found at: http://stat.ethz.ch/R-manual/R-devel/library/datasets/html/mtcars.html
@@ -47,7 +45,7 @@ ds$CarID <- seq_len(nrow(ds))
 
 # Clear up confusion about units and remove old variable
 ds$WeightInPounds <- ds$WeightInPoundsPer1000 * 1000
-ds$WeightInPoundsPer1000 <- NULL 
+ds$WeightInPoundsPer1000 <- NULL
 
 # Convert some to boolean variables
 ds$VS <- as.logical(ds$VS)
@@ -60,8 +58,8 @@ ds$CarburetorCountF <- factor(ds$CarburetorCount)
 
 ### Create transformations and interactions to help later graphs and models.
 ds$DisplacementInchesCubedLog10 <- log10(ds$DisplacementInchesCubed)
-ds$GrossHorsepowerByGearCount3 <- ds$GrossHorsepower * (ds$ForwardGearCount=="Three") 
-ds$GrossHorsepowerByGearCount4 <- ds$GrossHorsepower * (ds$ForwardGearCount=="Four") 
+ds$GrossHorsepowerByGearCount3 <- ds$GrossHorsepower * (ds$ForwardGearCount=="Three")
+ds$GrossHorsepowerByGearCount4 <- ds$GrossHorsepower * (ds$ForwardGearCount=="Four")
 
 ############################
 ## @knitr EraseArtifacts
@@ -72,8 +70,8 @@ ds$MilesPerGallon <- ifelse(ds$MilesPerGallonArtifact, NA_real_, ds$MilesPerGall
 ############################
 ## @knitr CreateZScores
 # This creates z-scores WITHIN ForwardGearCount levels
-ds <- plyr::ddply(ds, .variables="ForwardGearCountF", .fun=transform, 
-                  DisplacementInchesCubedZ=scale(DisplacementInchesCubed), 
+ds <- plyr::ddply(ds, .variables="ForwardGearCountF", .fun=transform,
+                  DisplacementInchesCubedZ=scale(DisplacementInchesCubed),
                   WeightInPoundsZ=scale(WeightInPounds)
                   )
 # Quick inspection of the distribution of z scores within levels

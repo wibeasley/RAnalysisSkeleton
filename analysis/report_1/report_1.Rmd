@@ -3,7 +3,6 @@ output:
   html_document:
     keep_md: yes
 ---
-<!-- rmarkdown v1 -->
 Skeleton Report 1
 =================================================
 This report covers the analyses used in the ZZZ project (Marcus Mark, PI).
@@ -24,14 +23,14 @@ opts_chunk$set(
   tidy = FALSE,
   fig.width = 6.5, 
   fig.height = 4, 
-  fig.path = 'FigureRaw/'
+  fig.path = 'figure_raw/'
 )
 # dpi = 400,
 # out.width = "650px", #This affects only the markdown, not the underlying png file.  The height will be scaled appropriately.
 
 echoChunks <- FALSE
 options(width=120) #So the output is 50% wider than the default.
-read_chunk("./Analysis/Report1/Report1.R") #This allows knitr to call chunks tagged in the underlying *.R file.
+read_chunk("./analysis/report_1/report_1.R") #This allows knitr to call chunks tagged in the underlying *.R file.
 ```
 
 <!-- Load the sources.  Suppress the output when loading sources. --> 

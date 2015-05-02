@@ -1,4 +1,4 @@
-# knitr::stitch_rmd(script="./UtilityScripts/Reproduce.R", output="./UtilityScripts/Reproduce.md")
+# knitr::stitch_rmd(script="./utility/reproduce.R", output="./utility/reproduce.md")
 
 ###################################
 #'  ---Reproducible Research---
@@ -19,11 +19,11 @@ if( base::basename(base::getwd()) != "RAnalysisSkeleton" ) {
 }
 ###################################
 #' Install the necessary packages.
-pathInstallPackages <- "./UtilityScripts/InstallPackages.R"
+pathInstallPackages <- "./utility/install_packages.R"
 if( !file.exists(pathInstallPackages)) {
   base::stop("The file `", pathInstallPackages, "` was not found.  Make sure the working directory is set to the root of the repository.")
 }
-base::source(pathInstallPackages, local=new.env()) 
+base::source(pathInstallPackages, local=new.env())
 
 base::rm(pathInstallPackages)
 ###################################
@@ -35,7 +35,7 @@ base::library(testit)
 
 ######################################################################################################
 #' The following example comes from https://github.com/wibeasley/Wats.  Rename the paths appropriately.
-#'  
+#'
 #'
 ###################################
 #' Declare the paths of the necessary files.

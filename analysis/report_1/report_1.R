@@ -1,12 +1,12 @@
 rm(list=ls(all=TRUE)) #Clear the memory of variables from previous run. This is not called by knitr, because it's above the first chunk.
 #####################################
-## @knitr LoadSources
+## @knitr load_sources
 #Load any source files that contain/define functions, but that don't load any other types of variables
 #   into memory.  Avoid side effects and don't pollute the global environment.
 # source("./SomethingSomething.R")
 
 #####################################
-## @knitr LoadPackages
+## @knitr load_packages
 # library(xtable)
 library(knitr)
 library(scales) #For formating values in graphs
@@ -15,7 +15,7 @@ library(RColorBrewer)
 library(ggplot2) #For graphing
 # library(mgcv, quietly=TRUE) #For the Generalized Additive Model that smooths the longitudinal graphs.
 #####################################
-## @knitr DeclareGlobals
+## @knitr declare_globals
 options(show.signif.stars=F) #Turn off the annotations on p-values
 
 pathInput <- "./data_phi_free/derived/motor_trend_car_test.rds"
@@ -92,12 +92,12 @@ HistogramContinuous <- function(
 }
 
 #####################################
-## @knitr LoadData
+## @knitr load_data
 # 'ds' stands for 'datasets'
 ds <- readRDS(pathInput)
 
 #####################################
-## @knitr TweakData
+## @knitr tweak_data
 #
 # dropInfantWeightForGestationalAgeCategorySgaOrMissing <- (is.na(ds$InfantWeightForGestationalAgeCategory) | ds$InfantWeightForGestationalAgeCategory=="Sga")
 # cat("Number of patients excluded b/c Missing or `SGA` for InfantWeightForGestationalAgeCategory: ", sum(dropInfantWeightForGestationalAgeCategorySgaOrMissing, na.rm=T))
@@ -120,7 +120,7 @@ ds <- readRDS(pathInput)
 # ds$PrematureInfant <- NULL
 
 #####################################
-## @knitr Marginals
+## @knitr marginals
 # Inspect continuous variables
 HistogramContinuous(dsObserved=ds, variableName="QuarterMileInSeconds", binWidth=.5, roundedDigits=1)
 HistogramContinuous(dsObserved=ds, variableName="DisplacementInchesCubed", binWidth=50, roundedDigits=1)
@@ -130,7 +130,7 @@ HistogramDiscrete(dsObserved=ds, variableName="CarburetorCountF")
 HistogramDiscrete(dsObserved=ds, variableName="ForwardGearCountF")
 
 #####################################
-## @knitr Scatterplots
+## @knitr scatterplots
 g1 <- ggplot(ds, aes(x=GrossHorsepower, y=QuarterMileInSeconds, color=ForwardGearCountF)) +
   geom_smooth(method="loess", span=2) +
   geom_point(shape=1) +
@@ -146,7 +146,7 @@ g1 %+% aes(x=MilesPerGallon, color=CarburetorCountF)
 g1 %+% aes(x=MilesPerGallon, color=factor(CylinderCount))
 
 #####################################
-## @knitr Models
+## @knitr models
 
 cat("============= Simple model that's just an intercept. =============")
 m0 <- lm(QuarterMileInSeconds ~ 1, data=ds)

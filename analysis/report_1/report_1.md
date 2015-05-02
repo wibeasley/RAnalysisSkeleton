@@ -14,7 +14,7 @@ This report covers the analyses used in the ZZZ project (Marcus Mark, PI).
 <!-- Load 'sourced' R files.  Suppress the output when loading packages. --> 
 
 
-<!-- Load any Global functions and variables declared in the R file.  Suppress the output. --> 
+<!-- Load any global functions and variables declared in the R file.  Suppress the output. --> 
 
 
 <!-- Declare any global functions specific to a Rmd output.  Suppress the output. --> 
@@ -33,10 +33,10 @@ This report covers the analyses used in the ZZZ project (Marcus Mark, PI).
 **Note 2**: The Seattle track's phluguerstometer was producing flaky negative values; it's measurements have been dropped.
 
 # Marginals
-![](figure_raw/Marginals-1.png) ![](figure_raw/Marginals-2.png) ![](figure_raw/Marginals-3.png) ![](figure_raw/Marginals-4.png) 
+![](figure_raw/marginals-1.png) ![](figure_raw/marginals-2.png) ![](figure_raw/marginals-3.png) ![](figure_raw/marginals-4.png) 
 
 # Scatterplots
-![](figure_raw/Scatterplots-1.png) ![](figure_raw/Scatterplots-2.png) ![](figure_raw/Scatterplots-3.png) ![](figure_raw/Scatterplots-4.png) ![](figure_raw/Scatterplots-5.png) 
+![](figure_raw/scatterplots-1.png) ![](figure_raw/scatterplots-2.png) ![](figure_raw/scatterplots-3.png) ![](figure_raw/scatterplots-4.png) ![](figure_raw/scatterplots-5.png) 
 
 ```
 Warning in loop_apply(n, do.ply): span too small. fewer data values than degrees of freedom.
@@ -58,7 +58,7 @@ Warning in loop_apply(n, do.ply): span too small. fewer data values than degrees
 Warning in loop_apply(n, do.ply): NaNs produced
 ```
 
-![](figure_raw/Scatterplots-6.png) ![](figure_raw/Scatterplots-7.png) 
+![](figure_raw/scatterplots-6.png) ![](figure_raw/scatterplots-7.png) 
 
 # Models
 
@@ -172,7 +172,7 @@ For the sake of documentation and reproducibility, the current report was render
 
 
 ```
-Report rendered by wibeasley at 2015-05-02, 11:49 -0500
+Report rendered by wibeasley at 2015-05-02, 11:54 -0500
 ```
 
 ```

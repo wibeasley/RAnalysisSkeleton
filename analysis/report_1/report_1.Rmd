@@ -34,28 +34,28 @@ read_chunk("./analysis/report_1/report_1.R") #This allows knitr to call chunks t
 ```
 
 <!-- Load the sources.  Suppress the output when loading sources. --> 
-```{r LoadSources, echo=echoChunks, message=FALSE}
+```{r load_sources, echo=echoChunks, message=FALSE}
 ```
 
 <!-- Load 'sourced' R files.  Suppress the output when loading packages. --> 
-```{r LoadPackages, echo=echoChunks, message=FALSE}
+```{r load_packages, echo=echoChunks, message=FALSE}
 ```
 
-<!-- Load any Global functions and variables declared in the R file.  Suppress the output. --> 
-```{r DeclareGlobals, echo=echoChunks, results='show', message=FALSE}
+<!-- Load any global functions and variables declared in the R file.  Suppress the output. --> 
+```{r declare_globals, echo=echoChunks, results='show', message=FALSE}
 ```
 
 <!-- Declare any global functions specific to a Rmd output.  Suppress the output. --> 
 ```{r, echo=echoChunks, message=FALSE}
-#Put code in here.  It doesn't call a chunk in the codebehind file.
+#Put presentation-specific code in here.  It doesn't call a chunk in the codebehind file.
 ```
 
 <!-- Load the datasets.   -->
-```{r LoadData, echo=echoChunks, results='show', message=FALSE}
+```{r load_data, echo=echoChunks, results='show', message=FALSE}
 ```
 
 <!-- Tweak the datasets.   -->
-```{r TweakData, echo=echoChunks, results='show', message=FALSE}
+```{r tweak_data, echo=echoChunks, results='show', message=FALSE}
 ```
 
 ## Notes
@@ -65,15 +65,15 @@ read_chunk("./analysis/report_1/report_1.R") #This allows knitr to call chunks t
 **Note 2**: The Seattle track's phluguerstometer was producing flaky negative values; it's measurements have been dropped.
 
 # Marginals
-```{r Marginals, echo=echoChunks, message=TRUE}
+```{r marginals, echo=echoChunks, message=TRUE}
 ```
 
 # Scatterplots
-```{r Scatterplots, echo=echoChunks, message=TRUE}
+```{r scatterplots, echo=echoChunks, message=TRUE}
 ```
 
 # Models
-```{r Models, echo=echoChunks, message=TRUE}
+```{r models, echo=echoChunks, message=TRUE}
 ```
 
 # Questions

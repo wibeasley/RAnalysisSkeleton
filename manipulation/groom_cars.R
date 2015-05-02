@@ -1,16 +1,18 @@
+# knitr::stitch_rmd(script="./manipulation/groom_cars.R", output="./manipulation/stitched_output/groom_cars.md")
+
 #These first few lines run only when the file is run in RStudio, !!NOT when an Rmd/Rnw file calls it!!
 rm(list=ls(all=TRUE))  #Clear the variables from previous runs.
 
 ############################
-## @knitr LoadSources
+## @knitr load_sources
 
 ############################
-## @knitr LoadPackages
-library(plyr)
+## @knitr load_packages
+# library(plyr)
 library(ggplot2)
 
 ############################
-## @knitr DeclareGlobals
+## @knitr declare_globals
 pathInput <- "./data_phi_free/raw/mtcars_dataset.csv"
 pathOutput <- "./data_phi_free/derived/motor_trend_car_test.rds"
 
@@ -19,7 +21,7 @@ weeksPerYear <- 365.25/7
 daysPerWeek <- 7
 
 ############################
-## @knitr LoadData
+## @knitr load_data
 ds <- read.csv(pathInput, stringsAsFactors=FALSE)
 colnames(ds)
 
@@ -39,7 +41,7 @@ ds <- plyr::rename(ds, replace=c(
   , "carb" = "CarburetorCount"
 ))
 ############################
-## @knitr TweakData
+## @knitr tweak_data
 # Add a unique identifier
 ds$CarID <- seq_len(nrow(ds))
 
@@ -62,13 +64,13 @@ ds$GrossHorsepowerByGearCount3 <- ds$GrossHorsepower * (ds$ForwardGearCount=="Th
 ds$GrossHorsepowerByGearCount4 <- ds$GrossHorsepower * (ds$ForwardGearCount=="Four")
 
 ############################
-## @knitr EraseArtifacts
+## @knitr erase_artifacts
 # I'm pretending the dataset had unreasonably low values that were artifacts of the measurement equipment.
 ds$MilesPerGallonArtifact <- (ds$MilesPerGallon < 2.2)
 ds$MilesPerGallon <- ifelse(ds$MilesPerGallonArtifact, NA_real_, ds$MilesPerGallon)
 
 ############################
-## @knitr CreateZScores
+## @knitr create_z_scores
 # This creates z-scores WITHIN ForwardGearCount levels
 ds <- plyr::ddply(ds, .variables="ForwardGearCountF", .fun=transform,
                   DisplacementInchesCubedZ=scale(DisplacementInchesCubed),
@@ -80,6 +82,6 @@ ggplot2::qplot(ds$WeightInPoundsZ, color=ds$ForwardGearCountF, geom="density")  
 # Create a boolean variable, indicating if the z scores is above a certain threshold.
 ds$WeightInPoundsZAbove1 <- (ds$WeightInPoundsZ > 1.00)
 ############################
-## @knitr SaveToDisk
+## @knitr save_to_disk
 # Save as a compress, binary R dataset.  It's no longer readable with a text editor, but it saves metadata (eg, factor information).
 saveRDS(ds, file=pathOutput, compress="xz")

@@ -25,6 +25,10 @@ ds_install_from_github <- ds_packages[ds_packages$install & !is.na(ds_packages$g
 
 rm(ds_packages)
 #####################################
+## @knitr update_cran_packages
+utils::update.packages(ask=FALSE, checkBuilt=TRUE)
+
+#####################################
 ## @knitr install_cran_packages
 for( package_name in ds_install_from_cran$package_name ) {
   available <- base::require(package_name, character.only=TRUE) #Loads the packages, and indicates if it's available
@@ -48,10 +52,6 @@ if( R.Version()$os=="linux-gnu" ) {
 
   base::rm(libcurl_results, libcurl_missing)
 }
-
-#####################################
-## @knitr update_cran_packages
-utils::update.packages(ask=FALSE, checkBuilt=TRUE)
 
 #####################################
 ## @knitr install_devtools

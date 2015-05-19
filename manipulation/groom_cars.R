@@ -8,7 +8,7 @@ rm(list=ls(all=TRUE))  #Clear the variables from previous runs.
 
 ############################
 ## @knitr load_packages
-# library(plyr)
+requireNamespace(plyr, quietly=TRUE)
 library(ggplot2)
 
 ############################

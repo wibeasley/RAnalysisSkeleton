@@ -3,7 +3,7 @@
 
 
 This report was automatically generated with the R package **knitr**
-(version 1.10).
+(version 1.10.5).
 
 
 ```r
@@ -20,7 +20,14 @@ rm(list=ls(all=TRUE))  #Clear the variables from previous runs.
 ```
 
 ```r
-# library(plyr)
+requireNamespace(plyr, quietly=TRUE)
+```
+
+```
+## Error in requireNamespace(plyr, quietly = TRUE): object 'plyr' not found
+```
+
+```r
 library(ggplot2)
 
 ############################
@@ -131,48 +138,29 @@ sessionInfo()
 ```
 
 ```
-## R version 3.2.0 (2015-04-16)
-## Platform: x86_64-pc-linux-gnu (64-bit)
-## Running under: Ubuntu 14.04.2 LTS
+## R version 3.2.0 Patched (2015-05-11 r68355)
+## Platform: x86_64-w64-mingw32/x64 (64-bit)
+## Running under: Windows 8 x64 (build 9200)
 ## 
 ## locale:
-##  [1] LC_CTYPE=en_US.UTF-8       LC_NUMERIC=C              
-##  [3] LC_TIME=en_US.UTF-8        LC_COLLATE=en_US.UTF-8    
-##  [5] LC_MONETARY=en_US.UTF-8    LC_MESSAGES=en_US.UTF-8   
-##  [7] LC_PAPER=en_US.UTF-8       LC_NAME=C                 
-##  [9] LC_ADDRESS=C               LC_TELEPHONE=C            
-## [11] LC_MEASUREMENT=en_US.UTF-8 LC_IDENTIFICATION=C       
+## [1] LC_COLLATE=English_United States.1252 
+## [2] LC_CTYPE=English_United States.1252   
+## [3] LC_MONETARY=English_United States.1252
+## [4] LC_NUMERIC=C                          
+## [5] LC_TIME=English_United States.1252    
 ## 
 ## attached base packages:
-## [1] grid      stats     graphics  grDevices utils     datasets  methods  
-## [8] base     
+## [1] stats     graphics  grDevices utils     datasets  methods   base     
 ## 
 ## other attached packages:
-##  [1] markdown_0.7.7     zipcode_1.0        yaml_2.1.13       
-##  [4] xtable_1.7-4       testthat_0.9.1     testit_0.4        
-##  [7] stringr_1.0.0      roxygen2_4.1.1     rmarkdown_0.5.3.1 
-## [10] reshape2_1.4.1     readr_0.1.0        RCurl_1.95-4.6    
-## [13] bitops_1.0-6       RColorBrewer_1.1-2 random_0.2.3      
-## [16] plyr_1.8.2         modeest_2.1        lubridate_1.3.3   
-## [19] lme4_1.1-7         Rcpp_0.11.6        Matrix_1.2-0      
-## [22] knitr_1.10         gridExtra_0.9.1    ggmap_2.4         
-## [25] googleVis_0.5.8    ggthemes_2.1.2     foreign_0.8-63    
-## [28] evaluate_0.7       dplyr_0.4.1        digest_0.6.8      
-## [31] devtools_1.7.0     colorspace_1.2-6   classInt_0.1-22   
-## [34] ggplot2_1.0.1     
+## [1] ggplot2_1.0.1
 ## 
 ## loaded via a namespace (and not attached):
-##  [1] splines_3.2.0       lattice_0.20-31     htmltools_0.2.6    
-##  [4] e1071_1.6-4         nloptr_1.0.4        DBI_0.3.1          
-##  [7] sp_1.1-0            jpeg_0.1-8          munsell_0.4.2      
-## [10] gtable_0.1.2        RgoogleMaps_1.2.0.7 mapproj_1.2-2      
-## [13] memoise_0.2.1       labeling_0.3        parallel_3.2.0     
-## [16] curl_0.5            class_7.3-12        proto_0.3-10       
-## [19] geosphere_1.3-13    scales_0.2.4        formatR_1.2        
-## [22] rjson_0.2.15        png_0.1-7           stringi_0.4-1      
-## [25] RJSONIO_1.3-0       tools_3.2.0         magrittr_1.5       
-## [28] maps_2.3-9          MASS_7.3-40         httr_0.6.1         
-## [31] assertthat_0.1      minqa_1.2.4         nlme_3.1-120
+##  [1] Rcpp_0.11.6      digest_0.6.8     MASS_7.3-40      grid_3.2.0      
+##  [5] plyr_1.8.2       gtable_0.1.2     formatR_1.2      magrittr_1.5    
+##  [9] evaluate_0.7     scales_0.2.4     stringi_0.4-1    reshape2_1.4.1  
+## [13] labeling_0.3     proto_0.3-10     tools_3.2.0      stringr_1.0.0   
+## [17] munsell_0.4.2    colorspace_1.2-6 knitr_1.10.5
 ```
 
 ```r
@@ -180,6 +168,6 @@ Sys.time()
 ```
 
 ```
-## [1] "2015-05-02 12:11:08 CDT"
+## [1] "2015-05-19 14:51:30 CDT"
 ```
 

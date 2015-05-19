@@ -23,12 +23,12 @@ pathInput <- "./data_phi_free/derived/motor_trend_car_test.rds"
 HistogramDiscrete <- function(
   dsObserved,
   variableName,
-  levelsToExclude = character(0),
-  mainTitle = variableName,
-  xTitle = NULL,
-  yTitle = "Number of Included Records",
+  levelsToExclude    = character(0),
+  mainTitle          = variableName,
+  xTitle             = NULL,
+  yTitle             = "Number of Included Records",
   textSizePercentage = 6,
-  binWidth = 1L) {
+  binWidth           = 1L) {
 
   if( !base::is.factor(dsObserved[, variableName]) )
     dsObserved[, variableName] <- base::factor(dsObserved[, variableName])
@@ -64,10 +64,10 @@ HistogramDiscrete <- function(
 HistogramContinuous <- function(
   dsObserved,
   variableName,
-  binWidth = NULL,
-  mainTitle = variableName,
-  xTitle = paste0(variableName, " (each bin is ", scales::comma(binWidth), " units wide)"),
-  yTitle = "Frequency",
+  binWidth      = NULL,
+  mainTitle     = variableName,
+  xTitle        = paste0(variableName, " (each bin is ", scales::comma(binWidth), " units wide)"),
+  yTitle        = "Frequency",
   roundedDigits = 0L
   ) {
 

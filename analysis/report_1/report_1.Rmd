@@ -18,12 +18,12 @@ This report covers the analyses used in the ZZZ project (Marcus Mark, PI).
 ```{r set_options, echo=F}
 # cat("Working directory: ", getwd())
 opts_chunk$set(
-  results='show', 
-  comment = NA, 
-  tidy = FALSE,
-  fig.width = 6.5, 
+  results    = 'show', 
+  comment    = NA, 
+  tidy       = FALSE,
+  fig.width  = 6.5, 
   fig.height = 4, 
-  fig.path = 'figure_raw/'
+  fig.path   = 'figure_raw/'
 )
 # dpi = 400,
 # out.width = "650px", #This affects only the markdown, not the underlying png file.  The height will be scaled appropriately.

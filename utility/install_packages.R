@@ -10,6 +10,7 @@ base::rm(list=base::ls(all=TRUE))
 #####################################
 ## @knitr declare_globals
 path_csv <- './utility/package_dependency_list.csv'
+cran_repo <- "http://cran.rstudio.com"
 
 if( !file.exists(path_csv))
   base::stop("The path `", path_csv, "` was not found.  Make sure the working directory is set to the root of the repository.")
@@ -29,15 +30,36 @@ rm(ds_packages)
 utils::update.packages(ask=FALSE, checkBuilt=TRUE)
 
 #####################################
+## @knitr install_devtools
+# Installing the devtools package is different than the rest of the packages.  On Windows,
+#   the dll can't be overwritten while in use.  This function avoids that issue.
+# This should follow the initial CRAN installation of `devtools`.
+#   Installing the newest GitHub devtools version isn't always necessary, but it usually helps.
+
+if( !base::requireNamespace("devtools") )
+  utils::install.packages("devtools", repos=cran_repo)
+
+# download_location <- "./devtools.zip" #This is the default value.
+# devtools::build_github_devtools(download_location)
+# 
+# base::unlink(download_location, recursive=FALSE) #Remove the file from disk.
+# base::rm(download_location)
+
+#####################################
 ## @knitr install_cran_packages
 for( package_name in ds_install_from_cran$package_name ) {
-  available <- base::require(package_name, character.only=TRUE) #Loads the packages, and indicates if it's available
+  available <- base::requireNamespace(package_name, quietly=TRUE) #Checks if it's available
   if( !available ) {
     utils::install.packages(package_name, dependencies=TRUE)
-    base::require( package_name, character.only=TRUE)
+    #base::requireNamespace( package_name, character.only=TRUE)
+  } else {
+    #Make sure all their dependencies are installed & up-to-date
+    devtools:::update.package_deps(devtools::package_deps(package_name, dependencies=TRUE))
   }
   base::rm(available)
 }
+
+
 rm(ds_install_from_cran, package_name)
 #####################################
 ## @knitr check_for_libcurl
@@ -45,26 +67,14 @@ rm(ds_install_from_cran, package_name)
 if( R.Version()$os=="linux-gnu" ) {
   libcurl_results <- base::system("locate libcurl4")
   libcurl_missing <- (libcurl_results==0)
-
+  
   if( libcurl_missing )
     base::warning("This Linux machine is possibly missing the 'libcurl' library.  ",
-            "Consider running `sudo apt-get install libcurl4-openssl-dev`.")
-
+                  "Consider running `sudo apt-get install libcurl4-openssl-dev`.")
+  
   base::rm(libcurl_results, libcurl_missing)
 }
 
-#####################################
-## @knitr install_devtools
-# Installing the devtools package is different than the rest of the packages.  On Windows,
-#   the dll can't be overwritten while in use.  This function avoids that issue.
-# This should follow the initial CRAN installation of `devtools`.
-#   Installing the newest GitHub devtools version isn't always necessary, but it usually helps.
-
-download_location <- "./devtools.zip" #This is the default value.
-devtools::build_github_devtools(download_location)
-
-base::unlink(download_location, recursive=FALSE) #Remove the file from disk.
-base::rm(download_location)
 #####################################
 ## @knitr install_github_packages
 
@@ -77,10 +87,3 @@ for( i in base::seq_len(base::nrow(ds_install_from_github)) ) {
 }
 
 base::rm(ds_install_from_github, i)
-
-#There will be a warning message for every  package that's called but not installed.  It will look like:
-#    Warning message:
-#        In library(package, lib.loc = lib.loc, character.only = TRUE, logical.return = TRUE,  :
-#        there is no package called 'bootstrap'
-#If you see the message (either in here or in another piece of the project's code),
-#   then run this again to make sure everything is installed.  You shouldn't get a warning again.

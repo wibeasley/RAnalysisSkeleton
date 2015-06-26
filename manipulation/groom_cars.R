@@ -3,16 +3,13 @@
 #These first few lines run only when the file is run in RStudio, !!NOT when an Rmd/Rnw file calls it!!
 rm(list=ls(all=TRUE))  #Clear the variables from previous runs.
 
-############################
-## @knitr load_sources
+# @knitr load_sources ==============================
 
-############################
-## @knitr load_packages
+# @knitr load_packages ==============================
 requireNamespace("plyr", quietly=TRUE)
 library(ggplot2)
 
-############################
-## @knitr declare_globals
+# @knitr declare_globals ==============================
 pathInput <- "./data_phi_free/raw/mtcars_dataset.csv"
 pathOutput <- "./data_phi_free/derived/motor_trend_car_test.rds"
 
@@ -20,8 +17,7 @@ prematureThresholdInWeeks <- 37 #Any infant under 37 weeks is considered prematu
 weeksPerYear <- 365.25/7
 daysPerWeek <- 7
 
-############################
-## @knitr load_data
+# @knitr load_data ==============================
 ds <- read.csv(pathInput, stringsAsFactors=FALSE)
 colnames(ds)
 
@@ -40,8 +36,8 @@ ds <- plyr::rename(ds, replace=c(
   , "gear" = "ForwardGearCount"
   , "carb" = "CarburetorCount"
 ))
-############################
-## @knitr tweak_data
+
+# @knitr tweak_data ==============================
 # Add a unique identifier
 ds$CarID <- seq_len(nrow(ds))
 
@@ -63,14 +59,12 @@ ds$DisplacementInchesCubedLog10 <- log10(ds$DisplacementInchesCubed)
 ds$GrossHorsepowerByGearCount3 <- ds$GrossHorsepower * (ds$ForwardGearCount=="Three")
 ds$GrossHorsepowerByGearCount4 <- ds$GrossHorsepower * (ds$ForwardGearCount=="Four")
 
-############################
-## @knitr erase_artifacts
+# @knitr erase_artifacts ==============================
 # I'm pretending the dataset had unreasonably low values that were artifacts of the measurement equipment.
 ds$MilesPerGallonArtifact <- (ds$MilesPerGallon < 2.2)
 ds$MilesPerGallon <- ifelse(ds$MilesPerGallonArtifact, NA_real_, ds$MilesPerGallon)
 
-############################
-## @knitr create_z_scores
+# @knitr create_z_scores ==============================
 # This creates z-scores WITHIN ForwardGearCount levels
 ds <- plyr::ddply(ds, .variables="ForwardGearCountF", .fun=transform,
                   DisplacementInchesCubedZ=scale(DisplacementInchesCubed),
@@ -81,7 +75,7 @@ ggplot2::qplot(ds$WeightInPoundsZ, color=ds$ForwardGearCountF, geom="density")  
 
 # Create a boolean variable, indicating if the z scores is above a certain threshold.
 ds$WeightInPoundsZAbove1 <- (ds$WeightInPoundsZ > 1.00)
-############################
-## @knitr save_to_disk
+
+# @knitr save_to_disk ==============================
 # Save as a compress, binary R dataset.  It's no longer readable with a text editor, but it saves metadata (eg, factor information).
 saveRDS(ds, file=pathOutput, compress="xz")

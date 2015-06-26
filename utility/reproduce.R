@@ -1,24 +1,21 @@
 # knitr::stitch_rmd(script="./utility/reproduce.R", output="./utility/reproduce.md")
 
-###################################
-#'  ---Reproducible Research---
-###################################
+# Reproducible Research ==============================
 #' When executed by R, this file will manipulate the original data sources (ie, ZZZZ)
 #' to produce a groomed dataset suitable for analysis and graphing.
 
-###################################
-#' Clear memory from previous runs
+# Clear memory from previous runs ==============================
 base::rm(list=base::ls(all=TRUE))
 
-###################################
+# Check Working Directory ==============================
 #' Verify the working directory has been set correctly.  Much of the code assumes the working directory is the repository's root directory.
 #' In the following line, rename `RAnalysisSkeleton` to your repository.
 if( base::basename(base::getwd()) != "RAnalysisSkeleton" ) {
   base::stop("The working directory should be set to the root of the package/repository.  ",
        "It's currently set to `", base::getwd(), "`.")
 }
-###################################
-#' Install the necessary packages.
+
+# Install the necessary packages. ==============================
 pathInstallPackages <- "./utility/install_packages.R"
 if( !file.exists(pathInstallPackages)) {
   base::stop("The file `", pathInstallPackages, "` was not found.  Make sure the working directory is set to the root of the repository.")
@@ -26,8 +23,8 @@ if( !file.exists(pathInstallPackages)) {
 base::source(pathInstallPackages, local=new.env())
 
 base::rm(pathInstallPackages)
-###################################
-#' Load the necessary packages.
+
+# Load the necessary packages. ==============================
 base::library(base)
 base::library(knitr)
 base::library(markdown)
@@ -36,9 +33,7 @@ base::library(testit)
 ######################################################################################################
 #' The following example comes from https://github.com/wibeasley/Wats.  Rename the paths appropriately.
 #'
-#'
-###################################
-#' Declare the paths of the necessary files.
+# Declare the paths of the necessary files. ==============================
 
 #' The raw/input data files:
 # pathCensus199x <- base::paste0("./Datasets/CensusIntercensal/STCH-icen199", 0:9, ".txt")
@@ -58,8 +53,7 @@ base::library(testit)
 #' Report Files:
 # pathsReports <- base::file.path("./vignettes", c("MbrFigures.Rmd", "OkFertilityWithIntercensalEstimates.Rmd"))
 
-###################################
-#' Verify the necessary path can be found.
+# Verify the necessary path can be found. ==============================
 
 #' The raw/input data files:
 # testit::assert("The 10 census files from 199x should exist.", base::file.exists(pathCensus199x))
@@ -70,11 +64,10 @@ base::library(testit)
 # testit::assert("The file that restructures the census data should exist.", base::file.exists(pathManipulateCensus))
 # testit::assert("The file that calculates the GFR should exist.", base::file.exists(pathCalculateGfr))
 
-#' Report Files:
+# Report Files:
 # testit::assert("The knitr Rmd files should exist.", base::file.exists(pathsReports))
 
-####################################
-#' Run the files that manipulate and analyze.
+# Run the files that manipulate and analyze. ==============================
 
 #' Execute code that restructures the Census data
 # base::source(pathManipulateCensus, local=base::new.env())
@@ -90,8 +83,7 @@ base::library(testit)
 # testit::assert("The CSV for the 2005 Version should exist.", base::file.exists(pathDataForAnalaysis2005))
 # testit::assert("The CSV for the 2014 Version should exist.", base::file.exists(pathDataForAnalaysis2014))
 
-####################################
-#' Build the reports
+# Build the reports ==============================
 # for( pathRmd in pathsReports ) {
 #   pathMd <- base::gsub(pattern=".Rmd$", replacement=".md", x=pathRmd)
 #   pathHtml <- base::gsub(pattern=".Rmd$", replacement=".html", x=pathRmd)

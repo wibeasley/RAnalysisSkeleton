@@ -39,23 +39,25 @@ This report covers the analyses used in the ZZZ project (Marcus Mark, PI).
 ![](figure_raw/scatterplots-1.png) ![](figure_raw/scatterplots-2.png) ![](figure_raw/scatterplots-3.png) ![](figure_raw/scatterplots-4.png) ![](figure_raw/scatterplots-5.png) 
 
 ```
-Warning in loop_apply(n, do.ply): span too small. fewer data values than degrees of freedom.
+Warning in simpleLoess(y, x, w, span, degree, parametric, drop.square, normalize, : span too small. fewer data values
+than degrees of freedom.
 ```
 
 ```
-Warning in loop_apply(n, do.ply): Chernobyl! trL>n 3
+Warning in simpleLoess(y, x, w, span, degree, parametric, drop.square, normalize, : Chernobyl! trL>n 3
 ```
 
 ```
-Warning in loop_apply(n, do.ply): Chernobyl! trL>n 3
+Warning in simpleLoess(y, x, w, span, degree, parametric, drop.square, normalize, : Chernobyl! trL>n 3
 ```
 
 ```
-Warning in loop_apply(n, do.ply): span too small. fewer data values than degrees of freedom.
+Warning in predLoess(y, x, newx, s, weights, pars$robust, pars$span, pars$degree, : span too small. fewer data values
+than degrees of freedom.
 ```
 
 ```
-Warning in loop_apply(n, do.ply): NaNs produced
+Warning in qt(level/2 + 0.5, pred$df): NaNs produced
 ```
 
 ![](figure_raw/scatterplots-6.png) ![](figure_raw/scatterplots-7.png) 
@@ -172,13 +174,13 @@ For the sake of documentation and reproducibility, the current report was render
 
 
 ```
-Report rendered by wibeasley at 2015-05-02, 11:54 -0500
+Report rendered by wibeasley at 2015-09-09, 13:22 -0500
 ```
 
 ```
-R version 3.2.0 (2015-04-16)
+R version 3.2.2 (2015-08-14)
 Platform: x86_64-pc-linux-gnu (64-bit)
-Running under: Ubuntu 14.04.2 LTS
+Running under: Ubuntu 14.04.3 LTS
 
 locale:
  [1] LC_CTYPE=en_US.UTF-8       LC_NUMERIC=C               LC_TIME=en_US.UTF-8        LC_COLLATE=en_US.UTF-8    
@@ -189,11 +191,11 @@ attached base packages:
 [1] stats     graphics  grDevices utils     datasets  methods   base     
 
 other attached packages:
-[1] ggplot2_1.0.1      RColorBrewer_1.1-2 scales_0.2.4       knitr_1.10        
+[1] ggplot2_1.0.1      RColorBrewer_1.1-2 scales_0.3.0       knitr_1.11.3      
 
 loaded via a namespace (and not attached):
- [1] Rcpp_0.11.6       digest_0.6.8      MASS_7.3-40       grid_3.2.0        plyr_1.8.2        gtable_0.1.2     
- [7] formatR_1.2       magrittr_1.5      evaluate_0.7      stringi_0.4-1     reshape2_1.4.1    rmarkdown_0.5.3.1
-[13] labeling_0.3      proto_0.3-10      tools_3.2.0       stringr_1.0.0     munsell_0.4.2     yaml_2.1.13      
-[19] colorspace_1.2-6  htmltools_0.2.6  
+ [1] Rcpp_0.12.0        digest_0.6.8       MASS_7.3-44        grid_3.2.2         plyr_1.8.3         gtable_0.1.2      
+ [7] formatR_1.2        magrittr_1.5       evaluate_0.7.2     stringi_0.5-5      reshape2_1.4.1     rmarkdown_0.8     
+[13] labeling_0.3       proto_0.3-10       tools_3.2.2        stringr_1.0.0.9000 munsell_0.4.2      yaml_2.1.13       
+[19] colorspace_1.2-6   htmltools_0.2.6   
 ```

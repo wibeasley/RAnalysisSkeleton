@@ -1,5 +1,5 @@
-Skeleton Report 1
-=================================================
+# Skeleton Report 1
+
 This report covers the analyses used in the ZZZ project (Marcus Mark, PI).
 
 <!--  Set the working directory to the repository's base directory; this assumes the report is nested inside of two directories.-->
@@ -174,7 +174,7 @@ For the sake of documentation and reproducibility, the current report was render
 
 
 ```
-Report rendered by wibeasley at 2015-09-09, 13:22 -0500
+Report rendered by wibeasley at 2015-09-10, 00:05 -0500
 ```
 
 ```

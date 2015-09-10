@@ -1,10 +1,10 @@
 ---
+title: Skeleton Report 1
 output:
   html_document:
     keep_md: yes
 ---
-Skeleton Report 1
-=================================================
+
 This report covers the analyses used in the ZZZ project (Marcus Mark, PI).
 
 <!--  Set the working directory to the repository's base directory; this assumes the report is nested inside of two directories.-->

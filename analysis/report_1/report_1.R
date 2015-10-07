@@ -6,48 +6,47 @@ rm(list=ls(all=TRUE)) #Clear the memory of variables from previous run. This is 
 # source("./SomethingSomething.R")
 
 # @knitr load_packages ----
-# library(xtable)
-library(knitr)
-library(scales) #For formating values in graphs
-library(RColorBrewer)
-# library(reshape2) #For converting wide to long
 library(ggplot2) #For graphing
-# library(mgcv, quietly=TRUE) #For the Generalized Additive Model that smooths the longitudinal graphs.
+requireNamespace("knitr", quietly=TRUE)
+requireNamespace("scales", quietly=TRUE) #For formating values in graphs
+requireNamespace("RColorBrewer", quietly=TRUE)
+# requireNamespace("reshape2", quietly=TRUE) #For converting wide to long
+# requireNamespace("mgcv, quietly=TRUE) #For the Generalized Additive Model that smooths the longitudinal graphs.
 
 # @knitr declare_globals ----
 options(show.signif.stars=F) #Turn off the annotations on p-values
 
-pathInput <- "./data_phi_free/derived/motor_trend_car_test.rds"
+path_input <- "./data_phi_free/derived/motor_trend_car_test.rds"
 
-HistogramDiscrete <- function(
-  dsObserved,
-  variableName,
-  levelsToExclude    = character(0),
-  mainTitle          = variableName,
-  xTitle             = NULL,
-  yTitle             = "Number of Included Records",
-  textSizePercentage = 6,
-  binWidth           = 1L) {
+histogram_discrete <- function(
+  d_observed,
+  variable_name,
+  levels_to_exclude    = character(0),
+  main_title          = variable_name,
+  x_title             = NULL,
+  y_title             = "Number of Included Records",
+  text_size_percentage = 6,
+  bin_width           = 1L) {
 
-  if( !base::is.factor(dsObserved[, variableName]) )
-    dsObserved[, variableName] <- base::factor(dsObserved[, variableName])
+  if( !base::is.factor(d_observed[, variable_name]) )
+    d_observed[, variable_name] <- base::factor(d_observed[, variable_name])
 
-  dsObserved$IV <- base::ordered(dsObserved[, variableName], levels=rev(levels(dsObserved[, variableName])))
+  d_observed$IV <- base::ordered(d_observed[, variable_name], levels=rev(levels(d_observed[, variable_name])))
 
-  dsCount <- plyr::count(dsObserved, vars=c("IV"))
-#   if( base::length(levelsToExclude)>0 ) {
-  dsCount <- dsCount[!(dsCount$IV %in% levelsToExclude), ]
+  dsCount <- plyr::count(d_observed, vars=c("IV"))
+#   if( base::length(levels_to_exclude)>0 ) {
+  dsCount <- dsCount[!(dsCount$IV %in% levels_to_exclude), ]
 
   dsSummary <- plyr::ddply(dsCount, .variables=NULL, transform, Count=freq, Proportion = freq/sum(freq) )
   dsSummary$Percentage <- base::paste0(base::round(dsSummary$Proportion*100), "%")
 
-  yTitle <- base::paste0(yTitle, " (n=", scales::comma(base::sum(dsSummary$freq)), ")")
+  y_title <- base::paste0(y_title, " (n=", scales::comma(base::sum(dsSummary$freq)), ")")
 
   g <- ggplot2::ggplot(dsSummary, ggplot2::aes_string(x="IV", y="Count", fill="IV", label="Percentage"))
   g <- g + ggplot2::geom_bar(stat="identity")
-  g <- g + ggplot2::geom_text(stat="identity", size=textSizePercentage, hjust=.8)
+  g <- g + ggplot2::geom_text(stat="identity", size=text_size_percentage, hjust=.8)
   g <- g + ggplot2::scale_y_continuous(labels=scales::comma_format())
-  g <- g + ggplot2::labs(title=mainTitle, x=xTitle, y=yTitle)
+  g <- g + ggplot2::labs(title=main_title, x=x_title, y=y_title)
   g <- g + ggplot2::coord_flip()
 
   g <- g + ggplot2::theme_bw(base_size=14)
@@ -60,29 +59,29 @@ HistogramDiscrete <- function(
 
   return( g )
 }
-HistogramContinuous <- function(
-  dsObserved,
-  variableName,
-  binWidth      = NULL,
-  mainTitle     = variableName,
-  xTitle        = paste0(variableName, " (each bin is ", scales::comma(binWidth), " units wide)"),
-  yTitle        = "Frequency",
-  roundedDigits = 0L
+histogram_continuous <- function(
+  d_observed,
+  variable_name,
+  bin_width      = NULL,
+  main_title     = variable_name,
+  x_title        = paste0(variable_name, " (each bin is ", scales::comma(bin_width), " units wide)"),
+  y_title        = "Frequency",
+  rounded_digits = 0L
   ) {
 
-  dsObserved <- dsObserved[!base::is.na(dsObserved[, variableName]), ]
+  d_observed <- d_observed[!base::is.na(d_observed[, variable_name]), ]
 
   ds_mid_points <- base::data.frame(label=c("italic(X)[50]", "bar(italic(X))"), stringsAsFactors=FALSE)
-  ds_mid_points$value <- c(stats::median(dsObserved[, variableName]), base::mean(dsObserved[, variableName]))
-  ds_mid_points$value_rounded <- base::round(ds_mid_points$value, roundedDigits)
+  ds_mid_points$value <- c(stats::median(d_observed[, variable_name]), base::mean(d_observed[, variable_name]))
+  ds_mid_points$value_rounded <- base::round(ds_mid_points$value, rounded_digits)
 
-  g <- ggplot2::ggplot(dsObserved, ggplot2::aes_string(x=variableName))
-  g <- g + ggplot2::geom_bar(stat="bin", binwidth=binWidth, fill="gray70", color="gray90", position=ggplot2::position_identity())
+  g <- ggplot2::ggplot(d_observed, ggplot2::aes_string(x=variable_name))
+  g <- g + ggplot2::geom_bar(stat="bin", bin_width=bin_width, fill="gray70", color="gray90", position=ggplot2::position_identity())
   g <- g + ggplot2::geom_vline(xintercept=ds_mid_points$value, color="gray30")
   g <- g + ggplot2::geom_text(data=ds_mid_points, ggplot2::aes_string(x="value", y=0, label="value_rounded"), color="tomato", hjust=c(1, 0), vjust=.5)
   g <- g + ggplot2::scale_x_continuous(labels=scales::comma_format())
   g <- g + ggplot2::scale_y_continuous(labels=scales::comma_format())
-  g <- g + ggplot2::labs(title=mainTitle, x=xTitle, y=yTitle)
+  g <- g + ggplot2::labs(title=main_title, x=x_title, y=y_title)
   g <- g + ggplot2::theme_bw()
 
   ds_mid_points$top <- stats::quantile(ggplot2::ggplot_build(g)$panel$ranges[[1]]$y.range, .8)
@@ -91,7 +90,7 @@ HistogramContinuous <- function(
 }
 
 # @knitr load_data ----
-ds <- readRDS(pathInput) # 'ds' stands for 'datasets'
+ds <- readRDS(path_input) # 'ds' stands for 'datasets'
 
 # @knitr tweak_data ----
 #
@@ -117,12 +116,12 @@ ds <- readRDS(pathInput) # 'ds' stands for 'datasets'
 
 # @knitr marginals ----
 # Inspect continuous variables
-HistogramContinuous(dsObserved=ds, variableName="QuarterMileInSeconds", binWidth=.5, roundedDigits=1)
-HistogramContinuous(dsObserved=ds, variableName="DisplacementInchesCubed", binWidth=50, roundedDigits=1)
+histogram_continuous(d_observed=ds, variable_name="QuarterMileInSeconds", bin_width=.5, rounded_digits=1)
+histogram_continuous(d_observed=ds, variable_name="DisplacementInchesCubed", bin_width=50, rounded_digits=1)
 
 # Inspect discrete/categorical variables
-HistogramDiscrete(dsObserved=ds, variableName="CarburetorCountF")
-HistogramDiscrete(dsObserved=ds, variableName="ForwardGearCountF")
+histogram_discrete(d_observed=ds, variable_name="CarburetorCountF")
+histogram_discrete(d_observed=ds, variable_name="ForwardGearCountF")
 
 # @knitr scatterplots ----
 g1 <- ggplot(ds, aes(x=GrossHorsepower, y=QuarterMileInSeconds, color=ForwardGearCountF)) +

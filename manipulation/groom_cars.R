@@ -6,8 +6,11 @@ rm(list=ls(all=TRUE))  #Clear the variables from previous runs.
 # @knitr load_sources ==============================
 
 # @knitr load_packages ==============================
-requireNamespace("plyr", quietly=TRUE)
 library(ggplot2)
+# library(magrittr) #Pipes
+requireNamespace("plyr", quietly=TRUE)
+requireNamespace("testit", quietly=TRUE)
+# requireNamespace("dplyr", quietly=TRUE)
 
 # @knitr declare_globals ==============================
 pathInput <- "./data_phi_free/raw/mtcars_dataset.csv"
@@ -75,6 +78,11 @@ ggplot2::qplot(ds$WeightInPoundsZ, color=ds$ForwardGearCountF, geom="density")  
 
 # Create a boolean variable, indicating if the z scores is above a certain threshold.
 ds$WeightInPoundsZAbove1 <- (ds$WeightInPoundsZ > 1.00)
+
+# @knitr verify_values ==============================
+testit::assert("`ModelName` should be a unique value", sum(duplicated(ds$ModelName))==0L)
+testit::assert("`MilesPerGallon` should be a positive value.", all(ds$MilesPerGallon>0))
+testit::assert("`WeightInPoundsZ` should be a positive or missing value.", all(is.na(ds$MilesPerGallon) | (ds$MilesPerGallon>0)))
 
 # @knitr save_to_disk ==============================
 # Save as a compress, binary R dataset.  It's no longer readable with a text editor, but it saves metadata (eg, factor information).

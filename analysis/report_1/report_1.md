@@ -88,11 +88,11 @@ lm(formula = QuarterMileInSeconds ~ 1, data = ds)
 
 Residuals:
     Min      1Q  Median      3Q     Max 
--3.3487 -0.9562 -0.1387  1.0512  5.0512 
+-3.3487 -0.9563 -0.1387  1.0512  5.0512 
 
 Coefficients:
             Estimate Std. Error t value Pr(>|t|)
-(Intercept)  17.8487     0.3159    56.5   <2e-16
+(Intercept)  17.8488     0.3159    56.5   <2e-16
 
 Residual standard error: 1.787 on 31 degrees of freedom
 ```
@@ -187,7 +187,7 @@ For the sake of documentation and reproducibility, the current report was render
 
 
 ```
-Report rendered by Will at 2015-10-08, 12:51 -0500
+Report rendered by Will at 2015-10-09, 13:37 -0500
 ```
 
 ```

@@ -1,22 +1,22 @@
 rm(list=ls(all=TRUE)) #Clear the memory of variables from previous run. This is not called by knitr, because it's above the first chunk.
 
-# @knitr load_sources ----
+# @knitr load_sources ------------------------------------------------------------
 #Load any source files that contain/define functions, but that don't load any other types of variables
 #   into memory.  Avoid side effects and don't pollute the global environment.
 # source("./SomethingSomething.R")
 
-# @knitr load_packages ----
+# @knitr load_packages -----------------------------------------------------------
 library(ggplot2) #For graphing
 # library(magrittr) #Pipes
 requireNamespace("knitr", quietly=TRUE)
 requireNamespace("scales", quietly=TRUE) #For formating values in graphs
 requireNamespace("RColorBrewer", quietly=TRUE)
 # requireNamespace("dplyr", quietly=TRUE)
-# requireNamespace("plyr", quietly=TRUE)
+requireNamespace("plyr", quietly=TRUE)
 # requireNamespace("reshape2", quietly=TRUE) #For converting wide to long
 # requireNamespace("mgcv, quietly=TRUE) #For the Generalized Additive Model that smooths the longitudinal graphs.
 
-# @knitr declare_globals ----
+# @knitr declare_globals ---------------------------------------------------------
 options(show.signif.stars=F) #Turn off the annotations on p-values
 
 path_input <- "./data_phi_free/derived/motor_trend_car_test.rds"
@@ -92,10 +92,10 @@ histogram_continuous <- function(
   return( g )
 }
 
-# @knitr load_data ----
+# @knitr load_data ---------------------------------------------------------------
 ds <- readRDS(path_input) # 'ds' stands for 'datasets'
 
-# @knitr tweak_data ----
+# @knitr tweak_data --------------------------------------------------------------
 #
 # dropInfantWeightForGestationalAgeCategorySgaOrMissing <- (is.na(ds$InfantWeightForGestationalAgeCategory) | ds$InfantWeightForGestationalAgeCategory=="Sga")
 # cat("Number of patients excluded b/c Missing or `SGA` for InfantWeightForGestationalAgeCategory: ", sum(dropInfantWeightForGestationalAgeCategorySgaOrMissing, na.rm=T))
@@ -117,7 +117,7 @@ ds <- readRDS(path_input) # 'ds' stands for 'datasets'
 # rm(dropInfantWeightForGestationalAgeCategorySgaOrMissing)
 # ds$PrematureInfant <- NULL
 
-# @knitr marginals ----
+# @knitr marginals ---------------------------------------------------------------
 # Inspect continuous variables
 histogram_continuous(d_observed=ds, variable_name="QuarterMileInSeconds", bin_width=.5, rounded_digits=1)
 histogram_continuous(d_observed=ds, variable_name="DisplacementInchesCubed", bin_width=50, rounded_digits=1)
@@ -126,7 +126,7 @@ histogram_continuous(d_observed=ds, variable_name="DisplacementInchesCubed", bin
 histogram_discrete(d_observed=ds, variable_name="CarburetorCountF")
 histogram_discrete(d_observed=ds, variable_name="ForwardGearCountF")
 
-# @knitr scatterplots ----
+# @knitr scatterplots ------------------------------------------------------------
 g1 <- ggplot(ds, aes(x=GrossHorsepower, y=QuarterMileInSeconds, color=ForwardGearCountF)) +
   geom_smooth(method="loess", span=2) +
   geom_point(shape=1) +
@@ -141,8 +141,7 @@ g1 %+% aes(x=MilesPerGallon)
 g1 %+% aes(x=MilesPerGallon, color=CarburetorCountF)
 g1 %+% aes(x=MilesPerGallon, color=factor(CylinderCount))
 
-# @knitr models ----
-
+# @knitr models ------------------------------------------------------------------
 cat("============= Simple model that's just an intercept. =============")
 m0 <- lm(QuarterMileInSeconds ~ 1, data=ds)
 summary(m0)

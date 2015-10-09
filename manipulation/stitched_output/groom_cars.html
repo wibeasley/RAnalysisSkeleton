@@ -202,28 +202,19 @@ hr {
 
 <body>
 <p>This report was automatically generated with the R package <strong>knitr</strong>
-(version 1.10.5).</p>
+(version 1.11).</p>
 
 <pre><code class="r"># knitr::stitch_rmd(script=&quot;./manipulation/groom_cars.R&quot;, output=&quot;./manipulation/stitched_output/groom_cars.md&quot;)
 
 #These first few lines run only when the file is run in RStudio, !!NOT when an Rmd/Rnw file calls it!!
 rm(list=ls(all=TRUE))  #Clear the variables from previous runs.
-
-############################
-</code></pre>
-
-<pre><code class="r">############################
-</code></pre>
-
-<pre><code class="r">requireNamespace(plyr, quietly=TRUE)
-</code></pre>
-
-<pre><code>## Error in requireNamespace(plyr, quietly = TRUE): object &#39;plyr&#39; not found
 </code></pre>
 
 <pre><code class="r">library(ggplot2)
-
-############################
+library(magrittr) #Pipes
+requireNamespace(&quot;dplyr&quot;, quietly=TRUE)
+# requireNamespace(&quot;plyr&quot;, quietly=TRUE)
+requireNamespace(&quot;testit&quot;, quietly=TRUE)
 </code></pre>
 
 <pre><code class="r">pathInput &lt;- &quot;./data_phi_free/raw/mtcars_dataset.csv&quot;
@@ -232,8 +223,6 @@ pathOutput &lt;- &quot;./data_phi_free/derived/motor_trend_car_test.rds&quot;
 prematureThresholdInWeeks &lt;- 37 #Any infant under 37 weeks is considered premature for the current project.  Exactly 37.0 weeks are retained.
 weeksPerYear &lt;- 365.25/7
 daysPerWeek &lt;- 7
-
-############################
 </code></pre>
 
 <pre><code class="r">ds &lt;- read.csv(pathInput, stringsAsFactors=FALSE)
@@ -245,21 +234,20 @@ colnames(ds)
 </code></pre>
 
 <pre><code class="r"># Dataset description can be found at: http://stat.ethz.ch/R-manual/R-devel/library/datasets/html/mtcars.html
-ds &lt;- plyr::rename(ds, replace=c(
-  &quot;model&quot; = &quot;ModelName&quot;
-  , &quot;mpg&quot; = &quot;MilesPerGallon&quot;
-  , &quot;cyl&quot; = &quot;CylinderCount&quot;
-  , &quot;disp&quot; = &quot;DisplacementInchesCubed&quot;
-  , &quot;hp&quot; = &quot;GrossHorsepower&quot;
-  , &quot;drat&quot; = &quot;RearAxleRatio&quot;
-  , &quot;wt&quot; = &quot;WeightInPoundsPer1000&quot;
-  , &quot;qsec&quot; = &quot;QuarterMileInSeconds&quot;
-  , &quot;vs&quot; = &quot;VS&quot; #TODO: need a definition for this variable
-  , &quot;am&quot; = &quot;AutomaticTransmission&quot;
-  , &quot;gear&quot; = &quot;ForwardGearCount&quot;
-  , &quot;carb&quot; = &quot;CarburetorCount&quot;
-))
-############################
+ds &lt;- dplyr::rename_(ds,
+  &quot;ModelName&quot;                 = &quot;model&quot;
+  , &quot;MilesPerGallon&quot;          = &quot;mpg&quot;
+  , &quot;CylinderCount&quot;           = &quot;cyl&quot;
+  , &quot;DisplacementInchesCubed&quot; = &quot;disp&quot;
+  , &quot;GrossHorsepower&quot;         = &quot;hp&quot;
+  , &quot;RearAxleRatio&quot;           = &quot;drat&quot;
+  , &quot;WeightInPoundsPer1000&quot;   = &quot;wt&quot;
+  , &quot;QuarterMileInSeconds&quot;    = &quot;qsec&quot;
+  , &quot;VS&quot;                      = &quot;vs&quot; #TODO: need a definition for this variable
+  , &quot;AutomaticTransmission&quot;   = &quot;am&quot;
+  , &quot;ForwardGearCount&quot;        = &quot;gear&quot;
+  , &quot;CarburetorCount&quot;         = &quot;carb&quot;
+)
 </code></pre>
 
 <pre><code class="r"># Add a unique identifier
@@ -282,31 +270,39 @@ ds$CarburetorCountF &lt;- factor(ds$CarburetorCount)
 ds$DisplacementInchesCubedLog10 &lt;- log10(ds$DisplacementInchesCubed)
 ds$GrossHorsepowerByGearCount3 &lt;- ds$GrossHorsepower * (ds$ForwardGearCount==&quot;Three&quot;)
 ds$GrossHorsepowerByGearCount4 &lt;- ds$GrossHorsepower * (ds$ForwardGearCount==&quot;Four&quot;)
-
-############################
 </code></pre>
 
 <pre><code class="r"># I&#39;m pretending the dataset had unreasonably low values that were artifacts of the measurement equipment.
 ds$MilesPerGallonArtifact &lt;- (ds$MilesPerGallon &lt; 2.2)
 ds$MilesPerGallon &lt;- ifelse(ds$MilesPerGallonArtifact, NA_real_, ds$MilesPerGallon)
-
-############################
 </code></pre>
 
 <pre><code class="r"># This creates z-scores WITHIN ForwardGearCount levels
-ds &lt;- plyr::ddply(ds, .variables=&quot;ForwardGearCountF&quot;, .fun=transform,
-                  DisplacementInchesCubedZ=scale(DisplacementInchesCubed),
-                  WeightInPoundsZ=scale(WeightInPounds)
-                  )
+ds &lt;- ds %&gt;%
+  dplyr::group_by(ForwardGearCount) %&gt;%
+  dplyr::mutate(
+    DisplacementGearZ = as.numeric(base::scale(DisplacementInchesCubed)),
+    WeightGearZ       = as.numeric(base::scale(WeightInPounds))
+  )
+
+  # ds &lt;- plyr::ddply(ds, .variables=&quot;ForwardGearCountF&quot;, .fun=transform,
+  #                   DisplacementGearZ=scale(DisplacementInchesCubed),
+  #                   WeightGearZ=scale(WeightInPounds)
+  #                   )
+
 # Quick inspection of the distribution of z scores within levels
-ggplot2::qplot(ds$WeightInPoundsZ, color=ds$ForwardGearCountF, geom=&quot;density&quot;)  # mean(ds$WeightInPoundsZ, na.rm=T)
+ggplot2::qplot(ds$WeightGearZ, color=ds$ForwardGearCountF, geom=&quot;density&quot;)  # mean(ds$WeightGearZ, na.rm=T)
 </code></pre>
 
 <p><img src="figure/groom-cars-Rmdcreate_z_scores-1.png" title="plot of chunk create_z_scores" alt="plot of chunk create_z_scores" style="display: block; margin: auto;" /></p>
 
 <pre><code class="r"># Create a boolean variable, indicating if the z scores is above a certain threshold.
-ds$WeightInPoundsZAbove1 &lt;- (ds$WeightInPoundsZ &gt; 1.00)
-############################
+ds$WeightGearZAbove1 &lt;- (ds$WeightGearZ &gt; 1.00)
+</code></pre>
+
+<pre><code class="r">testit::assert(&quot;`ModelName` should be a unique value&quot;, sum(duplicated(ds$ModelName))==0L)
+testit::assert(&quot;`MilesPerGallon` should be a positive value.&quot;, all(ds$MilesPerGallon&gt;0))
+testit::assert(&quot;`WeightGearZ` should be a positive or missing value.&quot;, all(is.na(ds$MilesPerGallon) | (ds$MilesPerGallon&gt;0)))
 </code></pre>
 
 <pre><code class="r"># Save as a compress, binary R dataset.  It&#39;s no longer readable with a text editor, but it saves metadata (eg, factor information).
@@ -319,9 +315,9 @@ packages used):</p>
 <pre><code class="r">sessionInfo()
 </code></pre>
 
-<pre><code>## R version 3.2.0 Patched (2015-05-11 r68355)
+<pre><code>## R version 3.2.2 Patched (2015-09-18 r69405)
 ## Platform: x86_64-w64-mingw32/x64 (64-bit)
-## Running under: Windows 8 x64 (build 9200)
+## Running under: Windows &gt;= 8 x64 (build 9200)
 ## 
 ## locale:
 ## [1] LC_COLLATE=English_United States.1252 
@@ -334,20 +330,22 @@ packages used):</p>
 ## [1] stats     graphics  grDevices utils     datasets  methods   base     
 ## 
 ## other attached packages:
-## [1] ggplot2_1.0.1
+## [1] ggplot2_1.0.1 magrittr_1.5 
 ## 
 ## loaded via a namespace (and not attached):
-##  [1] Rcpp_0.11.6      digest_0.6.8     MASS_7.3-40      grid_3.2.0      
-##  [5] plyr_1.8.2       gtable_0.1.2     formatR_1.2      magrittr_1.5    
-##  [9] evaluate_0.7     scales_0.2.4     stringi_0.4-1    reshape2_1.4.1  
-## [13] labeling_0.3     proto_0.3-10     tools_3.2.0      stringr_1.0.0   
-## [17] munsell_0.4.2    colorspace_1.2-6 knitr_1.10.5
+##  [1] Rcpp_0.12.1      digest_0.6.8     dplyr_0.4.3      assertthat_0.1  
+##  [5] MASS_7.3-44      grid_3.2.2       R6_2.1.1         plyr_1.8.3      
+##  [9] gtable_0.1.2     DBI_0.3.1        formatR_1.2.1    evaluate_0.8    
+## [13] scales_0.3.0     stringi_0.5-5    reshape2_1.4.1   lazyeval_0.1.10 
+## [17] testit_0.4       labeling_0.3     proto_0.3-10     tools_3.2.2     
+## [21] stringr_1.0.0    munsell_0.4.2    parallel_3.2.2   colorspace_1.2-6
+## [25] knitr_1.11
 </code></pre>
 
 <pre><code class="r">Sys.time()
 </code></pre>
 
-<pre><code>## [1] &quot;2015-05-19 14:51:30 CDT&quot;
+<pre><code>## [1] &quot;2015-10-09 13:36:54 CDT&quot;
 </code></pre>
 
 </body>

@@ -22,6 +22,7 @@ daysPerWeek <- 7
 
 # @knitr load_data ---------------------------------------------------------------
 ds <- read.csv(pathInput, stringsAsFactors=FALSE)
+# @knitr tweak_data --------------------------------------------------------------
 colnames(ds)
 
 # Dataset description can be found at: http://stat.ethz.ch/R-manual/R-devel/library/datasets/html/mtcars.html
@@ -40,7 +41,6 @@ ds <- dplyr::rename_(ds,
   , "CarburetorCount"         = "carb"
 )
 
-# @knitr tweak_data --------------------------------------------------------------
 # Add a unique identifier
 ds$CarID <- seq_len(nrow(ds))
 

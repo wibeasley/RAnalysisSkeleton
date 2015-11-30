@@ -7,7 +7,7 @@ This report was automatically generated with the R package **knitr**
 
 
 ```r
-# knitr::stitch_rmd(script="./manipulation/groom_cars.R", output="./manipulation/stitched_output/groom_cars.md")
+# knitr::stitch_rmd(script="./manipulation/groom_cars.R", output="./manipulation/stitched-output/groom_cars.md")
 
 #These first few lines run only when the file is run in RStudio, !!NOT when an Rmd/Rnw file calls it!!
 rm(list=ls(all=TRUE))  #Clear the variables from previous runs.
@@ -23,8 +23,8 @@ requireNamespace("testit", quietly=TRUE)
 ```
 
 ```r
-pathInput <- "./data_phi_free/raw/mtcars_dataset.csv"
-pathOutput <- "./data_phi_free/derived/motor_trend_car_test.rds"
+pathInput <- "./data-phi-free/raw/mtcars-dataset.csv"
+pathOutput <- "./data-phi-free/derived/motor-trend-car-test.rds"
 
 prematureThresholdInWeeks <- 37 #Any infant under 37 weeks is considered premature for the current project.  Exactly 37.0 weeks are retained.
 weeksPerYear <- 365.25/7

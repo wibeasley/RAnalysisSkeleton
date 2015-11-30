@@ -7,7 +7,7 @@
 #Clear memory from previous runs.
 base::rm(list=base::ls(all=TRUE))
 
-path_csv <- "./utility/package_dependency_list.csv"
+path_csv <- "./utility/package-dependency-list.csv"
 
 if( !file.exists(path_csv)) {
   base::stop("The path `", path_csv, "` was not found.  Make sure the working directory is set to the root of the repository.")

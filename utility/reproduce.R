@@ -16,7 +16,7 @@ if( base::basename(base::getwd()) != "RAnalysisSkeleton" ) {
 }
 
 # Install the necessary packages ------------------------------------------
-path_install_packages <- "./utility/install_packages.R"
+path_install_packages <- "./utility/install-packages.R"
 if( !file.exists(path_install_packages)) {
   base::stop("The file `", path_install_packages, "` was not found.  Make sure the working directory is set to the root of the repository.")
 }

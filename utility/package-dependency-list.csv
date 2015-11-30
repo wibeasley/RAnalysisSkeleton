@@ -1,4 +1,5 @@
 package_name,on_cran,install,github_username,description
+car,TRUE,TRUE,,For it's `recode()` function.
 classInt,TRUE,TRUE,,Choosing univariate class intervals for mapping or other graphics purposes.
 colorspace,TRUE,TRUE,,Explicit control over the HCL color scheme.
 devtools,TRUE,TRUE,,Used in the C1 survival for sourcing gists.
@@ -19,11 +20,9 @@ modeest,TRUE,TRUE,,Estimating the mode of unimodal distributions.
 plyr,TRUE,TRUE,,Important for most of our data manipulation.
 random,TRUE,TRUE,,Creates random numbers for salts.
 RColorBrewer,TRUE,TRUE,,Explicit control over the Color Brewer colors.  See http://colorbrewer2.org/.
-RCurl,TRUE,FALSE,,Interact with the web APIs.
 readr,TRUE,TRUE,,Reads data files from disk.
 reshape2,TRUE,TRUE,,Data manipulation not covered in plyr.
 rmarkdown,TRUE,TRUE,rstudio,Needed for knitr and reports.
-RODBC,TRUE,FALSE,,For connecting to ODBC databases.
 stringi,TRUE,TRUE,,Consistent/convenient function signatures for manipulating text.
 stringr,TRUE,TRUE,,Consistent/convenient function signatures for manipulating text.
 testit,TRUE,TRUE,,Has the useful `assert()` function.
@@ -31,4 +30,3 @@ testthat,TRUE,TRUE,hadley,Heavier testing framework that's good for package deve
 tidyr,TRUE,TRUE,,"Data manipulation; replaces much of reshape2; works w/ magrittr and dplyr well."
 xtable,TRUE,FALSE,,"Formats tables, especially for LaTeX output."
 yaml,TRUE,TRUE,,Needed for knitr and reports.
-zipcode,TRUE,TRUE,,Database of zipcodes and their lat & long; also useful for flagging bad zipcodes.

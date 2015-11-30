@@ -3,6 +3,7 @@ rm(list=ls(all=TRUE))  #Clear the variables from previous runs.
 # load_sources ------------------------------------------------------------
 
 # load_packages -----------------------------------------------------------
+# For the packages that must be attaced
 library(RODBC, quietly=TRUE)
 library(magrittr, quietly=TRUE)
 requireNamespace("readr", quietly=TRUE)
@@ -10,7 +11,7 @@ requireNamespace("dplyr", quietly=TRUE)
 requireNamespace("car", quietly=TRUE) #For it's `recode()` function.
 
 # declare_globals ---------------------------------------------------------
-pathOutUnified <- "data_phi_free/derived/county-month-te.csv"
+pathOutUnified <- "data-phi-free/derived/county-month-te.csv"
 defaultDayOfMonth <- 15L
 countiesToDropFromRural <- c("Central Office", "Tulsa", "Oklahoma") #Exclude these records from the rural dataset.
 possibleCountyIDs <- 1L:77L
@@ -20,10 +21,10 @@ thresholdMeanFteToFillIn <- 10L #Any county averaging over 10 hours can be fille
 
 # Retrieve URIs of CSV, and retrieve County lookup table
 channel <- RODBC::odbcConnect("MiechvEvaluation") #getSqlTypeInfo("Microsoft SQL Server") #odbcGetInfo(channel)
-pathInOklahoma    <- "./data_phi_free/raw/te/nurse-month-oklahoma.csv"
-pathInTulsa       <- "./data_phi_free/raw/te/month-tulsa.csv"
-pathInRural       <- "./data_phi_free/raw/te/nurse-month-rural.csv"
-pathCounty      <- "./data_phi_free/raw/te/county.csv"
+pathInOklahoma  <- "./data-phi-free/raw/te/nurse-month-oklahoma.csv"
+pathInTulsa     <- "./data-phi-free/raw/te/month-tulsa.csv"
+pathInRural     <- "./data-phi-free/raw/te/nurse-month-rural.csv"
+pathCounty      <- "./data-phi-free/raw/te/county.csv"
 RODBC::odbcClose(channel); rm(channel)
 
 # Read the CSVs

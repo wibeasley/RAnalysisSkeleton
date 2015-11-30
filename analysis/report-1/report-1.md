@@ -59,21 +59,21 @@ stat_bin: binwidth defaulted to range/30. Use 'binwidth = x' to adjust this.
 ![](figure-png/scatterplots-1.png) ![](figure-png/scatterplots-2.png) ![](figure-png/scatterplots-3.png) ![](figure-png/scatterplots-4.png) ![](figure-png/scatterplots-5.png) 
 
 ```
-Warning in simpleLoess(y, x, w, span, degree, parametric, drop.square, normalize, : span too small. fewer data values
-than degrees of freedom.
+Warning in simpleLoess(y, x, w, span, degree = degree, parametric = parametric, : span too small. fewer data values than
+degrees of freedom.
 ```
 
 ```
-Warning in simpleLoess(y, x, w, span, degree, parametric, drop.square, normalize, : Chernobyl! trL>n 3
+Warning in simpleLoess(y, x, w, span, degree = degree, parametric = parametric, : Chernobyl! trL>n 3
 ```
 
 ```
-Warning in simpleLoess(y, x, w, span, degree, parametric, drop.square, normalize, : Chernobyl! trL>n 3
+Warning in simpleLoess(y, x, w, span, degree = degree, parametric = parametric, : Chernobyl! trL>n 3
 ```
 
 ```
-Warning in predLoess(y, x, newx, s, weights, pars$robust, pars$span, pars$degree, : span too small. fewer data values
-than degrees of freedom.
+Warning in predLoess(object$y, object$x, newx = if (is.null(newdata)) object$x else if (is.data.frame(newdata))
+as.matrix(model.frame(delete.response(terms(object)), : span too small. fewer data values than degrees of freedom.
 ```
 
 ```
@@ -186,11 +186,11 @@ For the sake of documentation and reproducibility, the current report was render
 
 
 ```
-Report rendered by Will at 2015-11-30, 09:51 -0600
+Report rendered by Will at 2015-11-30, 17:19 -0600
 ```
 
 ```
-R version 3.2.2 Patched (2015-10-11 r69514)
+R version 3.2.2 Patched (2015-11-27 r69714)
 Platform: x86_64-w64-mingw32/x64 (64-bit)
 Running under: Windows >= 8 x64 (build 9200)
 
@@ -205,7 +205,7 @@ other attached packages:
 [1] ggplot2_1.0.1 knitr_1.11   
 
 loaded via a namespace (and not attached):
- [1] Rcpp_0.12.2        digest_0.6.8       MASS_7.3-44        grid_3.2.2         plyr_1.8.3         gtable_0.1.2      
+ [1] Rcpp_0.12.2        digest_0.6.8       MASS_7.3-45        grid_3.2.2         plyr_1.8.3         gtable_0.1.2      
  [7] formatR_1.2.1      magrittr_1.5       scales_0.3.0       evaluate_0.8       stringi_1.0-1      reshape2_1.4.1    
 [13] rmarkdown_0.8.1    labeling_0.3       proto_0.3-10       RColorBrewer_1.1-2 tools_3.2.2        stringr_1.0.0     
 [19] munsell_0.4.2      yaml_2.1.13        colorspace_1.2-6   htmltools_0.2.6   

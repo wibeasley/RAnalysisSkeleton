@@ -19,7 +19,7 @@ requireNamespace("plyr", quietly=TRUE)
 # @knitr declare_globals ---------------------------------------------------------
 options(show.signif.stars=F) #Turn off the annotations on p-values
 
-path_input <- "./data_phi_free/derived/motor_trend_car_test.rds"
+path_input <- "./data-phi-free/derived/motor-trend-car-test.rds"
 
 histogram_discrete <- function(
   d_observed,
@@ -31,6 +31,7 @@ histogram_discrete <- function(
   text_size_percentage= 6,
   bin_width           = 1L) {
 
+  d_observed <- as.data.frame(d_observed) #Hack so dplyr datasets don't mess up things
   if( !base::is.factor(d_observed[, variable_name]) )
     d_observed[, variable_name] <- base::factor(d_observed[, variable_name])
 
@@ -72,6 +73,7 @@ histogram_continuous <- function(
   rounded_digits = 0L
   ) {
 
+  d_observed <- as.data.frame(d_observed) #Hack so dplyr datasets don't mess up things
   d_observed <- d_observed[!base::is.na(d_observed[, variable_name]), ]
 
   ds_mid_points <- base::data.frame(label=c("italic(X)[50]", "bar(italic(X))"), stringsAsFactors=FALSE)

@@ -58,11 +58,18 @@ read_chunk("./analysis/report_1/report_1.R") #This allows knitr to call chunks t
 ```{r tweak_data, echo=echoChunks, results='show', message=FALSE}
 ```
 
-## Notes
+# Summary
 
-**Note 1**: The current report covers `r nrow(ds)` cars, with `r nlevels(ds$CarburetorCountF)` possible values for `CarburetorCount`.
+### Notes 
+1. The current report covers `r nrow(ds)` cars, with `r nlevels(ds$CarburetorCountF)` possible values for `CarburetorCount`.
+1. The Seattle track's phluguerstometer was producing flaky negative values; it's measurements have been dropped.
 
-**Note 2**: The Seattle track's phluguerstometer was producing flaky negative values; it's measurements have been dropped.
+### Unanswered Questions
+1. What does `VS` stand for?  How was it measured?
+1. Where the cars at the Philly track measured with the same phluguerstometer and the Cleveland track?
+ 
+### Answered Questions
+1. The Seattle track's phluguerstometer was producing flaky negative values; it's measurements have been dropped.
 
 # Marginals
 ```{r marginals, echo=echoChunks, message=TRUE}
@@ -75,15 +82,6 @@ read_chunk("./analysis/report_1/report_1.R") #This allows knitr to call chunks t
 # Models
 ```{r models, echo=echoChunks, message=TRUE}
 ```
-
-# Questions
-## Unanswered Questions
- 1. What does `VS` stand for?  How was it measured?
- 1. Where the cars at the Philly track measured with the same phluguerstometer and the Cleveland track?
- 
-## Answered Questions
- 1. The Seattle track's phluguerstometer was producing flaky negative values; it's measurements have been dropped.
-
 # Session Information
 For the sake of documentation and reproducibility, the current report was rendered on a system using the following software.
 

@@ -26,11 +26,18 @@ This report covers the analyses used in the ZZZ project (Marcus Mark, PI).
 <!-- Tweak the datasets.   -->
 
 
-## Notes
+# Summary
 
-**Note 1**: The current report covers 32 cars, with 6 possible values for `CarburetorCount`.
+### Notes 
+1. The current report covers 32 cars, with 6 possible values for `CarburetorCount`.
+1. The Seattle track's phluguerstometer was producing flaky negative values; it's measurements have been dropped.
 
-**Note 2**: The Seattle track's phluguerstometer was producing flaky negative values; it's measurements have been dropped.
+### Unanswered Questions
+1. What does `VS` stand for?  How was it measured?
+1. Where the cars at the Philly track measured with the same phluguerstometer and the Cleveland track?
+ 
+### Answered Questions
+1. The Seattle track's phluguerstometer was producing flaky negative values; it's measurements have been dropped.
 
 # Marginals
 
@@ -173,25 +180,16 @@ Model 2: QuarterMileInSeconds ~ 1 + MilesPerGallon + ForwardGearCountF
 1     30 81.636                              
 2     28 47.996  2     33.64 9.8124 0.0005896
 ```
-
-# Questions
-## Unanswered Questions
- 1. What does `VS` stand for?  How was it measured?
- 1. Where the cars at the Philly track measured with the same phluguerstometer and the Cleveland track?
- 
-## Answered Questions
- 1. The Seattle track's phluguerstometer was producing flaky negative values; it's measurements have been dropped.
-
 # Session Information
 For the sake of documentation and reproducibility, the current report was rendered on a system using the following software.
 
 
 ```
-Report rendered by Will at 2015-10-09, 13:37 -0500
+Report rendered by Will at 2015-11-30, 09:12 -0600
 ```
 
 ```
-R version 3.2.2 Patched (2015-09-18 r69405)
+R version 3.2.2 Patched (2015-10-11 r69514)
 Platform: x86_64-w64-mingw32/x64 (64-bit)
 Running under: Windows >= 8 x64 (build 9200)
 
@@ -206,8 +204,8 @@ other attached packages:
 [1] ggplot2_1.0.1 knitr_1.11   
 
 loaded via a namespace (and not attached):
- [1] Rcpp_0.12.1        digest_0.6.8       MASS_7.3-44        grid_3.2.2         plyr_1.8.3         gtable_0.1.2      
- [7] formatR_1.2.1      magrittr_1.5       scales_0.3.0       evaluate_0.8       stringi_0.5-5      reshape2_1.4.1    
-[13] rmarkdown_0.8      labeling_0.3       proto_0.3-10       RColorBrewer_1.1-2 tools_3.2.2        stringr_1.0.0     
+ [1] Rcpp_0.12.2        digest_0.6.8       MASS_7.3-44        grid_3.2.2         plyr_1.8.3         gtable_0.1.2      
+ [7] formatR_1.2.1      magrittr_1.5       scales_0.3.0       evaluate_0.8       stringi_1.0-1      reshape2_1.4.1    
+[13] rmarkdown_0.8.1    labeling_0.3       proto_0.3-10       RColorBrewer_1.1-2 tools_3.2.2        stringr_1.0.0     
 [19] munsell_0.4.2      yaml_2.1.13        colorspace_1.2-6   htmltools_0.2.6   
 ```

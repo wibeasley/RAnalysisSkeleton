@@ -24,11 +24,11 @@ path_input <- "./data_phi_free/derived/motor_trend_car_test.rds"
 histogram_discrete <- function(
   d_observed,
   variable_name,
-  levels_to_exclude    = character(0),
+  levels_to_exclude   = character(0),
   main_title          = variable_name,
   x_title             = NULL,
   y_title             = "Number of Included Records",
-  text_size_percentage = 6,
+  text_size_percentage= 6,
   bin_width           = 1L) {
 
   if( !base::is.factor(d_observed[, variable_name]) )
@@ -37,7 +37,7 @@ histogram_discrete <- function(
   d_observed$IV <- base::ordered(d_observed[, variable_name], levels=rev(levels(d_observed[, variable_name])))
 
   dsCount <- plyr::count(d_observed, vars=c("IV"))
-#   if( base::length(levels_to_exclude)>0 ) {
+  # if( base::length(levels_to_exclude)>0 ) { }
   dsCount <- dsCount[!(dsCount$IV %in% levels_to_exclude), ]
 
   dsSummary <- plyr::ddply(dsCount, .variables=NULL, transform, Count=freq, Proportion = freq/sum(freq) )
@@ -52,7 +52,7 @@ histogram_discrete <- function(
   g <- g + ggplot2::labs(title=main_title, x=x_title, y=y_title)
   g <- g + ggplot2::coord_flip()
 
-  g <- g + ggplot2::theme_bw(base_size=14)
+  g <- g + ggplot2::theme_light(base_size=14)
   g <- g + ggplot2::theme(legend.position = "none")
   g <- g + ggplot2::theme(axis.text.x=ggplot2::element_text(colour="gray40"))
   g <- g + ggplot2::theme(axis.title.x=ggplot2::element_text(colour="gray40"))
@@ -85,7 +85,7 @@ histogram_continuous <- function(
   g <- g + ggplot2::scale_x_continuous(labels=scales::comma_format())
   g <- g + ggplot2::scale_y_continuous(labels=scales::comma_format())
   g <- g + ggplot2::labs(title=main_title, x=x_title, y=y_title)
-  g <- g + ggplot2::theme_bw()
+  g <- g + ggplot2::theme_light()
 
   ds_mid_points$top <- stats::quantile(ggplot2::ggplot_build(g)$panel$ranges[[1]]$y.range, .8)
   g <- g + ggplot2::geom_text(data=ds_mid_points, ggplot2::aes_string(x="value", y="top", label="label"), color="tomato", hjust=c(1, 0), parse=TRUE)

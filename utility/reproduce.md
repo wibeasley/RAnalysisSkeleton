@@ -3,307 +3,113 @@
 
 
 This report was automatically generated with the R package **knitr**
-(version 1.10).
+(version 1.11).
 
 
 ```r
 # knitr::stitch_rmd(script="./utility/reproduce.R", output="./utility/reproduce.md")
 
-###################################
-#'  ---Reproducible Research---
-###################################
+# Reproducible Research ---------------------------------------------------
 #' When executed by R, this file will manipulate the original data sources (ie, ZZZZ)
 #' to produce a groomed dataset suitable for analysis and graphing.
 
-###################################
-#' Clear memory from previous runs
+# Clear memory from previous runs -----------------------------------------
 base::rm(list=base::ls(all=TRUE))
 
-###################################
+# Check Working Directory -------------------------------------------------
 #' Verify the working directory has been set correctly.  Much of the code assumes the working directory is the repository's root directory.
 #' In the following line, rename `RAnalysisSkeleton` to your repository.
 if( base::basename(base::getwd()) != "RAnalysisSkeleton" ) {
   base::stop("The working directory should be set to the root of the package/repository.  ",
        "It's currently set to `", base::getwd(), "`.")
 }
-###################################
-#' Install the necessary packages.
-pathInstallPackages <- "./utility/install_packages.R"
-if( !file.exists(pathInstallPackages)) {
-  base::stop("The file `", pathInstallPackages, "` was not found.  Make sure the working directory is set to the root of the repository.")
+
+# Install the necessary packages ------------------------------------------
+path_install_packages <- "./utility/install_packages.R"
+if( !file.exists(path_install_packages)) {
+  base::stop("The file `", path_install_packages, "` was not found.  Make sure the working directory is set to the root of the repository.")
 }
-base::source(pathInstallPackages, local=new.env())
+base::source(path_install_packages, local=new.env())
 ```
 
 ```
-## Warning: package 'boot' in library '/usr/lib/R/library' will not be updated
-```
-
-```
-## Warning: package 'class' in library '/usr/lib/R/library' will not be
-## updated
-```
-
-```
-## Warning: package 'cluster' in library '/usr/lib/R/library' will not be
-## updated
-```
-
-```
-## Warning: package 'codetools' in library '/usr/lib/R/library' will not be
-## updated
-```
-
-```
-## Warning: package 'foreign' in library '/usr/lib/R/library' will not be
-## updated
-```
-
-```
-## Warning: package 'KernSmooth' in library '/usr/lib/R/library' will not be
-## updated
-```
-
-```
-## Warning: package 'lattice' in library '/usr/lib/R/library' will not be
-## updated
-```
-
-```
-## Warning: package 'MASS' in library '/usr/lib/R/library' will not be updated
-```
-
-```
-## Warning: package 'Matrix' in library '/usr/lib/R/library' will not be
-## updated
-```
-
-```
-## Warning: package 'mgcv' in library '/usr/lib/R/library' will not be updated
-```
-
-```
-## Warning: package 'nlme' in library '/usr/lib/R/library' will not be updated
-```
-
-```
-## Warning: package 'nnet' in library '/usr/lib/R/library' will not be updated
-```
-
-```
-## Warning: package 'rpart' in library '/usr/lib/R/library' will not be
-## updated
-```
-
-```
-## Warning: package 'spatial' in library '/usr/lib/R/library' will not be
-## updated
-```
-
-```
-## Warning: package 'survival' in library '/usr/lib/R/library' will not be
-## updated
-```
-
-```
-## Loading required package: classInt
-## Loading required package: colorspace
-## Loading required package: devtools
-## Loading required package: digest
-## Loading required package: dplyr
-```
-
-```
-## Warning in library(package, lib.loc = lib.loc, character.only = TRUE,
-## logical.return = TRUE, : there is no package called 'dplyr'
-```
-
-```
-## Installing package into '/home/wibeasley/R/x86_64-pc-linux-gnu-library/3.2'
-## (as 'lib' is unspecified)
-## also installing the dependencies 'chron', 'assertthat', 'lazyeval', 'DBI', 'BH', 'RSQLite', 'RMySQL', 'RPostgreSQL', 'data.table', 'microbenchmark', 'Lahman', 'nycflights13'
-```
-
-```
-## Warning in utils::install.packages(package_name, dependencies = TRUE):
-## installation of package 'RMySQL' had non-zero exit status
-```
-
-```
+## Downloading GitHub repo OuhscBbmc/OuhscMunge@master
+## Installing OuhscMunge
+## "C:/PROGRA~1/R/R-32~1.2PA/bin/x64/R" --no-site-file --no-environ  \
+##   --no-save --no-restore CMD INSTALL  \
+##   "C:/Users/Will/AppData/Local/Temp/RtmpC0BA90/devtools2be013fc77fc/OuhscBbmc-OuhscMunge-99b5960"  \
+##   --library="D:/Users/Will/Documents/R/win-library/3.2" --install-tests 
 ## 
-## The downloaded source packages are in
-## 	'/tmp/Rtmps9W5HP/downloaded_packages'
+## package_janitor is loading the list of package depencies.
+## package_janitor is updating the existing packages from CRAN.
 ```
 
 ```
-## Loading required package: dplyr
-## 
-## Attaching package: 'dplyr'
-## 
-## The following object is masked from 'package:stats':
-## 
-##     filter
-## 
-## The following objects are masked from 'package:base':
-## 
-##     intersect, setdiff, setequal, union
-## 
-## Loading required package: evaluate
-## Loading required package: foreign
-## Loading required package: ggthemes
-## Loading required package: googleVis
-## 
-## Welcome to googleVis version 0.5.8
-## 
-## Please read the Google API Terms of Use
-## before you start using the package:
-## https://developers.google.com/terms/
-## 
-## Note, the plot method of googleVis will by default use
-## the standard browser to display its output.
-## 
-## See the googleVis package vignettes for more details,
-## or visit http://github.com/mages/googleVis.
-## 
-## To suppress this message use:
-## suppressPackageStartupMessages(library(googleVis))
-## 
-## Loading required package: ggmap
-## Google Maps API Terms of Service: http://developers.google.com/maps/terms.
-## Please cite ggmap if you use it: see citation('ggmap') for details.
-## Loading required package: grid
-## Loading required package: gridExtra
-## Loading required package: knitr
-## Loading required package: lme4
-## Loading required package: Matrix
-## Loading required package: Rcpp
-## Loading required package: lubridate
-## Loading required package: modeest
-## 
-## This is package 'modeest' written by P. PONCET.
-## For a complete list of functions, use 'library(help = "modeest")' or 'help.start()'.
-## 
-## Loading required package: plyr
-## -------------------------------------------------------------------------
-## You have loaded plyr after dplyr - this is likely to cause problems.
-## If you need functions from both plyr and dplyr, please load plyr first, then dplyr:
-## library(plyr); library(dplyr)
-## -------------------------------------------------------------------------
-## 
-## Attaching package: 'plyr'
-## 
-## The following object is masked from 'package:lubridate':
-## 
-##     here
-## 
-## The following objects are masked from 'package:dplyr':
-## 
-##     arrange, count, desc, failwith, id, mutate, rename, summarise,
-##     summarize
-## 
-## Loading required package: random
-## Loading required package: RColorBrewer
-## Loading required package: RCurl
-## Loading required package: bitops
-## Loading required package: readr
+## Warning: package 'MASS' in library 'C:/Program Files/R/R-3.2.2patched/
+## library' will not be updated
 ```
 
 ```
-## Warning in library(package, lib.loc = lib.loc, character.only = TRUE,
-## logical.return = TRUE, : there is no package called 'readr'
+## Warning: package 'Matrix' in library 'C:/Program Files/R/R-3.2.2patched/
+## library' will not be updated
 ```
 
 ```
-## Installing package into '/home/wibeasley/R/x86_64-pc-linux-gnu-library/3.2'
-## (as 'lib' is unspecified)
-## also installing the dependencies 'htmlwidgets', 'DiagrammeR'
+## Warning: package 'mgcv' in library 'C:/Program Files/R/R-3.2.2patched/
+## library' will not be updated
 ```
 
 ```
-## 
-## The downloaded source packages are in
-## 	'/tmp/Rtmps9W5HP/downloaded_packages'
+## package_janitor is installing the the `devtools` and `httr` packages from CRAN if necessary.
+## package_janitor is installing the CRAN packages:
+## `classInt` exists, and verifying it's dependencies are installed too.
+## `colorspace` exists, and verifying it's dependencies are installed too.
+## The `devtools` package does not need to be in the list of package dependencies.  It's updated automatically.
+## `digest` exists, and verifying it's dependencies are installed too.
+## `dplyr` exists, and verifying it's dependencies are installed too.
+## Skipping 2 packages ahead of CRAN: DBI, RSQLite
+## `evaluate` exists, and verifying it's dependencies are installed too.
+## `ggplot2` exists, and verifying it's dependencies are installed too.
+## `ggthemes` exists, and verifying it's dependencies are installed too.
+## `googleVis` exists, and verifying it's dependencies are installed too.
+## `ggmap` exists, and verifying it's dependencies are installed too.
+## Skipping 1 packages ahead of CRAN: DBI
+## `grid` exists, and verifying it's dependencies are installed too.
+## `gridExtra` exists, and verifying it's dependencies are installed too.
+## `knitr` exists, and verifying it's dependencies are installed too.
+## `lubridate` exists, and verifying it's dependencies are installed too.
+## `modeest` exists, and verifying it's dependencies are installed too.
+## `plyr` exists, and verifying it's dependencies are installed too.
+## `random` exists, and verifying it's dependencies are installed too.
+## `RColorBrewer` exists, and verifying it's dependencies are installed too.
+## `readr` exists, and verifying it's dependencies are installed too.
+## `reshape2` exists, and verifying it's dependencies are installed too.
+## `rmarkdown` exists, and verifying it's dependencies are installed too.
+## `stringi` exists, and verifying it's dependencies are installed too.
+## `stringr` exists, and verifying it's dependencies are installed too.
+## `testit` exists, and verifying it's dependencies are installed too.
+## `testthat` exists, and verifying it's dependencies are installed too.
+## `tidyr` exists, and verifying it's dependencies are installed too.
+## Skipping 1 packages ahead of CRAN: DBI
 ```
 
 ```
-## Loading required package: readr
-## Loading required package: reshape2
-## Loading required package: rmarkdown
-## Loading required package: RODBC
-```
-
-```
-## Warning in library(package, lib.loc = lib.loc, character.only = TRUE,
-## logical.return = TRUE, : there is no package called 'RODBC'
-```
-
-```
-## Installing package into '/home/wibeasley/R/x86_64-pc-linux-gnu-library/3.2'
-## (as 'lib' is unspecified)
-```
-
-```
-## Warning in utils::install.packages(package_name, dependencies = TRUE):
-## installation of package 'RODBC' had non-zero exit status
-```
-
-```
-## 
-## The downloaded source packages are in
-## 	'/tmp/Rtmps9W5HP/downloaded_packages'
-```
-
-```
-## Loading required package: RODBC
-```
-
-```
-## Warning in library(package, lib.loc = lib.loc, character.only = TRUE,
-## logical.return = TRUE, : there is no package called 'RODBC'
-```
-
-```
-## Loading required package: roxygen2
-## Loading required package: stringr
-## Loading required package: testit
-## Loading required package: testthat
-## Loading required package: xtable
-## Loading required package: yaml
-## Loading required package: zipcode
-```
-
-```
-## Warning: This Linux machine is possibly missing the 'libcurl' library.
-## Consider running `sudo apt-get install libcurl4-openssl-dev`.
-```
-
-```
-## '/usr/lib/R/bin/R' --vanilla CMD SHLIB foo.c 
-## 
-## Downloading devtools from https://github.com/hadley/devtools/archive/master.zip
-## '/usr/lib/R/bin/R' --vanilla CMD INSTALL  \
-##   '/tmp/Rtmps9W5HP/devtools-master' --build
-```
-
-```
-## Error: Command failed (1)
+## Error in install_packages(behind, repos = attr(object, "repos"), type = attr(object, : formal argument "repos" matched by multiple actual arguments
 ```
 
 ```r
-base::rm(pathInstallPackages)
-###################################
-#' Load the necessary packages.
-base::library(base)
-base::library(knitr)
-base::library(markdown)
-base::library(testit)
+base::rm(path_install_packages)
+
+# Load the necessary packages ---------------------------------------------
+base::requireNamespace("base", quietly=T)
+base::requireNamespace("knitr", quietly=T)
+base::requireNamespace("markdown", quietly=T)
+base::requireNamespace("testit", quietly=T)
 
 ######################################################################################################
 #' The following example comes from https://github.com/wibeasley/Wats.  Rename the paths appropriately.
-#'
-#'
-###################################
-#' Declare the paths of the necessary files.
+
+# Declare the paths of the necessary files --------------------------------
 
 #' The raw/input data files:
 # pathCensus199x <- base::paste0("./Datasets/CensusIntercensal/STCH-icen199", 0:9, ".txt")
@@ -323,8 +129,7 @@ base::library(testit)
 #' Report Files:
 # pathsReports <- base::file.path("./vignettes", c("MbrFigures.Rmd", "OkFertilityWithIntercensalEstimates.Rmd"))
 
-###################################
-#' Verify the necessary path can be found.
+# Verify the necessary path can be found ----------------------------------
 
 #' The raw/input data files:
 # testit::assert("The 10 census files from 199x should exist.", base::file.exists(pathCensus199x))
@@ -335,11 +140,10 @@ base::library(testit)
 # testit::assert("The file that restructures the census data should exist.", base::file.exists(pathManipulateCensus))
 # testit::assert("The file that calculates the GFR should exist.", base::file.exists(pathCalculateGfr))
 
-#' Report Files:
+# Report Files:
 # testit::assert("The knitr Rmd files should exist.", base::file.exists(pathsReports))
 
-####################################
-#' Run the files that manipulate and analyze.
+# Run the files that manipulate and analyze -------------------------------
 
 #' Execute code that restructures the Census data
 # base::source(pathManipulateCensus, local=base::new.env())
@@ -355,8 +159,7 @@ base::library(testit)
 # testit::assert("The CSV for the 2005 Version should exist.", base::file.exists(pathDataForAnalaysis2005))
 # testit::assert("The CSV for the 2014 Version should exist.", base::file.exists(pathDataForAnalaysis2014))
 
-####################################
-#' Build the reports
+# Build the reports -------------------------------------------------------
 # for( pathRmd in pathsReports ) {
 #   pathMd <- base::gsub(pattern=".Rmd$", replacement=".md", x=pathRmd)
 #   pathHtml <- base::gsub(pattern=".Rmd$", replacement=".html", x=pathRmd)
@@ -374,48 +177,44 @@ sessionInfo()
 ```
 
 ```
-## R version 3.2.0 (2015-04-16)
-## Platform: x86_64-pc-linux-gnu (64-bit)
-## Running under: Ubuntu 14.04.2 LTS
+## R version 3.2.2 Patched (2015-10-11 r69514)
+## Platform: x86_64-w64-mingw32/x64 (64-bit)
+## Running under: Windows >= 8 x64 (build 9200)
 ## 
 ## locale:
-##  [1] LC_CTYPE=en_US.UTF-8       LC_NUMERIC=C              
-##  [3] LC_TIME=en_US.UTF-8        LC_COLLATE=en_US.UTF-8    
-##  [5] LC_MONETARY=en_US.UTF-8    LC_MESSAGES=en_US.UTF-8   
-##  [7] LC_PAPER=en_US.UTF-8       LC_NAME=C                 
-##  [9] LC_ADDRESS=C               LC_TELEPHONE=C            
-## [11] LC_MEASUREMENT=en_US.UTF-8 LC_IDENTIFICATION=C       
+## [1] LC_COLLATE=English_United States.1252 
+## [2] LC_CTYPE=English_United States.1252   
+## [3] LC_MONETARY=English_United States.1252
+## [4] LC_NUMERIC=C                          
+## [5] LC_TIME=English_United States.1252    
 ## 
 ## attached base packages:
-## [1] grid      stats     graphics  grDevices utils     datasets  methods  
-## [8] base     
+## [1] stats     graphics  grDevices utils     datasets  methods   base     
 ## 
 ## other attached packages:
-##  [1] markdown_0.7.7     zipcode_1.0        yaml_2.1.13       
-##  [4] xtable_1.7-4       testthat_0.9.1     testit_0.4        
-##  [7] stringr_1.0.0      roxygen2_4.1.1     rmarkdown_0.5.3.1 
-## [10] reshape2_1.4.1     readr_0.1.0        RCurl_1.95-4.6    
-## [13] bitops_1.0-6       RColorBrewer_1.1-2 random_0.2.3      
-## [16] plyr_1.8.2         modeest_2.1        lubridate_1.3.3   
-## [19] lme4_1.1-7         Rcpp_0.11.6        Matrix_1.2-0      
-## [22] knitr_1.10         gridExtra_0.9.1    ggmap_2.4         
-## [25] googleVis_0.5.8    ggthemes_2.1.2     foreign_0.8-63    
-## [28] evaluate_0.7       dplyr_0.4.1        digest_0.6.8      
-## [31] devtools_1.7.0     colorspace_1.2-6   classInt_0.1-22   
-## [34] ggplot2_1.0.1     
+## [1] magrittr_1.5  ggplot2_1.0.1
 ## 
 ## loaded via a namespace (and not attached):
-##  [1] splines_3.2.0       lattice_0.20-31     htmltools_0.2.6    
-##  [4] e1071_1.6-4         nloptr_1.0.4        DBI_0.3.1          
-##  [7] sp_1.1-0            jpeg_0.1-8          munsell_0.4.2      
-## [10] gtable_0.1.2        RgoogleMaps_1.2.0.7 mapproj_1.2-2      
-## [13] memoise_0.2.1       labeling_0.3        parallel_3.2.0     
-## [16] curl_0.5            class_7.3-12        proto_0.3-10       
-## [19] geosphere_1.3-13    scales_0.2.4        formatR_1.2        
-## [22] rjson_0.2.15        png_0.1-7           stringi_0.4-1      
-## [25] RJSONIO_1.3-0       tools_3.2.0         magrittr_1.5       
-## [28] maps_2.3-9          MASS_7.3-40         httr_0.6.1         
-## [31] assertthat_0.1      minqa_1.2.4         nlme_3.1-120
+##  [1] reshape2_1.4.1      ggthemes_2.2.1      lattice_0.20-33    
+##  [4] testthat_0.11.0     colorspace_1.2-6    htmltools_0.2.6    
+##  [7] yaml_2.1.13         e1071_1.6-7         DBI_0.3.1.9008     
+## [10] sp_1.2-1            RColorBrewer_1.1-2  jpeg_0.1-8         
+## [13] plyr_1.8.3          stringr_1.0.0       munsell_0.4.2      
+## [16] gtable_0.1.2        devtools_1.9.1      RgoogleMaps_1.2.0.7
+## [19] mapproj_1.2-4       memoise_0.2.1       evaluate_0.8       
+## [22] labeling_0.3        knitr_1.11          modeest_2.1        
+## [25] OuhscMunge_0.1.5    parallel_3.2.2      curl_0.9.4         
+## [28] class_7.3-14        markdown_0.7.7      proto_0.3-10       
+## [31] Rcpp_0.12.2         geosphere_1.4-3     readr_0.2.2        
+## [34] scales_0.3.0        classInt_0.1-23     formatR_1.2.1      
+## [37] googleVis_0.5.10    gridExtra_2.0.0     testit_0.4         
+## [40] rjson_0.2.15        png_0.1-7           digest_0.6.8       
+## [43] stringi_1.0-1       dplyr_0.4.3         RJSONIO_1.3-0      
+## [46] grid_3.2.2          tools_3.2.2         maps_3.0.0-2       
+## [49] lazyeval_0.1.10     tidyr_0.3.1         crayon_1.3.1       
+## [52] MASS_7.3-44         rsconnect_0.3.79    random_0.2.5       
+## [55] lubridate_1.3.3     assertthat_0.1      rmarkdown_0.8.1    
+## [58] httr_1.0.0          R6_2.1.1            ggmap_2.5.2
 ```
 
 ```r
@@ -423,6 +222,6 @@ Sys.time()
 ```
 
 ```
-## [1] "2015-05-02 12:06:41 CDT"
+## [1] "2015-11-30 09:56:00 CST"
 ```
 

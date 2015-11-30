@@ -13,15 +13,15 @@ requireNamespace("dplyr", quietly=TRUE)
 requireNamespace("testit", quietly=TRUE)
 
 # @knitr declare_globals ---------------------------------------------------------
-pathInput <- "./data_phi_free/raw/mtcars_dataset.csv"
-pathOutput <- "./data_phi_free/derived/motor_trend_car_test.rds"
+path_input  <- "./data_phi_free/raw/mtcars_dataset.csv"
+path_output <- "./data_phi_free/derived/motor_trend_car_test.rds"
 
-prematureThresholdInWeeks <- 37 #Any infant under 37 weeks is considered premature for the current project.  Exactly 37.0 weeks are retained.
-weeksPerYear <- 365.25/7
-daysPerWeek <- 7
+premature_threshold_in_weeks <- 37 #Any infant under 37 weeks is considered premature for the current project.  Exactly 37.0 weeks are retained.
+weeks_per_year <- 365.25/7
+days_per_week <- 7
 
 # @knitr load_data ---------------------------------------------------------------
-ds <- read.csv(pathInput, stringsAsFactors=FALSE)
+ds <- read.csv(path_input, stringsAsFactors=FALSE)
 # @knitr tweak_data --------------------------------------------------------------
 colnames(ds)
 
@@ -94,4 +94,4 @@ testit::assert("`WeightGearZ` should be a positive or missing value.", all(is.na
 
 # @knitr save_to_disk ------------------------------------------------------------
 # Save as a compress, binary R dataset.  It's no longer readable with a text editor, but it saves metadata (eg, factor information).
-saveRDS(ds, file=pathOutput, compress="xz")
+saveRDS(ds, file=path_output, compress="xz")

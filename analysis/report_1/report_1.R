@@ -45,22 +45,22 @@ histogram_discrete <- function(
 
   y_title <- base::paste0(y_title, " (n=", scales::comma(base::sum(dsSummary$freq)), ")")
 
-  g <- ggplot2::ggplot(dsSummary, ggplot2::aes_string(x="IV", y="Count", fill="IV", label="Percentage"))
-  g <- g + ggplot2::geom_bar(stat="identity")
-  g <- g + ggplot2::geom_text(stat="identity", size=text_size_percentage, hjust=.8)
-  g <- g + ggplot2::scale_y_continuous(labels=scales::comma_format())
-  g <- g + ggplot2::labs(title=main_title, x=x_title, y=y_title)
-  g <- g + ggplot2::coord_flip()
+  g <- ggplot(dsSummary, aes_string(x="IV", y="Count", fill="IV", label="Percentage")) +
+    geom_bar(stat="identity") +
+    geom_text(stat="identity", size=text_size_percentage, hjust=.8) +
+    scale_y_continuous(labels=scales::comma_format()) +
+    labs(title=main_title, x=x_title, y=y_title) +
+    coord_flip()
 
-  g <- g + ggplot2::theme_light(base_size=14)
-  g <- g + ggplot2::theme(legend.position = "none")
-  g <- g + ggplot2::theme(axis.text.x=ggplot2::element_text(colour="gray40"))
-  g <- g + ggplot2::theme(axis.title.x=ggplot2::element_text(colour="gray40"))
-  g <- g + ggplot2::theme(axis.text.y=ggplot2::element_text(size=14))
-  g <- g + ggplot2::theme(panel.border = ggplot2::element_rect(colour="gray80"))
-  g <- g + ggplot2::theme(axis.ticks.length = grid::unit(0, "cm"))
+  theme  <- theme_light(base_size=14) +
+    theme(legend.position = "none") +
+    theme(axis.text.x=element_text(colour="gray40")) +
+    theme(axis.title.x=element_text(colour="gray40")) +
+    theme(axis.text.y=element_text(size=14)) +
+    theme(panel.border = element_rect(colour="gray80")) +
+    theme(axis.ticks.length = grid::unit(0, "cm"))
 
-  return( g )
+  return( g + theme )
 }
 histogram_continuous <- function(
   d_observed,
@@ -78,14 +78,15 @@ histogram_continuous <- function(
   ds_mid_points$value <- c(stats::median(d_observed[, variable_name]), base::mean(d_observed[, variable_name]))
   ds_mid_points$value_rounded <- base::round(ds_mid_points$value, rounded_digits)
 
-  g <- ggplot2::ggplot(d_observed, ggplot2::aes_string(x=variable_name))
-  g <- g + ggplot2::geom_bar(stat="bin", bin_width=bin_width, fill="gray70", color="gray90", position=ggplot2::position_identity())
-  g <- g + ggplot2::geom_vline(xintercept=ds_mid_points$value, color="gray30")
-  g <- g + ggplot2::geom_text(data=ds_mid_points, ggplot2::aes_string(x="value", y=0, label="value_rounded"), color="tomato", hjust=c(1, 0), vjust=.5)
-  g <- g + ggplot2::scale_x_continuous(labels=scales::comma_format())
-  g <- g + ggplot2::scale_y_continuous(labels=scales::comma_format())
-  g <- g + ggplot2::labs(title=main_title, x=x_title, y=y_title)
-  g <- g + ggplot2::theme_light()
+  g <- ggplot(d_observed, aes_string(x=variable_name)) +
+    geom_bar(stat="bin", bin_width=bin_width, fill="gray70", color="gray90", position=position_identity()) +
+    geom_vline(xintercept=ds_mid_points$value, color="gray30") +
+    geom_text(data=ds_mid_points, aes_string(x="value", y=0, label="value_rounded"), color="tomato", hjust=c(1, 0), vjust=.5) +
+    scale_x_continuous(labels=scales::comma_format()) +
+    scale_y_continuous(labels=scales::comma_format()) +
+    labs(title=main_title, x=x_title, y=y_title) +
+    theme_light() +
+    theme(axis.ticks.length = grid::unit(0, "cm"))
 
   ds_mid_points$top <- stats::quantile(ggplot2::ggplot_build(g)$panel$ranges[[1]]$y.range, .8)
   g <- g + ggplot2::geom_text(data=ds_mid_points, ggplot2::aes_string(x="value", y="top", label="label"), color="tomato", hjust=c(1, 0), parse=TRUE)
@@ -130,7 +131,8 @@ histogram_discrete(d_observed=ds, variable_name="ForwardGearCountF")
 g1 <- ggplot(ds, aes(x=GrossHorsepower, y=QuarterMileInSeconds, color=ForwardGearCountF)) +
   geom_smooth(method="loess", span=2) +
   geom_point(shape=1) +
-  theme_bw()
+  theme_light() +
+  theme(axis.ticks.length = grid::unit(0, "cm"))
 g1
 
 g1 %+% aes(color=CarburetorCountF)

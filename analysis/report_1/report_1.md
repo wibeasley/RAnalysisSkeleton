@@ -46,17 +46,17 @@ stat_bin: binwidth defaulted to range/30. Use 'binwidth = x' to adjust this.
 stat_bin: binwidth defaulted to range/30. Use 'binwidth = x' to adjust this.
 ```
 
-![](figure_raw/marginals-1.png) 
+![](figure-png/marginals-1.png) 
 
 ```
 stat_bin: binwidth defaulted to range/30. Use 'binwidth = x' to adjust this.
 stat_bin: binwidth defaulted to range/30. Use 'binwidth = x' to adjust this.
 ```
 
-![](figure_raw/marginals-2.png) ![](figure_raw/marginals-3.png) ![](figure_raw/marginals-4.png) 
+![](figure-png/marginals-2.png) ![](figure-png/marginals-3.png) ![](figure-png/marginals-4.png) 
 
 # Scatterplots
-![](figure_raw/scatterplots-1.png) ![](figure_raw/scatterplots-2.png) ![](figure_raw/scatterplots-3.png) ![](figure_raw/scatterplots-4.png) ![](figure_raw/scatterplots-5.png) 
+![](figure-png/scatterplots-1.png) ![](figure-png/scatterplots-2.png) ![](figure-png/scatterplots-3.png) ![](figure-png/scatterplots-4.png) ![](figure-png/scatterplots-5.png) 
 
 ```
 Warning in simpleLoess(y, x, w, span, degree, parametric, drop.square, normalize, : span too small. fewer data values
@@ -80,7 +80,7 @@ than degrees of freedom.
 Warning in qt(level/2 + 0.5, pred$df): NaNs produced
 ```
 
-![](figure_raw/scatterplots-6.png) ![](figure_raw/scatterplots-7.png) 
+![](figure-png/scatterplots-6.png) ![](figure-png/scatterplots-7.png) 
 
 # Models
 
@@ -180,12 +180,13 @@ Model 2: QuarterMileInSeconds ~ 1 + MilesPerGallon + ForwardGearCountF
 1     30 81.636                              
 2     28 47.996  2     33.64 9.8124 0.0005896
 ```
+
 # Session Information
 For the sake of documentation and reproducibility, the current report was rendered on a system using the following software.
 
 
 ```
-Report rendered by Will at 2015-11-30, 09:12 -0600
+Report rendered by Will at 2015-11-30, 09:51 -0600
 ```
 
 ```

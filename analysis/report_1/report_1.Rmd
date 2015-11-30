@@ -3,6 +3,7 @@ title: Skeleton Report 1
 output:
   html_document:
     keep_md: yes
+    toc: yes
 ---
 
 This report covers the analyses used in the ZZZ project (Marcus Mark, PI).
@@ -23,7 +24,7 @@ opts_chunk$set(
   tidy       = FALSE,
   fig.width  = 6.5, 
   fig.height = 4, 
-  fig.path   = 'figure_raw/'
+  fig.path   = 'figure-png/'
 )
 # dpi = 400,
 # out.width = "650px", #This affects only the markdown, not the underlying png file.  The height will be scaled appropriately.
@@ -82,6 +83,7 @@ read_chunk("./analysis/report_1/report_1.R") #This allows knitr to call chunks t
 # Models
 ```{r models, echo=echoChunks, message=TRUE}
 ```
+
 # Session Information
 For the sake of documentation and reproducibility, the current report was rendered on a system using the following software.
 

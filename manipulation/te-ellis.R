@@ -10,6 +10,7 @@ requireNamespace("dplyr", quietly=TRUE)
 requireNamespace("car", quietly=TRUE) #For it's `recode()` function.
 
 # declare_globals ---------------------------------------------------------
+pathOutUnified <- "data_phi_free/derived/county-month-te.csv"
 defaultDayOfMonth <- 15L
 countiesToDropFromRural <- c("Central Office", "Tulsa", "Oklahoma") #Exclude these records from the rural dataset.
 possibleCountyIDs <- 1L:77L
@@ -168,7 +169,7 @@ ds <- dsMonthOklahoma %>%
   dplyr::rename_("RegionID" = "C1LeadNurseRegion") %>%
   dplyr::arrange(CountyID, Month) %>%
   dplyr::mutate(
-    ID                = seq_len(n()), # Add the primary key
+    CountyMonthID     = seq_len(n()), # Add the primary key
     Fte               = ifelse(is.na(Fte), 0, Fte),
     MonthMissing      = is.na(FteApproximated),
     FteApproximated   = MonthMissing & (Month %in% monthsRuralNotCollected),
@@ -224,30 +225,32 @@ testit::assert("The Region-County-Month combination should be unique.", all(!dup
 table(paste(ds$CountyID, ds$Month))[table(paste(ds$CountyID, ds$Month))>1]
 
 # specify_columns_to_upload -----------------------------------------------
-columnsToWrite <- c( "ID", "CountyID", "Month", "Fte", "FteApproximated", "RegionID")
+columnsToWrite <- c( "CountyMonthID", "CountyID", "Month", "Fte", "FteApproximated", "RegionID")
 dsSlim <- ds[, columnsToWrite]
 dsSlim$FteApproximated <- as.integer(dsSlim$FteApproximated)
 
-# upload_to_db ------------------------------------------------------------
-(startTime <- Sys.time())
-dbTable <- "Osdh.tblC1TEMonth"
-channel <- RODBC::odbcConnect("MiechvEvaluation") #getSqlTypeInfo("Microsoft SQL Server") #;odbcGetInfo(channel)
-
-columnInfo <- RODBC::sqlColumns(channel, dbTable)
-varTypes <- as.character(columnInfo$TYPE_NAME)
-names(varTypes) <- as.character(columnInfo$COLUMN_NAME)  #varTypes
-
-RODBC::sqlClear(channel, dbTable)
-RODBC::sqlSave(channel, dsSlim, dbTable, append=TRUE, rownames=FALSE, fast=TRUE, varTypes=varTypes)
-RODBC::odbcClose(channel)
-rm(columnInfo, channel, columnsToWrite, dbTable, varTypes)
-(elapsedDuration <-  Sys.time() - startTime) #21.4032 secs 2015-10-31
+# # upload_to_db ------------------------------------------------------------
+# (startTime <- Sys.time())
+# dbTable <- "Osdh.tblC1TEMonth"
+# channel <- RODBC::odbcConnect("te-example") #getSqlTypeInfo("Microsoft SQL Server") #;odbcGetInfo(channel)
+#
+# columnInfo <- RODBC::sqlColumns(channel, dbTable)
+# varTypes <- as.character(columnInfo$TYPE_NAME)
+# names(varTypes) <- as.character(columnInfo$COLUMN_NAME)  #varTypes
+#
+# RODBC::sqlClear(channel, dbTable)
+# RODBC::sqlSave(channel, dsSlim, dbTable, append=TRUE, rownames=FALSE, fast=TRUE, varTypes=varTypes)
+# RODBC::odbcClose(channel)
+# rm(columnInfo, channel, columnsToWrite, dbTable, varTypes)
+# (elapsedDuration <-  Sys.time() - startTime) #21.4032 secs 2015-10-31
+# # save_to_disk ------------------------------------------------------------
+# readr::write_csv(dsSlim, pathOutUnified)
 
 # inspect -----------------------------------------------------------------
 library(ggplot2)
 ggplot(ds, aes(x=Month, y=Fte, group=factor(CountyID), color=factor(CountyID), shape=FteApproximated, ymin=0)) +
   geom_point(position=position_jitter(height=.05, width=5), size=4, na.rm=T) +
-  # geom_text(aes(label=ID)) +
+  # geom_text(aes(label=CountyMonthID)) +
   geom_line(position=position_jitter(height=.1, width=5)) +
   scale_shape_manual(values=c("TRUE"=21, "FALSE"=NA)) +
   theme_light() +

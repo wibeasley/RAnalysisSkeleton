@@ -4,6 +4,7 @@
 rm(list=ls(all=TRUE))  #Clear the variables from previous runs.
 
 # @knitr load_sources ------------------------------------------------------------
+# Call `base::source()` on any repo file that defines functions needed below.  Ideally, no real operations are performed.
 
 # @knitr load_packages -----------------------------------------------------------
 # Attach these packages so their functions don't need to be qualified: http://r-pkgs.had.co.nz/namespace.html#search-path

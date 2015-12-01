@@ -1,5 +1,4 @@
 # knitr::stitch_rmd(script="./manipulation/te-ellis.R", output="./manipulation/stitched-output/te-ellis.md")
-
 rm(list=ls(all=TRUE))  #Clear the variables from previous runs.
 
 # load_sources ------------------------------------------------------------
@@ -27,7 +26,7 @@ threshold_mean_fte_t_fill_in   <- 10L      #Any county averaging over 10 hours c
 path_in_oklahoma  <- "./data-phi-free/raw/te/nurse-month-oklahoma.csv"
 path_in_tulsa     <- "./data-phi-free/raw/te/month-tulsa.csv"
 path_in_rural     <- "./data-phi-free/raw/te/nurse-month-rural.csv"
-path_county      <- "./data-phi-free/raw/te/county.csv"
+path_county       <- "./data-phi-free/raw/te/county.csv"
 
 # load_data ---------------------------------------------------------------
 # Read the CSVs
@@ -53,42 +52,42 @@ colnames(ds_nurse_month_oklahoma) <- make.names(colnames(ds_nurse_month_oklahoma
 # Groom the nurse-month dataset for Oklahoma County.
 ds_nurse_month_oklahoma <- ds_nurse_month_oklahoma %>%
   dplyr::rename_(
-    "EmployeeNumber"    = "Employee.."         # Used to be "Employee #" before sanitizing.
-    , "EmployeeName"    = "Name"
-    , "Year"            = "Year"
-    , "Month"           = "Month"
-    , "Fte"             = "FTE"
-    , "FmlaHours"       = "FMLA.Hours"         # Used to be "FMLA Hours" before sanitizing.
-    , "TrainingHours"   = "Training.Hours"     # Used to be "Training Hours" before sanitizing.
+    "employee_number"   = "Employee.."         # Used to be "Employee #" before sanitizing.
+    , "employee_name"   = "Name"
+    , "year"            = "Year"
+    , "month"           = "Month"
+    , "fte"             = "FTE"
+    , "fmla_hours"      = "FMLA.Hours"         # Used to be "FMLA Hours" before sanitizing.
+    , "training_hours"  = "Training.Hours"     # Used to be "Training Hours" before sanitizing.
   ) %>%
   dplyr::mutate(
     CountyID        = ds_county[ds_county$CountyName=="Oklahoma", ]$CountyID,  # Dynamically determine county ID.
-    Month           = as.Date(ISOdate(Year, Month, default_day_of_month)),      # Combine fields for one date.
-    # FmlaHours     = ifelse(!is.na(FmlaHours), FmlaHours, 0.0),             # Set missing values to zero.
-    TrainingHours   = ifelse(!is.na(TrainingHours), TrainingHours, 0.0)      # Set missing values to zero.
+    month           = as.Date(ISOdate(year, month, default_day_of_month)),     # Combine fields for one date.
+    # fmla_hours    = ifelse(!is.na(fmla_hours), fmla_hours, 0.0),             # Set missing values to zero.
+    training_hours  = ifelse(!is.na(training_hours), training_hours, 0.0)      # Set missing values to zero.
   ) %>%
   dplyr::select(      # Drop unecessary variables (ie, defensive programming)
-    -EmployeeNumber,
-    -EmployeeName,
-    -Year
+    -employee_number,
+    -employee_name,
+    -year
   )
 ds_nurse_month_oklahoma
 
 # Collapse across nurses to create one record per month for Oklahoma County.
 ds_month_oklahoma <- ds_nurse_month_oklahoma %>%
-  dplyr::group_by(CountyID, Month) %>%                   # Split by County & Month into sub-datasets
+  dplyr::group_by(CountyID, month) %>%                   # Split by County & month into sub-datasets
   dplyr::summarize(                                      # Aggregate/summarize within sub-datasets
-    Fte               = sum(Fte, na.rm=T),
-    # FmlaHours       = sum(FmlaHours, na.rm=T)
-    FteApproximated   = FALSE                            # This variable helps the later union query.
+    fte                = sum(fte, na.rm=T),
+    # fmla_hours       = sum(fmla_hours, na.rm=T)
+    fte_approximated   = FALSE                           # This variable helps the later union query.
   ) %>%
   dplyr::ungroup()                                       # Unecessary b/c of `summarize()`, but I like the habit.
 ds_month_oklahoma
 
 # The SQL equivalent to the previous dplyr code.
-#   SELECT Month, CountyID, SUM(Fte) as Fte, 'FALSE' AS FteApproximated
+#   SELECT month, CountyID, SUM(fte) as fte, 'FALSE' AS fte_approximated
 #   FROM ds_nurse_month_oklahoma
-#   GROUP BY Month, CountyID
+#   GROUP BY month, CountyID
 
 # The un-piped equivalent to the previous dplyr code.  Notice 3 layers of nesting instead of 3 pipes.
 #   ds_month_oklahoma <- dplyr::ungroup(
@@ -96,12 +95,12 @@ ds_month_oklahoma
 #       dplyr::group_by(
 #         ds_nurse_month_oklahoma,
 #         CountyID,
-#         Month
+#         month
 #       ),
 #       # Aggregate/summarize within sub-datasets
-#       Fte               = sum(Fte, na.rm=T),
-#       # FmlaHours       = sum(FmlaHours, na.rm=T)
-#       FteApproximated   = FALSE                            # This variable helps the later union query.
+#       fte               = sum(fte, na.rm=T),
+#       # fmla_hours       = sum(fmla_hours, na.rm=T)
+#       fte_approximated   = FALSE                            # This variable helps the later union query.
 #     )
 #   )
 
@@ -112,17 +111,17 @@ rm(ds_nurse_month_oklahoma) #Remove this dataset so it's not accidentally used b
 # Groom the nurse-month dataset for Tulsa County.
 ds_month_tulsa <- ds_month_tulsa %>%
   dplyr::rename_(
-    "Month"       = "Month"
-    , "Fte"       = "FteSum"
-    #, "FmlaHours" = "FmlaSum"
+    "month"       = "Month"
+    , "fte"       = "FteSum"
+    #, "fmla_hours" = "FmlaSum"
   ) %>%
   dplyr::mutate(
     CountyID            = ds_county[ds_county$CountyName=="Tulsa", ]$CountyID,  #Dynamically determine county ID
-    Month               = as.Date(Month, "%m/%d/%Y"),
-    #FmlaHours          = ifelse(!is.na(FmlaHours), FmlaHours, 0.0)
-    FteApproximated    = FALSE
+    month               = as.Date(month, "%m/%d/%Y"),
+    #fmla_hours         = ifelse(!is.na(fmla_hours), fmla_hours, 0.0)
+    fte_approximated    = FALSE
   )  %>%
-  dplyr::select(CountyID, Month, Fte, FteApproximated)
+  dplyr::select(CountyID, month, fte, fte_approximated)
 ds_month_tulsa
 
 # groom_rural -------------------------------------------------------------
@@ -130,29 +129,29 @@ ds_month_tulsa
 # Groom the nurse-month dataset for the 75 rurals counties.
 ds_nurse_month_rural <- ds_nurse_month_rural %>%
   dplyr::rename_(
-    "NameFull"            = "Name"
-    , "CountyName"        = "HOME_COUNTY"
-    , "RegionID"          = "REGIONID"
-    , "FtePercent"        = "FTE"
-    , "Month"             = "PERIOD"
+    "name_full"            = "Name"
+    , "CountyName"         = "HOME_COUNTY"
+    , "region_id"          = "REGIONID"
+    , "fte_percent"        = "FTE"
+    , "month"              = "PERIOD"
   ) %>%
   dplyr::select(
     CountyName,
-    Month,
-    NameFull,
-    FtePercent
-  ) %>% # dplyr::select(NameFull, Month, CountyName, FtePercent) %>%
+    month,
+    name_full,
+    fte_percent
+  ) %>% # dplyr::select(name_full, month, CountyName, fte_percent) %>%
   dplyr::filter(!(CountyName %in% counties_to_drop_from_rural)) %>%
   dplyr::mutate(
-    Month      = as.Date(paste0(Month, "-", default_day_of_month), format="%m/%Y-%d"),
-    FteString  = gsub("^(\\d{1,3})%\\s+$", "\\1", FtePercent),
-    Fte        = .01 * as.numeric(ifelse(nchar(FteString)==0L, 0, FteString)),
-    CountyName = car::recode(CountyName, "'Cimmarron'='Cimarron';'Leflore'='Le Flore'")
+    month       = as.Date(paste0(month, "-", default_day_of_month), format="%m/%Y-%d"),
+    fte_string  = gsub("^(\\d{1,3})%\\s+$", "\\1", fte_percent),
+    fte         = .01 * as.numeric(ifelse(nchar(fte_string)==0L, 0, fte_string)),
+    CountyName  = car::recode(CountyName, "'Cimmarron'='Cimarron';'Leflore'='Le Flore'")
   ) %>%
-  dplyr::arrange(CountyName, Month, NameFull) %>%
+  dplyr::arrange(CountyName, month, name_full) %>%
   dplyr::select(
-    -FtePercent,
-    -FteString
+    -fte_percent,
+    -fte_string
   ) %>%
   dplyr::left_join(
     ds_county[, c("CountyID", "CountyName")], by="CountyName"
@@ -164,29 +163,29 @@ ds_nurse_month_rural
 
 # Collapse across nurses to create one record per month per county.
 ds_month_rural <- ds_nurse_month_rural %>%
-  dplyr::group_by(CountyID, Month) %>%
+  dplyr::group_by(CountyID, month) %>%
   dplyr::summarize(
-    Fte                = sum(Fte, na.rm=TRUE),
-    # FmlaHours        = sum(FmlaHours, na.rm=TRUE)
-    FteApproximated    = FALSE
+    fte                = sum(fte, na.rm=TRUE),
+    # fmla_hours        = sum(fmla_hours, na.rm=TRUE)
+    fte_approximated    = FALSE
   ) %>%
   dplyr::ungroup()
 ds_month_rural
 
-possible_months <- seq.Date(range(ds_month_rural$Month)[1], range(ds_month_rural$Month)[2], by="month")
-ds_possible <- expand.grid(Month=possible_months, CountyID=possible_county_ids, stringsAsFactors=F)
+possible_months <- seq.Date(range(ds_month_rural$month)[1], range(ds_month_rural$month)[2], by="month")
+ds_possible <- expand.grid(month=possible_months, CountyID=possible_county_ids, stringsAsFactors=F)
 
 #Determine the months were we don't have any rural T&E data.
 months_rural_not_collected <- (ds_month_rural %>%
   dplyr::right_join(
-    ds_possible, by=c("CountyID", "Month")
+    ds_possible, by=c("CountyID", "month")
   ) %>%
-  dplyr::group_by(Month) %>%
+  dplyr::group_by(month) %>%
   dplyr::summarize(
-    MeanNA = mean(is.na(Fte))
+    mean_na = mean(is.na(fte))
   ) %>%
   dplyr::ungroup() %>%
-  dplyr::filter(MeanNA >= .9999))$Month
+  dplyr::filter(mean_na >= .9999))$month
 months_rural_not_collected
 
 rm(ds_nurse_month_rural) #Remove this dataset so it's not accidentally used below.
@@ -203,23 +202,23 @@ ds <- ds_month_oklahoma %>%
     ds_month_rural
   ) %>%
   dplyr::right_join(
-    ds_possible, by=c("CountyID", "Month")
+    ds_possible, by=c("CountyID", "month")
   ) %>%
   dplyr::left_join(
     ds_county[, c("CountyID", "CountyName", "C1LeadNurseRegion")], by="CountyID"
   ) %>%
-  dplyr::rename_("RegionID" = "C1LeadNurseRegion") %>%
-  dplyr::arrange(CountyID, Month) %>%
+  dplyr::rename_("region_id" = "C1LeadNurseRegion") %>%
+  dplyr::arrange(CountyID, month) %>%
   dplyr::mutate(
-    CountyMonthID     = seq_len(n()), # Add the primary key
-    Fte               = ifelse(is.na(Fte), 0, Fte),
-    MonthMissing      = is.na(FteApproximated),
-    FteApproximated   = MonthMissing & (Month %in% months_rural_not_collected),
-    FteRollingMedian12Month = zoo::rollmedian(x=Fte, 11, na.pad=T, align="right")
+    county_month_id    = seq_len(n()), # Add the primary key
+    fte                = ifelse(is.na(fte), 0, fte),
+    month_missing      = is.na(fte_approximated),
+    fte_approximated   = month_missing & (month %in% months_rural_not_collected),
+    fte_rolling_median_12_month = zoo::rollmedian(x=fte, 11, na.pad=T, align="right")
   ) %>%
   dplyr::group_by(CountyID) %>%               # Group by county.
   dplyr::mutate(
-    CountyAnyMissing  = any(MonthMissing)     # Determine if a county is missing any month
+    county_any_missing  = any(month_missing)     # Determine if a county is missing any month
   ) %>%
   dplyr::ungroup()
 ds
@@ -228,27 +227,27 @@ ds
 #   The dataset is small enough that it's not worth vectorizing.
 for( id in sort(unique(ds$CountyID)) ) {# for( id in 13 ) {}
   ds_county <- dplyr::filter(ds, CountyID==id)
-  missing <- ds_county$FteApproximated #is.na(ds_county$FteApproximated)
+  missing <- ds_county$fte_approximated #is.na(ds_county$fte_approximated)
 
   # Attempt to fill in values only for counties missing something.
-  if( any(ds_county$CountyAnyMissing) ) {
+  if( any(ds_county$county_any_missing) ) {
 
     #This statement interpolates missing FTE values
-    ds_county$Fte[missing] <- as.numeric(approx(
-      x    = ds_county$Month[!missing],
-      y    = ds_county$Fte[  !missing],
-      xout = ds_county$Month[ missing]
+    ds_county$fte[missing] <- as.numeric(approx(
+      x    = ds_county$month[!missing],
+      y    = ds_county$fte[  !missing],
+      xout = ds_county$month[ missing]
     )$y)
 
     #This statement extrapolates missing FTE values, which occurs when the first/last few months are missing.
-    if( mean(ds_county$Fte, na.rm=T) >= threshold_mean_fte_t_fill_in ) {
-      ds_county$FteApproximated <- (ds_county$Fte==0)
-      ds_county$Fte <- ifelse(ds_county$Fte==0, ds_county$FteRollingMedian12Month, ds_county$Fte)
+    if( mean(ds_county$fte, na.rm=T) >= threshold_mean_fte_t_fill_in ) {
+      ds_county$fte_approximated <- (ds_county$fte==0)
+      ds_county$fte <- ifelse(ds_county$fte==0, ds_county$fte_rolling_median_12_month, ds_county$fte)
     }
 
     #Overwrite selected values in the real dataset
-    ds[ds$CountyID==id, ]$Fte             <- ds_county$Fte
-    ds[ds$CountyID==id, ]$FteApproximated <- ds_county$FteApproximated
+    ds[ds$CountyID==id, ]$fte              <- ds_county$fte
+    ds[ds$CountyID==id, ]$fte_approximated <- ds_county$fte_approximated
   }
 }
 ds
@@ -258,22 +257,22 @@ rm(possible_months, possible_county_ids)
 
 # verify_values -----------------------------------------------------------
 # Sniff out problems
-testit::assert("The Month value must be nonmissing & since 2000", all(!is.na(ds$Month) & (ds$Month>="2012-01-01")))
+testit::assert("The month value must be nonmissing & since 2000", all(!is.na(ds$month) & (ds$month>="2012-01-01")))
 testit::assert("The CountyID value must be nonmissing & positive.", all(!is.na(ds$CountyID) & (ds$CountyID>0)))
 testit::assert("The CountyID value must be in [1, 77].", all(ds$CountyID %in% seq_len(77L)))
-testit::assert("The RegionID value must be nonmissing & positive.", all(!is.na(ds$RegionID) & (ds$RegionID>0)))
-testit::assert("The RegionID value must be in [1, 20].", all(ds$RegionID %in% seq_len(20L)))
-testit::assert("The `Fte` value must be nonmissing & positive.", all(!is.na(ds$Fte) & (ds$Fte>=0)))
-# testit::assert("The `FmlaHours` value must be nonmissing & nonnegative", all(is.na(ds$FmlaHours) | (ds$FmlaHours>=0)))
+testit::assert("The region_id value must be nonmissing & positive.", all(!is.na(ds$region_id) & (ds$region_id>0)))
+testit::assert("The region_id value must be in [1, 20].", all(ds$region_id %in% seq_len(20L)))
+testit::assert("The `fte` value must be nonmissing & positive.", all(!is.na(ds$fte) & (ds$fte>=0)))
+# testit::assert("The `fmla_hours` value must be nonmissing & nonnegative", all(is.na(ds$fmla_hours) | (ds$fmla_hours>=0)))
 
-testit::assert("The County-Month combination should be unique.", all(!duplicated(paste(ds$CountyID, ds$Month))))
-testit::assert("The Region-County-Month combination should be unique.", all(!duplicated(paste(ds$RegionID, ds$CountyID, ds$Month))))
-table(paste(ds$CountyID, ds$Month))[table(paste(ds$CountyID, ds$Month))>1]
+testit::assert("The County-month combination should be unique.", all(!duplicated(paste(ds$CountyID, ds$month))))
+testit::assert("The Region-County-month combination should be unique.", all(!duplicated(paste(ds$region_id, ds$CountyID, ds$month))))
+table(paste(ds$CountyID, ds$month))[table(paste(ds$CountyID, ds$month))>1]
 
 # specify_columns_to_upload -----------------------------------------------
-columns_to_write <- c( "CountyMonthID", "CountyID", "Month", "Fte", "FteApproximated", "RegionID")
+columns_to_write <- c( "county_month_id", "CountyID", "month", "fte", "fte_approximated", "region_id")
 ds_slim <- ds[, columns_to_write]
-ds_slim$FteApproximated <- as.integer(ds_slim$FteApproximated)
+ds_slim$fte_approximated <- as.integer(ds_slim$fte_approximated)
 ds_slim
 
 # # upload_to_db ------------------------------------------------------------
@@ -298,9 +297,9 @@ readr::write_csv(ds, path_out_unified)
 library(ggplot2)
 
 # Graph each county-month
-ggplot(ds, aes(x=Month, y=Fte, group=factor(CountyID), color=factor(CountyID), shape=FteApproximated, ymin=0)) +
+ggplot(ds, aes(x=month, y=fte, group=factor(CountyID), color=factor(CountyID), shape=fte_approximated, ymin=0)) +
   geom_point(position=position_jitter(height=.05, width=5), size=4, na.rm=T) +
-  # geom_text(aes(label=CountyMonthID)) +
+  # geom_text(aes(label=county_month_id)) +
   geom_line(position=position_jitter(height=.1, width=5)) +
   scale_shape_manual(values=c("TRUE"=21, "FALSE"=NA)) +
   theme_light() +
@@ -310,17 +309,17 @@ ggplot(ds, aes(x=Month, y=Fte, group=factor(CountyID), color=factor(CountyID), s
 
 # Graph each region-month
 ds_region <- ds %>%
-  dplyr::group_by(RegionID, Month) %>%
+  dplyr::group_by(region_id, month) %>%
   dplyr::summarize(
-    Fte             = sum(Fte, na.rm=T),
-    FteApproximated = any(FteApproximated)
+    fte              = sum(fte, na.rm=T),
+    fte_approximated = any(fte_approximated)
   ) %>%
   dplyr::ungroup()
 
 last_plot() %+%
   ds_region +
-  aes(group=factor(RegionID), color=factor(RegionID))
+  aes(group=factor(region_id), color=factor(region_id))
 
 # last_plot() +
-#   aes(y=FmlaHours) +
-#   labs(title="FmlaHours sum each month (by county)")
+#   aes(y=fmla_hours) +
+#   labs(title="fmla_hours sum each month (by county)")

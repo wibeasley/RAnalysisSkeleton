@@ -1,4 +1,4 @@
-CountyID,Month,Fte,FteApproximated,CountyName,RegionID,CountyMonthID,MonthMissing,FteRollingMedian12Month,CountyAnyMissing
+CountyID,month,fte,fte_approximated,CountyName,region_id,county_month_id,month_missing,fte_rolling_median_12_month,county_any_missing
 1,2012-06-15,1,FALSE,Adair,11,1,FALSE,NA,TRUE
 1,2012-07-15,1,TRUE,Adair,11,2,TRUE,NA,TRUE
 1,2012-08-15,1,FALSE,Adair,11,3,FALSE,NA,TRUE

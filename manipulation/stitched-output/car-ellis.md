@@ -15,15 +15,18 @@ rm(list=ls(all=TRUE))  #Clear the variables from previous runs.
 
 
 ```r
+# Attach these packages so their functions don't need to be qualified: http://r-pkgs.had.co.nz/namespace.html#search-path
 library(ggplot2)
 library(magrittr) #Pipes
+
+# Verify these packages are available on the machine, but their functions need to be qualified: http://r-pkgs.had.co.nz/namespace.html#search-path
 requireNamespace("dplyr", quietly=TRUE)
-# requireNamespace("plyr", quietly=TRUE)
 requireNamespace("testit", quietly=TRUE)
+# requireNamespace("plyr", quietly=TRUE)
 ```
 
 ```r
-path_input  <- "./data-phi-free/raw/mtcars-dataset.csv"
+path_input  <- "./data-phi-free/raw/mtcar.csv"
 path_output <- "./data-phi-free/derived/motor-trend-car-test.rds"
 
 premature_threshold_in_weeks <- 37 #Any infant under 37 weeks is considered premature for the current project.  Exactly 37.0 weeks are retained.
@@ -35,21 +38,13 @@ days_per_week <- 7
 ds <- read.csv(path_input, stringsAsFactors=FALSE)
 ```
 
-```
-## Warning in file(file, "rt"): cannot open file './data-phi-free/raw/mtcars-
-## dataset.csv': No such file or directory
-```
-
-```
-## Error in file(file, "rt"): cannot open the connection
-```
-
 ```r
 colnames(ds)
 ```
 
 ```
-## Error in is.data.frame(x): object 'ds' not found
+##  [1] "model" "mpg"   "cyl"   "disp"  "hp"    "drat"  "wt"    "qsec" 
+##  [9] "vs"    "am"    "gear"  "carb"
 ```
 
 ```r
@@ -68,113 +63,33 @@ ds <- dplyr::rename_(ds,
   , "ForwardGearCount"        = "gear"
   , "CarburetorCount"         = "carb"
 )
-```
 
-```
-## Error in dplyr::rename_(ds, ModelName = "model", MilesPerGallon = "mpg", : object 'ds' not found
-```
-
-```r
 # Add a unique identifier
 ds$CarID <- seq_len(nrow(ds))
-```
 
-```
-## Error in nrow(ds): object 'ds' not found
-```
-
-```r
 # Clear up confusion about units and remove old variable
 ds$WeightInPounds <- ds$WeightInPoundsPer1000 * 1000
-```
-
-```
-## Error in eval(expr, envir, enclos): object 'ds' not found
-```
-
-```r
 ds$WeightInPoundsPer1000 <- NULL
-```
 
-```
-## Error in ds$WeightInPoundsPer1000 <- NULL: object 'ds' not found
-```
-
-```r
 # Convert some to boolean variables
 ds$VS <- as.logical(ds$VS)
-```
-
-```
-## Error in eval(expr, envir, enclos): object 'ds' not found
-```
-
-```r
 ds$AutomaticTransmission <- as.logical(ds$AutomaticTransmission)
-```
 
-```
-## Error in eval(expr, envir, enclos): object 'ds' not found
-```
-
-```r
 # Create duplicates of variables as factors (not numbers), which can help with later graphs or analyses.
 #   Admittedly, the labels are a contrived example of a factor, but helps the example later.
 ds$ForwardGearCountF <- factor(ds$ForwardGearCount, levels=3:5, labels=c("Three", "Four", "Five"))
-```
-
-```
-## Error in factor(ds$ForwardGearCount, levels = 3:5, labels = c("Three", : object 'ds' not found
-```
-
-```r
 ds$CarburetorCountF <- factor(ds$CarburetorCount)
-```
 
-```
-## Error in factor(ds$CarburetorCount): object 'ds' not found
-```
-
-```r
 ### Create transformations and interactions to help later graphs and models.
 ds$DisplacementInchesCubedLog10 <- log10(ds$DisplacementInchesCubed)
-```
-
-```
-## Error in eval(expr, envir, enclos): object 'ds' not found
-```
-
-```r
 ds$GrossHorsepowerByGearCount3 <- ds$GrossHorsepower * (ds$ForwardGearCount=="Three")
-```
-
-```
-## Error in eval(expr, envir, enclos): object 'ds' not found
-```
-
-```r
 ds$GrossHorsepowerByGearCount4 <- ds$GrossHorsepower * (ds$ForwardGearCount=="Four")
-```
-
-```
-## Error in eval(expr, envir, enclos): object 'ds' not found
 ```
 
 ```r
 # I'm pretending the dataset had unreasonably low values that were artifacts of the measurement equipment.
 ds$MilesPerGallonArtifact <- (ds$MilesPerGallon < 2.2)
-```
-
-```
-## Error in eval(expr, envir, enclos): object 'ds' not found
-```
-
-```r
 ds$MilesPerGallon <- ifelse(ds$MilesPerGallonArtifact, NA_real_, ds$MilesPerGallon)
-```
-
-```
-## Error in ifelse(ds$MilesPerGallonArtifact, NA_real_, ds$MilesPerGallon): object 'ds' not found
 ```
 
 ```r
@@ -185,13 +100,7 @@ ds <- ds %>%
     DisplacementGearZ = as.numeric(base::scale(DisplacementInchesCubed)),
     WeightGearZ       = as.numeric(base::scale(WeightInPounds))
   )
-```
 
-```
-## Error in eval(expr, envir, enclos): object 'ds' not found
-```
-
-```r
   # ds <- plyr::ddply(ds, .variables="ForwardGearCountF", .fun=transform,
   #                   DisplacementGearZ=scale(DisplacementInchesCubed),
   #                   WeightGearZ=scale(WeightInPounds)
@@ -201,50 +110,22 @@ ds <- ds %>%
 ggplot2::qplot(ds$WeightGearZ, color=ds$ForwardGearCountF, geom="density")  # mean(ds$WeightGearZ, na.rm=T)
 ```
 
-```
-## Error in eval(expr, envir, enclos): object 'ds' not found
-```
+<img src="figure/car-ellis-Rmdcreate_z_scores-1.png" title="plot of chunk create_z_scores" alt="plot of chunk create_z_scores" style="display: block; margin: auto;" />
 
 ```r
 # Create a boolean variable, indicating if the z scores is above a certain threshold.
 ds$WeightGearZAbove1 <- (ds$WeightGearZ > 1.00)
 ```
 
-```
-## Error in eval(expr, envir, enclos): object 'ds' not found
-```
-
 ```r
 testit::assert("`ModelName` should be a unique value", sum(duplicated(ds$ModelName))==0L)
-```
-
-```
-## Error in duplicated(ds$ModelName): object 'ds' not found
-```
-
-```r
 testit::assert("`MilesPerGallon` should be a positive value.", all(ds$MilesPerGallon>0))
-```
-
-```
-## Error in testit::assert("`MilesPerGallon` should be a positive value.", : object 'ds' not found
-```
-
-```r
 testit::assert("`WeightGearZ` should be a positive or missing value.", all(is.na(ds$MilesPerGallon) | (ds$MilesPerGallon>0)))
-```
-
-```
-## Error in testit::assert("`WeightGearZ` should be a positive or missing value.", : object 'ds' not found
 ```
 
 ```r
 # Save as a compress, binary R dataset.  It's no longer readable with a text editor, but it saves metadata (eg, factor information).
 saveRDS(ds, file=path_output, compress="xz")
-```
-
-```
-## Error in saveRDS(ds, file = path_output, compress = "xz"): object 'ds' not found
 ```
 
 The R session information (including the OS info, R version and all
@@ -272,17 +153,23 @@ sessionInfo()
 ## [1] stats     graphics  grDevices utils     datasets  methods   base     
 ## 
 ## other attached packages:
-## [1] magrittr_1.5  ggplot2_1.0.1
+## [1] RODBC_1.3-12  magrittr_1.5  ggplot2_1.0.1
 ## 
 ## loaded via a namespace (and not attached):
-##  [1] Rcpp_0.12.2        digest_0.6.8       dplyr_0.4.3.9000  
-##  [4] assertthat_0.1     MASS_7.3-45        plyr_1.8.3        
-##  [7] grid_3.2.2         R6_2.1.1           gtable_0.1.2      
-## [10] DBI_0.3.1.9008     formatR_1.2.1      scales_0.3.0      
-## [13] evaluate_0.8       stringi_1.0-1      reshape2_1.4.1    
-## [16] testit_0.4         proto_0.3-10       tools_3.2.2       
-## [19] stringr_1.0.0.9000 munsell_0.4.2      parallel_3.2.2    
-## [22] colorspace_1.2-6   knitr_1.11.3
+##  [1] Rcpp_0.12.2        formatR_1.2.1      nloptr_1.0.4      
+##  [4] plyr_1.8.3         tools_3.2.2        digest_0.6.8      
+##  [7] lme4_1.1-10        evaluate_0.8       gtable_0.1.2      
+## [10] nlme_3.1-122       lattice_0.20-33    mgcv_1.8-9        
+## [13] Matrix_1.2-2       DBI_0.3.1.9008     parallel_3.2.2    
+## [16] SparseM_1.7        proto_0.3-10       dplyr_0.4.3.9000  
+## [19] stringr_1.0.0.9000 knitr_1.11.3       MatrixModels_0.4-1
+## [22] grid_3.2.2         nnet_7.3-11        R6_2.1.1          
+## [25] minqa_1.2.4        reshape2_1.4.1     readr_0.2.2       
+## [28] car_2.1-0          scales_0.3.0       MASS_7.3-45       
+## [31] splines_3.2.2      assertthat_0.1     pbkrtest_0.4-2    
+## [34] testit_0.4         colorspace_1.2-6   labeling_0.3      
+## [37] quantreg_5.19      stringi_1.0-1      lazyeval_0.1.10   
+## [40] munsell_0.4.2      markdown_0.7.7     zoo_1.7-12
 ```
 
 ```r
@@ -290,6 +177,6 @@ Sys.time()
 ```
 
 ```
-## [1] "2015-11-30 19:59:26 CST"
+## [1] "2015-11-30 20:16:38 CST"
 ```
 

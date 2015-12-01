@@ -6,14 +6,17 @@ rm(list=ls(all=TRUE))  #Clear the variables from previous runs.
 # @knitr load_sources ------------------------------------------------------------
 
 # @knitr load_packages -----------------------------------------------------------
+# Attach these packages so their functions don't need to be qualified: http://r-pkgs.had.co.nz/namespace.html#search-path
 library(ggplot2)
 library(magrittr) #Pipes
+
+# Verify these packages are available on the machine, but their functions need to be qualified: http://r-pkgs.had.co.nz/namespace.html#search-path
 requireNamespace("dplyr", quietly=TRUE)
-# requireNamespace("plyr", quietly=TRUE)
 requireNamespace("testit", quietly=TRUE)
+# requireNamespace("plyr", quietly=TRUE)
 
 # @knitr declare_globals ---------------------------------------------------------
-path_input  <- "./data-phi-free/raw/mtcars-dataset.csv"
+path_input  <- "./data-phi-free/raw/mtcar.csv"
 path_output <- "./data-phi-free/derived/motor-trend-car-test.rds"
 
 premature_threshold_in_weeks <- 37 #Any infant under 37 weeks is considered premature for the current project.  Exactly 37.0 weeks are retained.

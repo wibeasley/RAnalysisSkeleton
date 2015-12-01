@@ -1,0 +1,823 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+
+<title></title>
+
+<script type="text/javascript">
+window.onload = function() {
+  var imgs = document.getElementsByTagName('img'), i, img;
+  for (i = 0; i < imgs.length; i++) {
+    img = imgs[i];
+    // center an image if it is the only element of its parent
+    if (img.parentElement.childElementCount === 1)
+      img.parentElement.style.textAlign = 'center';
+  }
+};
+</script>
+
+<!-- Styles for R syntax highlighter -->
+<style type="text/css">
+   pre .operator,
+   pre .paren {
+     color: rgb(104, 118, 135)
+   }
+
+   pre .literal {
+     color: #990073
+   }
+
+   pre .number {
+     color: #099;
+   }
+
+   pre .comment {
+     color: #998;
+     font-style: italic
+   }
+
+   pre .keyword {
+     color: #900;
+     font-weight: bold
+   }
+
+   pre .identifier {
+     color: rgb(0, 0, 0);
+   }
+
+   pre .string {
+     color: #d14;
+   }
+</style>
+
+<!-- R syntax highlighter -->
+<script type="text/javascript">
+var hljs=new function(){function m(p){return p.replace(/&/gm,"&amp;").replace(/</gm,"&lt;")}function f(r,q,p){return RegExp(q,"m"+(r.cI?"i":"")+(p?"g":""))}function b(r){for(var p=0;p<r.childNodes.length;p++){var q=r.childNodes[p];if(q.nodeName=="CODE"){return q}if(!(q.nodeType==3&&q.nodeValue.match(/\s+/))){break}}}function h(t,s){var p="";for(var r=0;r<t.childNodes.length;r++){if(t.childNodes[r].nodeType==3){var q=t.childNodes[r].nodeValue;if(s){q=q.replace(/\n/g,"")}p+=q}else{if(t.childNodes[r].nodeName=="BR"){p+="\n"}else{p+=h(t.childNodes[r])}}}if(/MSIE [678]/.test(navigator.userAgent)){p=p.replace(/\r/g,"\n")}return p}function a(s){var r=s.className.split(/\s+/);r=r.concat(s.parentNode.className.split(/\s+/));for(var q=0;q<r.length;q++){var p=r[q].replace(/^language-/,"");if(e[p]){return p}}}function c(q){var p=[];(function(s,t){for(var r=0;r<s.childNodes.length;r++){if(s.childNodes[r].nodeType==3){t+=s.childNodes[r].nodeValue.length}else{if(s.childNodes[r].nodeName=="BR"){t+=1}else{if(s.childNodes[r].nodeType==1){p.push({event:"start",offset:t,node:s.childNodes[r]});t=arguments.callee(s.childNodes[r],t);p.push({event:"stop",offset:t,node:s.childNodes[r]})}}}}return t})(q,0);return p}function k(y,w,x){var q=0;var z="";var s=[];function u(){if(y.length&&w.length){if(y[0].offset!=w[0].offset){return(y[0].offset<w[0].offset)?y:w}else{return w[0].event=="start"?y:w}}else{return y.length?y:w}}function t(D){var A="<"+D.nodeName.toLowerCase();for(var B=0;B<D.attributes.length;B++){var C=D.attributes[B];A+=" "+C.nodeName.toLowerCase();if(C.value!==undefined&&C.value!==false&&C.value!==null){A+='="'+m(C.value)+'"'}}return A+">"}while(y.length||w.length){var v=u().splice(0,1)[0];z+=m(x.substr(q,v.offset-q));q=v.offset;if(v.event=="start"){z+=t(v.node);s.push(v.node)}else{if(v.event=="stop"){var p,r=s.length;do{r--;p=s[r];z+=("</"+p.nodeName.toLowerCase()+">")}while(p!=v.node);s.splice(r,1);while(r<s.length){z+=t(s[r]);r++}}}}return z+m(x.substr(q))}function j(){function q(x,y,v){if(x.compiled){return}var u;var s=[];if(x.k){x.lR=f(y,x.l||hljs.IR,true);for(var w in x.k){if(!x.k.hasOwnProperty(w)){continue}if(x.k[w] instanceof Object){u=x.k[w]}else{u=x.k;w="keyword"}for(var r in u){if(!u.hasOwnProperty(r)){continue}x.k[r]=[w,u[r]];s.push(r)}}}if(!v){if(x.bWK){x.b="\\b("+s.join("|")+")\\s"}x.bR=f(y,x.b?x.b:"\\B|\\b");if(!x.e&&!x.eW){x.e="\\B|\\b"}if(x.e){x.eR=f(y,x.e)}}if(x.i){x.iR=f(y,x.i)}if(x.r===undefined){x.r=1}if(!x.c){x.c=[]}x.compiled=true;for(var t=0;t<x.c.length;t++){if(x.c[t]=="self"){x.c[t]=x}q(x.c[t],y,false)}if(x.starts){q(x.starts,y,false)}}for(var p in e){if(!e.hasOwnProperty(p)){continue}q(e[p].dM,e[p],true)}}function d(B,C){if(!j.called){j();j.called=true}function q(r,M){for(var L=0;L<M.c.length;L++){if((M.c[L].bR.exec(r)||[null])[0]==r){return M.c[L]}}}function v(L,r){if(D[L].e&&D[L].eR.test(r)){return 1}if(D[L].eW){var M=v(L-1,r);return M?M+1:0}return 0}function w(r,L){return L.i&&L.iR.test(r)}function K(N,O){var M=[];for(var L=0;L<N.c.length;L++){M.push(N.c[L].b)}var r=D.length-1;do{if(D[r].e){M.push(D[r].e)}r--}while(D[r+1].eW);if(N.i){M.push(N.i)}return f(O,M.join("|"),true)}function p(M,L){var N=D[D.length-1];if(!N.t){N.t=K(N,E)}N.t.lastIndex=L;var r=N.t.exec(M);return r?[M.substr(L,r.index-L),r[0],false]:[M.substr(L),"",true]}function z(N,r){var L=E.cI?r[0].toLowerCase():r[0];var M=N.k[L];if(M&&M instanceof Array){return M}return false}function F(L,P){L=m(L);if(!P.k){return L}var r="";var O=0;P.lR.lastIndex=0;var M=P.lR.exec(L);while(M){r+=L.substr(O,M.index-O);var N=z(P,M);if(N){x+=N[1];r+='<span class="'+N[0]+'">'+M[0]+"</span>"}else{r+=M[0]}O=P.lR.lastIndex;M=P.lR.exec(L)}return r+L.substr(O,L.length-O)}function J(L,M){if(M.sL&&e[M.sL]){var r=d(M.sL,L);x+=r.keyword_count;return r.value}else{return F(L,M)}}function I(M,r){var L=M.cN?'<span class="'+M.cN+'">':"";if(M.rB){y+=L;M.buffer=""}else{if(M.eB){y+=m(r)+L;M.buffer=""}else{y+=L;M.buffer=r}}D.push(M);A+=M.r}function G(N,M,Q){var R=D[D.length-1];if(Q){y+=J(R.buffer+N,R);return false}var P=q(M,R);if(P){y+=J(R.buffer+N,R);I(P,M);return P.rB}var L=v(D.length-1,M);if(L){var O=R.cN?"</span>":"";if(R.rE){y+=J(R.buffer+N,R)+O}else{if(R.eE){y+=J(R.buffer+N,R)+O+m(M)}else{y+=J(R.buffer+N+M,R)+O}}while(L>1){O=D[D.length-2].cN?"</span>":"";y+=O;L--;D.length--}var r=D[D.length-1];D.length--;D[D.length-1].buffer="";if(r.starts){I(r.starts,"")}return R.rE}if(w(M,R)){throw"Illegal"}}var E=e[B];var D=[E.dM];var A=0;var x=0;var y="";try{var s,u=0;E.dM.buffer="";do{s=p(C,u);var t=G(s[0],s[1],s[2]);u+=s[0].length;if(!t){u+=s[1].length}}while(!s[2]);if(D.length>1){throw"Illegal"}return{r:A,keyword_count:x,value:y}}catch(H){if(H=="Illegal"){return{r:0,keyword_count:0,value:m(C)}}else{throw H}}}function g(t){var p={keyword_count:0,r:0,value:m(t)};var r=p;for(var q in e){if(!e.hasOwnProperty(q)){continue}var s=d(q,t);s.language=q;if(s.keyword_count+s.r>r.keyword_count+r.r){r=s}if(s.keyword_count+s.r>p.keyword_count+p.r){r=p;p=s}}if(r.language){p.second_best=r}return p}function i(r,q,p){if(q){r=r.replace(/^((<[^>]+>|\t)+)/gm,function(t,w,v,u){return w.replace(/\t/g,q)})}if(p){r=r.replace(/\n/g,"<br>")}return r}function n(t,w,r){var x=h(t,r);var v=a(t);var y,s;if(v){y=d(v,x)}else{return}var q=c(t);if(q.length){s=document.createElement("pre");s.innerHTML=y.value;y.value=k(q,c(s),x)}y.value=i(y.value,w,r);var u=t.className;if(!u.match("(\\s|^)(language-)?"+v+"(\\s|$)")){u=u?(u+" "+v):v}if(/MSIE [678]/.test(navigator.userAgent)&&t.tagName=="CODE"&&t.parentNode.tagName=="PRE"){s=t.parentNode;var p=document.createElement("div");p.innerHTML="<pre><code>"+y.value+"</code></pre>";t=p.firstChild.firstChild;p.firstChild.cN=s.cN;s.parentNode.replaceChild(p.firstChild,s)}else{t.innerHTML=y.value}t.className=u;t.result={language:v,kw:y.keyword_count,re:y.r};if(y.second_best){t.second_best={language:y.second_best.language,kw:y.second_best.keyword_count,re:y.second_best.r}}}function o(){if(o.called){return}o.called=true;var r=document.getElementsByTagName("pre");for(var p=0;p<r.length;p++){var q=b(r[p]);if(q){n(q,hljs.tabReplace)}}}function l(){if(window.addEventListener){window.addEventListener("DOMContentLoaded",o,false);window.addEventListener("load",o,false)}else{if(window.attachEvent){window.attachEvent("onload",o)}else{window.onload=o}}}var e={};this.LANGUAGES=e;this.highlight=d;this.highlightAuto=g;this.fixMarkup=i;this.highlightBlock=n;this.initHighlighting=o;this.initHighlightingOnLoad=l;this.IR="[a-zA-Z][a-zA-Z0-9_]*";this.UIR="[a-zA-Z_][a-zA-Z0-9_]*";this.NR="\\b\\d+(\\.\\d+)?";this.CNR="\\b(0[xX][a-fA-F0-9]+|(\\d+(\\.\\d*)?|\\.\\d+)([eE][-+]?\\d+)?)";this.BNR="\\b(0b[01]+)";this.RSR="!|!=|!==|%|%=|&|&&|&=|\\*|\\*=|\\+|\\+=|,|\\.|-|-=|/|/=|:|;|<|<<|<<=|<=|=|==|===|>|>=|>>|>>=|>>>|>>>=|\\?|\\[|\\{|\\(|\\^|\\^=|\\||\\|=|\\|\\||~";this.ER="(?![\\s\\S])";this.BE={b:"\\\\.",r:0};this.ASM={cN:"string",b:"'",e:"'",i:"\\n",c:[this.BE],r:0};this.QSM={cN:"string",b:'"',e:'"',i:"\\n",c:[this.BE],r:0};this.CLCM={cN:"comment",b:"//",e:"$"};this.CBLCLM={cN:"comment",b:"/\\*",e:"\\*/"};this.HCM={cN:"comment",b:"#",e:"$"};this.NM={cN:"number",b:this.NR,r:0};this.CNM={cN:"number",b:this.CNR,r:0};this.BNM={cN:"number",b:this.BNR,r:0};this.inherit=function(r,s){var p={};for(var q in r){p[q]=r[q]}if(s){for(var q in s){p[q]=s[q]}}return p}}();hljs.LANGUAGES.cpp=function(){var a={keyword:{"false":1,"int":1,"float":1,"while":1,"private":1,"char":1,"catch":1,"export":1,virtual:1,operator:2,sizeof:2,dynamic_cast:2,typedef:2,const_cast:2,"const":1,struct:1,"for":1,static_cast:2,union:1,namespace:1,unsigned:1,"long":1,"throw":1,"volatile":2,"static":1,"protected":1,bool:1,template:1,mutable:1,"if":1,"public":1,friend:2,"do":1,"return":1,"goto":1,auto:1,"void":2,"enum":1,"else":1,"break":1,"new":1,extern:1,using:1,"true":1,"class":1,asm:1,"case":1,typeid:1,"short":1,reinterpret_cast:2,"default":1,"double":1,register:1,explicit:1,signed:1,typename:1,"try":1,"this":1,"switch":1,"continue":1,wchar_t:1,inline:1,"delete":1,alignof:1,char16_t:1,char32_t:1,constexpr:1,decltype:1,noexcept:1,nullptr:1,static_assert:1,thread_local:1,restrict:1,_Bool:1,complex:1},built_in:{std:1,string:1,cin:1,cout:1,cerr:1,clog:1,stringstream:1,istringstream:1,ostringstream:1,auto_ptr:1,deque:1,list:1,queue:1,stack:1,vector:1,map:1,set:1,bitset:1,multiset:1,multimap:1,unordered_set:1,unordered_map:1,unordered_multiset:1,unordered_multimap:1,array:1,shared_ptr:1}};return{dM:{k:a,i:"</",c:[hljs.CLCM,hljs.CBLCLM,hljs.QSM,{cN:"string",b:"'\\\\?.",e:"'",i:"."},{cN:"number",b:"\\b(\\d+(\\.\\d*)?|\\.\\d+)(u|U|l|L|ul|UL|f|F)"},hljs.CNM,{cN:"preprocessor",b:"#",e:"$"},{cN:"stl_container",b:"\\b(deque|list|queue|stack|vector|map|set|bitset|multiset|multimap|unordered_map|unordered_set|unordered_multiset|unordered_multimap|array)\\s*<",e:">",k:a,r:10,c:["self"]}]}}}();hljs.LANGUAGES.r={dM:{c:[hljs.HCM,{cN:"number",b:"\\b0[xX][0-9a-fA-F]+[Li]?\\b",e:hljs.IMMEDIATE_RE,r:0},{cN:"number",b:"\\b\\d+(?:[eE][+\\-]?\\d*)?L\\b",e:hljs.IMMEDIATE_RE,r:0},{cN:"number",b:"\\b\\d+\\.(?!\\d)(?:i\\b)?",e:hljs.IMMEDIATE_RE,r:1},{cN:"number",b:"\\b\\d+(?:\\.\\d*)?(?:[eE][+\\-]?\\d*)?i?\\b",e:hljs.IMMEDIATE_RE,r:0},{cN:"number",b:"\\.\\d+(?:[eE][+\\-]?\\d*)?i?\\b",e:hljs.IMMEDIATE_RE,r:1},{cN:"keyword",b:"(?:tryCatch|library|setGeneric|setGroupGeneric)\\b",e:hljs.IMMEDIATE_RE,r:10},{cN:"keyword",b:"\\.\\.\\.",e:hljs.IMMEDIATE_RE,r:10},{cN:"keyword",b:"\\.\\.\\d+(?![\\w.])",e:hljs.IMMEDIATE_RE,r:10},{cN:"keyword",b:"\\b(?:function)",e:hljs.IMMEDIATE_RE,r:2},{cN:"keyword",b:"(?:if|in|break|next|repeat|else|for|return|switch|while|try|stop|warning|require|attach|detach|source|setMethod|setClass)\\b",e:hljs.IMMEDIATE_RE,r:1},{cN:"literal",b:"(?:NA|NA_integer_|NA_real_|NA_character_|NA_complex_)\\b",e:hljs.IMMEDIATE_RE,r:10},{cN:"literal",b:"(?:NULL|TRUE|FALSE|T|F|Inf|NaN)\\b",e:hljs.IMMEDIATE_RE,r:1},{cN:"identifier",b:"[a-zA-Z.][a-zA-Z0-9._]*\\b",e:hljs.IMMEDIATE_RE,r:0},{cN:"operator",b:"<\\-(?!\\s*\\d)",e:hljs.IMMEDIATE_RE,r:2},{cN:"operator",b:"\\->|<\\-",e:hljs.IMMEDIATE_RE,r:1},{cN:"operator",b:"%%|~",e:hljs.IMMEDIATE_RE},{cN:"operator",b:">=|<=|==|!=|\\|\\||&&|=|\\+|\\-|\\*|/|\\^|>|<|!|&|\\||\\$|:",e:hljs.IMMEDIATE_RE,r:0},{cN:"operator",b:"%",e:"%",i:"\\n",r:1},{cN:"identifier",b:"`",e:"`",r:0},{cN:"string",b:'"',e:'"',c:[hljs.BE],r:0},{cN:"string",b:"'",e:"'",c:[hljs.BE],r:0},{cN:"paren",b:"[[({\\])}]",e:hljs.IMMEDIATE_RE,r:0}]}};
+hljs.initHighlightingOnLoad();
+</script>
+
+
+
+<style type="text/css">
+body, td {
+   font-family: sans-serif;
+   background-color: white;
+   font-size: 13px;
+}
+
+body {
+  max-width: 800px;
+  margin: auto;
+  padding: 1em;
+  line-height: 20px;
+}
+
+tt, code, pre {
+   font-family: 'DejaVu Sans Mono', 'Droid Sans Mono', 'Lucida Console', Consolas, Monaco, monospace;
+}
+
+h1 {
+   font-size:2.2em;
+}
+
+h2 {
+   font-size:1.8em;
+}
+
+h3 {
+   font-size:1.4em;
+}
+
+h4 {
+   font-size:1.0em;
+}
+
+h5 {
+   font-size:0.9em;
+}
+
+h6 {
+   font-size:0.8em;
+}
+
+a:visited {
+   color: rgb(50%, 0%, 50%);
+}
+
+pre, img {
+  max-width: 100%;
+}
+pre {
+  overflow-x: auto;
+}
+pre code {
+   display: block; padding: 0.5em;
+}
+
+code {
+  font-size: 92%;
+  border: 1px solid #ccc;
+}
+
+code[class] {
+  background-color: #F8F8F8;
+}
+
+table, td, th {
+  border: none;
+}
+
+blockquote {
+   color:#666666;
+   margin:0;
+   padding-left: 1em;
+   border-left: 0.5em #EEE solid;
+}
+
+hr {
+   height: 0px;
+   border-bottom: none;
+   border-top-width: thin;
+   border-top-style: dotted;
+   border-top-color: #999999;
+}
+
+@media print {
+   * {
+      background: transparent !important;
+      color: black !important;
+      filter:none !important;
+      -ms-filter: none !important;
+   }
+
+   body {
+      font-size:12pt;
+      max-width:100%;
+   }
+
+   a, a:visited {
+      text-decoration: underline;
+   }
+
+   hr {
+      visibility: hidden;
+      page-break-before: always;
+   }
+
+   pre, blockquote {
+      padding-right: 1em;
+      page-break-inside: avoid;
+   }
+
+   tr, img {
+      page-break-inside: avoid;
+   }
+
+   img {
+      max-width: 100% !important;
+   }
+
+   @page :left {
+      margin: 15mm 20mm 15mm 10mm;
+   }
+
+   @page :right {
+      margin: 15mm 10mm 15mm 20mm;
+   }
+
+   p, h2, h3 {
+      orphans: 3; widows: 3;
+   }
+
+   h2, h3 {
+      page-break-after: avoid;
+   }
+}
+</style>
+
+
+
+</head>
+
+<body>
+<p>This report was automatically generated with the R package <strong>knitr</strong>
+(version 1.11.3).</p>
+
+<pre><code class="r"># knitr::stitch_rmd(script=&quot;./manipulation/te-ellis.R&quot;, output=&quot;./manipulation/stitched-output/te-ellis.md&quot;)
+
+rm(list=ls(all=TRUE))  #Clear the variables from previous runs.
+
+# load_sources ------------------------------------------------------------
+
+# load_packages -----------------------------------------------------------
+# Attach these packages so their functions don&#39;t need to be qualified: http://r-pkgs.had.co.nz/namespace.html#search-path
+library(RODBC, quietly=TRUE)
+library(magrittr, quietly=TRUE)
+
+# Verify these packages are available on the machine, but their functions need to be qualified: http://r-pkgs.had.co.nz/namespace.html#search-path
+requireNamespace(&quot;readr&quot;, quietly=TRUE)
+requireNamespace(&quot;dplyr&quot;, quietly=TRUE)
+requireNamespace(&quot;car&quot;, quietly=TRUE) #For it&#39;s `recode()` function.
+
+# declare_globals ---------------------------------------------------------
+# Constant values that won&#39;t change.
+pathOutUnified             &lt;- &quot;data-phi-free/derived/county-month-te.csv&quot;
+countiesToDropFromRural    &lt;- c(&quot;Central Office&quot;, &quot;Tulsa&quot;, &quot;Oklahoma&quot;) #Exclude these records from the rural dataset.
+defaultDayOfMonth          &lt;- 15L      # Summarize each month at its (rough) midpoint.
+possibleCountyIDs          &lt;- 1L:77L   #There are 77 counties.
+thresholdMeanFteToFillIn   &lt;- 10L      #Any county averaging over 10 hours can be filled in with its mean.
+
+# URIs of CSV and County lookup table
+pathInOklahoma  &lt;- &quot;./data-phi-free/raw/te/nurse-month-oklahoma.csv&quot;
+pathInTulsa     &lt;- &quot;./data-phi-free/raw/te/month-tulsa.csv&quot;
+pathInRural     &lt;- &quot;./data-phi-free/raw/te/nurse-month-rural.csv&quot;
+pathCounty      &lt;- &quot;./data-phi-free/raw/te/county.csv&quot;
+
+# load_data ---------------------------------------------------------------
+# Read the CSVs
+dsNurseMonthOklahoma &lt;- readr::read_csv(pathInOklahoma)
+dsMonthTulsa         &lt;- readr::read_csv(pathInTulsa)
+dsNurseMonthRural    &lt;- readr::read_csv(pathInRural)
+dsCounty             &lt;- readr::read_csv(pathCounty)
+
+rm(pathInOklahoma, pathInTulsa, pathInRural, pathCounty)
+dsNurseMonthOklahoma
+</code></pre>
+
+<pre><code>## Source: local data frame [1,480 x 7]
+## 
+##    Employee #  Year Month   FTE FMLA Hours Training Hours          Name
+##         (int) (int) (int) (dbl)      (int)          (int)         (chr)
+## 1           1  2009     1     1         NA             50 Akilah Amyx  
+## 2           1  2009     2     1         NA             47 Akilah Amyx  
+## 3           1  2009     3     1         NA             36 Akilah Amyx  
+## 4           1  2009     4     1         NA             NA Akilah Amyx  
+## 5           1  2009     5     1         NA             NA Akilah Amyx  
+## 6           1  2009     6     1         NA             NA Akilah Amyx  
+## 7           1  2009     7     1         NA             NA Akilah Amyx  
+## 8           1  2009     8     1         NA             NA Akilah Amyx  
+## 9           1  2009     9     1         NA             NA Akilah Amyx  
+## 10          1  2009    10     1         NA             NA Akilah Amyx  
+## ..        ...   ...   ...   ...        ...            ...           ...
+</code></pre>
+
+<pre><code class="r">dsMonthTulsa
+</code></pre>
+
+<pre><code>## Source: local data frame [80 x 3]
+## 
+##         Month FteSum FmlaSum
+##         (chr)  (dbl)   (int)
+## 1   1/15/2009   25.5      NA
+## 2   2/15/2009   26.5      NA
+## 3   3/15/2009   26.5      NA
+## 4   4/15/2009   26.5      NA
+## 5   5/15/2009   25.5      NA
+## 6   6/15/2009   25.5      NA
+## 7   7/15/2009   25.5      NA
+## 8   8/15/2009   24.5      63
+## 9   9/15/2009   23.5      NA
+## 10 10/15/2009   23.5      NA
+## ..        ...    ...     ...
+</code></pre>
+
+<pre><code class="r">dsNurseMonthRural
+</code></pre>
+
+<pre><code>## Source: local data frame [4,726 x 6]
+## 
+##     HOME_COUNTY   FTE  PERIOD EMPLOYEEID REGIONID            Name
+##           (chr) (int)   (chr)      (int)    (int)           (chr)
+## 1  Pottawatomie   100 06/2012         46       49 Cheree Crites  
+## 2  Pottawatomie    50 08/2012         46       49 Cheree Crites  
+## 3  Pottawatomie   100 09/2012         46       49 Cheree Crites  
+## 4  Pottawatomie   100 10/2012         46       49 Cheree Crites  
+## 5  Pottawatomie   100 12/2012         46       49 Cheree Crites  
+## 6  Pottawatomie    50 01/2013         46       49 Cheree Crites  
+## 7  Pottawatomie   100 02/2013         46       49 Cheree Crites  
+## 8      Oklahoma   100 08/2012         47       44 Cheryll Canez  
+## 9      Oklahoma   100 09/2012         47       44 Cheryll Canez  
+## 10     Oklahoma   100 10/2012         47       44 Cheryll Canez  
+## ..          ...   ...     ...        ...      ...             ...
+</code></pre>
+
+<pre><code class="r">dsCounty
+</code></pre>
+
+<pre><code>## Source: local data frame [77 x 13]
+## 
+##    CountyID CountyName GeoID FipsCode FundingC1 FundingOcap
+##       (int)      (chr) (int)    (int)     (int)       (int)
+## 1         1      Adair 40001        1         1           0
+## 2         2    Alfalfa 40003        3         0           0
+## 3         3      Atoka 40005        5         1           0
+## 4         4     Beaver 40007        7         0           0
+## 5         5    Beckham 40009        9         1           0
+## 6         6     Blaine 40011       11         1           0
+## 7         7      Bryan 40013       13         1           0
+## 8         8      Caddo 40015       15         1           0
+## 9         9   Canadian 40017       17         1           0
+## 10       10     Carter 40019       19         1           0
+## ..      ...        ...   ...      ...       ...         ...
+## Variables not shown: C1LeadNurseRegion (int), C1LeadNurseName (chr), Urban
+##   (int), LabelLongitude (dbl), LabelLatitude (dbl), MiechvEvaluation
+##   (int), MiechvFormula (int).
+</code></pre>
+
+<pre><code class="r"># tweak_data --------------------------------------------------------------
+# dsNurseMonthRuralOklahoma &lt;- dsNurseMonthRural[dsNurseMonthRural$HOME_COUNTY==&quot;Oklahoma&quot;, ]
+
+# groom_oklahoma ----------------------------------------------------------
+
+# Sanitize illegal variable names.
+colnames(dsNurseMonthOklahoma) &lt;- make.names(colnames(dsNurseMonthOklahoma))
+
+# Groom the nurse-month dataset for Oklahoma County.
+dsNurseMonthOklahoma &lt;- dsNurseMonthOklahoma %&gt;%
+  dplyr::rename_(
+    &quot;EmployeeNumber&quot;    = &quot;Employee..&quot;         # Used to be &quot;Employee #&quot; before sanitizing.
+    , &quot;EmployeeName&quot;    = &quot;Name&quot;
+    , &quot;Year&quot;            = &quot;Year&quot;
+    , &quot;Month&quot;           = &quot;Month&quot;
+    , &quot;Fte&quot;             = &quot;FTE&quot;
+    , &quot;FmlaHours&quot;       = &quot;FMLA.Hours&quot;         # Used to be &quot;FMLA Hours&quot; before sanitizing.
+    , &quot;TrainingHours&quot;   = &quot;Training.Hours&quot;     # Used to be &quot;Training Hours&quot; before sanitizing.
+  ) %&gt;%
+  dplyr::mutate(
+    CountyID        = dsCounty[dsCounty$CountyName==&quot;Oklahoma&quot;, ]$CountyID,  # Dynamically determine county ID.
+    Month           = as.Date(ISOdate(Year, Month, defaultDayOfMonth)),      # Combine fields for one date.
+    # FmlaHours     = ifelse(!is.na(FmlaHours), FmlaHours, 0.0),             # Set missing values to zero.
+    TrainingHours   = ifelse(!is.na(TrainingHours), TrainingHours, 0.0)      # Set missing values to zero.
+  ) %&gt;%
+  dplyr::select(      # Drop unecessary variables (ie, defensive programming)
+    -EmployeeNumber,
+    -EmployeeName,
+    -Year
+  )
+dsNurseMonthOklahoma
+</code></pre>
+
+<pre><code>## Source: local data frame [1,480 x 5]
+## 
+##         Month   Fte FmlaHours TrainingHours CountyID
+##        (date) (dbl)     (int)         (dbl)    (int)
+## 1  2009-01-15     1        NA            50       55
+## 2  2009-02-15     1        NA            47       55
+## 3  2009-03-15     1        NA            36       55
+## 4  2009-04-15     1        NA             0       55
+## 5  2009-05-15     1        NA             0       55
+## 6  2009-06-15     1        NA             0       55
+## 7  2009-07-15     1        NA             0       55
+## 8  2009-08-15     1        NA             0       55
+## 9  2009-09-15     1        NA             0       55
+## 10 2009-10-15     1        NA             0       55
+## ..        ...   ...       ...           ...      ...
+</code></pre>
+
+<pre><code class="r"># Collapse across nurses to create one record per month for Oklahoma County.
+dsMonthOklahoma &lt;- dsNurseMonthOklahoma %&gt;%
+  dplyr::group_by(CountyID, Month) %&gt;%                   # Split by County &amp; Month into sub-datasets
+  dplyr::summarize(                                      # Aggregate/summarize within sub-datasets
+    Fte               = sum(Fte, na.rm=T),
+    # FmlaHours       = sum(FmlaHours, na.rm=T)
+    FteApproximated   = FALSE                            # This variable helps the later union query.
+  ) %&gt;%
+  dplyr::ungroup()                                       # Unecessary b/c of `summarize()`, but I like the habit.
+dsMonthOklahoma
+</code></pre>
+
+<pre><code>## Source: local data frame [81 x 4]
+## 
+##    CountyID      Month   Fte FteApproximated
+##       (int)     (date) (dbl)           (lgl)
+## 1        55 2009-01-15 17.00           FALSE
+## 2        55 2009-02-15 16.76           FALSE
+## 3        55 2009-03-15 18.00           FALSE
+## 4        55 2009-04-15 17.76           FALSE
+## 5        55 2009-05-15 17.52           FALSE
+## 6        55 2009-06-15 18.50           FALSE
+## 7        55 2009-07-15 18.00           FALSE
+## 8        55 2009-08-15 19.00           FALSE
+## 9        55 2009-09-15 18.76           FALSE
+## 10       55 2009-10-15 17.50           FALSE
+## ..      ...        ...   ...             ...
+</code></pre>
+
+<pre><code class="r"># The SQL equivalent to the previous dplyr code.
+#   SELECT Month, CountyID, SUM(Fte) as Fte, &#39;FALSE&#39; AS FteApproximated
+#   FROM dsNurseMonthOklahoma
+#   GROUP BY Month, CountyID
+
+# The un-piped equivalent to the previous dplyr code.  Notice 3 layers of nesting instead of 3 pipes.
+#   dsMonthOklahoma &lt;- dplyr::ungroup(
+#     dplyr::summarize(
+#       dplyr::group_by(
+#         dsNurseMonthOklahoma,
+#         CountyID,
+#         Month
+#       ),
+#       # Aggregate/summarize within sub-datasets
+#       Fte               = sum(Fte, na.rm=T),
+#       # FmlaHours       = sum(FmlaHours, na.rm=T)
+#       FteApproximated   = FALSE                            # This variable helps the later union query.
+#     )
+#   )
+
+rm(dsNurseMonthOklahoma) #Remove this dataset so it&#39;s not accidentally used below.
+
+# groom_tulsa -------------------------------------------------------------
+
+# Groom the nurse-month dataset for Tulsa County.
+dsMonthTulsa &lt;- dsMonthTulsa %&gt;%
+  dplyr::rename_(
+    &quot;Month&quot;       = &quot;Month&quot;
+    , &quot;Fte&quot;       = &quot;FteSum&quot;
+    #, &quot;FmlaHours&quot; = &quot;FmlaSum&quot;
+  ) %&gt;%
+  dplyr::mutate(
+    CountyID            = dsCounty[dsCounty$CountyName==&quot;Tulsa&quot;, ]$CountyID,  #Dynamically determine county ID
+    Month               = as.Date(Month, &quot;%m/%d/%Y&quot;),
+    #FmlaHours          = ifelse(!is.na(FmlaHours), FmlaHours, 0.0)
+    FteApproximated    = FALSE
+  )  %&gt;%
+  dplyr::select(CountyID, Month, Fte, FteApproximated)
+dsMonthTulsa
+</code></pre>
+
+<pre><code>## Source: local data frame [80 x 4]
+## 
+##    CountyID      Month   Fte FteApproximated
+##       (int)     (date) (dbl)           (lgl)
+## 1        72 2009-01-15  25.5           FALSE
+## 2        72 2009-02-15  26.5           FALSE
+## 3        72 2009-03-15  26.5           FALSE
+## 4        72 2009-04-15  26.5           FALSE
+## 5        72 2009-05-15  25.5           FALSE
+## 6        72 2009-06-15  25.5           FALSE
+## 7        72 2009-07-15  25.5           FALSE
+## 8        72 2009-08-15  24.5           FALSE
+## 9        72 2009-09-15  23.5           FALSE
+## 10       72 2009-10-15  23.5           FALSE
+## ..      ...        ...   ...             ...
+</code></pre>
+
+<pre><code class="r"># groom_rural -------------------------------------------------------------
+
+# Groom the nurse-month dataset for the 75 rurals counties.
+dsNurseMonthRural &lt;- dsNurseMonthRural %&gt;%
+  dplyr::rename_(
+    &quot;NameFull&quot;            = &quot;Name&quot;
+    , &quot;CountyName&quot;        = &quot;HOME_COUNTY&quot;
+    , &quot;RegionID&quot;          = &quot;REGIONID&quot;
+    , &quot;FtePercent&quot;        = &quot;FTE&quot;
+    , &quot;Month&quot;             = &quot;PERIOD&quot;
+  ) %&gt;%
+  dplyr::select(
+    CountyName,
+    Month,
+    NameFull,
+    FtePercent
+  ) %&gt;% # dplyr::select(NameFull, Month, CountyName, FtePercent) %&gt;%
+  dplyr::filter(!(CountyName %in% countiesToDropFromRural)) %&gt;%
+  dplyr::mutate(
+    Month      = as.Date(paste0(Month, &quot;-&quot;, defaultDayOfMonth), format=&quot;%m/%Y-%d&quot;),
+    FteString  = gsub(&quot;^(\\d{1,3})%\\s+$&quot;, &quot;\\1&quot;, FtePercent),
+    Fte        = .01 * as.numeric(ifelse(nchar(FteString)==0L, 0, FteString)),
+    CountyName = car::recode(CountyName, &quot;&#39;Cimmarron&#39;=&#39;Cimarron&#39;;&#39;Leflore&#39;=&#39;Le Flore&#39;&quot;)
+  ) %&gt;%
+  dplyr::arrange(CountyName, Month, NameFull) %&gt;%
+  dplyr::select(
+    -FtePercent,
+    -FteString
+  ) %&gt;%
+  dplyr::left_join(
+    dsCounty[, c(&quot;CountyID&quot;, &quot;CountyName&quot;)], by=&quot;CountyName&quot;
+  )
+dsNurseMonthRural
+</code></pre>
+
+<pre><code>## Source: local data frame [3,248 x 5]
+## 
+##    CountyName      Month           NameFull   Fte CountyID
+##         (chr)     (date)              (chr) (dbl)    (int)
+## 1       Adair 2012-06-15      Hilda Hypes       1        1
+## 2       Adair 2012-08-15      Hilda Hypes       1        1
+## 3       Adair 2012-09-15      Hilda Hypes       1        1
+## 4       Adair 2012-10-15      Hilda Hypes       1        1
+## 5       Adair 2012-12-15      Hilda Hypes       1        1
+## 6       Adair 2013-01-15      Hilda Hypes       1        1
+## 7       Adair 2013-02-15      Hilda Hypes       1        1
+## 8       Adair 2013-03-15      Hilda Hypes       1        1
+## 9       Adair 2013-06-15      Hilda Hypes       1        1
+## 10      Adair 2015-06-15 Franchesca Futch       1        1
+## ..        ...        ...                ...   ...      ...
+</code></pre>
+
+<pre><code class="r"># table(dsNurseMonthRural$CountyID, useNA=&quot;always&quot;)
+# table(dsNurseMonthRural$CountyName, useNA=&quot;always&quot;)
+
+# Collapse across nurses to create one record per month per county.
+dsMonthRural &lt;- dsNurseMonthRural %&gt;%
+  dplyr::group_by(CountyID, Month) %&gt;%
+  dplyr::summarize(
+    Fte                = sum(Fte, na.rm=TRUE),
+    # FmlaHours        = sum(FmlaHours, na.rm=TRUE)
+    FteApproximated    = FALSE
+  ) %&gt;%
+  dplyr::ungroup()
+dsMonthRural
+</code></pre>
+
+<pre><code>## Source: local data frame [1,784 x 4]
+## 
+##    CountyID      Month   Fte FteApproximated
+##       (int)     (date) (dbl)           (lgl)
+## 1         1 2012-06-15     1           FALSE
+## 2         1 2012-08-15     1           FALSE
+## 3         1 2012-09-15     1           FALSE
+## 4         1 2012-10-15     1           FALSE
+## 5         1 2012-12-15     1           FALSE
+## 6         1 2013-01-15     1           FALSE
+## 7         1 2013-02-15     1           FALSE
+## 8         1 2013-03-15     1           FALSE
+## 9         1 2013-06-15     1           FALSE
+## 10        1 2015-06-15     1           FALSE
+## ..      ...        ...   ...             ...
+</code></pre>
+
+<pre><code class="r">possibleMonths &lt;- seq.Date(range(dsMonthRural$Month)[1], range(dsMonthRural$Month)[2], by=&quot;month&quot;)
+dsPossible &lt;- expand.grid(Month=possibleMonths, CountyID=possibleCountyIDs, stringsAsFactors=F)
+
+#Determine the months were we don&#39;t have any rural T&amp;E data.
+monthsRuralNotCollected &lt;- (dsMonthRural %&gt;%
+  dplyr::right_join(
+    dsPossible, by=c(&quot;CountyID&quot;, &quot;Month&quot;)
+  ) %&gt;%
+  dplyr::group_by(Month) %&gt;%
+  dplyr::summarize(
+    MeanNA = mean(is.na(Fte))
+  ) %&gt;%
+  dplyr::ungroup() %&gt;%
+  dplyr::filter(MeanNA &gt;= .9999))$Month
+monthsRuralNotCollected
+</code></pre>
+
+<pre><code>## [1] &quot;2012-07-15&quot; &quot;2012-11-15&quot; &quot;2013-04-15&quot; &quot;2013-05-15&quot; &quot;2013-11-15&quot;
+</code></pre>
+
+<pre><code class="r">rm(dsNurseMonthRural) #Remove this dataset so it&#39;s not accidentally used below.
+rm(countiesToDropFromRural, defaultDayOfMonth)
+
+# union_all_counties -----------------------------------------------------
+
+# Stack the three datasets on top of each other.
+ds &lt;- dsMonthOklahoma %&gt;%
+  dplyr::union(
+    dsMonthTulsa
+  ) %&gt;%
+  dplyr::union(
+    dsMonthRural
+  ) %&gt;%
+  dplyr::right_join(
+    dsPossible, by=c(&quot;CountyID&quot;, &quot;Month&quot;)
+  ) %&gt;%
+  dplyr::left_join(
+    dsCounty[, c(&quot;CountyID&quot;, &quot;CountyName&quot;, &quot;C1LeadNurseRegion&quot;)], by=&quot;CountyID&quot;
+  ) %&gt;%
+  dplyr::rename_(&quot;RegionID&quot; = &quot;C1LeadNurseRegion&quot;) %&gt;%
+  dplyr::arrange(CountyID, Month) %&gt;%
+  dplyr::mutate(
+    CountyMonthID     = seq_len(n()), # Add the primary key
+    Fte               = ifelse(is.na(Fte), 0, Fte),
+    MonthMissing      = is.na(FteApproximated),
+    FteApproximated   = MonthMissing &amp; (Month %in% monthsRuralNotCollected),
+    FteRollingMedian12Month = zoo::rollmedian(x=Fte, 11, na.pad=T, align=&quot;right&quot;)
+  ) %&gt;%
+  dplyr::group_by(CountyID) %&gt;%               # Group by county.
+  dplyr::mutate(
+    CountyAnyMissing  = any(MonthMissing)     # Determine if a county is missing any month
+  ) %&gt;%
+  dplyr::ungroup()
+ds
+</code></pre>
+
+<pre><code>## Source: local data frame [3,080 x 10]
+## 
+##    CountyID      Month   Fte FteApproximated CountyName RegionID
+##       (dbl)     (date) (dbl)           (lgl)      (chr)    (int)
+## 1         1 2012-06-15     1           FALSE      Adair       11
+## 2         1 2012-07-15     0            TRUE      Adair       11
+## 3         1 2012-08-15     1           FALSE      Adair       11
+## 4         1 2012-09-15     1           FALSE      Adair       11
+## 5         1 2012-10-15     1           FALSE      Adair       11
+## 6         1 2012-11-15     0            TRUE      Adair       11
+## 7         1 2012-12-15     1           FALSE      Adair       11
+## 8         1 2013-01-15     1           FALSE      Adair       11
+## 9         1 2013-02-15     1           FALSE      Adair       11
+## 10        1 2013-03-15     1           FALSE      Adair       11
+## ..      ...        ...   ...             ...        ...      ...
+## Variables not shown: CountyMonthID (int), MonthMissing (lgl),
+##   FteRollingMedian12Month (dbl), CountyAnyMissing (lgl).
+</code></pre>
+
+<pre><code class="r">#Loop through each county to determine which (if any) months need to be approximated.
+#   The dataset is small enough that it&#39;s not worth vectorizing.
+for( countyID in sort(unique(ds$CountyID)) ) {# for( countyID in 13 ) {}
+  dsCounty &lt;- dplyr::filter(ds, CountyID==countyID)
+  missing &lt;- dsCounty$FteApproximated #is.na(dsCounty$FteApproximated)
+
+  # Attempt to fill in values only for counties missing something.
+  if( any(dsCounty$CountyAnyMissing) ) {
+
+    #This statement interpolates missing FTE values
+    dsCounty$Fte[missing] &lt;- as.numeric(approx(
+      x    = dsCounty$Month[!missing],
+      y    = dsCounty$Fte[  !missing],
+      xout = dsCounty$Month[ missing]
+    )$y)
+
+    #This statement extrapolates missing FTE values, which occurs when the first/last few months are missing.
+    if( mean(dsCounty$Fte, na.rm=T) &gt;= thresholdMeanFteToFillIn ) {
+      dsCounty$FteApproximated &lt;- (dsCounty$Fte==0)
+      dsCounty$Fte &lt;- ifelse(dsCounty$Fte==0, dsCounty$FteRollingMedian12Month, dsCounty$Fte)
+    }
+
+    #Overwrite selected values in the real dataset
+    ds[ds$CountyID==countyID, ]$Fte             &lt;- dsCounty$Fte
+    ds[ds$CountyID==countyID, ]$FteApproximated &lt;- dsCounty$FteApproximated
+  }
+}
+ds
+</code></pre>
+
+<pre><code>## Source: local data frame [3,080 x 10]
+## 
+##    CountyID      Month   Fte FteApproximated CountyName RegionID
+##       (dbl)     (date) (dbl)           (lgl)      (chr)    (int)
+## 1         1 2012-06-15     1           FALSE      Adair       11
+## 2         1 2012-07-15     1            TRUE      Adair       11
+## 3         1 2012-08-15     1           FALSE      Adair       11
+## 4         1 2012-09-15     1           FALSE      Adair       11
+## 5         1 2012-10-15     1           FALSE      Adair       11
+## 6         1 2012-11-15     1            TRUE      Adair       11
+## 7         1 2012-12-15     1           FALSE      Adair       11
+## 8         1 2013-01-15     1           FALSE      Adair       11
+## 9         1 2013-02-15     1           FALSE      Adair       11
+## 10        1 2013-03-15     1           FALSE      Adair       11
+## ..      ...        ...   ...             ...        ...      ...
+## Variables not shown: CountyMonthID (int), MonthMissing (lgl),
+##   FteRollingMedian12Month (dbl), CountyAnyMissing (lgl).
+</code></pre>
+
+<pre><code class="r">rm(dsMonthOklahoma, dsMonthTulsa, dsMonthRural, dsPossible)  #Remove these datasets so it&#39;s not accidentally used below.
+rm(possibleMonths, possibleCountyIDs)
+
+# verify_values -----------------------------------------------------------
+# Sniff out problems
+testit::assert(&quot;The Month value must be nonmissing &amp; since 2000&quot;, all(!is.na(ds$Month) &amp; (ds$Month&gt;=&quot;2012-01-01&quot;)))
+testit::assert(&quot;The CountyID value must be nonmissing &amp; positive.&quot;, all(!is.na(ds$CountyID) &amp; (ds$CountyID&gt;0)))
+testit::assert(&quot;The CountyID value must be in [1, 77].&quot;, all(ds$CountyID %in% seq_len(77L)))
+testit::assert(&quot;The RegionID value must be nonmissing &amp; positive.&quot;, all(!is.na(ds$RegionID) &amp; (ds$RegionID&gt;0)))
+testit::assert(&quot;The RegionID value must be in [1, 20].&quot;, all(ds$RegionID %in% seq_len(20L)))
+testit::assert(&quot;The `Fte` value must be nonmissing &amp; positive.&quot;, all(!is.na(ds$Fte) &amp; (ds$Fte&gt;=0)))
+# testit::assert(&quot;The `FmlaHours` value must be nonmissing &amp; nonnegative&quot;, all(is.na(ds$FmlaHours) | (ds$FmlaHours&gt;=0)))
+
+testit::assert(&quot;The County-Month combination should be unique.&quot;, all(!duplicated(paste(ds$CountyID, ds$Month))))
+testit::assert(&quot;The Region-County-Month combination should be unique.&quot;, all(!duplicated(paste(ds$RegionID, ds$CountyID, ds$Month))))
+table(paste(ds$CountyID, ds$Month))[table(paste(ds$CountyID, ds$Month))&gt;1]
+</code></pre>
+
+<pre><code>## named integer(0)
+</code></pre>
+
+<pre><code class="r"># specify_columns_to_upload -----------------------------------------------
+columnsToWrite &lt;- c( &quot;CountyMonthID&quot;, &quot;CountyID&quot;, &quot;Month&quot;, &quot;Fte&quot;, &quot;FteApproximated&quot;, &quot;RegionID&quot;)
+dsSlim &lt;- ds[, columnsToWrite]
+dsSlim$FteApproximated &lt;- as.integer(dsSlim$FteApproximated)
+dsSlim
+</code></pre>
+
+<pre><code>## Source: local data frame [3,080 x 6]
+## 
+##    CountyMonthID CountyID      Month   Fte FteApproximated RegionID
+##            (int)    (dbl)     (date) (dbl)           (int)    (int)
+## 1              1        1 2012-06-15     1               0       11
+## 2              2        1 2012-07-15     1               1       11
+## 3              3        1 2012-08-15     1               0       11
+## 4              4        1 2012-09-15     1               0       11
+## 5              5        1 2012-10-15     1               0       11
+## 6              6        1 2012-11-15     1               1       11
+## 7              7        1 2012-12-15     1               0       11
+## 8              8        1 2013-01-15     1               0       11
+## 9              9        1 2013-02-15     1               0       11
+## 10            10        1 2013-03-15     1               0       11
+## ..           ...      ...        ...   ...             ...      ...
+</code></pre>
+
+<pre><code class="r"># # upload_to_db ------------------------------------------------------------
+# (startTime &lt;- Sys.time())
+# dbTable &lt;- &quot;Osdh.tblC1TEMonth&quot;
+# channel &lt;- RODBC::odbcConnect(&quot;te-example&quot;) #getSqlTypeInfo(&quot;Microsoft SQL Server&quot;) #;odbcGetInfo(channel)
+#
+# columnInfo &lt;- RODBC::sqlColumns(channel, dbTable)
+# varTypes &lt;- as.character(columnInfo$TYPE_NAME)
+# names(varTypes) &lt;- as.character(columnInfo$COLUMN_NAME)  #varTypes
+#
+# RODBC::sqlClear(channel, dbTable)
+# RODBC::sqlSave(channel, dsSlim, dbTable, append=TRUE, rownames=FALSE, fast=TRUE, varTypes=varTypes)
+# RODBC::odbcClose(channel)
+# rm(columnInfo, channel, columnsToWrite, dbTable, varTypes)
+# (elapsedDuration &lt;-  Sys.time() - startTime) #21.4032 secs 2015-10-31
+
+# save_to_disk ------------------------------------------------------------
+readr::write_csv(ds, pathOutUnified)
+
+# inspect -----------------------------------------------------------------
+library(ggplot2)
+
+# Graph each county-month
+ggplot(ds, aes(x=Month, y=Fte, group=factor(CountyID), color=factor(CountyID), shape=FteApproximated, ymin=0)) +
+  geom_point(position=position_jitter(height=.05, width=5), size=4, na.rm=T) +
+  # geom_text(aes(label=CountyMonthID)) +
+  geom_line(position=position_jitter(height=.1, width=5)) +
+  scale_shape_manual(values=c(&quot;TRUE&quot;=21, &quot;FALSE&quot;=NA)) +
+  theme_light() +
+  guides(color = guide_legend(ncol=4, override.aes = list(size=3, alpha = 1))) +
+  guides(shape = guide_legend(ncol=2, override.aes = list(size=3, alpha = 1))) +
+  labs(title=&quot;FTE sum each month (by county)&quot;, y=&quot;Sum of FTE for County&quot;)
+</code></pre>
+
+<p><img src="figure/te-ellis-Rmdauto-report-1.png" title="plot of chunk auto-report" alt="plot of chunk auto-report" style="display: block; margin: auto;" /></p>
+
+<pre><code class="r"># Graph each region-month
+dsRegion &lt;- ds %&gt;%
+  dplyr::group_by(RegionID, Month) %&gt;%
+  dplyr::summarize(
+    Fte             = sum(Fte, na.rm=T),
+    FteApproximated = any(FteApproximated)
+  ) %&gt;%
+  dplyr::ungroup()
+
+last_plot() %+%
+  dsRegion +
+  aes(group=factor(RegionID), color=factor(RegionID))
+</code></pre>
+
+<p><img src="figure/te-ellis-Rmdauto-report-2.png" title="plot of chunk auto-report" alt="plot of chunk auto-report" style="display: block; margin: auto;" /></p>
+
+<pre><code class="r"># last_plot() +
+#   aes(y=FmlaHours) +
+#   labs(title=&quot;FmlaHours sum each month (by county)&quot;)
+</code></pre>
+
+<p>The R session information (including the OS info, R version and all
+packages used):</p>
+
+<pre><code class="r">sessionInfo()
+</code></pre>
+
+<pre><code>## R version 3.2.2 (2015-08-14)
+## Platform: x86_64-pc-linux-gnu (64-bit)
+## Running under: Ubuntu 14.04.3 LTS
+## 
+## locale:
+##  [1] LC_CTYPE=en_US.UTF-8       LC_NUMERIC=C              
+##  [3] LC_TIME=en_US.UTF-8        LC_COLLATE=en_US.UTF-8    
+##  [5] LC_MONETARY=en_US.UTF-8    LC_MESSAGES=en_US.UTF-8   
+##  [7] LC_PAPER=en_US.UTF-8       LC_NAME=C                 
+##  [9] LC_ADDRESS=C               LC_TELEPHONE=C            
+## [11] LC_MEASUREMENT=en_US.UTF-8 LC_IDENTIFICATION=C       
+## 
+## attached base packages:
+## [1] stats     graphics  grDevices utils     datasets  methods   base     
+## 
+## other attached packages:
+## [1] RODBC_1.3-12  magrittr_1.5  ggplot2_1.0.1
+## 
+## loaded via a namespace (and not attached):
+##  [1] Rcpp_0.12.2        formatR_1.2.1      nloptr_1.0.4      
+##  [4] plyr_1.8.3         tools_3.2.2        digest_0.6.8      
+##  [7] lme4_1.1-10        evaluate_0.8       gtable_0.1.2      
+## [10] nlme_3.1-122       lattice_0.20-33    mgcv_1.8-9        
+## [13] Matrix_1.2-2       DBI_0.3.1.9008     parallel_3.2.2    
+## [16] SparseM_1.7        proto_0.3-10       dplyr_0.4.3.9000  
+## [19] stringr_1.0.0.9000 knitr_1.11.3       MatrixModels_0.4-1
+## [22] grid_3.2.2         nnet_7.3-11        R6_2.1.1          
+## [25] minqa_1.2.4        reshape2_1.4.1     readr_0.2.2       
+## [28] car_2.1-0          scales_0.3.0       MASS_7.3-45       
+## [31] splines_3.2.2      assertthat_0.1     pbkrtest_0.4-2    
+## [34] testit_0.4         colorspace_1.2-6   labeling_0.3      
+## [37] quantreg_5.19      stringi_1.0-1      lazyeval_0.1.10   
+## [40] munsell_0.4.2      markdown_0.7.7     zoo_1.7-12
+</code></pre>
+
+<pre><code class="r">Sys.time()
+</code></pre>
+
+<pre><code>## [1] &quot;2015-11-30 20:49:42 CST&quot;
+</code></pre>
+
+</body>
+
+</html>

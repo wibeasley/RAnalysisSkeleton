@@ -41,3 +41,8 @@ Cosmetic Differences
 | Misspelled Counties | -- | -- | Yes | `car::recode()`<br/>or `plyr::revalue()` |
 | Counties to Drop | n | n | Yes | blacklist |
 
+
+Demo
+========================================================
+* [Code](https://github.com/wibeasley/RAnalysisSkeleton/blob/master/manipulation/te-ellis.R)
+* [Stitched Output](https://github.com/wibeasley/RAnalysisSkeleton/blob/master/manipulation/stitched-output/te-ellis.md)

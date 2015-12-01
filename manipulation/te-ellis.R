@@ -3,7 +3,7 @@ rm(list=ls(all=TRUE))  #Clear the variables from previous runs.
 # load_sources ------------------------------------------------------------
 
 # load_packages -----------------------------------------------------------
-# For the packages that must be attaced
+# For the packages that must be attached
 library(RODBC, quietly=TRUE)
 library(magrittr, quietly=TRUE)
 requireNamespace("readr", quietly=TRUE)
@@ -19,13 +19,11 @@ thresholdMeanFteToFillIn <- 10L #Any county averaging over 10 hours can be fille
 
 # load_data ---------------------------------------------------------------
 
-# Retrieve URIs of CSV, and retrieve County lookup table
-channel <- RODBC::odbcConnect("MiechvEvaluation") #getSqlTypeInfo("Microsoft SQL Server") #odbcGetInfo(channel)
+# URIs of CSV and County lookup table
 pathInOklahoma  <- "./data-phi-free/raw/te/nurse-month-oklahoma.csv"
 pathInTulsa     <- "./data-phi-free/raw/te/month-tulsa.csv"
 pathInRural     <- "./data-phi-free/raw/te/nurse-month-rural.csv"
 pathCounty      <- "./data-phi-free/raw/te/county.csv"
-RODBC::odbcClose(channel); rm(channel)
 
 # Read the CSVs
 dsNurseMonthOklahoma <- readr::read_csv(pathInOklahoma)
@@ -244,8 +242,9 @@ dsSlim$FteApproximated <- as.integer(dsSlim$FteApproximated)
 # RODBC::odbcClose(channel)
 # rm(columnInfo, channel, columnsToWrite, dbTable, varTypes)
 # (elapsedDuration <-  Sys.time() - startTime) #21.4032 secs 2015-10-31
-# # save_to_disk ------------------------------------------------------------
-# readr::write_csv(dsSlim, pathOutUnified)
+
+# save_to_disk ------------------------------------------------------------
+readr::write_csv(ds, pathOutUnified)
 
 # inspect -----------------------------------------------------------------
 library(ggplot2)

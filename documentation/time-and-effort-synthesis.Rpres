@@ -23,11 +23,11 @@ Structural Differences
 ========================================================
 | | [Oklahoma](https://github.com/wibeasley/RAnalysisSkeleton/blob/master/data-phi-free/raw/te/nurse-month-oklahoma.csv) | [Tulsa](https://github.com/wibeasley/RAnalysisSkeleton/blob/master/data-phi-free/raw/te/month-tulsa.csv) | [Rural](https://github.com/wibeasley/RAnalysisSkeleton/blob/master/data-phi-free/raw/te/nurse-month-rural.csv) | Approach |
 | :----: | :----: | :----: | :----: | :----: |
-| Structure | one row per month<br/> per nurse | one row per month<br/>(ie, it's already aggregated) | one row per month<br/> per nurse | dplyr |
+| Structure | one row per month<br/> per nurse | one row per month<br/>(it's already aggregated) | one row per month<br/> per nurse | `dplyr`'s `group_by()`<br/>and `summarize()` |
 | Contains PHI | Yes | n | Yes | Hash |
-| Rename Fields | Yes | Yes | Yes | dplyr |
+| Rename Fields | Yes | Yes | Yes | `dplyr::rename()` |
 | Missing Values | n | n | Yes | compare county holes |
-| Legit Holes | n | n | Yes | *soft touch* |
+| Legit Holes | n | n | Yes | enumerate all combos<br/>and fill z/ zeros |
 | Right Censored | Maybe | Maybe | n | group, sort, and<br/>`zoo::rollmedian()` |
 
 
@@ -36,7 +36,8 @@ Cosmetic Differences
 | | [Oklahoma](https://github.com/wibeasley/RAnalysisSkeleton/blob/master/data-phi-free/raw/te/nurse-month-oklahoma.csv) | [Tulsa](https://github.com/wibeasley/RAnalysisSkeleton/blob/master/data-phi-free/raw/te/month-tulsa.csv) | [Rural](https://github.com/wibeasley/RAnalysisSkeleton/blob/master/data-phi-free/raw/te/nurse-month-rural.csv) | Approach |
 | :----: | :----: | :----: | :----: | :----: |
 | Date | `Year` & `Month`<br/>separate | `1/15/2009` | `06/2012` | `as.Date()` `format`<br/>parameter |
-| FTE Type | Proportion | Sum | Percentage | regex |
+| FTE Type | Proportion | Sum | Percentage | regex `gsub()` |
 | Requires Linking Counties | Sorta | Sorta | Yes | Lookup Table<br/>& left join |
-| Misspelled Counties | -- | -- | Yes | `car::recode()`<br/>or `plyr::revalue() |
+| Misspelled Counties | -- | -- | Yes | `car::recode()`<br/>or `plyr::revalue()` |
+| Counties to Drop | n | n | Yes | blacklist |
 

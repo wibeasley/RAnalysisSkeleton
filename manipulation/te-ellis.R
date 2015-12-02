@@ -1,10 +1,10 @@
 # knitr::stitch_rmd(script="./manipulation/te-ellis.R", output="./manipulation/stitched-output/te-ellis.md")
 rm(list=ls(all=TRUE))  #Clear the variables from previous runs.
 
-# load_sources ------------------------------------------------------------
+# ---- load_sources ------------------------------------------------------------
 # Call `base::source()` on any repo file that defines functions needed below.  Ideally, no real operations are performed.
 
-# load_packages -----------------------------------------------------------
+# ---- load_packages -----------------------------------------------------------
 # Attach these packages so their functions don't need to be qualified: http://r-pkgs.had.co.nz/namespace.html#search-path
 library(RODBC, quietly=TRUE)
 library(magrittr, quietly=TRUE)
@@ -14,13 +14,14 @@ requireNamespace("readr", quietly=TRUE)
 requireNamespace("dplyr", quietly=TRUE) #Avoid attaching dplyr, b/c its function names conflict with a lot of packages (esp base, stats, and plyr).
 requireNamespace("car", quietly=TRUE) #For it's `recode()` function.
 
-# declare_globals ---------------------------------------------------------
+# ---- declare_globals ---------------------------------------------------------
 # Constant values that won't change.
 path_out_unified               <- "data-phi-free/derived/county-month-te.csv"
 counties_to_drop_from_rural    <- c("Central Office", "Tulsa", "Oklahoma") #Exclude these records from the rural dataset.
 default_day_of_month           <- 15L      # Summarize each month at its (rough) midpoint.
 possible_county_ids            <- 1L:77L   #There are 77 counties.
 threshold_mean_fte_t_fill_in   <- 10L      #Any county averaging over 10 hours can be filled in with its mean.
+figure_path <- 'manipulation/stitched-output/te/'
 
 # URIs of CSV and County lookup table
 path_in_oklahoma  <- "./data-phi-free/raw/te/nurse-month-oklahoma.csv"
@@ -28,7 +29,7 @@ path_in_tulsa     <- "./data-phi-free/raw/te/month-tulsa.csv"
 path_in_rural     <- "./data-phi-free/raw/te/nurse-month-rural.csv"
 path_county       <- "./data-phi-free/raw/te/county.csv"
 
-# load_data ---------------------------------------------------------------
+# ---- load_data ---------------------------------------------------------------
 # Read the CSVs
 ds_nurse_month_oklahoma <- readr::read_csv(path_in_oklahoma)
 ds_month_tulsa          <- readr::read_csv(path_in_tulsa)
@@ -41,7 +42,7 @@ ds_month_tulsa
 ds_nurse_month_rural
 ds_county
 
-# tweak_data --------------------------------------------------------------
+# ---- tweak_data --------------------------------------------------------------
 # ds_nurse_month_ruralOklahoma <- ds_nurse_month_rural[ds_nurse_month_rural$HOME_COUNTY=="Oklahoma", ]
 
 ds_county <- ds_county %>%
@@ -51,7 +52,7 @@ ds_county <- ds_county %>%
     "region_id"     = "C1LeadNurseRegion"
   )
 
-# groom_oklahoma ----------------------------------------------------------
+# ---- groom_oklahoma ----------------------------------------------------------
 
 # Sanitize illegal variable names.
 colnames(ds_nurse_month_oklahoma) <- make.names(colnames(ds_nurse_month_oklahoma))
@@ -113,7 +114,7 @@ ds_month_oklahoma
 
 rm(ds_nurse_month_oklahoma) #Remove this dataset so it's not accidentally used below.
 
-# groom_tulsa -------------------------------------------------------------
+# ---- groom_tulsa -------------------------------------------------------------
 
 # Groom the nurse-month dataset for Tulsa County.
 ds_month_tulsa <- ds_month_tulsa %>%
@@ -131,7 +132,7 @@ ds_month_tulsa <- ds_month_tulsa %>%
   dplyr::select(county_id, month, fte, fte_approximated)
 ds_month_tulsa
 
-# groom_rural -------------------------------------------------------------
+# ---- groom_rural -------------------------------------------------------------
 
 # Groom the nurse-month dataset for the 75 rural counties.
 ds_nurse_month_rural <- ds_nurse_month_rural %>%
@@ -199,7 +200,7 @@ months_rural_not_collected
 rm(ds_nurse_month_rural) #Remove this dataset so it's not accidentally used below.
 rm(counties_to_drop_from_rural, default_day_of_month)
 
-# union_all_counties -----------------------------------------------------
+# ---- union_all_counties -----------------------------------------------------
 
 # Stack the three datasets on top of each other.
 ds <- ds_month_oklahoma %>%
@@ -262,7 +263,7 @@ ds
 rm(ds_month_oklahoma, ds_month_tulsa, ds_month_rural, ds_possible)  #Remove these datasets so it's not accidentally used below.
 rm(possible_months, possible_county_ids)
 
-# verify_values -----------------------------------------------------------
+# ---- verify_values -----------------------------------------------------------
 # Sniff out problems
 testit::assert("The month value must be nonmissing & since 2000", all(!is.na(ds$month) & (ds$month>="2012-01-01")))
 testit::assert("The county_id value must be nonmissing & positive.", all(!is.na(ds$county_id) & (ds$county_id>0)))
@@ -282,7 +283,7 @@ ds_slim <- ds[, columns_to_write]
 ds_slim$fte_approximated <- as.integer(ds_slim$fte_approximated)
 ds_slim
 
-# # upload_to_db ------------------------------------------------------------
+# # ---- upload_to_db ------------------------------------------------------------
 # (startTime <- Sys.time())
 # dbTable <- "Osdh.tblC1TEMonth"
 # channel <- RODBC::odbcConnect("te-example") #getSqlTypeInfo("Microsoft SQL Server") #;odbcGetInfo(channel)
@@ -297,12 +298,12 @@ ds_slim
 # rm(columnInfo, channel, columns_to_write, dbTable, varTypes)
 # (elapsedDuration <-  Sys.time() - startTime) #21.4032 secs 2015-10-31
 
-# save_to_disk ------------------------------------------------------------
+# ---- save_to_disk ------------------------------------------------------------
 readr::write_csv(ds, path_out_unified)
 
 #Possibly consider writing to sqlite (with RSQLite) if there's no PHI, or a central database if there is PHI.
 
-# inspect -----------------------------------------------------------------
+# ---- inspect, fig.width=10, fig.height=6, fig.path=figure_path -----------------------------------------------------------------
 library(ggplot2)
 
 # Graph each county-month
@@ -327,7 +328,8 @@ ds_region <- ds %>%
 
 last_plot() %+%
   ds_region +
-  aes(group=factor(region_id), color=factor(region_id))
+  aes(group=factor(region_id), color=factor(region_id)) +
+  labs(title="FTE sum each month (by region)", y="Sum of FTE for Region")
 
 # last_plot() +
 #   aes(y=fmla_hours) +

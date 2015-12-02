@@ -9,11 +9,13 @@ This report was automatically generated with the R package **knitr**
 ```r
 # knitr::stitch_rmd(script="./manipulation/te-ellis.R", output="./manipulation/stitched-output/te-ellis.md")
 rm(list=ls(all=TRUE))  #Clear the variables from previous runs.
+```
 
-# load_sources ------------------------------------------------------------
+```r
 # Call `base::source()` on any repo file that defines functions needed below.  Ideally, no real operations are performed.
+```
 
-# load_packages -----------------------------------------------------------
+```r
 # Attach these packages so their functions don't need to be qualified: http://r-pkgs.had.co.nz/namespace.html#search-path
 library(RODBC, quietly=TRUE)
 library(magrittr, quietly=TRUE)
@@ -22,22 +24,25 @@ library(magrittr, quietly=TRUE)
 requireNamespace("readr", quietly=TRUE)
 requireNamespace("dplyr", quietly=TRUE) #Avoid attaching dplyr, b/c its function names conflict with a lot of packages (esp base, stats, and plyr).
 requireNamespace("car", quietly=TRUE) #For it's `recode()` function.
+```
 
-# declare_globals ---------------------------------------------------------
+```r
 # Constant values that won't change.
 path_out_unified               <- "data-phi-free/derived/county-month-te.csv"
 counties_to_drop_from_rural    <- c("Central Office", "Tulsa", "Oklahoma") #Exclude these records from the rural dataset.
 default_day_of_month           <- 15L      # Summarize each month at its (rough) midpoint.
 possible_county_ids            <- 1L:77L   #There are 77 counties.
 threshold_mean_fte_t_fill_in   <- 10L      #Any county averaging over 10 hours can be filled in with its mean.
+figure_path <- 'manipulation/stitched-output/te/'
 
 # URIs of CSV and County lookup table
 path_in_oklahoma  <- "./data-phi-free/raw/te/nurse-month-oklahoma.csv"
 path_in_tulsa     <- "./data-phi-free/raw/te/month-tulsa.csv"
 path_in_rural     <- "./data-phi-free/raw/te/nurse-month-rural.csv"
 path_county       <- "./data-phi-free/raw/te/county.csv"
+```
 
-# load_data ---------------------------------------------------------------
+```r
 # Read the CSVs
 ds_nurse_month_oklahoma <- readr::read_csv(path_in_oklahoma)
 ds_month_tulsa          <- readr::read_csv(path_in_tulsa)
@@ -136,7 +141,6 @@ ds_county
 ```
 
 ```r
-# tweak_data --------------------------------------------------------------
 # ds_nurse_month_ruralOklahoma <- ds_nurse_month_rural[ds_nurse_month_rural$HOME_COUNTY=="Oklahoma", ]
 
 ds_county <- ds_county %>%
@@ -145,9 +149,9 @@ ds_county <- ds_county %>%
     "county_name"   = "CountyName",
     "region_id"     = "C1LeadNurseRegion"
   )
+```
 
-# groom_oklahoma ----------------------------------------------------------
-
+```r
 # Sanitize illegal variable names.
 colnames(ds_nurse_month_oklahoma) <- make.names(colnames(ds_nurse_month_oklahoma))
 
@@ -247,9 +251,9 @@ ds_month_oklahoma
 #   )
 
 rm(ds_nurse_month_oklahoma) #Remove this dataset so it's not accidentally used below.
+```
 
-# groom_tulsa -------------------------------------------------------------
-
+```r
 # Groom the nurse-month dataset for Tulsa County.
 ds_month_tulsa <- ds_month_tulsa %>%
   dplyr::rename_(
@@ -286,8 +290,6 @@ ds_month_tulsa
 ```
 
 ```r
-# groom_rural -------------------------------------------------------------
-
 # Groom the nurse-month dataset for the 75 rural counties.
 ds_nurse_month_rural <- ds_nurse_month_rural %>%
   dplyr::rename_(
@@ -399,9 +401,9 @@ months_rural_not_collected
 ```r
 rm(ds_nurse_month_rural) #Remove this dataset so it's not accidentally used below.
 rm(counties_to_drop_from_rural, default_day_of_month)
+```
 
-# union_all_counties -----------------------------------------------------
-
+```r
 # Stack the three datasets on top of each other.
 ds <- ds_month_oklahoma %>%
   dplyr::union(
@@ -506,8 +508,9 @@ ds
 ```r
 rm(ds_month_oklahoma, ds_month_tulsa, ds_month_rural, ds_possible)  #Remove these datasets so it's not accidentally used below.
 rm(possible_months, possible_county_ids)
+```
 
-# verify_values -----------------------------------------------------------
+```r
 # Sniff out problems
 testit::assert("The month value must be nonmissing & since 2000", all(!is.na(ds$month) & (ds$month>="2012-01-01")))
 testit::assert("The county_id value must be nonmissing & positive.", all(!is.na(ds$county_id) & (ds$county_id>0)))
@@ -553,7 +556,7 @@ ds_slim
 ```
 
 ```r
-# # upload_to_db ------------------------------------------------------------
+# # ---- upload_to_db ------------------------------------------------------------
 # (startTime <- Sys.time())
 # dbTable <- "Osdh.tblC1TEMonth"
 # channel <- RODBC::odbcConnect("te-example") #getSqlTypeInfo("Microsoft SQL Server") #;odbcGetInfo(channel)
@@ -567,13 +570,15 @@ ds_slim
 # RODBC::odbcClose(channel)
 # rm(columnInfo, channel, columns_to_write, dbTable, varTypes)
 # (elapsedDuration <-  Sys.time() - startTime) #21.4032 secs 2015-10-31
+```
 
-# save_to_disk ------------------------------------------------------------
+```r
 readr::write_csv(ds, path_out_unified)
 
 #Possibly consider writing to sqlite (with RSQLite) if there's no PHI, or a central database if there is PHI.
+```
 
-# inspect -----------------------------------------------------------------
+```r
 library(ggplot2)
 
 # Graph each county-month
@@ -588,7 +593,7 @@ ggplot(ds, aes(x=month, y=fte, group=factor(county_id), color=factor(county_id),
   labs(title="FTE sum each month (by county)", y="Sum of FTE for County")
 ```
 
-<img src="figure/te-ellis-Rmdauto-report-1.png" title="plot of chunk auto-report" alt="plot of chunk auto-report" style="display: block; margin: auto;" />
+<img src="manipulation/stitched-output/te/inspect-1.png" title="plot of chunk inspect" alt="plot of chunk inspect" style="display: block; margin: auto;" />
 
 ```r
 # Graph each region-month
@@ -602,10 +607,11 @@ ds_region <- ds %>%
 
 last_plot() %+%
   ds_region +
-  aes(group=factor(region_id), color=factor(region_id))
+  aes(group=factor(region_id), color=factor(region_id)) +
+  labs(title="FTE sum each month (by region)", y="Sum of FTE for Region")
 ```
 
-<img src="figure/te-ellis-Rmdauto-report-2.png" title="plot of chunk auto-report" alt="plot of chunk auto-report" style="display: block; margin: auto;" />
+<img src="manipulation/stitched-output/te/inspect-2.png" title="plot of chunk inspect" alt="plot of chunk inspect" style="display: block; margin: auto;" />
 
 ```r
 # last_plot() +
@@ -641,15 +647,15 @@ sessionInfo()
 ## [1] ggplot2_1.0.1 magrittr_1.5  RODBC_1.3-12 
 ## 
 ## loaded via a namespace (and not attached):
-##  [1] Rcpp_0.12.2        formatR_1.2.1      nloptr_1.0.4      
-##  [4] plyr_1.8.3         tools_3.2.2        lme4_1.1-10       
-##  [7] digest_0.6.8       evaluate_0.8       nlme_3.1-122      
-## [10] gtable_0.1.2       lattice_0.20-33    mgcv_1.8-9        
-## [13] Matrix_1.2-2       DBI_0.3.1.9008     parallel_3.2.2    
-## [16] SparseM_1.7        proto_0.3-10       dplyr_0.4.3.9000  
-## [19] stringr_1.0.0.9000 knitr_1.11.3       MatrixModels_0.4-1
-## [22] grid_3.2.2         nnet_7.3-11        R6_2.1.1          
-## [25] minqa_1.2.4        tidyr_0.3.1        readr_0.2.2       
+##  [1] Rcpp_0.12.2        highr_0.5.1        formatR_1.2.1     
+##  [4] nloptr_1.0.4       plyr_1.8.3         tools_3.2.2       
+##  [7] lme4_1.1-10        digest_0.6.8       evaluate_0.8      
+## [10] nlme_3.1-122       gtable_0.1.2       lattice_0.20-33   
+## [13] mgcv_1.8-9         Matrix_1.2-2       DBI_0.3.1.9008    
+## [16] parallel_3.2.2     SparseM_1.7        proto_0.3-10      
+## [19] knitr_1.11.3       dplyr_0.4.3.9000   stringr_1.0.0.9000
+## [22] MatrixModels_0.4-1 grid_3.2.2         nnet_7.3-11       
+## [25] R6_2.1.1           minqa_1.2.4        readr_0.2.2       
 ## [28] reshape2_1.4.1     car_2.1-0          scales_0.3.0      
 ## [31] MASS_7.3-45        splines_3.2.2      assertthat_0.1    
 ## [34] pbkrtest_0.4-2     testit_0.4         colorspace_1.2-6  
@@ -663,6 +669,6 @@ Sys.time()
 ```
 
 ```
-## [1] "2015-12-01 09:38:44 CST"
+## [1] "2015-12-02 00:01:18 CST"
 ```
 

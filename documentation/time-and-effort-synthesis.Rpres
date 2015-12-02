@@ -46,3 +46,23 @@ Demo
 ========================================================
 * [Code](https://github.com/wibeasley/RAnalysisSkeleton/blob/master/manipulation/te-ellis.R)
 * [Stitched Output](https://github.com/wibeasley/RAnalysisSkeleton/blob/master/manipulation/stitched-output/te-ellis.md)
+
+Stage 1 -Initial Stack
+========================================================
+[![Alt text](images/te-stage-1-county.png)](images/te-stage-1-county.png)
+[![Alt text](images/te-stage-1-region.png)](images/te-stage-1-region.png)
+
+Stage 2 -filled in missing records
+========================================================
+[![Alt text](images/te-stage-2-county.png)](images/te-stage-2-county.png)
+[![Alt text](images/te-stage-2-region.png)](images/te-stage-2-region.png)
+
+Stage 3 -interpolated missing months
+========================================================
+[![Alt text](images/te-stage-3-county.png)](images/te-stage-3-county.png)
+[![Alt text](images/te-stage-3-region.png)](images/te-stage-3-region.png)
+
+Stage 4 -extrapolated right censored
+========================================================
+[![Alt text](images/te-stage-4-county.png)](images/te-stage-4-county.png)
+[![Alt text](images/te-stage-4-region.png)](images/te-stage-4-region.png)

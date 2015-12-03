@@ -3,7 +3,7 @@
 
 
 This report was automatically generated with the R package **knitr**
-(version 1.11.3).
+(version 1.11).
 
 
 ```r
@@ -46,7 +46,7 @@ path_county       <- "./data-phi-free/raw/te/county.csv"
 # Read the CSVs
 ds_nurse_month_oklahoma <- readr::read_csv(path_in_oklahoma)
 ds_month_tulsa          <- readr::read_csv(path_in_tulsa)
-ds_nurse_month_rural    <- readr::read_csv(path_in_rural)
+ds_nurse_month_rural    <- readr::read_csv(path_in_rural, col_types=readr::cols("FTE"=readr::col_character()))
 ds_county               <- readr::read_csv(path_county)
 
 rm(path_in_oklahoma, path_in_tulsa, path_in_rural, path_county)
@@ -56,18 +56,18 @@ ds_nurse_month_oklahoma
 ```
 ## Source: local data frame [1,480 x 7]
 ## 
-##    Employee #  Year Month   FTE FMLA Hours Training Hours          Name
+##    Employee..  Year Month   FTE FMLA.Hours Training.Hours          Name
 ##         (int) (int) (int) (dbl)      (int)          (int)         (chr)
-## 1           1  2009     1     1         NA             50 Akilah Amyx Â 
-## 2           1  2009     2     1         NA             47 Akilah Amyx Â 
-## 3           1  2009     3     1         NA             36 Akilah Amyx Â 
-## 4           1  2009     4     1         NA             NA Akilah Amyx Â 
-## 5           1  2009     5     1         NA             NA Akilah Amyx Â 
-## 6           1  2009     6     1         NA             NA Akilah Amyx Â 
-## 7           1  2009     7     1         NA             NA Akilah Amyx Â 
-## 8           1  2009     8     1         NA             NA Akilah Amyx Â 
-## 9           1  2009     9     1         NA             NA Akilah Amyx Â 
-## 10          1  2009    10     1         NA             NA Akilah Amyx Â 
+## 1           1  2009     1     1         NA             NA Akilah Amyx  
+## 2           1  2009     2     1         NA             NA Akilah Amyx  
+## 3           1  2009     3     1         NA             NA Akilah Amyx  
+## 4           1  2009     4     1         NA             NA Akilah Amyx  
+## 5           1  2009     5     1         NA             NA Akilah Amyx  
+## 6           1  2009     6     1         NA             NA Akilah Amyx  
+## 7           1  2009     7     1         NA             NA Akilah Amyx  
+## 8           1  2009     8     1         NA             32 Akilah Amyx  
+## 9           1  2009     9     1         NA             NA Akilah Amyx  
+## 10          1  2009    10     1         NA             NA Akilah Amyx  
 ## ..        ...   ...   ...   ...        ...            ...           ...
 ```
 
@@ -82,12 +82,12 @@ ds_month_tulsa
 ##         (chr)  (dbl)   (int)
 ## 1   1/15/2009   25.5      NA
 ## 2   2/15/2009   26.5      NA
-## 3   3/15/2009   26.5      NA
+## 3   3/15/2009   26.5     274
 ## 4   4/15/2009   26.5      NA
-## 5   5/15/2009   25.5      NA
+## 5   5/15/2009   25.5     112
 ## 6   6/15/2009   25.5      NA
 ## 7   7/15/2009   25.5      NA
-## 8   8/15/2009   24.5      63
+## 8   8/15/2009   24.5      51
 ## 9   9/15/2009   23.5      NA
 ## 10 10/15/2009   23.5      NA
 ## ..        ...    ...     ...
@@ -101,17 +101,17 @@ ds_nurse_month_rural
 ## Source: local data frame [4,726 x 6]
 ## 
 ##     HOME_COUNTY   FTE  PERIOD EMPLOYEEID REGIONID            Name
-##           (chr) (int)   (chr)      (int)    (int)           (chr)
-## 1  Pottawatomie   100 06/2012         46       49 Cheree Crites Â 
-## 2  Pottawatomie    50 08/2012         46       49 Cheree Crites Â 
-## 3  Pottawatomie   100 09/2012         46       49 Cheree Crites Â 
-## 4  Pottawatomie   100 10/2012         46       49 Cheree Crites Â 
-## 5  Pottawatomie   100 12/2012         46       49 Cheree Crites Â 
-## 6  Pottawatomie    50 01/2013         46       49 Cheree Crites Â 
-## 7  Pottawatomie   100 02/2013         46       49 Cheree Crites Â 
-## 8      Oklahoma   100 08/2012         47       44 Cheryll Canez Â 
-## 9      Oklahoma   100 09/2012         47       44 Cheryll Canez Â 
-## 10     Oklahoma   100 10/2012         47       44 Cheryll Canez Â 
+##           (chr) (chr)   (chr)      (int)    (int)           (chr)
+## 1  Pottawatomie 100 % 06/2012         46       49 Cheree Crites  
+## 2  Pottawatomie 100 % 08/2012         46       49 Cheree Crites  
+## 3  Pottawatomie 100 % 09/2012         46       49 Cheree Crites  
+## 4  Pottawatomie 100 % 10/2012         46       49 Cheree Crites  
+## 5  Pottawatomie 100 % 12/2012         46       49 Cheree Crites  
+## 6  Pottawatomie 100 % 01/2013         46       49 Cheree Crites  
+## 7  Pottawatomie 100 % 02/2013         46       49 Cheree Crites  
+## 8      Oklahoma 100 % 08/2012         47       44 Cheryll Canez  
+## 9      Oklahoma 100 % 09/2012         47       44 Cheryll Canez  
+## 10     Oklahoma 100 % 10/2012         47       44 Cheryll Canez  
 ## ..          ...   ...     ...        ...      ...             ...
 ```
 
@@ -137,7 +137,7 @@ ds_county
 ## ..      ...        ...   ...      ...       ...         ...
 ## Variables not shown: C1LeadNurseRegion (int), C1LeadNurseName (chr), Urban
 ##   (int), LabelLongitude (dbl), LabelLatitude (dbl), MiechvEvaluation
-##   (int), MiechvFormula (int).
+##   (int), MiechvFormula (int)
 ```
 
 ```r
@@ -185,14 +185,14 @@ ds_nurse_month_oklahoma
 ## 
 ##         month   fte fmla_hours training_hours county_id
 ##        (date) (dbl)      (int)          (dbl)     (int)
-## 1  2009-01-15     1         NA             50        55
-## 2  2009-02-15     1         NA             47        55
-## 3  2009-03-15     1         NA             36        55
+## 1  2009-01-15     1         NA              0        55
+## 2  2009-02-15     1         NA              0        55
+## 3  2009-03-15     1         NA              0        55
 ## 4  2009-04-15     1         NA              0        55
 ## 5  2009-05-15     1         NA              0        55
 ## 6  2009-06-15     1         NA              0        55
 ## 7  2009-07-15     1         NA              0        55
-## 8  2009-08-15     1         NA              0        55
+## 8  2009-08-15     1         NA             32        55
 ## 9  2009-09-15     1         NA              0        55
 ## 10 2009-10-15     1         NA              0        55
 ## ..        ...   ...        ...            ...       ...
@@ -217,15 +217,15 @@ ds_month_oklahoma
 ##    county_id      month   fte fte_approximated
 ##        (int)     (date) (dbl)            (lgl)
 ## 1         55 2009-01-15 17.00            FALSE
-## 2         55 2009-02-15 16.76            FALSE
-## 3         55 2009-03-15 18.00            FALSE
-## 4         55 2009-04-15 17.76            FALSE
-## 5         55 2009-05-15 17.52            FALSE
+## 2         55 2009-02-15 17.00            FALSE
+## 3         55 2009-03-15 17.00            FALSE
+## 4         55 2009-04-15 17.50            FALSE
+## 5         55 2009-05-15 18.76            FALSE
 ## 6         55 2009-06-15 18.50            FALSE
 ## 7         55 2009-07-15 18.00            FALSE
-## 8         55 2009-08-15 19.00            FALSE
-## 9         55 2009-09-15 18.76            FALSE
-## 10        55 2009-10-15 17.50            FALSE
+## 8         55 2009-08-15 18.50            FALSE
+## 9         55 2009-09-15 19.00            FALSE
+## 10        55 2009-10-15 18.76            FALSE
 ## ..       ...        ...   ...              ...
 ```
 
@@ -308,7 +308,7 @@ ds_nurse_month_rural <- ds_nurse_month_rural %>%
   dplyr::filter(!(county_name %in% counties_to_drop_from_rural)) %>%
   dplyr::mutate(
     month       = as.Date(paste0(month, "-", default_day_of_month), format="%m/%Y-%d"),
-    fte_string  = gsub("^(\\d{1,3})%\\s+$", "\\1", fte_percent),
+    fte_string  = gsub("^(\\d{1,3})\\s*%$", "\\1", fte_percent),
     fte         = .01 * as.numeric(ifelse(nchar(fte_string)==0L, 0, fte_string)),
     county_name = car::recode(county_name, "'Cimmarron'='Cimarron';'Leflore'='Le Flore'") #Or consider `plyr::recode()`.
   ) %>%
@@ -328,16 +328,16 @@ ds_nurse_month_rural
 ## 
 ##    county_name      month          name_full   fte county_id
 ##          (chr)     (date)              (chr) (dbl)     (int)
-## 1        Adair 2012-06-15      Hilda Hypes Â      1         1
-## 2        Adair 2012-08-15      Hilda Hypes Â      1         1
-## 3        Adair 2012-09-15      Hilda Hypes Â      1         1
-## 4        Adair 2012-10-15      Hilda Hypes Â      1         1
-## 5        Adair 2012-12-15      Hilda Hypes Â      1         1
-## 6        Adair 2013-01-15      Hilda Hypes Â      1         1
-## 7        Adair 2013-02-15      Hilda Hypes Â      1         1
-## 8        Adair 2013-03-15      Hilda Hypes Â      1         1
-## 9        Adair 2013-06-15      Hilda Hypes Â      1         1
-## 10       Adair 2015-06-15 Franchesca Futch Â      1         1
+## 1        Adair 2012-06-15      Hilda Hypes     1.0         1
+## 2        Adair 2012-08-15      Hilda Hypes     1.0         1
+## 3        Adair 2012-09-15      Hilda Hypes     0.5         1
+## 4        Adair 2012-10-15      Hilda Hypes     1.0         1
+## 5        Adair 2012-12-15      Hilda Hypes     1.0         1
+## 6        Adair 2013-01-15      Hilda Hypes     1.0         1
+## 7        Adair 2013-02-15      Hilda Hypes     1.0         1
+## 8        Adair 2013-03-15      Hilda Hypes     0.5         1
+## 9        Adair 2013-06-15      Hilda Hypes     1.0         1
+## 10       Adair 2015-06-15 Franchesca Futch     1.0         1
 ## ..         ...        ...                ...   ...       ...
 ```
 
@@ -362,16 +362,16 @@ ds_month_rural
 ## 
 ##    county_id      month   fte fte_approximated
 ##        (int)     (date) (dbl)            (lgl)
-## 1          1 2012-06-15     1            FALSE
-## 2          1 2012-08-15     1            FALSE
-## 3          1 2012-09-15     1            FALSE
-## 4          1 2012-10-15     1            FALSE
-## 5          1 2012-12-15     1            FALSE
-## 6          1 2013-01-15     1            FALSE
-## 7          1 2013-02-15     1            FALSE
-## 8          1 2013-03-15     1            FALSE
-## 9          1 2013-06-15     1            FALSE
-## 10         1 2015-06-15     1            FALSE
+## 1          1 2012-06-15   1.0            FALSE
+## 2          1 2012-08-15   1.0            FALSE
+## 3          1 2012-09-15   0.5            FALSE
+## 4          1 2012-10-15   1.0            FALSE
+## 5          1 2012-12-15   1.0            FALSE
+## 6          1 2013-01-15   1.0            FALSE
+## 7          1 2013-02-15   1.0            FALSE
+## 8          1 2013-03-15   0.5            FALSE
+## 9          1 2013-06-15   1.0            FALSE
+## 10         1 2015-06-15   1.0            FALSE
 ## ..       ...        ...   ...              ...
 ```
 
@@ -438,20 +438,20 @@ ds
 ## Source: local data frame [3,080 x 10]
 ## 
 ##    county_id      month   fte fte_approximated county_name region_id
-##        (dbl)     (date) (dbl)            (lgl)       (chr)     (int)
-## 1          1 2012-06-15     1            FALSE       Adair        11
-## 2          1 2012-07-15     0             TRUE       Adair        11
-## 3          1 2012-08-15     1            FALSE       Adair        11
-## 4          1 2012-09-15     1            FALSE       Adair        11
-## 5          1 2012-10-15     1            FALSE       Adair        11
-## 6          1 2012-11-15     0             TRUE       Adair        11
-## 7          1 2012-12-15     1            FALSE       Adair        11
-## 8          1 2013-01-15     1            FALSE       Adair        11
-## 9          1 2013-02-15     1            FALSE       Adair        11
-## 10         1 2013-03-15     1            FALSE       Adair        11
+##        (int)     (date) (dbl)            (lgl)       (chr)     (int)
+## 1          1 2012-06-15   1.0            FALSE       Adair        11
+## 2          1 2012-07-15   0.0             TRUE       Adair        11
+## 3          1 2012-08-15   1.0            FALSE       Adair        11
+## 4          1 2012-09-15   0.5            FALSE       Adair        11
+## 5          1 2012-10-15   1.0            FALSE       Adair        11
+## 6          1 2012-11-15   0.0             TRUE       Adair        11
+## 7          1 2012-12-15   1.0            FALSE       Adair        11
+## 8          1 2013-01-15   1.0            FALSE       Adair        11
+## 9          1 2013-02-15   1.0            FALSE       Adair        11
+## 10         1 2013-03-15   0.5            FALSE       Adair        11
 ## ..       ...        ...   ...              ...         ...       ...
 ## Variables not shown: county_month_id (int), month_missing (lgl),
-##   fte_rolling_median_11_month (dbl), county_any_missing (lgl).
+##   fte_rolling_median_11_month (dbl), county_any_missing (lgl)
 ```
 
 ```r
@@ -489,20 +489,20 @@ ds
 ## Source: local data frame [3,080 x 10]
 ## 
 ##    county_id      month   fte fte_approximated county_name region_id
-##        (dbl)     (date) (dbl)            (lgl)       (chr)     (int)
-## 1          1 2012-06-15     1            FALSE       Adair        11
-## 2          1 2012-07-15     1             TRUE       Adair        11
-## 3          1 2012-08-15     1            FALSE       Adair        11
-## 4          1 2012-09-15     1            FALSE       Adair        11
-## 5          1 2012-10-15     1            FALSE       Adair        11
-## 6          1 2012-11-15     1             TRUE       Adair        11
-## 7          1 2012-12-15     1            FALSE       Adair        11
-## 8          1 2013-01-15     1            FALSE       Adair        11
-## 9          1 2013-02-15     1            FALSE       Adair        11
-## 10         1 2013-03-15     1            FALSE       Adair        11
+##        (int)     (date) (dbl)            (lgl)       (chr)     (int)
+## 1          1 2012-06-15   1.0            FALSE       Adair        11
+## 2          1 2012-07-15   1.0             TRUE       Adair        11
+## 3          1 2012-08-15   1.0            FALSE       Adair        11
+## 4          1 2012-09-15   0.5            FALSE       Adair        11
+## 5          1 2012-10-15   1.0            FALSE       Adair        11
+## 6          1 2012-11-15   1.0             TRUE       Adair        11
+## 7          1 2012-12-15   1.0            FALSE       Adair        11
+## 8          1 2013-01-15   1.0            FALSE       Adair        11
+## 9          1 2013-02-15   1.0            FALSE       Adair        11
+## 10         1 2013-03-15   0.5            FALSE       Adair        11
 ## ..       ...        ...   ...              ...         ...       ...
 ## Variables not shown: county_month_id (int), month_missing (lgl),
-##   fte_rolling_median_11_month (dbl), county_any_missing (lgl).
+##   fte_rolling_median_11_month (dbl), county_any_missing (lgl)
 ```
 
 ```r
@@ -530,7 +530,6 @@ table(paste(ds$county_id, ds$month))[table(paste(ds$county_id, ds$month))>1]
 ```
 
 ```r
-# specify_columns_to_upload -----------------------------------------------
 columns_to_write <- c( "county_month_id", "county_id", "month", "fte", "fte_approximated", "region_id")
 ds_slim <- ds[, columns_to_write]
 ds_slim$fte_approximated <- as.integer(ds_slim$fte_approximated)
@@ -541,17 +540,17 @@ ds_slim
 ## Source: local data frame [3,080 x 6]
 ## 
 ##    county_month_id county_id      month   fte fte_approximated region_id
-##              (int)     (dbl)     (date) (dbl)            (int)     (int)
-## 1                1         1 2012-06-15     1                0        11
-## 2                2         1 2012-07-15     1                1        11
-## 3                3         1 2012-08-15     1                0        11
-## 4                4         1 2012-09-15     1                0        11
-## 5                5         1 2012-10-15     1                0        11
-## 6                6         1 2012-11-15     1                1        11
-## 7                7         1 2012-12-15     1                0        11
-## 8                8         1 2013-01-15     1                0        11
-## 9                9         1 2013-02-15     1                0        11
-## 10              10         1 2013-03-15     1                0        11
+##              (int)     (int)     (date) (dbl)            (int)     (int)
+## 1                1         1 2012-06-15   1.0                0        11
+## 2                2         1 2012-07-15   1.0                1        11
+## 3                3         1 2012-08-15   1.0                0        11
+## 4                4         1 2012-09-15   0.5                0        11
+## 5                5         1 2012-10-15   1.0                0        11
+## 6                6         1 2012-11-15   1.0                1        11
+## 7                7         1 2012-12-15   1.0                0        11
+## 8                8         1 2013-01-15   1.0                0        11
+## 9                9         1 2013-02-15   1.0                0        11
+## 10              10         1 2013-03-15   0.5                0        11
 ## ..             ...       ...        ...   ...              ...       ...
 ```
 
@@ -628,17 +627,16 @@ sessionInfo()
 ```
 
 ```
-## R version 3.2.2 (2015-08-14)
-## Platform: x86_64-pc-linux-gnu (64-bit)
-## Running under: Ubuntu 14.04.3 LTS
+## R version 3.2.2 Patched (2015-11-20 r69684)
+## Platform: x86_64-w64-mingw32/x64 (64-bit)
+## Running under: Windows 7 x64 (build 7601) Service Pack 1
 ## 
 ## locale:
-##  [1] LC_CTYPE=en_US.UTF-8       LC_NUMERIC=C              
-##  [3] LC_TIME=en_US.UTF-8        LC_COLLATE=en_US.UTF-8    
-##  [5] LC_MONETARY=en_US.UTF-8    LC_MESSAGES=en_US.UTF-8   
-##  [7] LC_PAPER=en_US.UTF-8       LC_NAME=C                 
-##  [9] LC_ADDRESS=C               LC_TELEPHONE=C            
-## [11] LC_MEASUREMENT=en_US.UTF-8 LC_IDENTIFICATION=C       
+## [1] LC_COLLATE=English_United States.1252 
+## [2] LC_CTYPE=English_United States.1252   
+## [3] LC_MONETARY=English_United States.1252
+## [4] LC_NUMERIC=C                          
+## [5] LC_TIME=English_United States.1252    
 ## 
 ## attached base packages:
 ## [1] stats     graphics  grDevices utils     datasets  methods   base     
@@ -647,21 +645,20 @@ sessionInfo()
 ## [1] ggplot2_1.0.1 magrittr_1.5  RODBC_1.3-12 
 ## 
 ## loaded via a namespace (and not attached):
-##  [1] Rcpp_0.12.2        highr_0.5.1        formatR_1.2.1     
-##  [4] nloptr_1.0.4       plyr_1.8.3         tools_3.2.2       
-##  [7] lme4_1.1-10        digest_0.6.8       evaluate_0.8      
-## [10] nlme_3.1-122       gtable_0.1.2       lattice_0.20-33   
-## [13] mgcv_1.8-9         Matrix_1.2-2       DBI_0.3.1.9008    
-## [16] parallel_3.2.2     SparseM_1.7        proto_0.3-10      
-## [19] knitr_1.11.3       dplyr_0.4.3.9000   stringr_1.0.0.9000
-## [22] MatrixModels_0.4-1 grid_3.2.2         nnet_7.3-11       
-## [25] R6_2.1.1           minqa_1.2.4        readr_0.2.2       
-## [28] reshape2_1.4.1     car_2.1-0          scales_0.3.0      
-## [31] MASS_7.3-45        splines_3.2.2      assertthat_0.1    
-## [34] pbkrtest_0.4-2     testit_0.4         colorspace_1.2-6  
-## [37] labeling_0.3       quantreg_5.19      stringi_1.0-1     
-## [40] lazyeval_0.1.10    munsell_0.4.2      markdown_0.7.7    
-## [43] zoo_1.7-12
+##  [1] Rcpp_0.12.2        formatR_1.2.1      nloptr_1.0.4      
+##  [4] plyr_1.8.3         tools_3.2.2        lme4_1.1-10       
+##  [7] digest_0.6.8       evaluate_0.8       nlme_3.1-122      
+## [10] gtable_0.1.2       lattice_0.20-33    mgcv_1.8-9        
+## [13] Matrix_1.2-3       DBI_0.3.1          parallel_3.2.2    
+## [16] SparseM_1.7        proto_0.3-10       knitr_1.11        
+## [19] dplyr_0.4.3        stringr_1.0.0      MatrixModels_0.4-1
+## [22] grid_3.2.2         nnet_7.3-11        R6_2.1.1          
+## [25] minqa_1.2.4        readr_0.2.2        reshape2_1.4.1    
+## [28] car_2.1-0          scales_0.3.0       MASS_7.3-45       
+## [31] splines_3.2.2      assertthat_0.1     pbkrtest_0.4-2    
+## [34] testit_0.4         colorspace_1.2-6   labeling_0.3      
+## [37] quantreg_5.19      stringi_1.0-1      lazyeval_0.1.10   
+## [40] munsell_0.4.2      zoo_1.7-12
 ```
 
 ```r
@@ -669,6 +666,6 @@ Sys.time()
 ```
 
 ```
-## [1] "2015-12-02 00:01:18 CST"
+## [1] "2015-12-03 14:10:54 CST"
 ```
 

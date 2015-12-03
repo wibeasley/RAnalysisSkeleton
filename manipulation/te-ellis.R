@@ -33,7 +33,7 @@ path_county       <- "./data-phi-free/raw/te/county.csv"
 # Read the CSVs
 ds_nurse_month_oklahoma <- readr::read_csv(path_in_oklahoma)
 ds_month_tulsa          <- readr::read_csv(path_in_tulsa)
-ds_nurse_month_rural    <- readr::read_csv(path_in_rural)
+ds_nurse_month_rural    <- readr::read_csv(path_in_rural, col_types=readr::cols("FTE"=readr::col_character()))
 ds_county               <- readr::read_csv(path_county)
 
 rm(path_in_oklahoma, path_in_tulsa, path_in_rural, path_county)
@@ -152,7 +152,7 @@ ds_nurse_month_rural <- ds_nurse_month_rural %>%
   dplyr::filter(!(county_name %in% counties_to_drop_from_rural)) %>%
   dplyr::mutate(
     month       = as.Date(paste0(month, "-", default_day_of_month), format="%m/%Y-%d"),
-    fte_string  = gsub("^(\\d{1,3})%\\s+$", "\\1", fte_percent),
+    fte_string  = gsub("^(\\d{1,3})\\s*%$", "\\1", fte_percent),
     fte         = .01 * as.numeric(ifelse(nchar(fte_string)==0L, 0, fte_string)),
     county_name = car::recode(county_name, "'Cimmarron'='Cimarron';'Leflore'='Le Flore'") #Or consider `plyr::recode()`.
   ) %>%

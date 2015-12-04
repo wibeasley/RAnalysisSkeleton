@@ -8,11 +8,13 @@ This report was automatically generated with the R package **knitr**
 
 ```r
 # knitr::stitch_rmd(script="./manipulation/car-ellis.R", output="./manipulation/stitched-output/car-ellis.md")
-
 #These first few lines run only when the file is run in RStudio, !!NOT when an Rmd/Rnw file calls it!!
 rm(list=ls(all=TRUE))  #Clear the variables from previous runs.
 ```
 
+```r
+# Call `base::source()` on any repo file that defines functions needed below.  Ideally, no real operations are performed.
+```
 
 ```r
 # Attach these packages so their functions don't need to be qualified: http://r-pkgs.had.co.nz/namespace.html#search-path
@@ -20,7 +22,7 @@ library(ggplot2)
 library(magrittr) #Pipes
 
 # Verify these packages are available on the machine, but their functions need to be qualified: http://r-pkgs.had.co.nz/namespace.html#search-path
-requireNamespace("dplyr", quietly=TRUE)
+requireNamespace("dplyr", quietly=TRUE) #Avoid attaching dplyr, b/c its function names conflict with a lot of packages (esp base, stats, and plyr).
 requireNamespace("testit", quietly=TRUE)
 # requireNamespace("plyr", quietly=TRUE)
 ```
@@ -153,23 +155,18 @@ sessionInfo()
 ## [1] stats     graphics  grDevices utils     datasets  methods   base     
 ## 
 ## other attached packages:
-## [1] RODBC_1.3-12  magrittr_1.5  ggplot2_1.0.1
+## [1] magrittr_1.5  ggplot2_1.0.1
 ## 
 ## loaded via a namespace (and not attached):
-##  [1] Rcpp_0.12.2        formatR_1.2.1      nloptr_1.0.4      
-##  [4] plyr_1.8.3         tools_3.2.2        digest_0.6.8      
-##  [7] lme4_1.1-10        evaluate_0.8       gtable_0.1.2      
-## [10] nlme_3.1-122       lattice_0.20-33    mgcv_1.8-9        
-## [13] Matrix_1.2-2       DBI_0.3.1.9008     parallel_3.2.2    
-## [16] SparseM_1.7        proto_0.3-10       dplyr_0.4.3.9000  
-## [19] stringr_1.0.0.9000 knitr_1.11.3       MatrixModels_0.4-1
-## [22] grid_3.2.2         nnet_7.3-11        R6_2.1.1          
-## [25] minqa_1.2.4        reshape2_1.4.1     readr_0.2.2       
-## [28] car_2.1-0          scales_0.3.0       MASS_7.3-45       
-## [31] splines_3.2.2      assertthat_0.1     pbkrtest_0.4-2    
-## [34] testit_0.4         colorspace_1.2-6   labeling_0.3      
-## [37] quantreg_5.19      stringi_1.0-1      lazyeval_0.1.10   
-## [40] munsell_0.4.2      markdown_0.7.7     zoo_1.7-12
+##  [1] Rcpp_0.12.2        digest_0.6.8       dplyr_0.4.3.9000  
+##  [4] assertthat_0.1     MASS_7.3-45        plyr_1.8.3        
+##  [7] grid_3.2.2         R6_2.1.1           gtable_0.1.2      
+## [10] DBI_0.3.1.9008     formatR_1.2.1      scales_0.3.0      
+## [13] evaluate_0.8       stringi_1.0-1      lazyeval_0.1.10   
+## [16] reshape2_1.4.1     testit_0.4         labeling_0.3      
+## [19] proto_0.3-10       tools_3.2.2        stringr_1.0.0.9000
+## [22] munsell_0.4.2      parallel_3.2.2     colorspace_1.2-6  
+## [25] knitr_1.11.3
 ```
 
 ```r
@@ -177,6 +174,6 @@ Sys.time()
 ```
 
 ```
-## [1] "2015-11-30 20:16:38 CST"
+## [1] "2015-12-03 22:21:20 CST"
 ```
 

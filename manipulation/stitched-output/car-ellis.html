@@ -213,10 +213,10 @@ rm(list=ls(all=TRUE))  #Clear the variables from previous runs.
 </code></pre>
 
 <pre><code class="r"># Attach these packages so their functions don&#39;t need to be qualified: http://r-pkgs.had.co.nz/namespace.html#search-path
-library(ggplot2)
 library(magrittr) #Pipes
 
 # Verify these packages are available on the machine, but their functions need to be qualified: http://r-pkgs.had.co.nz/namespace.html#search-path
+requireNamespace(&quot;ggplot2&quot;, quietly=TRUE)
 requireNamespace(&quot;dplyr&quot;, quietly=TRUE) #Avoid attaching dplyr, b/c its function names conflict with a lot of packages (esp base, stats, and plyr).
 requireNamespace(&quot;testit&quot;, quietly=TRUE)
 # requireNamespace(&quot;plyr&quot;, quietly=TRUE)
@@ -224,6 +224,7 @@ requireNamespace(&quot;testit&quot;, quietly=TRUE)
 
 <pre><code class="r">path_input  &lt;- &quot;./data-phi-free/raw/mtcar.csv&quot;
 path_output &lt;- &quot;./data-phi-free/derived/motor-trend-car-test.rds&quot;
+figure_path &lt;- &#39;manipulation/stitched-output/te/&#39;
 
 premature_threshold_in_weeks &lt;- 37 #Any infant under 37 weeks is considered premature for the current project.  Exactly 37.0 weeks are retained.
 weeks_per_year &lt;- 365.25/7
@@ -242,73 +243,74 @@ days_per_week &lt;- 7
 
 <pre><code class="r"># Dataset description can be found at: http://stat.ethz.ch/R-manual/R-devel/library/datasets/html/mtcars.html
 ds &lt;- dplyr::rename_(ds,
-  &quot;ModelName&quot;                 = &quot;model&quot;
-  , &quot;MilesPerGallon&quot;          = &quot;mpg&quot;
-  , &quot;CylinderCount&quot;           = &quot;cyl&quot;
-  , &quot;DisplacementInchesCubed&quot; = &quot;disp&quot;
-  , &quot;GrossHorsepower&quot;         = &quot;hp&quot;
-  , &quot;RearAxleRatio&quot;           = &quot;drat&quot;
-  , &quot;WeightInPoundsPer1000&quot;   = &quot;wt&quot;
-  , &quot;QuarterMileInSeconds&quot;    = &quot;qsec&quot;
-  , &quot;VS&quot;                      = &quot;vs&quot; #TODO: need a definition for this variable
-  , &quot;AutomaticTransmission&quot;   = &quot;am&quot;
-  , &quot;ForwardGearCount&quot;        = &quot;gear&quot;
-  , &quot;CarburetorCount&quot;         = &quot;carb&quot;
+  &quot;model_name&quot;                    = &quot;model&quot;
+  , &quot;miles_per_gallon&quot;            = &quot;mpg&quot;
+  , &quot;cylinder_count&quot;              = &quot;cyl&quot;
+  , &quot;displacement_inches_cubed&quot;   = &quot;disp&quot;
+  , &quot;gross_horsepower&quot;            = &quot;hp&quot;
+  , &quot;rear_axle_ratio&quot;             = &quot;drat&quot;
+  , &quot;weight_in_pounds_per_1000&quot;   = &quot;wt&quot;
+  , &quot;quarter_mile_in_seconds&quot;     = &quot;qsec&quot;
+  , &quot;vs&quot;                          = &quot;vs&quot; #TODO: need a definition for this variable
+  , &quot;automatic_transmission&quot;      = &quot;am&quot;
+  , &quot;forward_gear_count&quot;          = &quot;gear&quot;
+  , &quot;carburetor_count&quot;            = &quot;carb&quot;
 )
 
 # Add a unique identifier
-ds$CarID &lt;- seq_len(nrow(ds))
+ds$car_id &lt;- seq_len(nrow(ds))
 
 # Clear up confusion about units and remove old variable
-ds$WeightInPounds &lt;- ds$WeightInPoundsPer1000 * 1000
-ds$WeightInPoundsPer1000 &lt;- NULL
+ds$weight_in_pounds &lt;- ds$weight_in_pounds_per_1000 * 1000
+ds$weight_in_pounds_per_1000 &lt;- NULL
 
 # Convert some to boolean variables
-ds$VS &lt;- as.logical(ds$VS)
-ds$AutomaticTransmission &lt;- as.logical(ds$AutomaticTransmission)
+ds$VS &lt;- as.logical(ds$vs)
+ds$automatic_transmission &lt;- as.logical(ds$automatic_transmission)
 
 # Create duplicates of variables as factors (not numbers), which can help with later graphs or analyses.
 #   Admittedly, the labels are a contrived example of a factor, but helps the example later.
-ds$ForwardGearCountF &lt;- factor(ds$ForwardGearCount, levels=3:5, labels=c(&quot;Three&quot;, &quot;Four&quot;, &quot;Five&quot;))
-ds$CarburetorCountF &lt;- factor(ds$CarburetorCount)
+ds$forward_gear_count_f &lt;- factor(ds$forward_gear_count, levels=3:5, labels=c(&quot;Three&quot;, &quot;Four&quot;, &quot;Five&quot;))
+ds$carburetor_count_f &lt;- factor(ds$carburetor_count)
 
 ### Create transformations and interactions to help later graphs and models.
-ds$DisplacementInchesCubedLog10 &lt;- log10(ds$DisplacementInchesCubed)
-ds$GrossHorsepowerByGearCount3 &lt;- ds$GrossHorsepower * (ds$ForwardGearCount==&quot;Three&quot;)
-ds$GrossHorsepowerByGearCount4 &lt;- ds$GrossHorsepower * (ds$ForwardGearCount==&quot;Four&quot;)
+ds$displacement_inches_cubed_log_10 &lt;- log10(ds$displacement_inches_cubed)
+ds$gross_horsepower_by_gear_count_3 &lt;- ds$gross_horsepower * (ds$forward_gear_count==&quot;three&quot;)
+ds$gross_horsepower_by_gear_count_4 &lt;- ds$gross_horsepower * (ds$forward_gear_count==&quot;four&quot;)
 </code></pre>
 
 <pre><code class="r"># I&#39;m pretending the dataset had unreasonably low values that were artifacts of the measurement equipment.
-ds$MilesPerGallonArtifact &lt;- (ds$MilesPerGallon &lt; 2.2)
-ds$MilesPerGallon &lt;- ifelse(ds$MilesPerGallonArtifact, NA_real_, ds$MilesPerGallon)
+ds$miles_per_gallon_artifact &lt;- (ds$miles_per_gallon &lt; 2.2)
+ds$miles_per_gallon &lt;- ifelse(ds$miles_per_gallon_artifact, NA_real_, ds$miles_per_gallon)
 </code></pre>
 
-<pre><code class="r"># This creates z-scores WITHIN ForwardGearCount levels
+<pre><code class="r"># This creates z-scores WITHIN forward_gear_count levels
 ds &lt;- ds %&gt;%
-  dplyr::group_by(ForwardGearCount) %&gt;%
+  dplyr::group_by(forward_gear_count) %&gt;%
   dplyr::mutate(
-    DisplacementGearZ = as.numeric(base::scale(DisplacementInchesCubed)),
-    WeightGearZ       = as.numeric(base::scale(WeightInPounds))
+    displacement_gear_z = as.numeric(base::scale(displacement_inches_cubed)),
+    weight_gear_z       = as.numeric(base::scale(weight_in_pounds))
   )
 
-  # ds &lt;- plyr::ddply(ds, .variables=&quot;ForwardGearCountF&quot;, .fun=transform,
-  #                   DisplacementGearZ=scale(DisplacementInchesCubed),
-  #                   WeightGearZ=scale(WeightInPounds)
-  #                   )
-
-# Quick inspection of the distribution of z scores within levels
-ggplot2::qplot(ds$WeightGearZ, color=ds$ForwardGearCountF, geom=&quot;density&quot;)  # mean(ds$WeightGearZ, na.rm=T)
+# ds &lt;- plyr::ddply(ds, .variables=&quot;forward_gear_countF&quot;, .fun=transform,
+#                   displacement_gear_z=scale(displacement_inches_cubed),
+#                   weight_gear_z=scale(weight_in_pounds)
+#                   )
 </code></pre>
 
-<p><img src="figure/car-ellis-Rmdcreate_z_scores-1.png" title="plot of chunk create_z_scores" alt="plot of chunk create_z_scores" style="display: block; margin: auto;" /></p>
+<pre><code class="r"># Quick inspection of the distribution of z scores within levels
+ggplot2::qplot(ds$weight_gear_z, color=ds$forward_gear_count_f, geom=&quot;density&quot;)  # mean(ds$weight_gear_z, na.rm=T)
+</code></pre>
+
+<p><img src="manipulation/stitched-output/te/graph-1.png" title="plot of chunk graph" alt="plot of chunk graph" style="display: block; margin: auto;" /></p>
 
 <pre><code class="r"># Create a boolean variable, indicating if the z scores is above a certain threshold.
-ds$WeightGearZAbove1 &lt;- (ds$WeightGearZ &gt; 1.00)
+ds$weight_gear_z_above_1 &lt;- (ds$weight_gear_z &gt; 1.00)
 </code></pre>
 
-<pre><code class="r">testit::assert(&quot;`ModelName` should be a unique value&quot;, sum(duplicated(ds$ModelName))==0L)
-testit::assert(&quot;`MilesPerGallon` should be a positive value.&quot;, all(ds$MilesPerGallon&gt;0))
-testit::assert(&quot;`WeightGearZ` should be a positive or missing value.&quot;, all(is.na(ds$MilesPerGallon) | (ds$MilesPerGallon&gt;0)))
+<pre><code class="r">testit::assert(&quot;`model_name` should be a unique value&quot;, sum(duplicated(ds$model_name))==0L)
+testit::assert(&quot;`miles_per_gallon` should be a positive value.&quot;, all(ds$miles_per_gallon&gt;0))
+testit::assert(&quot;`weight_gear_z` should be a positive or missing value.&quot;, all(is.na(ds$miles_per_gallon) | (ds$miles_per_gallon&gt;0)))
 </code></pre>
 
 <pre><code class="r"># Save as a compress, binary R dataset.  It&#39;s no longer readable with a text editor, but it saves metadata (eg, factor information).
@@ -340,21 +342,21 @@ packages used):</p>
 ## [1] magrittr_1.5  ggplot2_1.0.1
 ## 
 ## loaded via a namespace (and not attached):
-##  [1] Rcpp_0.12.2        digest_0.6.8       dplyr_0.4.3.9000  
-##  [4] assertthat_0.1     MASS_7.3-45        plyr_1.8.3        
-##  [7] grid_3.2.2         R6_2.1.1           gtable_0.1.2      
-## [10] DBI_0.3.1.9008     formatR_1.2.1      scales_0.3.0      
-## [13] evaluate_0.8       stringi_1.0-1      lazyeval_0.1.10   
-## [16] reshape2_1.4.1     testit_0.4         labeling_0.3      
-## [19] proto_0.3-10       tools_3.2.2        stringr_1.0.0.9000
-## [22] munsell_0.4.2      parallel_3.2.2     colorspace_1.2-6  
-## [25] knitr_1.11.3
+##  [1] Rcpp_0.12.2        knitr_1.11.3       MASS_7.3-45       
+##  [4] munsell_0.4.2      testit_0.4         colorspace_1.2-6  
+##  [7] R6_2.1.1           stringr_1.0.0.9000 plyr_1.8.3        
+## [10] dplyr_0.4.3.9000   tools_3.2.2        parallel_3.2.2    
+## [13] grid_3.2.2         gtable_0.1.2       DBI_0.3.1.9008    
+## [16] lazyeval_0.1.10    assertthat_0.1     digest_0.6.8      
+## [19] readr_0.2.2        reshape2_1.4.1     formatR_1.2.1     
+## [22] evaluate_0.8       labeling_0.3       stringi_1.0-1     
+## [25] scales_0.3.0       markdown_0.7.7     proto_0.3-10
 </code></pre>
 
 <pre><code class="r">Sys.time()
 </code></pre>
 
-<pre><code>## [1] &quot;2015-12-03 22:21:20 CST&quot;
+<pre><code>## [1] &quot;2015-12-03 22:53:15 CST&quot;
 </code></pre>
 
 </body>

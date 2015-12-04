@@ -22,7 +22,7 @@ opts_chunk$set(
   results    = 'show', 
   comment    = NA, 
   tidy       = FALSE,
-  fig.width  = 6.5, 
+  fig.width  = 4, 
   fig.height = 4, 
   fig.path   = 'figure-png/'
 )
@@ -62,7 +62,7 @@ read_chunk("./analysis/report-1/report-1.R") #This allows knitr to call chunks t
 # Summary
 
 ### Notes 
-1. The current report covers `r nrow(ds)` cars, with `r nlevels(ds$CarburetorCountF)` possible values for `CarburetorCount`.
+1. The current report covers `r nrow(ds)` cars, with `r nlevels(ds$carburetor_count_f)` possible values for `carburetor_count`.
 1. The Seattle track's phluguerstometer was producing flaky negative values; it's measurements have been dropped.
 
 ### Unanswered Questions
@@ -77,7 +77,7 @@ read_chunk("./analysis/report-1/report-1.R") #This allows knitr to call chunks t
 ```
 
 # Scatterplots
-```{r scatterplots, echo=echoChunks, message=TRUE}
+```{r scatterplots, echo=echoChunks, message=TRUE, fig.width=7}
 ```
 
 # Models

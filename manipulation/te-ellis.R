@@ -53,7 +53,6 @@ ds_county <- ds_county %>%
   )
 
 # ---- groom_oklahoma ----------------------------------------------------------
-
 # Sanitize illegal variable names.
 colnames(ds_nurse_month_oklahoma) <- make.names(colnames(ds_nurse_month_oklahoma))
 
@@ -115,7 +114,6 @@ ds_month_oklahoma
 rm(ds_nurse_month_oklahoma) #Remove this dataset so it's not accidentally used below.
 
 # ---- groom_tulsa -------------------------------------------------------------
-
 # Groom the nurse-month dataset for Tulsa County.
 ds_month_tulsa <- ds_month_tulsa %>%
   dplyr::rename_(
@@ -133,7 +131,6 @@ ds_month_tulsa <- ds_month_tulsa %>%
 ds_month_tulsa
 
 # ---- groom_rural -------------------------------------------------------------
-
 # Groom the nurse-month dataset for the 75 rural counties.
 ds_nurse_month_rural <- ds_nurse_month_rural %>%
   dplyr::rename_(
@@ -201,7 +198,6 @@ rm(ds_nurse_month_rural) #Remove this dataset so it's not accidentally used belo
 rm(counties_to_drop_from_rural, default_day_of_month)
 
 # ---- union_all_counties -----------------------------------------------------
-
 # Stack the three datasets on top of each other.
 ds <- ds_month_oklahoma %>%
   dplyr::union(

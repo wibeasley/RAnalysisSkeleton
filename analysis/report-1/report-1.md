@@ -46,25 +46,25 @@ This report covers the analyses used in the ZZZ project (Marcus Mark, PI).
 ![](figure-png/scatterplots-1.png) ![](figure-png/scatterplots-2.png) ![](figure-png/scatterplots-3.png) ![](figure-png/scatterplots-4.png) ![](figure-png/scatterplots-5.png) 
 
 ```
-Warning in simpleLoess(y, x, w, span, degree, parametric, drop.square, normalize, : span too small. fewer data values
-than degrees of freedom.
+Warning in simpleLoess(y, x, w, span, degree = degree, parametric = parametric, : span too small. fewer data values than
+degrees of freedom.
 ```
 
 ```
-Warning in simpleLoess(y, x, w, span, degree, parametric, drop.square, normalize, : Chernobyl! trL>n 3
+Warning in simpleLoess(y, x, w, span, degree = degree, parametric = parametric, : Chernobyl! trL>n 3
 ```
 
 ```
-Warning in simpleLoess(y, x, w, span, degree, parametric, drop.square, normalize, : Chernobyl! trL>n 3
+Warning in simpleLoess(y, x, w, span, degree = degree, parametric = parametric, : Chernobyl! trL>n 3
 ```
 
 ```
-Warning in predLoess(y, x, newx, s, weights, pars$robust, pars$span, pars$degree, : span too small. fewer data values
-than degrees of freedom.
+Warning in predLoess(object$y, object$x, newx = if (is.null(newdata)) object$x else if (is.data.frame(newdata))
+as.matrix(model.frame(delete.response(terms(object)), : span too small. fewer data values than degrees of freedom.
 ```
 
 ```
-Warning in qt(level/2 + 0.5, pred$df): NaNs produced
+Warning in stats::qt(level/2 + 0.5, pred$df): NaNs produced
 ```
 
 ![](figure-png/scatterplots-6.png) ![](figure-png/scatterplots-7.png) 
@@ -174,11 +174,11 @@ For the sake of documentation and reproducibility, the current report was render
 
 
 ```
-Report rendered by wibeasley at 2015-12-03, 23:21 -0600
+Report rendered by wibeasley at 2016-01-04, 19:14 -0600
 ```
 
 ```
-R version 3.2.2 (2015-08-14)
+R version 3.2.3 (2015-12-10)
 Platform: x86_64-pc-linux-gnu (64-bit)
 Running under: Ubuntu 14.04.3 LTS
 
@@ -191,11 +191,11 @@ attached base packages:
 [1] stats     graphics  grDevices utils     datasets  methods   base     
 
 other attached packages:
-[1] ggplot2_1.0.1 knitr_1.11.3 
+[1] ggplot2_2.0.0 knitr_1.11.3 
 
 loaded via a namespace (and not attached):
- [1] Rcpp_0.12.2        digest_0.6.8       MASS_7.3-45        grid_3.2.2         plyr_1.8.3         gtable_0.1.2      
- [7] formatR_1.2.1      magrittr_1.5       scales_0.3.0       evaluate_0.8       stringi_1.0-1      reshape2_1.4.1    
-[13] rmarkdown_0.8.1    labeling_0.3       proto_0.3-10       RColorBrewer_1.1-2 tools_3.2.2        stringr_1.0.0.9000
-[19] munsell_0.4.2      yaml_2.1.13        colorspace_1.2-6   htmltools_0.2.6   
+ [1] Rcpp_0.12.2        digest_0.6.8       plyr_1.8.3         grid_3.2.3         gtable_0.1.2       formatR_1.2.1     
+ [7] magrittr_1.5       evaluate_0.8       scales_0.3.0       stringi_1.0-1      rmarkdown_0.9.2    labeling_0.3      
+[13] RColorBrewer_1.1-2 tools_3.2.3        stringr_1.0.0.9000 munsell_0.4.2      yaml_2.1.13        colorspace_1.2-6  
+[19] htmltools_0.3     
 ```

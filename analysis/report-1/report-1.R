@@ -81,7 +81,7 @@ histogram_continuous <- function(
   ds_mid_points$value_rounded <- base::round(ds_mid_points$value, rounded_digits)
 
   g <- ggplot(d_observed, aes_string(x=variable_name)) +
-    geom_bar(stat="bin", binwidth=bin_width, fill="gray70", color="gray90", position=position_identity()) +
+    geom_histogram(binwidth=bin_width, fill="gray70", color="gray90", position=position_identity()) +
     geom_vline(xintercept=ds_mid_points$value, color="gray30") +
     geom_text(data=ds_mid_points, aes_string(x="value", y=0, label="value_rounded"), color="tomato", hjust=c(1, 0), vjust=.5) +
     scale_x_continuous(labels=scales::comma_format()) +

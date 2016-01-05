@@ -1,4 +1,7 @@
 # knitr::stitch_rmd(script="./manipulation/te-ellis.R", output="./manipulation/stitched-output/te-ellis.md")
+# For a brief description of this file see the presentation at
+#   - slides: https://rawgit.com/wibeasley/RAnalysisSkeleton/master/documentation/time-and-effort-synthesis.html#/
+#   - code: https://github.com/wibeasley/RAnalysisSkeleton/blob/master/documentation/time-and-effort-synthesis.Rpres
 rm(list=ls(all=TRUE))  #Clear the variables from previous runs.
 
 # ---- load_sources ------------------------------------------------------------

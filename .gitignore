@@ -1,3 +1,4 @@
+##############
 # R and RStudio files.
 .Rhistory
 .RData
@@ -7,6 +8,7 @@
 # The devtools zip is downloaded when the package is updating itself.  If it's not deleted, there's no reason to commit it to the repository.
 devtools.zip
 
+##############
 # Protected Information; see cubuspl42's answer in http://stackoverflow.com/questions/2415873/exceptions-in-gitignore
 /unshared_material/*
 /data_unshared/*
@@ -23,7 +25,15 @@ devtools.zip
 !data_unshared/raw/README.md
 !data_unshared/derived/README.md
 
+##############
 # Exclude caches in case they contain PHI
 cache/
 */cache/
 */*/cache/
+
+##############
+# Windows
+# Cached small image files
+Thumbs.db
+# Folder config file
+Desktop.ini

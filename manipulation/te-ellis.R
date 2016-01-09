@@ -13,9 +13,9 @@ library(RODBC, quietly=TRUE)
 library(magrittr, quietly=TRUE)
 
 # Verify these packages are available on the machine, but their functions need to be qualified: http://r-pkgs.had.co.nz/namespace.html#search-path
-requireNamespace("readr", quietly=TRUE)
-requireNamespace("dplyr", quietly=TRUE) #Avoid attaching dplyr, b/c its function names conflict with a lot of packages (esp base, stats, and plyr).
-requireNamespace("car", quietly=TRUE) #For it's `recode()` function.
+requireNamespace("readr")
+requireNamespace("dplyr") #Avoid attaching dplyr, b/c its function names conflict with a lot of packages (esp base, stats, and plyr).
+requireNamespace("car") #For it's `recode()` function.
 
 # ---- declare_globals ---------------------------------------------------------
 # Constant values that won't change.

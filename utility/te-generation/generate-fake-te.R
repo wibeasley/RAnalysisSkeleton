@@ -5,8 +5,8 @@ rm(list=ls(all=TRUE))  #Clear the variables from previous runs.
 # load_packages -----------------------------------------------------------
 library(RODBC, quietly=TRUE)
 library(magrittr, quietly=TRUE)
-requireNamespace("readr", quietly=TRUE)
-requireNamespace("dplyr", quietly=TRUE)
+requireNamespace("readr")
+requireNamespace("dplyr")
 
 # declare_globals ---------------------------------------------------------
 #This is called by the files that transfer WIC and OHCA datsets to SQL Server

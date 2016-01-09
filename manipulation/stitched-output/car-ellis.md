@@ -21,10 +21,10 @@ rm(list=ls(all=TRUE))  #Clear the variables from previous runs.
 library(magrittr) #Pipes
 
 # Verify these packages are available on the machine, but their functions need to be qualified: http://r-pkgs.had.co.nz/namespace.html#search-path
-requireNamespace("ggplot2", quietly=TRUE)
-requireNamespace("dplyr", quietly=TRUE) #Avoid attaching dplyr, b/c its function names conflict with a lot of packages (esp base, stats, and plyr).
-requireNamespace("testit", quietly=TRUE)
-# requireNamespace("plyr", quietly=TRUE)
+requireNamespace("ggplot2")
+requireNamespace("dplyr") #Avoid attaching dplyr, b/c its function names conflict with a lot of packages (esp base, stats, and plyr).
+requireNamespace("testit")
+# requireNamespace("plyr")
 ```
 
 ```r

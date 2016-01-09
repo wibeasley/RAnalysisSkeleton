@@ -21,9 +21,9 @@ library(RODBC, quietly=TRUE)
 library(magrittr, quietly=TRUE)
 
 # Verify these packages are available on the machine, but their functions need to be qualified: http://r-pkgs.had.co.nz/namespace.html#search-path
-requireNamespace("readr", quietly=TRUE)
-requireNamespace("dplyr", quietly=TRUE) #Avoid attaching dplyr, b/c its function names conflict with a lot of packages (esp base, stats, and plyr).
-requireNamespace("car", quietly=TRUE) #For it's `recode()` function.
+requireNamespace("readr")
+requireNamespace("dplyr") #Avoid attaching dplyr, b/c its function names conflict with a lot of packages (esp base, stats, and plyr).
+requireNamespace("car") #For it's `recode()` function.
 ```
 
 ```r
@@ -58,16 +58,16 @@ ds_nurse_month_oklahoma
 ## 
 ##    Employee..  Year Month   FTE FMLA.Hours Training.Hours          Name
 ##         (int) (int) (int) (dbl)      (int)          (int)         (chr)
-## 1           1  2009     1     1         NA             NA Akilah Amyx  
-## 2           1  2009     2     1         NA             NA Akilah Amyx  
-## 3           1  2009     3     1         NA             NA Akilah Amyx  
-## 4           1  2009     4     1         NA             NA Akilah Amyx  
-## 5           1  2009     5     1         NA             NA Akilah Amyx  
-## 6           1  2009     6     1         NA             NA Akilah Amyx  
-## 7           1  2009     7     1         NA             NA Akilah Amyx  
-## 8           1  2009     8     1         NA             32 Akilah Amyx  
-## 9           1  2009     9     1         NA             NA Akilah Amyx  
-## 10          1  2009    10     1         NA             NA Akilah Amyx  
+## 1           1  2009     1     1         NA             NA Akilah Amyx ï¿½
+## 2           1  2009     2     1         NA             NA Akilah Amyx ï¿½
+## 3           1  2009     3     1         NA             NA Akilah Amyx ï¿½
+## 4           1  2009     4     1         NA             NA Akilah Amyx ï¿½
+## 5           1  2009     5     1         NA             NA Akilah Amyx ï¿½
+## 6           1  2009     6     1         NA             NA Akilah Amyx ï¿½
+## 7           1  2009     7     1         NA             NA Akilah Amyx ï¿½
+## 8           1  2009     8     1         NA             32 Akilah Amyx ï¿½
+## 9           1  2009     9     1         NA             NA Akilah Amyx ï¿½
+## 10          1  2009    10     1         NA             NA Akilah Amyx ï¿½
 ## ..        ...   ...   ...   ...        ...            ...           ...
 ```
 
@@ -102,16 +102,16 @@ ds_nurse_month_rural
 ## 
 ##     HOME_COUNTY   FTE  PERIOD EMPLOYEEID REGIONID            Name
 ##           (chr) (chr)   (chr)      (int)    (int)           (chr)
-## 1  Pottawatomie 100 % 06/2012         46       49 Cheree Crites  
-## 2  Pottawatomie 100 % 08/2012         46       49 Cheree Crites  
-## 3  Pottawatomie 100 % 09/2012         46       49 Cheree Crites  
-## 4  Pottawatomie 100 % 10/2012         46       49 Cheree Crites  
-## 5  Pottawatomie 100 % 12/2012         46       49 Cheree Crites  
-## 6  Pottawatomie 100 % 01/2013         46       49 Cheree Crites  
-## 7  Pottawatomie 100 % 02/2013         46       49 Cheree Crites  
-## 8      Oklahoma 100 % 08/2012         47       44 Cheryll Canez  
-## 9      Oklahoma 100 % 09/2012         47       44 Cheryll Canez  
-## 10     Oklahoma 100 % 10/2012         47       44 Cheryll Canez  
+## 1  Pottawatomie 100 % 06/2012         46       49 Cheree Crites ï¿½
+## 2  Pottawatomie 100 % 08/2012         46       49 Cheree Crites ï¿½
+## 3  Pottawatomie 100 % 09/2012         46       49 Cheree Crites ï¿½
+## 4  Pottawatomie 100 % 10/2012         46       49 Cheree Crites ï¿½
+## 5  Pottawatomie 100 % 12/2012         46       49 Cheree Crites ï¿½
+## 6  Pottawatomie 100 % 01/2013         46       49 Cheree Crites ï¿½
+## 7  Pottawatomie 100 % 02/2013         46       49 Cheree Crites ï¿½
+## 8      Oklahoma 100 % 08/2012         47       44 Cheryll Canez ï¿½
+## 9      Oklahoma 100 % 09/2012         47       44 Cheryll Canez ï¿½
+## 10     Oklahoma 100 % 10/2012         47       44 Cheryll Canez ï¿½
 ## ..          ...   ...     ...        ...      ...             ...
 ```
 
@@ -328,16 +328,16 @@ ds_nurse_month_rural
 ## 
 ##    county_name      month          name_full   fte county_id
 ##          (chr)     (date)              (chr) (dbl)     (int)
-## 1        Adair 2012-06-15      Hilda Hypes     1.0         1
-## 2        Adair 2012-08-15      Hilda Hypes     1.0         1
-## 3        Adair 2012-09-15      Hilda Hypes     0.5         1
-## 4        Adair 2012-10-15      Hilda Hypes     1.0         1
-## 5        Adair 2012-12-15      Hilda Hypes     1.0         1
-## 6        Adair 2013-01-15      Hilda Hypes     1.0         1
-## 7        Adair 2013-02-15      Hilda Hypes     1.0         1
-## 8        Adair 2013-03-15      Hilda Hypes     0.5         1
-## 9        Adair 2013-06-15      Hilda Hypes     1.0         1
-## 10       Adair 2015-06-15 Franchesca Futch     1.0         1
+## 1        Adair 2012-06-15      Hilda Hypes ï¿½   1.0         1
+## 2        Adair 2012-08-15      Hilda Hypes ï¿½   1.0         1
+## 3        Adair 2012-09-15      Hilda Hypes ï¿½   0.5         1
+## 4        Adair 2012-10-15      Hilda Hypes ï¿½   1.0         1
+## 5        Adair 2012-12-15      Hilda Hypes ï¿½   1.0         1
+## 6        Adair 2013-01-15      Hilda Hypes ï¿½   1.0         1
+## 7        Adair 2013-02-15      Hilda Hypes ï¿½   1.0         1
+## 8        Adair 2013-03-15      Hilda Hypes ï¿½   0.5         1
+## 9        Adair 2013-06-15      Hilda Hypes ï¿½   1.0         1
+## 10       Adair 2015-06-15 Franchesca Futch ï¿½   1.0         1
 ## ..         ...        ...                ...   ...       ...
 ```
 

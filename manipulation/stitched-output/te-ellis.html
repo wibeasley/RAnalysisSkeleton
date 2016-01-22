@@ -202,9 +202,12 @@ hr {
 
 <body>
 <p>This report was automatically generated with the R package <strong>knitr</strong>
-(version 1.11).</p>
+(version 1.12).</p>
 
 <pre><code class="r"># knitr::stitch_rmd(script=&quot;./manipulation/te-ellis.R&quot;, output=&quot;./manipulation/stitched-output/te-ellis.md&quot;)
+# For a brief description of this file see the presentation at
+#   - slides: https://rawgit.com/wibeasley/RAnalysisSkeleton/master/documentation/time-and-effort-synthesis.html#/
+#   - code: https://github.com/wibeasley/RAnalysisSkeleton/blob/master/documentation/time-and-effort-synthesis.Rpres
 rm(list=ls(all=TRUE))  #Clear the variables from previous runs.
 </code></pre>
 
@@ -216,9 +219,9 @@ library(RODBC, quietly=TRUE)
 library(magrittr, quietly=TRUE)
 
 # Verify these packages are available on the machine, but their functions need to be qualified: http://r-pkgs.had.co.nz/namespace.html#search-path
-requireNamespace(&quot;readr&quot;, quietly=TRUE)
-requireNamespace(&quot;dplyr&quot;, quietly=TRUE) #Avoid attaching dplyr, b/c its function names conflict with a lot of packages (esp base, stats, and plyr).
-requireNamespace(&quot;car&quot;, quietly=TRUE) #For it&#39;s `recode()` function.
+requireNamespace(&quot;readr&quot;)
+requireNamespace(&quot;dplyr&quot;) #Avoid attaching dplyr, b/c its function names conflict with a lot of packages (esp base, stats, and plyr).
+requireNamespace(&quot;car&quot;) #For it&#39;s `recode()` function.
 </code></pre>
 
 <pre><code class="r"># Constant values that won&#39;t change.
@@ -716,7 +719,7 @@ ds_slim
 ## ..             ...       ...        ...   ...              ...       ...
 </code></pre>
 
-<pre><code class="r"># # ---- upload_to_db ------------------------------------------------------------
+<pre><code class="r"># # ---- upload-to-db ------------------------------------------------------------
 # (startTime &lt;- Sys.time())
 # dbTable &lt;- &quot;Osdh.tblC1TEMonth&quot;
 # channel &lt;- RODBC::odbcConnect(&quot;te-example&quot;) #getSqlTypeInfo(&quot;Microsoft SQL Server&quot;) #;odbcGetInfo(channel)
@@ -781,9 +784,9 @@ packages used):</p>
 <pre><code class="r">sessionInfo()
 </code></pre>
 
-<pre><code>## R version 3.2.2 Patched (2015-11-20 r69684)
+<pre><code>## R version 3.2.3 Patched (2016-01-17 r69948)
 ## Platform: x86_64-w64-mingw32/x64 (64-bit)
-## Running under: Windows 7 x64 (build 7601) Service Pack 1
+## Running under: Windows &gt;= 8 x64 (build 9200)
 ## 
 ## locale:
 ## [1] LC_COLLATE=English_United States.1252 
@@ -796,29 +799,29 @@ packages used):</p>
 ## [1] stats     graphics  grDevices utils     datasets  methods   base     
 ## 
 ## other attached packages:
-## [1] ggplot2_1.0.1 magrittr_1.5  RODBC_1.3-12 
+## [1] ggplot2_2.0.0 RODBC_1.3-12  magrittr_1.5 
 ## 
 ## loaded via a namespace (and not attached):
-##  [1] Rcpp_0.12.2        formatR_1.2.1      nloptr_1.0.4      
-##  [4] plyr_1.8.3         tools_3.2.2        lme4_1.1-10       
-##  [7] digest_0.6.8       evaluate_0.8       nlme_3.1-122      
-## [10] gtable_0.1.2       lattice_0.20-33    mgcv_1.8-9        
-## [13] Matrix_1.2-3       DBI_0.3.1          parallel_3.2.2    
-## [16] SparseM_1.7        proto_0.3-10       knitr_1.11        
-## [19] dplyr_0.4.3        stringr_1.0.0      MatrixModels_0.4-1
-## [22] grid_3.2.2         nnet_7.3-11        R6_2.1.1          
-## [25] minqa_1.2.4        readr_0.2.2        reshape2_1.4.1    
-## [28] car_2.1-0          scales_0.3.0       MASS_7.3-45       
-## [31] splines_3.2.2      assertthat_0.1     pbkrtest_0.4-2    
-## [34] testit_0.4         colorspace_1.2-6   labeling_0.3      
-## [37] quantreg_5.19      stringi_1.0-1      lazyeval_0.1.10   
-## [40] munsell_0.4.2      zoo_1.7-12
+##  [1] Rcpp_0.12.3        formatR_1.2.1      nloptr_1.0.4      
+##  [4] plyr_1.8.3         tools_3.2.3        digest_0.6.9      
+##  [7] lme4_1.1-10        evaluate_0.8       gtable_0.1.2      
+## [10] nlme_3.1-123       lattice_0.20-33    mgcv_1.8-10       
+## [13] Matrix_1.2-3       DBI_0.3.1.9008     parallel_3.2.3    
+## [16] SparseM_1.7        dplyr_0.4.3        stringr_1.0.0     
+## [19] knitr_1.12         MatrixModels_0.4-1 grid_3.2.3        
+## [22] nnet_7.3-11        R6_2.1.1           minqa_1.2.4       
+## [25] readr_0.2.2        car_2.1-1          scales_0.3.0      
+## [28] MASS_7.3-45        splines_3.2.3      rsconnect_0.3.79  
+## [31] assertthat_0.1     pbkrtest_0.4-5     testit_0.4.1      
+## [34] colorspace_1.2-6   labeling_0.3       quantreg_5.19     
+## [37] stringi_1.0-1      lazyeval_0.1.10    munsell_0.4.2     
+## [40] markdown_0.7.7     zoo_1.7-12
 </code></pre>
 
 <pre><code class="r">Sys.time()
 </code></pre>
 
-<pre><code>## [1] &quot;2015-12-03 14:10:54 CST&quot;
+<pre><code>## [1] &quot;2016-01-22 10:37:23 CST&quot;
 </code></pre>
 
 </body>

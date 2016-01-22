@@ -3,11 +3,14 @@
 
 
 This report was automatically generated with the R package **knitr**
-(version 1.11).
+(version 1.12).
 
 
 ```r
 # knitr::stitch_rmd(script="./manipulation/te-ellis.R", output="./manipulation/stitched-output/te-ellis.md")
+# For a brief description of this file see the presentation at
+#   - slides: https://rawgit.com/wibeasley/RAnalysisSkeleton/master/documentation/time-and-effort-synthesis.html#/
+#   - code: https://github.com/wibeasley/RAnalysisSkeleton/blob/master/documentation/time-and-effort-synthesis.Rpres
 rm(list=ls(all=TRUE))  #Clear the variables from previous runs.
 ```
 
@@ -58,16 +61,16 @@ ds_nurse_month_oklahoma
 ## 
 ##    Employee..  Year Month   FTE FMLA.Hours Training.Hours          Name
 ##         (int) (int) (int) (dbl)      (int)          (int)         (chr)
-## 1           1  2009     1     1         NA             NA Akilah Amyx ï¿½
-## 2           1  2009     2     1         NA             NA Akilah Amyx ï¿½
-## 3           1  2009     3     1         NA             NA Akilah Amyx ï¿½
-## 4           1  2009     4     1         NA             NA Akilah Amyx ï¿½
-## 5           1  2009     5     1         NA             NA Akilah Amyx ï¿½
-## 6           1  2009     6     1         NA             NA Akilah Amyx ï¿½
-## 7           1  2009     7     1         NA             NA Akilah Amyx ï¿½
-## 8           1  2009     8     1         NA             32 Akilah Amyx ï¿½
-## 9           1  2009     9     1         NA             NA Akilah Amyx ï¿½
-## 10          1  2009    10     1         NA             NA Akilah Amyx ï¿½
+## 1           1  2009     1     1         NA             NA Akilah Amyx  
+## 2           1  2009     2     1         NA             NA Akilah Amyx  
+## 3           1  2009     3     1         NA             NA Akilah Amyx  
+## 4           1  2009     4     1         NA             NA Akilah Amyx  
+## 5           1  2009     5     1         NA             NA Akilah Amyx  
+## 6           1  2009     6     1         NA             NA Akilah Amyx  
+## 7           1  2009     7     1         NA             NA Akilah Amyx  
+## 8           1  2009     8     1         NA             32 Akilah Amyx  
+## 9           1  2009     9     1         NA             NA Akilah Amyx  
+## 10          1  2009    10     1         NA             NA Akilah Amyx  
 ## ..        ...   ...   ...   ...        ...            ...           ...
 ```
 
@@ -102,16 +105,16 @@ ds_nurse_month_rural
 ## 
 ##     HOME_COUNTY   FTE  PERIOD EMPLOYEEID REGIONID            Name
 ##           (chr) (chr)   (chr)      (int)    (int)           (chr)
-## 1  Pottawatomie 100 % 06/2012         46       49 Cheree Crites ï¿½
-## 2  Pottawatomie 100 % 08/2012         46       49 Cheree Crites ï¿½
-## 3  Pottawatomie 100 % 09/2012         46       49 Cheree Crites ï¿½
-## 4  Pottawatomie 100 % 10/2012         46       49 Cheree Crites ï¿½
-## 5  Pottawatomie 100 % 12/2012         46       49 Cheree Crites ï¿½
-## 6  Pottawatomie 100 % 01/2013         46       49 Cheree Crites ï¿½
-## 7  Pottawatomie 100 % 02/2013         46       49 Cheree Crites ï¿½
-## 8      Oklahoma 100 % 08/2012         47       44 Cheryll Canez ï¿½
-## 9      Oklahoma 100 % 09/2012         47       44 Cheryll Canez ï¿½
-## 10     Oklahoma 100 % 10/2012         47       44 Cheryll Canez ï¿½
+## 1  Pottawatomie 100 % 06/2012         46       49 Cheree Crites  
+## 2  Pottawatomie 100 % 08/2012         46       49 Cheree Crites  
+## 3  Pottawatomie 100 % 09/2012         46       49 Cheree Crites  
+## 4  Pottawatomie 100 % 10/2012         46       49 Cheree Crites  
+## 5  Pottawatomie 100 % 12/2012         46       49 Cheree Crites  
+## 6  Pottawatomie 100 % 01/2013         46       49 Cheree Crites  
+## 7  Pottawatomie 100 % 02/2013         46       49 Cheree Crites  
+## 8      Oklahoma 100 % 08/2012         47       44 Cheryll Canez  
+## 9      Oklahoma 100 % 09/2012         47       44 Cheryll Canez  
+## 10     Oklahoma 100 % 10/2012         47       44 Cheryll Canez  
 ## ..          ...   ...     ...        ...      ...             ...
 ```
 
@@ -328,16 +331,16 @@ ds_nurse_month_rural
 ## 
 ##    county_name      month          name_full   fte county_id
 ##          (chr)     (date)              (chr) (dbl)     (int)
-## 1        Adair 2012-06-15      Hilda Hypes ï¿½   1.0         1
-## 2        Adair 2012-08-15      Hilda Hypes ï¿½   1.0         1
-## 3        Adair 2012-09-15      Hilda Hypes ï¿½   0.5         1
-## 4        Adair 2012-10-15      Hilda Hypes ï¿½   1.0         1
-## 5        Adair 2012-12-15      Hilda Hypes ï¿½   1.0         1
-## 6        Adair 2013-01-15      Hilda Hypes ï¿½   1.0         1
-## 7        Adair 2013-02-15      Hilda Hypes ï¿½   1.0         1
-## 8        Adair 2013-03-15      Hilda Hypes ï¿½   0.5         1
-## 9        Adair 2013-06-15      Hilda Hypes ï¿½   1.0         1
-## 10       Adair 2015-06-15 Franchesca Futch ï¿½   1.0         1
+## 1        Adair 2012-06-15      Hilda Hypes     1.0         1
+## 2        Adair 2012-08-15      Hilda Hypes     1.0         1
+## 3        Adair 2012-09-15      Hilda Hypes     0.5         1
+## 4        Adair 2012-10-15      Hilda Hypes     1.0         1
+## 5        Adair 2012-12-15      Hilda Hypes     1.0         1
+## 6        Adair 2013-01-15      Hilda Hypes     1.0         1
+## 7        Adair 2013-02-15      Hilda Hypes     1.0         1
+## 8        Adair 2013-03-15      Hilda Hypes     0.5         1
+## 9        Adair 2013-06-15      Hilda Hypes     1.0         1
+## 10       Adair 2015-06-15 Franchesca Futch     1.0         1
 ## ..         ...        ...                ...   ...       ...
 ```
 
@@ -555,7 +558,7 @@ ds_slim
 ```
 
 ```r
-# # ---- upload_to_db ------------------------------------------------------------
+# # ---- upload-to-db ------------------------------------------------------------
 # (startTime <- Sys.time())
 # dbTable <- "Osdh.tblC1TEMonth"
 # channel <- RODBC::odbcConnect("te-example") #getSqlTypeInfo("Microsoft SQL Server") #;odbcGetInfo(channel)
@@ -627,9 +630,9 @@ sessionInfo()
 ```
 
 ```
-## R version 3.2.2 Patched (2015-11-20 r69684)
+## R version 3.2.3 Patched (2016-01-17 r69948)
 ## Platform: x86_64-w64-mingw32/x64 (64-bit)
-## Running under: Windows 7 x64 (build 7601) Service Pack 1
+## Running under: Windows >= 8 x64 (build 9200)
 ## 
 ## locale:
 ## [1] LC_COLLATE=English_United States.1252 
@@ -642,23 +645,23 @@ sessionInfo()
 ## [1] stats     graphics  grDevices utils     datasets  methods   base     
 ## 
 ## other attached packages:
-## [1] ggplot2_1.0.1 magrittr_1.5  RODBC_1.3-12 
+## [1] ggplot2_2.0.0 RODBC_1.3-12  magrittr_1.5 
 ## 
 ## loaded via a namespace (and not attached):
-##  [1] Rcpp_0.12.2        formatR_1.2.1      nloptr_1.0.4      
-##  [4] plyr_1.8.3         tools_3.2.2        lme4_1.1-10       
-##  [7] digest_0.6.8       evaluate_0.8       nlme_3.1-122      
-## [10] gtable_0.1.2       lattice_0.20-33    mgcv_1.8-9        
-## [13] Matrix_1.2-3       DBI_0.3.1          parallel_3.2.2    
-## [16] SparseM_1.7        proto_0.3-10       knitr_1.11        
-## [19] dplyr_0.4.3        stringr_1.0.0      MatrixModels_0.4-1
-## [22] grid_3.2.2         nnet_7.3-11        R6_2.1.1          
-## [25] minqa_1.2.4        readr_0.2.2        reshape2_1.4.1    
-## [28] car_2.1-0          scales_0.3.0       MASS_7.3-45       
-## [31] splines_3.2.2      assertthat_0.1     pbkrtest_0.4-2    
-## [34] testit_0.4         colorspace_1.2-6   labeling_0.3      
-## [37] quantreg_5.19      stringi_1.0-1      lazyeval_0.1.10   
-## [40] munsell_0.4.2      zoo_1.7-12
+##  [1] Rcpp_0.12.3        formatR_1.2.1      nloptr_1.0.4      
+##  [4] plyr_1.8.3         tools_3.2.3        digest_0.6.9      
+##  [7] lme4_1.1-10        evaluate_0.8       gtable_0.1.2      
+## [10] nlme_3.1-123       lattice_0.20-33    mgcv_1.8-10       
+## [13] Matrix_1.2-3       DBI_0.3.1.9008     parallel_3.2.3    
+## [16] SparseM_1.7        dplyr_0.4.3        stringr_1.0.0     
+## [19] knitr_1.12         MatrixModels_0.4-1 grid_3.2.3        
+## [22] nnet_7.3-11        R6_2.1.1           minqa_1.2.4       
+## [25] readr_0.2.2        car_2.1-1          scales_0.3.0      
+## [28] MASS_7.3-45        splines_3.2.3      rsconnect_0.3.79  
+## [31] assertthat_0.1     pbkrtest_0.4-5     testit_0.4.1      
+## [34] colorspace_1.2-6   labeling_0.3       quantreg_5.19     
+## [37] stringi_1.0-1      lazyeval_0.1.10    munsell_0.4.2     
+## [40] markdown_0.7.7     zoo_1.7-12
 ```
 
 ```r
@@ -666,6 +669,6 @@ Sys.time()
 ```
 
 ```
-## [1] "2015-12-03 14:10:54 CST"
+## [1] "2016-01-22 10:37:23 CST"
 ```
 

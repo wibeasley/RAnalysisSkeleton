@@ -1,11 +1,11 @@
 rm(list=ls(all=TRUE)) #Clear the memory of variables from previous run. This is not called by knitr, because it's above the first chunk.
 
-# ---- load_sources ------------------------------------------------------------
+# ---- load-sources ------------------------------------------------------------
 #Load any source files that contain/define functions, but that don't load any other types of variables
 #   into memory.  Avoid side effects and don't pollute the global environment.
 # source("./SomethingSomething.R")
 
-# ---- load_packages -----------------------------------------------------------
+# ---- load-packages -----------------------------------------------------------
 library(ggplot2) #For graphing
 # library(magrittr) #Pipes
 requireNamespace("knitr")
@@ -16,7 +16,7 @@ requireNamespace("plyr")
 # requireNamespace("reshape2") #For converting wide to long
 # requireNamespace("mgcv, quietly=TRUE) #For the Generalized Additive Model that smooths the longitudinal graphs.
 
-# ---- declare_globals ---------------------------------------------------------
+# ---- declare-globals ---------------------------------------------------------
 options(show.signif.stars=F) #Turn off the annotations on p-values
 
 path_input <- "./data-phi-free/derived/motor-trend-car-test.rds"
@@ -95,10 +95,10 @@ histogram_continuous <- function(
   return( g )
 }
 
-# ---- load_data ---------------------------------------------------------------
+# ---- load-data ---------------------------------------------------------------
 ds <- readRDS(path_input) # 'ds' stands for 'datasets'
 
-# ---- tweak_data --------------------------------------------------------------
+# ---- tweak-data --------------------------------------------------------------
 #
 # drop_infant_weight_for_gestational_age_category_sga_or_missing <- (is.na(ds$infant_weight_for_gestational_age_category) | ds$infant_weight_for_gestational_age_category=="Sga")
 # cat("Number of patients excluded b/c Missing or `SGA` for infant_weight_for_gestational_age_category: ", sum(drop_infant_weight_for_gestational_age_category_sga_or_missing, na.rm=T))

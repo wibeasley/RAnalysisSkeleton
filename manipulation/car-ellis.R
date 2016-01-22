@@ -2,10 +2,10 @@
 #These first few lines run only when the file is run in RStudio, !!NOT when an Rmd/Rnw file calls it!!
 rm(list=ls(all=TRUE))  #Clear the variables from previous runs.
 
-# ---- load_sources ------------------------------------------------------------
+# ---- load-sources ------------------------------------------------------------
 # Call `base::source()` on any repo file that defines functions needed below.  Ideally, no real operations are performed.
 
-# ---- load_packages -----------------------------------------------------------
+# ---- load-packages -----------------------------------------------------------
 # Attach these packages so their functions don't need to be qualified: http://r-pkgs.had.co.nz/namespace.html#search-path
 library(magrittr) #Pipes
 
@@ -15,7 +15,7 @@ requireNamespace("dplyr") #Avoid attaching dplyr, b/c its function names conflic
 requireNamespace("testit")
 # requireNamespace("plyr")
 
-# ---- declare_globals ---------------------------------------------------------
+# ---- declare-globals ---------------------------------------------------------
 path_input  <- "./data-phi-free/raw/mtcar.csv"
 path_output <- "./data-phi-free/derived/motor-trend-car-test.rds"
 figure_path <- 'manipulation/stitched-output/te/'
@@ -24,10 +24,10 @@ premature_threshold_in_weeks <- 37 #Any infant under 37 weeks is considered prem
 weeks_per_year <- 365.25/7
 days_per_week <- 7
 
-# ---- load_data ---------------------------------------------------------------
+# ---- load-data ---------------------------------------------------------------
 ds <- read.csv(path_input, stringsAsFactors=FALSE)
 
-# ---- tweak_data --------------------------------------------------------------
+# ---- tweak-data --------------------------------------------------------------
 colnames(ds)
 
 # Dataset description can be found at: http://stat.ethz.ch/R-manual/R-devel/library/datasets/html/mtcars.html
@@ -67,12 +67,12 @@ ds$displacement_inches_cubed_log_10 <- log10(ds$displacement_inches_cubed)
 ds$gross_horsepower_by_gear_count_3 <- ds$gross_horsepower * (ds$forward_gear_count=="three")
 ds$gross_horsepower_by_gear_count_4 <- ds$gross_horsepower * (ds$forward_gear_count=="four")
 
-# ---- erase_artifacts ---------------------------------------------------------
+# ---- erase-artifacts ---------------------------------------------------------
 # I'm pretending the dataset had unreasonably low values that were artifacts of the measurement equipment.
 ds$miles_per_gallon_artifact <- (ds$miles_per_gallon < 2.2)
 ds$miles_per_gallon <- ifelse(ds$miles_per_gallon_artifact, NA_real_, ds$miles_per_gallon)
 
-# ---- create_z_scores ---------------------------------------------------------
+# ---- create-z-scores ---------------------------------------------------------
 # This creates z-scores WITHIN forward_gear_count levels
 ds <- ds %>%
   dplyr::group_by(forward_gear_count) %>%
@@ -92,11 +92,11 @@ ggplot2::qplot(ds$weight_gear_z, color=ds$forward_gear_count_f, geom="density") 
 # Create a boolean variable, indicating if the z scores is above a certain threshold.
 ds$weight_gear_z_above_1 <- (ds$weight_gear_z > 1.00)
 
-# ---- verify_values -----------------------------------------------------------
+# ---- verify-values -----------------------------------------------------------
 testit::assert("`model_name` should be a unique value", sum(duplicated(ds$model_name))==0L)
 testit::assert("`miles_per_gallon` should be a positive value.", all(ds$miles_per_gallon>0))
 testit::assert("`weight_gear_z` should be a positive or missing value.", all(is.na(ds$miles_per_gallon) | (ds$miles_per_gallon>0)))
 
-# ---- save_to_disk ------------------------------------------------------------
+# ---- save-to-disk ------------------------------------------------------------
 # Save as a compress, binary R dataset.  It's no longer readable with a text editor, but it saves metadata (eg, factor information).
 saveRDS(ds, file=path_output, compress="xz")

@@ -35,15 +35,15 @@ read_chunk("./analysis/report-1/report-1.R") #This allows knitr to call chunks t
 ```
 
 <!-- Load the sources.  Suppress the output when loading sources. --> 
-```{r load_sources, echo=echoChunks, message=FALSE}
+```{r load-sources, echo=echoChunks, message=FALSE}
 ```
 
 <!-- Load 'sourced' R files.  Suppress the output when loading packages. --> 
-```{r load_packages, echo=echoChunks, message=FALSE}
+```{r load-packages, echo=echoChunks, message=FALSE}
 ```
 
 <!-- Load any global functions and variables declared in the R file.  Suppress the output. --> 
-```{r declare_globals, echo=echoChunks, results='show', message=FALSE}
+```{r declare-globals, echo=echoChunks, results='show', message=FALSE}
 ```
 
 <!-- Declare any global functions specific to a Rmd output.  Suppress the output. --> 
@@ -52,11 +52,11 @@ read_chunk("./analysis/report-1/report-1.R") #This allows knitr to call chunks t
 ```
 
 <!-- Load the datasets.   -->
-```{r load_data, echo=echoChunks, results='show', message=FALSE}
+```{r load-data, echo=echoChunks, results='show', message=FALSE}
 ```
 
 <!-- Tweak the datasets.   -->
-```{r tweak_data, echo=echoChunks, results='show', message=FALSE}
+```{r tweak-data, echo=echoChunks, results='show', message=FALSE}
 ```
 
 # Summary
@@ -87,7 +87,7 @@ read_chunk("./analysis/report-1/report-1.R") #This allows knitr to call chunks t
 # Session Information
 For the sake of documentation and reproducibility, the current report was rendered on a system using the following software.
 
-```{r session_info, echo=FALSE}
+```{r session-info, echo=FALSE}
 cat("Report rendered by", Sys.info()["user"], "at", strftime(Sys.time(), "%Y-%m-%d, %H:%M %z"))
 sessionInfo()
 ```

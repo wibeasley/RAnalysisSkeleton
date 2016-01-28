@@ -55,6 +55,7 @@ histogram_discrete <- function(
 
   theme  <- theme_light(base_size=14) +
     theme(legend.position = "none") +
+    theme(panel.grid.major.y=element_blank(), panel.grid.minor.y=element_blank()) +
     theme(axis.text.x=element_text(colour="gray40")) +
     theme(axis.title.x=element_text(colour="gray40")) +
     theme(axis.text.y=element_text(size=14)) +

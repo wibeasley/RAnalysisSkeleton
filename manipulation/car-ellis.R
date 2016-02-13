@@ -11,9 +11,11 @@ library(magrittr) #Pipes
 
 # Verify these packages are available on the machine, but their functions need to be qualified: http://r-pkgs.had.co.nz/namespace.html#search-path
 requireNamespace("ggplot2")
+requireNamespace("readr")
+requireNamespace("tidyr")
 requireNamespace("dplyr") #Avoid attaching dplyr, b/c its function names conflict with a lot of packages (esp base, stats, and plyr).
-requireNamespace("testit")
-# requireNamespace("plyr")
+requireNamespace("testit") #For asserting conditions meet expected patterns.
+requireNamespace("car") #For it's `recode()` function.
 
 # ---- declare-globals ---------------------------------------------------------
 path_input  <- "./data-phi-free/raw/mtcar.csv"
@@ -31,6 +33,7 @@ ds <- read.csv(path_input, stringsAsFactors=FALSE)
 colnames(ds)
 
 # Dataset description can be found at: http://stat.ethz.ch/R-manual/R-devel/library/datasets/html/mtcars.html
+#   Populate the rename entries with column_rename_headstart() in https://github.com/OuhscBbmc/OuhscMunge/blob/master/R/data-frame-metadata.R.
 ds <- dplyr::rename_(ds,
   "model_name"                    = "model"
   , "miles_per_gallon"            = "mpg"

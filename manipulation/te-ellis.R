@@ -14,7 +14,9 @@ library(magrittr, quietly=TRUE)
 
 # Verify these packages are available on the machine, but their functions need to be qualified: http://r-pkgs.had.co.nz/namespace.html#search-path
 requireNamespace("readr")
+requireNamespace("tidyr")
 requireNamespace("dplyr") #Avoid attaching dplyr, b/c its function names conflict with a lot of packages (esp base, stats, and plyr).
+requireNamespace("testit") #For asserting conditions meet expected patterns.
 requireNamespace("car") #For it's `recode()` function.
 
 # ---- declare-globals ---------------------------------------------------------
@@ -48,6 +50,7 @@ ds_county
 # ---- tweak-data --------------------------------------------------------------
 # ds_nurse_month_ruralOklahoma <- ds_nurse_month_rural[ds_nurse_month_rural$HOME_COUNTY=="Oklahoma", ]
 
+# Populate the rename entries with column_rename_headstart() in https://github.com/OuhscBbmc/OuhscMunge/blob/master/R/data-frame-metadata.R.
 ds_county <- ds_county %>%
   dplyr::select_( #`select()` implicitly drops the 7 other columns not mentioned.
     "county_id"     = "CountyID",

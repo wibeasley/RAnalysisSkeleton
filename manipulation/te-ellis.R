@@ -57,10 +57,11 @@ ds_county <- ds_county %>%
     "county_name"   = "CountyName",
     "region_id"     = "C1LeadNurseRegion"
   )
-
+  
 # ---- groom-oklahoma ----------------------------------------------------------
 # Sanitize illegal variable names.
 colnames(ds_nurse_month_oklahoma) <- make.names(colnames(ds_nurse_month_oklahoma))
+# OuhscMunge::column_rename_headstart(ds_nurse_month_oklahoma) #Spit out columns to help write call ato `dplyr::rename()`.
 
 # Groom the nurse-month dataset for Oklahoma County.
 ds_nurse_month_oklahoma <- ds_nurse_month_oklahoma %>%

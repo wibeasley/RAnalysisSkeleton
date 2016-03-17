@@ -15,6 +15,7 @@ requireNamespace("RColorBrewer")
 requireNamespace("plyr")
 # requireNamespace("reshape2") #For converting wide to long
 # requireNamespace("mgcv, quietly=TRUE) #For the Generalized Additive Model that smooths the longitudinal graphs.
+# requireNamespace("TabularManifest") # devtools::install_github("Melinae/TabularManifest")
 
 # ---- declare-globals ---------------------------------------------------------
 options(show.signif.stars=F) #Turn off the annotations on p-values
@@ -129,6 +130,14 @@ histogram_continuous(d_observed=ds, variable_name="displacement_inches_cubed", b
 # Inspect discrete/categorical variables
 histogram_discrete(d_observed=ds, variable_name="carburetor_count_f")
 histogram_discrete(d_observed=ds, variable_name="forward_gear_count_f")
+
+# This helps start the code for graphing each variable.  
+#   - Make sure you change it to `histogram_continuous()` for the appropriate variables.
+#   - Make sure the graph doesn't reveal PHI.
+#   - Don't graph the IDs (or other uinque values) of large datasets.  The graph will be worth and could take a long time on large datasets.
+# for(column in colnames(ds)) {
+#   cat('TabularManifest::histogram_discrete(ds, variable_name="', column,'")\n', sep="")
+# }
 
 # ---- scatterplots ------------------------------------------------------------
 g1 <- ggplot(ds, aes(x=gross_horsepower, y=quarter_mile_in_seconds, color=forward_gear_count_f)) +

@@ -33,7 +33,7 @@ ds <- read.csv(path_input, stringsAsFactors=FALSE)
 colnames(ds)
 
 # Dataset description can be found at: http://stat.ethz.ch/R-manual/R-devel/library/datasets/html/mtcars.html
-#   Populate the rename entries with column_rename_headstart() in https://github.com/OuhscBbmc/OuhscMunge/blob/master/R/data-frame-metadata.R.
+# Populate the rename entries with OuhscMunge::column_rename_headstart(ds_county) # devtools::install_github("OuhscBbmc/OuhscMunge")
 ds <- dplyr::rename_(ds,
   "model_name"                    = "model"
   , "miles_per_gallon"            = "mpg"

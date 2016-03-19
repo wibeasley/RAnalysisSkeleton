@@ -50,7 +50,7 @@ ds_county
 # ---- tweak-data --------------------------------------------------------------
 # ds_nurse_month_ruralOklahoma <- ds_nurse_month_rural[ds_nurse_month_rural$HOME_COUNTY=="Oklahoma", ]
 
-# Populate the rename entries with column_rename_headstart() in https://github.com/OuhscBbmc/OuhscMunge/blob/master/R/data-frame-metadata.R.
+# OuhscMunge::column_rename_headstart(ds_county) #Spit out columns to help write call ato `dplyr::rename()`.
 ds_county <- ds_county %>%
   dplyr::select_( #`select()` implicitly drops the 7 other columns not mentioned.
     "county_id"     = "CountyID",
@@ -61,7 +61,6 @@ ds_county <- ds_county %>%
 # ---- groom-oklahoma ----------------------------------------------------------
 # Sanitize illegal variable names.
 colnames(ds_nurse_month_oklahoma) <- make.names(colnames(ds_nurse_month_oklahoma))
-# OuhscMunge::column_rename_headstart(ds_nurse_month_oklahoma) #Spit out columns to help write call ato `dplyr::rename()`.
 
 # Groom the nurse-month dataset for Oklahoma County.
 ds_nurse_month_oklahoma <- ds_nurse_month_oklahoma %>%

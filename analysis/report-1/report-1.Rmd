@@ -1,5 +1,6 @@
 ---
 title: Skeleton Report 1
+date: "Date: `r Sys.Date()`"
 output:
   html_document:
     keep_md: yes
@@ -73,6 +74,7 @@ read_chunk("./analysis/report-1/report-1.R") #This allows knitr to call chunks t
 1. The Seattle track's phluguerstometer was producing flaky negative values; it's measurements have been dropped.
 
 # Marginals
+
 ```{r marginals, echo=echoChunks, message=TRUE}
 ```
 
@@ -83,6 +85,8 @@ read_chunk("./analysis/report-1/report-1.R") #This allows knitr to call chunks t
 # Models
 ```{r models, echo=echoChunks, message=TRUE}
 ```
+**In the model that includes two predictors, the slope coefficent of `Miles per gallon` is `r summary(m2)$coefficients[2,1]`.**
+
 
 # Session Information
 For the sake of documentation and reproducibility, the current report was rendered on a system using the following software.

@@ -85,6 +85,11 @@ read_chunk("./analysis/report-1/report-1.R") #This allows knitr to call chunks t
 # Models
 ```{r models, echo=echoChunks, message=TRUE}
 ```
+
+# Result table for model with two predictors
+```{r model-results-table, echo=echoChunks, message=TRUE, warning=TRUE}
+```
+
 **In the model that includes two predictors, the slope coefficent of `Miles per gallon` is `r summary(m2)$coefficients[2,1]`.**
 
 

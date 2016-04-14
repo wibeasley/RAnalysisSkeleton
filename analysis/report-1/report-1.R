@@ -131,7 +131,7 @@ histogram_continuous(d_observed=ds, variable_name="displacement_inches_cubed", b
 histogram_discrete(d_observed=ds, variable_name="carburetor_count_f")
 histogram_discrete(d_observed=ds, variable_name="forward_gear_count_f")
 
-# This helps start the code for graphing each variable.  
+# This helps start the code for graphing each variable.
 #   - Make sure you change it to `histogram_continuous()` for the appropriate variables.
 #   - Make sure the graph doesn't reveal PHI.
 #   - Don't graph the IDs (or other uinque values) of large datasets.  The graph will be worth and could take a long time on large datasets.
@@ -173,3 +173,6 @@ summary(m2)
 
 cat("The two predictor is significantly tighter.")
 anova(m1, m2)
+
+# ---- model-results-table  -----------------------------------------------
+knitr::kable(summary(m2)$coef, digits = 2, format="markdown", results = "asis")

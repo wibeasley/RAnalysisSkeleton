@@ -1,19 +1,6 @@
-#############
-## If you decide to use these settings that eagerly excludes files, rename it to simply `.gitignore` (without the quotes) and place it in the root of the repository.
-#############
-# In root/base directory
-README.html
+# If you decide to use these settings that eagerly excludes files, rename it to simply `.gitignore` (without the quotes) and place it in the root of the repository.
 
-# In DocumentationGlobal directory
-Gotchas.html
-PatternReportDesign.html
-PatternReportRun.html
-ReportChecklist.html
-ResourcesInstallation.html
-ResourcesOfficial.html
-ResourcesOpinions.html
-ProjectGuidelines.html
-
+# ---- Potential PHI -----------------------------------------------
 # Anywhere
 *.zip
 *.Zip
@@ -40,37 +27,77 @@ us.stackdump
 *.xlsx
 
 # Dataset Exceptions
-!utility/package_dependency_list.csv
-!RecruitmentProductivity/RecruitingZones/ZipcodesToZone.csv
-!OsdhReports/AdministrativeRecordCounts/AdministrativeRecordCounts-2013-07-24.xlsx
-!OsdhReports/OsdhMaps/CountyCharacteristics.csv
-!PhiFreeDatasets/CountCountyFortified.csv
-!PhiFreeDatasets/MailerZipcodeZone.csv
-!PhiFreeDatasetsCache/RCAudit/MockUserListFromIrb.csv
+!recruitment-productivity/recruitment-zones/zipcodes-to-zone.csv
+!osdh-reports/administrative-record-counts/administrative-record-counts-2013-07-24.xlsx
+!osdh-reports/osdh-maps/county-characteristics.csv
+!data-unshared/zipcode-zone.csv
+!data-unshared/cache/redcap-audit/mock-user-list-from-irb.csv
 
-!Spatial/CarrieZipcode/ZipcodeAggregate.csv
-!Spatial/CarrieZipcode/CensusData/ACS_11_5YR_B01003_metadata.csv
-!Spatial/CarrieZipcode/CensusData/ACS_11_5YR_B01003_with_ann.csv
+!spatial/zipcode-aggregate.csv
+!spatial/census/ACS_11_5YR_B01003_metadata.csv
+!spatial/census/ACS_11_5YR_B01003_with_ann.csv
 
 !Recruitment/RecruitmentMetadata.xlsx
 
 # RData exceptions
-!OsdhReports/C1ActivityAapc/resultsBugs.RData
-!OsdhReports/C1ActivityAapc/resultsJags.RData
+!osdh-reports/c1-models-apc/results-bugs.RData
+!osdh-reports/c1-models-apc/results-jags.RData
 
-# Protected Information; see cubuspl42's answer in http://stackoverflow.com/questions/2415873/exceptions-in-gitignore
-UnsharedMaterial/*
-DataUnshared/*
+# ---- R and RStudio files -----------------------------------------------
+.Rhistory
+.Rapp.history
+.RData
+.Rproj.user
+.Rproj.user/
 
-# For LaTeX
-*.tex
-*.synctex.gz
-*.log
+# Output files from R CMD build
+/*.tar.gz
 
+# Output files from R CMD check
+/*.Rcheck/
+
+# produced vignettes
+vignettes/*.html
+vignettes/*.pdf
+
+# The devtools zip is downloaded when the package is updating itself.  If it's not deleted, there's no reason to commit it to the repository.
+devtools.zip
+
+# OAuth2 token, see https://github.com/hadley/httr/releases/tag/v0.3
+.httr-oauth
+
+# Temporary files created by R markdown
+*.utf8.md
+*.knit.md
+
+# ---- Protected Information -----------------------------------------------
+# see cubuspl42's answer in http://stackoverflow.com/questions/2415873/exceptions-in-gitignore
+/unshared-material/*
+/data-unshared/*
+/data/unshared/*
+
+# Dataset Exceptions
+!utility/package-dependency-list.csv
+
+# Keep the README files in the unshared directories.  They provide documentation, and also force the directories to be created on other machines.
+# Depending on how you do it, you might need to add w/ the command line (eg, git add -f ./data-unshared/raw/README.md)
+!README.md
+!data-unshared/contents.md
+!data-unshared/raw/README.md
+!data-unshared/derived/README.md
+
+# ---- Caches -----------------------------------------------
 # Exclude caches in case they contain PHI
 cache/
 */cache/
 */*/cache/
 
-# The devtools zip is downloaded when the package is updating itself.  If it's not deleted, there's no reason to commit it to the repository.
-devtools.zip
+# knitr and R markdown default cache directories
+/*_cache/
+/cache/
+
+# ---- Windows -----------------------------------------------
+# Cached small image files
+Thumbs.db
+# Folder config file
+Desktop.ini

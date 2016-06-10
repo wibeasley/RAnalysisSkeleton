@@ -1,42 +1,62 @@
-##############
-# R and RStudio files.
+# ---- R and RStudio files -----------------------------------------------
 .Rhistory
+.Rapp.history
 .RData
 .Rproj.user
 .Rproj.user/
 
+# Output files from R CMD build
+/*.tar.gz
+
+# Output files from R CMD check
+/*.Rcheck/
+
+# produced vignettes
+vignettes/*.html
+vignettes/*.pdf
+
 # The devtools zip is downloaded when the package is updating itself.  If it's not deleted, there's no reason to commit it to the repository.
 devtools.zip
 
-##############
-# Protected Information; see cubuspl42's answer in http://stackoverflow.com/questions/2415873/exceptions-in-gitignore
-/unshared_material/*
-/unshared-material/*
-/data_unshared/*
-/data-unshared/*
+# OAuth2 token, see https://github.com/hadley/httr/releases/tag/v0.3
+.httr-oauth
 
-# Unnecessary files for knitr reports
+# Temporary files created by R markdown
+*.utf8.md
+*.knit.md
+
+# ---- Protected Information -----------------------------------------------
+# see cubuspl42's answer in http://stackoverflow.com/questions/2415873/exceptions-in-gitignore
+/unshared-material/*
+/data-unshared/*
+/data/unshared/*
 
 # Dataset Exceptions
-!utility/package_dependency_list.csv
 !utility/package-dependency-list.csv
 
 # Keep the README files in the unshared directories.  They provide documentation, and also force the directories to be created on other machines.
-# Depending on how you do it, you might need to add w/ the command line (eg, git add -f ./data_unshared/raw/README.md)
+# Depending on how you do it, you might need to add w/ the command line (eg, git add -f ./data-unshared/raw/README.md)
 !README.md
 !data-unshared/contents.md
 !data-unshared/raw/README.md
 !data-unshared/derived/README.md
+!data/unshared/contents.md
+!data/unshared/raw/README.md
+!data/unshared/derived/README.md
 
-##############
+# ---- Caches -----------------------------------------------
 # Exclude caches in case they contain PHI
 cache/
 */cache/
 */*/cache/
 
-##############
-# Windows
+# knitr and R markdown default cache directories
+/*_cache/
+/cache/
+
+# ---- Windows -----------------------------------------------
 # Cached small image files
 Thumbs.db
+
 # Folder config file
 Desktop.ini

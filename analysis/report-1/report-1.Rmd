@@ -17,7 +17,7 @@ This report covers the analyses used in the ZZZ project (Marcus Mark, PI).
 ```
 
 <!-- Set the report-wide options, and point to the external code file. -->
-```{r set_options, echo=F}
+```{r set-options, echo=F}
 # cat("Working directory: ", getwd())
 opts_chunk$set(
   results    = 'show', 
@@ -48,8 +48,10 @@ read_chunk("./analysis/report-1/report-1.R") #This allows knitr to call chunks t
 ```
 
 <!-- Declare any global functions specific to a Rmd output.  Suppress the output. --> 
-```{r, echo=echoChunks, message=FALSE}
-#Put presentation-specific code in here.  It doesn't call a chunk in the codebehind file.
+```{r rmd-specific, echo=echoChunks, message=FALSE}
+# Put presentation-specific code in here.  It doesn't call a chunk in the codebehind file.
+#   It should be rare (and used cautiously), but sometimes it makes sense to include code in Rmd 
+#   that doesn't live in the codebehind R file.
 ```
 
 <!-- Load the datasets.   -->
@@ -74,7 +76,6 @@ read_chunk("./analysis/report-1/report-1.R") #This allows knitr to call chunks t
 1. The Seattle track's phluguerstometer was producing flaky negative values; it's measurements have been dropped.
 
 # Marginals
-
 ```{r marginals, echo=echoChunks, message=TRUE}
 ```
 
@@ -95,7 +96,6 @@ read_chunk("./analysis/report-1/report-1.R") #This allows knitr to call chunks t
 
 # Session Information
 For the sake of documentation and reproducibility, the current report was rendered on a system using the following software.
-
 ```{r session-info, echo=FALSE}
 cat("Report rendered by", Sys.info()["user"], "at", strftime(Sys.time(), "%Y-%m-%d, %H:%M %z"))
 sessionInfo()

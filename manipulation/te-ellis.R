@@ -280,7 +280,8 @@ testit::assert("The Region-County-month combination should be unique.", all(!dup
 table(paste(ds$county_id, ds$month))[table(paste(ds$county_id, ds$month))>1]
 
 # ---- specify-columns-to-upload -----------------------------------------------
-columns_to_write <- c( "county_month_id", "county_id", "month", "fte", "fte_approximated", "region_id")
+# dput(colnames(ds)) # Print colnames for line below.
+columns_to_write <- c("county_month_id", "county_id", "month", "fte", "fte_approximated", "region_id")
 ds_slim <- ds[, columns_to_write]
 ds_slim$fte_approximated <- as.integer(ds_slim$fte_approximated)
 ds_slim

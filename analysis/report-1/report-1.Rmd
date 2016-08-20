@@ -19,16 +19,17 @@ opts_knit$set(root.dir='../../')  #Don't combine this call with any other chunk 
 <!-- Set the report-wide options, and point to the external code file. -->
 ```{r set-options, echo=F}
 # cat("Working directory: ", getwd())
+report_render_start_time <- Sys.time()
 opts_chunk$set(
-  results    = 'show', 
-  comment    = NA, 
-  tidy       = FALSE,
-  fig.width  = 4, 
-  fig.height = 4, 
-  fig.path   = 'figure-png/'
+  results      = 'show', 
+  comment      = NA, 
+  tidy         = FALSE,
+  # dpi        = 400,
+  # out.width  = "650px", #This affects only the markdown, not the underlying png file.  The height will be scaled appropriately.
+  fig.width    = 4, 
+  fig.height   = 4, 
+  fig.path     = 'figure-png/'
 )
-# dpi = 400,
-# out.width = "650px", #This affects only the markdown, not the underlying png file.  The height will be scaled appropriately.
 
 echo_chunks    <- FALSE #Toggle for debugging.
 message_chunks <- FALSE #Toggle for debugging.
@@ -98,6 +99,7 @@ read_chunk("./analysis/report-1/report-1.R") #This allows knitr to call chunks t
 # Session Information
 For the sake of documentation and reproducibility, the current report was rendered on a system using the following software.
 ```{r session-info, echo=FALSE}
-cat("Report rendered by", Sys.info()["user"], "at", strftime(Sys.time(), "%Y-%m-%d, %H:%M %z"))
+report_render_duration_in_seconds <- round(as.numeric(difftime(Sys.time(), report_render_start_time, units="secs")))
+cat("Report rendered by", Sys.info()["user"], "at", strftime(Sys.time(), "%Y-%m-%d, %H:%M %z"), "in", report_render_duration_in_seconds, "seconds." )
 sessionInfo()
 ```

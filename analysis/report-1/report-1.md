@@ -47,8 +47,8 @@ This report covers the analyses used in the ZZZ project (Marcus Mark, PI).
 ![](figure-png/scatterplots-1.png)<!-- -->![](figure-png/scatterplots-2.png)<!-- -->![](figure-png/scatterplots-3.png)<!-- -->![](figure-png/scatterplots-4.png)<!-- -->![](figure-png/scatterplots-5.png)<!-- -->
 
 ```
-Warning in simpleLoess(y, x, w, span, degree = degree, parametric = parametric, : span too small. fewer data values than
-degrees of freedom.
+Warning in simpleLoess(y, x, w, span, degree = degree, parametric = parametric, : span too small.
+fewer data values than degrees of freedom.
 ```
 
 ```
@@ -62,8 +62,9 @@ Warning in sqrt(sum.squares/one.delta): NaNs produced
 ```
 
 ```
-Warning in predLoess(object$y, object$x, newx = if (is.null(newdata)) object$x else if (is.data.frame(newdata))
-as.matrix(model.frame(delete.response(terms(object)), : span too small. fewer data values than degrees of freedom.
+Warning in predLoess(object$y, object$x, newx = if (is.null(newdata)) object$x else if
+(is.data.frame(newdata)) as.matrix(model.frame(delete.response(terms(object)), : span too small.
+fewer data values than degrees of freedom.
 ```
 
 ```
@@ -181,8 +182,8 @@ Model 2: quarter_mile_in_seconds ~ 1 + miles_per_gallon + forward_gear_count_f
 |forward_gear_count_fFour |     0.16|       0.67|    0.23|               0.82|
 |forward_gear_count_fFive |    -2.75|       0.73|   -3.77|               0.00|
 
-<!--html_preserve--><div id="htmlwidget-1780" style="width:100%;height:auto;" class="datatables html-widget"></div>
-<script type="application/json" data-for="htmlwidget-1780">{"x":{"data":[["(Intercept)","miles_per_gallon","forward_gear_count_fFour","forward_gear_count_fFive"],[15.56,0.13,0.16,-2.75],[0.9,0.05,0.67,0.73],[17.33,2.57,0.23,-3.77],[0,0.02,0.82,0]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th> \u003c/th>\n      <th>Estimate\u003c/th>\n      <th>Std. Error\u003c/th>\n      <th>t value\u003c/th>\n      <th>Pr(&gt;|t|)\u003c/th>\n    \u003c/tr>\n  \u003c/thead>\n\u003c/table>","options":{"pageLength":2,"columnDefs":[{"className":"dt-right","targets":[1,2,3,4]},{"orderable":false,"targets":0}],"order":[],"autoWidth":false,"orderClasses":false,"lengthMenu":[2,10,25,50,100]},"callback":null,"filter":"none"},"evals":[],"jsHooks":[]}</script><!--/html_preserve-->
+<!--html_preserve--><div id="htmlwidget-0e374a7e87e212d94715" style="width:100%;height:auto;" class="datatables html-widget"></div>
+<script type="application/json" data-for="htmlwidget-0e374a7e87e212d94715">{"x":{"filter":"none","data":[["(Intercept)","miles_per_gallon","forward_gear_count_fFour","forward_gear_count_fFive"],[15.56,0.13,0.16,-2.75],[0.9,0.05,0.67,0.73],[17.33,2.57,0.23,-3.77],[0,0.02,0.82,0]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th> \u003c/th>\n      <th>Estimate\u003c/th>\n      <th>Std. Error\u003c/th>\n      <th>t value\u003c/th>\n      <th>Pr(&gt;|t|)\u003c/th>\n    \u003c/tr>\n  \u003c/thead>\n\u003c/table>","options":{"pageLength":2,"columnDefs":[{"className":"dt-right","targets":[1,2,3,4]},{"orderable":false,"targets":0}],"order":[],"autoWidth":false,"orderClasses":false,"lengthMenu":[2,10,25,50,100]}},"evals":[],"jsHooks":[]}</script><!--/html_preserve-->
 
 **In the model that includes two predictors, the slope coefficent of `Miles per gallon` is 0.13246.**
 
@@ -191,17 +192,18 @@ Model 2: quarter_mile_in_seconds ~ 1 + miles_per_gallon + forward_gear_count_f
 For the sake of documentation and reproducibility, the current report was rendered on a system using the following software.
 
 ```
-Report rendered by Will at 2016-06-17, 09:02 -0500
+Report rendered by Will at 2016-08-20, 13:31 -0500 in 4 seconds.
 ```
 
 ```
-R version 3.3.0 Patched (2016-06-05 r70711)
+R version 3.3.1 Patched (2016-06-24 r70831)
 Platform: x86_64-w64-mingw32/x64 (64-bit)
 Running under: Windows >= 8 x64 (build 9200)
 
 locale:
-[1] LC_COLLATE=English_United States.1252  LC_CTYPE=English_United States.1252    LC_MONETARY=English_United States.1252
-[4] LC_NUMERIC=C                           LC_TIME=English_United States.1252    
+[1] LC_COLLATE=English_United States.1252  LC_CTYPE=English_United States.1252   
+[3] LC_MONETARY=English_United States.1252 LC_NUMERIC=C                          
+[5] LC_TIME=English_United States.1252    
 
 attached base packages:
 [1] stats     graphics  grDevices utils     datasets  methods   base     
@@ -210,8 +212,9 @@ other attached packages:
 [1] ggplot2_2.1.0 knitr_1.13   
 
 loaded via a namespace (and not attached):
- [1] Rcpp_0.12.5        digest_0.6.9       plyr_1.8.4         grid_3.3.0         jsonlite_0.9.22    gtable_0.2.0      
- [7] formatR_1.4        magrittr_1.5       evaluate_0.9       scales_0.4.0       highr_0.6          stringi_1.1.1     
-[13] DT_0.1             rmarkdown_0.9.6.14 labeling_0.3       RColorBrewer_1.1-2 tools_3.3.0        stringr_1.0.0     
-[19] htmlwidgets_0.6    munsell_0.4.3      yaml_2.1.13        colorspace_1.2-6   htmltools_0.3.5   
+ [1] Rcpp_0.12.6        digest_0.6.10      plyr_1.8.4         grid_3.3.1         jsonlite_1.0      
+ [6] gtable_0.2.0       formatR_1.4        magrittr_1.5       evaluate_0.9       scales_0.4.0      
+[11] highr_0.6          stringi_1.1.1      DT_0.2             rmarkdown_1.0      labeling_0.3      
+[16] RColorBrewer_1.1-2 tools_3.3.1        stringr_1.0.0      htmlwidgets_0.7    munsell_0.4.3     
+[21] yaml_2.1.13        colorspace_1.2-6   htmltools_0.3.5   
 ```

@@ -8,8 +8,7 @@ rm(list=ls(all=TRUE))  #Clear the variables from previous runs.
 # Call `base::source()` on any repo file that defines functions needed below.  Ideally, no real operations are performed.
 
 # ---- load-packages -----------------------------------------------------------
-# Attach these packages so their functions don't need to be qualified: http://r-pkgs.had.co.nz/namespace.html#search-path
-library(RODBC, quietly=TRUE)
+# Attach these package(s) so their functions don't need to be qualified: http://r-pkgs.had.co.nz/namespace.html#search-path
 library(magrittr, quietly=TRUE)
 
 # Verify these packages are available on the machine, but their functions need to be qualified: http://r-pkgs.had.co.nz/namespace.html#search-path
@@ -18,6 +17,7 @@ requireNamespace("tidyr")
 requireNamespace("dplyr") #Avoid attaching dplyr, b/c its function names conflict with a lot of packages (esp base, stats, and plyr).
 requireNamespace("testit") #For asserting conditions meet expected patterns.
 requireNamespace("car") #For it's `recode()` function.
+# requireNamespace("RODBC") #For communicating with SQL Server over a locally-configured DSN.  Uncomment if you use 'upload-to-db' chunk.
 
 # ---- declare-globals ---------------------------------------------------------
 # Constant values that won't change.
@@ -42,6 +42,11 @@ ds_nurse_month_rural    <- readr::read_csv(path_in_rural, col_types=readr::cols(
 ds_county               <- readr::read_csv(path_county)
 
 rm(path_in_oklahoma, path_in_tulsa, path_in_rural, path_county)
+
+# Print the first few rows of each table, especially if you're stitching with knitr (see first line of this file).
+#   If you print, make sure that the datasets don't contain any PHI.
+#   A normal `data.frame` will print all rows.  But `readr::read_csv()` returns a `tibble::tibble`,
+#   which prints only the first 10 rows by default.  It also lists the data type of each column.
 ds_nurse_month_oklahoma
 ds_month_tulsa
 ds_nurse_month_rural
@@ -307,6 +312,9 @@ readr::write_csv(ds, path_out_unified)
 #Possibly consider writing to sqlite (with RSQLite) if there's no PHI, or a central database if there is PHI.
 
 # ---- inspect, fig.width=10, fig.height=6, fig.path=figure_path -----------------------------------------------------------------
+# This last section is kinda cheating, and should belong in an 'analysis' file, not a 'manipulation' file.
+#   It's included here for the sake of demonstration.
+
 library(ggplot2)
 
 # Graph each county-month

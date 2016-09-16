@@ -31,11 +31,14 @@ histogram_discrete <- function(
   text_size_percentage= 6,
   bin_width           = 1L) {
 
-  d_observed <- as.data.frame(d_observed) #Hack so dplyr datasets don't mess up things
-  if( !base::is.factor(d_observed[, variable_name]) )
-    d_observed[, variable_name] <- base::factor(d_observed[, variable_name])
+  # Ungroup, in case it comes in grouped.
+  d_observed <- d_observed %>%
+    dplyr::ungroup()
 
-  d_observed$iv <- base::ordered(d_observed[, variable_name], levels=rev(levels(d_observed[, variable_name])))
+  if( !base::is.factor(d_observed[[variable_name]]) )
+    d_observed[[variable_name]] <- base::factor(d_observed[[variable_name]])
+
+  d_observed$iv <- base::ordered(d_observed[[variable_name]], levels=rev(levels(d_observed[[variable_name]])))
 
   ds_count <- dplyr::count_(d_observed, vars ="iv" )
   # if( base::length(levels_to_exclude)>0 ) { }
@@ -80,11 +83,10 @@ histogram_continuous <- function(
   rounded_digits = 0L
   ) {
 
-  d_observed <- as.data.frame(d_observed) #Hack so dplyr datasets don't mess up things
-  d_observed <- d_observed[!base::is.na(d_observed[, variable_name]), ]
+  d_observed <- d_observed[!base::is.na(d_observed[[variable_name]]), ]
 
   ds_mid_points <- base::data.frame(label=c("italic(X)[50]", "bar(italic(X))"), stringsAsFactors=FALSE)
-  ds_mid_points$value <- c(stats::median(d_observed[, variable_name]), base::mean(d_observed[, variable_name]))
+  ds_mid_points$value <- c(stats::median(d_observed[[variable_name]]), base::mean(d_observed[[variable_name]]))
   ds_mid_points$value_rounded <- base::round(ds_mid_points$value, rounded_digits)
 
   g <- ggplot(d_observed, aes_string(x=variable_name)) +

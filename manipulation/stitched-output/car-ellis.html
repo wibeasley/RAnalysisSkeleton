@@ -218,10 +218,23 @@ library(magrittr) #Pipes
 # Verify these packages are available on the machine, but their functions need to be qualified: http://r-pkgs.had.co.nz/namespace.html#search-path
 requireNamespace(&quot;ggplot2&quot;)
 requireNamespace(&quot;readr&quot;)
-requireNamespace(&quot;tidyr&quot;)
-requireNamespace(&quot;dplyr&quot;) #Avoid attaching dplyr, b/c its function names conflict with a lot of packages (esp base, stats, and plyr).
+</code></pre>
+
+<pre><code>## Loading required namespace: readr
+</code></pre>
+
+<pre><code class="r">requireNamespace(&quot;tidyr&quot;)
+</code></pre>
+
+<pre><code>## Loading required namespace: tidyr
+</code></pre>
+
+<pre><code class="r">requireNamespace(&quot;dplyr&quot;) #Avoid attaching dplyr, b/c its function names conflict with a lot of packages (esp base, stats, and plyr).
 requireNamespace(&quot;testit&quot;) #For asserting conditions meet expected patterns.
 requireNamespace(&quot;car&quot;) #For it&#39;s `recode()` function.
+</code></pre>
+
+<pre><code>## Loading required namespace: car
 </code></pre>
 
 <pre><code class="r">path_input  &lt;- &quot;./data-phi-free/raw/mtcar.csv&quot;
@@ -293,7 +306,8 @@ ds &lt;- ds %&gt;%
   dplyr::mutate(
     displacement_gear_z = as.numeric(base::scale(displacement_inches_cubed)),
     weight_gear_z       = as.numeric(base::scale(weight_in_pounds))
-  )
+  ) %&gt;%
+  dplyr::ungroup()  #Always leave the dataset ungrouped, so later operations act as expected.
 </code></pre>
 
 <pre><code class="r"># Quick inspection of the distribution of z scores within levels
@@ -355,13 +369,13 @@ packages used):</p>
 ## [37] splines_3.3.1      rsconnect_0.4.3    assertthat_0.1    
 ## [40] pbkrtest_0.4-6     testit_0.5         colorspace_1.2-6  
 ## [43] quantreg_5.29      labeling_0.3       stringi_1.1.1     
-## [46] lazyeval_0.2.0     munsell_0.4.3      markdown_0.7.7
+## [46] lazyeval_0.2.0     munsell_0.4.3
 </code></pre>
 
 <pre><code class="r">Sys.time()
 </code></pre>
 
-<pre><code>## [1] &quot;2016-09-16 10:30:44 EDT&quot;
+<pre><code>## [1] &quot;2016-09-16 10:56:09 EDT&quot;
 </code></pre>
 
 </body>

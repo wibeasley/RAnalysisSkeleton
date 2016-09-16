@@ -82,7 +82,8 @@ ds <- ds %>%
   dplyr::mutate(
     displacement_gear_z = as.numeric(base::scale(displacement_inches_cubed)),
     weight_gear_z       = as.numeric(base::scale(weight_in_pounds))
-  )
+  ) %>%
+  dplyr::ungroup()  #Always leave the dataset ungrouped, so later operations act as expected.
 
 # ---- graph, fig.width=10, fig.height=6, fig.path=figure_path ---------------------------------------------------------
 # Quick inspection of the distribution of z scores within levels

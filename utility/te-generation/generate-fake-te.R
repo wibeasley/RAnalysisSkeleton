@@ -43,7 +43,8 @@ dsFakeName <- readr::read_csv("./utility/te-generation/fake-names.csv", col_name
 dsFakeName <- dsFakeName %>%
   dplyr::rename(Name = X1) %>%
   dplyr::group_by(Name) %>%          #Collapse any duplicated fake names
-  dplyr::summarize() %>%
+  dplyr::summarize()  %>%
+  dplyr::ungroup()  %>% #Always leave the dataset ungrouped, so later operations act as expected.
   dplyr::mutate(ID = seq_len(n()))
 
 # groom_oklahoma ----------------------------------------------------------

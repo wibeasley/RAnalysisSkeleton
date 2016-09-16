@@ -23,10 +23,28 @@ library(magrittr) #Pipes
 # Verify these packages are available on the machine, but their functions need to be qualified: http://r-pkgs.had.co.nz/namespace.html#search-path
 requireNamespace("ggplot2")
 requireNamespace("readr")
+```
+
+```
+## Loading required namespace: readr
+```
+
+```r
 requireNamespace("tidyr")
+```
+
+```
+## Loading required namespace: tidyr
+```
+
+```r
 requireNamespace("dplyr") #Avoid attaching dplyr, b/c its function names conflict with a lot of packages (esp base, stats, and plyr).
 requireNamespace("testit") #For asserting conditions meet expected patterns.
 requireNamespace("car") #For it's `recode()` function.
+```
+
+```
+## Loading required namespace: car
 ```
 
 ```r
@@ -105,7 +123,8 @@ ds <- ds %>%
   dplyr::mutate(
     displacement_gear_z = as.numeric(base::scale(displacement_inches_cubed)),
     weight_gear_z       = as.numeric(base::scale(weight_in_pounds))
-  )
+  ) %>%
+  dplyr::ungroup()  #Always leave the dataset ungrouped, so later operations act as expected.
 ```
 
 ```r
@@ -174,7 +193,7 @@ sessionInfo()
 ## [37] splines_3.3.1      rsconnect_0.4.3    assertthat_0.1    
 ## [40] pbkrtest_0.4-6     testit_0.5         colorspace_1.2-6  
 ## [43] quantreg_5.29      labeling_0.3       stringi_1.1.1     
-## [46] lazyeval_0.2.0     munsell_0.4.3      markdown_0.7.7
+## [46] lazyeval_0.2.0     munsell_0.4.3
 ```
 
 ```r
@@ -182,6 +201,6 @@ Sys.time()
 ```
 
 ```
-## [1] "2016-09-16 10:30:44 EDT"
+## [1] "2016-09-16 10:56:09 EDT"
 ```
 

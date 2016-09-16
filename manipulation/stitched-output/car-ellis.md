@@ -22,6 +22,13 @@ library(magrittr) #Pipes
 
 # Verify these packages are available on the machine, but their functions need to be qualified: http://r-pkgs.had.co.nz/namespace.html#search-path
 requireNamespace("ggplot2")
+```
+
+```
+## Loading required namespace: ggplot2
+```
+
+```r
 requireNamespace("readr")
 ```
 
@@ -39,7 +46,21 @@ requireNamespace("tidyr")
 
 ```r
 requireNamespace("dplyr") #Avoid attaching dplyr, b/c its function names conflict with a lot of packages (esp base, stats, and plyr).
+```
+
+```
+## Loading required namespace: dplyr
+```
+
+```r
 requireNamespace("testit") #For asserting conditions meet expected patterns.
+```
+
+```
+## Loading required namespace: testit
+```
+
+```r
 requireNamespace("car") #For it's `recode()` function.
 ```
 
@@ -58,7 +79,25 @@ days_per_week <- 7
 ```
 
 ```r
-ds <- read.csv(path_input, stringsAsFactors=FALSE)
+ds <- readr::read_csv(path_input)
+```
+
+```
+## Parsed with column specification:
+## cols(
+##   model = col_character(),
+##   mpg = col_double(),
+##   cyl = col_integer(),
+##   disp = col_double(),
+##   hp = col_integer(),
+##   drat = col_double(),
+##   wt = col_double(),
+##   qsec = col_double(),
+##   vs = col_integer(),
+##   am = col_integer(),
+##   gear = col_integer(),
+##   carb = col_integer()
+## )
 ```
 
 ```r
@@ -147,7 +186,7 @@ testit::assert("`weight_gear_z` should be a positive or missing value.", all(is.
 
 ```r
 # Save as a compress, binary R dataset.  It's no longer readable with a text editor, but it saves metadata (eg, factor information).
-saveRDS(ds, file=path_output, compress="xz")
+readr::write_rds(ds, path_output, compress="xz")
 ```
 
 The R session information (including the OS info, R version and all
@@ -175,25 +214,23 @@ sessionInfo()
 ## [1] stats     graphics  grDevices utils     datasets  methods   base     
 ## 
 ## other attached packages:
-## [1] magrittr_1.5  ggplot2_2.1.0
+## [1] magrittr_1.5
 ## 
 ## loaded via a namespace (and not attached):
-##  [1] Rcpp_0.12.7        nloptr_1.0.4       RColorBrewer_1.1-2
-##  [4] formatR_1.4        plyr_1.8.4         tools_3.3.1       
-##  [7] digest_0.6.10      lme4_1.1-12        evaluate_0.9      
-## [10] tibble_1.2         gtable_0.2.0       nlme_3.1-128      
-## [13] lattice_0.20-34    mgcv_1.8-14        Matrix_1.2-7.1    
-## [16] DBI_0.5            parallel_3.3.1     yaml_2.1.13       
-## [19] SparseM_1.72       dplyr_0.5.0.9000   stringr_1.1.0     
-## [22] knitr_1.14         MatrixModels_0.4-1 htmlwidgets_0.7   
-## [25] grid_3.3.1         DT_0.2             nnet_7.3-12       
-## [28] R6_2.1.3           rmarkdown_1.0      minqa_1.2.4       
-## [31] readr_1.0.0        tidyr_0.6.0        car_2.1-3         
-## [34] scales_0.4.0       htmltools_0.3.5    MASS_7.3-45       
-## [37] splines_3.3.1      rsconnect_0.4.3    assertthat_0.1    
-## [40] pbkrtest_0.4-6     testit_0.5         colorspace_1.2-6  
-## [43] quantreg_5.29      labeling_0.3       stringi_1.1.1     
-## [46] lazyeval_0.2.0     munsell_0.4.3
+##  [1] Rcpp_0.12.7        knitr_1.14         splines_3.3.1     
+##  [4] MASS_7.3-45        munsell_0.4.3      testit_0.5        
+##  [7] lattice_0.20-34    colorspace_1.2-6   R6_2.1.3          
+## [10] minqa_1.2.4        stringr_1.1.0      car_2.1-3         
+## [13] plyr_1.8.4         dplyr_0.5.0.9000   tools_3.3.1       
+## [16] parallel_3.3.1     nnet_7.3-12        pbkrtest_0.4-6    
+## [19] grid_3.3.1         nlme_3.1-128       gtable_0.2.0      
+## [22] mgcv_1.8-14        quantreg_5.29      DBI_0.5           
+## [25] MatrixModels_0.4-1 digest_0.6.10      lazyeval_0.2.0    
+## [28] lme4_1.1-12        assertthat_0.1     tibble_1.2        
+## [31] Matrix_1.2-7.1     nloptr_1.0.4       readr_1.0.0       
+## [34] ggplot2_2.1.0      formatR_1.4        tidyr_0.6.0       
+## [37] rsconnect_0.4.3    evaluate_0.9       labeling_0.3      
+## [40] stringi_1.1.1      scales_0.4.0       SparseM_1.72
 ```
 
 ```r
@@ -201,6 +238,6 @@ Sys.time()
 ```
 
 ```
-## [1] "2016-09-16 10:56:09 EDT"
+## [1] "2016-09-16 11:08:43 EDT"
 ```
 

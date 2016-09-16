@@ -106,7 +106,7 @@ histogram_continuous <- function(
 }
 
 # ---- load-data ---------------------------------------------------------------
-ds <- readRDS(path_input) # 'ds' stands for 'datasets'
+ds <- readr::read_rds(path_input) # 'ds' stands for 'datasets'
 
 # ---- tweak-data --------------------------------------------------------------
 #

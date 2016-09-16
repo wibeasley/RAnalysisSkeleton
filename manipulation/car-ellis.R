@@ -27,7 +27,7 @@ weeks_per_year <- 365.25/7
 days_per_week <- 7
 
 # ---- load-data ---------------------------------------------------------------
-ds <- read.csv(path_input, stringsAsFactors=FALSE)
+ds <- readr::read_csv(path_input)
 
 # ---- tweak-data --------------------------------------------------------------
 colnames(ds)
@@ -99,4 +99,4 @@ testit::assert("`weight_gear_z` should be a positive or missing value.", all(is.
 
 # ---- save-to-disk ------------------------------------------------------------
 # Save as a compress, binary R dataset.  It's no longer readable with a text editor, but it saves metadata (eg, factor information).
-saveRDS(ds, file=path_output, compress="xz")
+readr::write_rds(ds, path_output, compress="xz")

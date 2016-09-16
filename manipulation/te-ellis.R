@@ -1,4 +1,4 @@
-# knitr::stitch_rmd(script="./manipulation/te-ellis.R", output="./manipulation/stitched-output/te-ellis.md")
+# knitr::stitch_rmd(script="./manipulation/te-ellis.R", output="./stitched-output/manipulation/te-ellis.md")
 # For a brief description of this file see the presentation at
 #   - slides: https://rawgit.com/wibeasley/RAnalysisSkeleton/master/documentation/time-and-effort-synthesis.html#/
 #   - code: https://github.com/wibeasley/RAnalysisSkeleton/blob/master/documentation/time-and-effort-synthesis.Rpres
@@ -26,7 +26,7 @@ counties_to_drop_from_rural    <- c("Central Office", "Tulsa", "Oklahoma") #Excl
 default_day_of_month           <- 15L      # Summarize each month at its (rough) midpoint.
 possible_county_ids            <- 1L:77L   #There are 77 counties.
 threshold_mean_fte_t_fill_in   <- 10L      #Any county averaging over 10 hours can be filled in with its mean.
-figure_path <- 'manipulation/stitched-output/te/'
+figure_path <- 'stitched-output/manipulation/te/'
 
 # URIs of CSV and County lookup table
 path_in_oklahoma  <- "./data-phi-free/raw/te/nurse-month-oklahoma.csv"

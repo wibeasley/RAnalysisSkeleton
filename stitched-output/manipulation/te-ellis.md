@@ -7,7 +7,7 @@ This report was automatically generated with the R package **knitr**
 
 
 ```r
-# knitr::stitch_rmd(script="./manipulation/te-ellis.R", output="./manipulation/stitched-output/te-ellis.md")
+# knitr::stitch_rmd(script="./manipulation/te-ellis.R", output="./stitched-output/manipulation/te-ellis.md")
 # For a brief description of this file see the presentation at
 #   - slides: https://rawgit.com/wibeasley/RAnalysisSkeleton/master/documentation/time-and-effort-synthesis.html#/
 #   - code: https://github.com/wibeasley/RAnalysisSkeleton/blob/master/documentation/time-and-effort-synthesis.Rpres
@@ -73,7 +73,7 @@ counties_to_drop_from_rural    <- c("Central Office", "Tulsa", "Oklahoma") #Excl
 default_day_of_month           <- 15L      # Summarize each month at its (rough) midpoint.
 possible_county_ids            <- 1L:77L   #There are 77 counties.
 threshold_mean_fte_t_fill_in   <- 10L      #Any county averaging over 10 hours can be filled in with its mean.
-figure_path <- 'manipulation/stitched-output/te/'
+figure_path <- 'stitched-output/manipulation/te/'
 
 # URIs of CSV and County lookup table
 path_in_oklahoma  <- "./data-phi-free/raw/te/nurse-month-oklahoma.csv"
@@ -680,7 +680,7 @@ ggplot(ds, aes(x=month, y=fte, group=factor(county_id), color=factor(county_id),
   labs(title="FTE sum each month (by county)", y="Sum of FTE for County")
 ```
 
-<img src="manipulation/stitched-output/te/inspect-1.png" title="plot of chunk inspect" alt="plot of chunk inspect" style="display: block; margin: auto;" />
+<img src="stitched-output/manipulation/te/inspect-1.png" title="plot of chunk inspect" alt="plot of chunk inspect" style="display: block; margin: auto;" />
 
 ```r
 # Graph each region-month
@@ -698,7 +698,7 @@ last_plot() %+%
   labs(title="FTE sum each month (by region)", y="Sum of FTE for Region")
 ```
 
-<img src="manipulation/stitched-output/te/inspect-2.png" title="plot of chunk inspect" alt="plot of chunk inspect" style="display: block; margin: auto;" />
+<img src="stitched-output/manipulation/te/inspect-2.png" title="plot of chunk inspect" alt="plot of chunk inspect" style="display: block; margin: auto;" />
 
 ```r
 # last_plot() +
@@ -755,6 +755,6 @@ Sys.time()
 ```
 
 ```
-## [1] "2016-09-16 11:30:47 EDT"
+## [1] "2016-09-16 11:36:08 EDT"
 ```
 

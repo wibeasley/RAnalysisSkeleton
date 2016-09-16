@@ -1,4 +1,4 @@
-# knitr::stitch_rmd(script="./manipulation/car-ellis.R", output="./manipulation/stitched-output/car-ellis.md")
+# knitr::stitch_rmd(script="./manipulation/car-ellis.R", output="./stitched-output/manipulation/car-ellis.md")
 #These first few lines run only when the file is run in RStudio, !!NOT when an Rmd/Rnw file calls it!!
 rm(list=ls(all=TRUE))  #Clear the variables from previous runs.
 
@@ -20,7 +20,7 @@ requireNamespace("car") #For it's `recode()` function.
 # ---- declare-globals ---------------------------------------------------------
 path_input  <- "./data-phi-free/raw/mtcar.csv"
 path_output <- "./data-phi-free/derived/motor-trend-car-test.rds"
-figure_path <- 'manipulation/stitched-output/te/'
+figure_path <- 'stitched-output/manipulation/car/'
 
 premature_threshold_in_weeks <- 37 #Any infant under 37 weeks is considered premature for the current project.  Exactly 37.0 weeks are retained.
 weeks_per_year <- 365.25/7

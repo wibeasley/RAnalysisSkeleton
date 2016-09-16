@@ -204,7 +204,7 @@ hr {
 <p>This report was automatically generated with the R package <strong>knitr</strong>
 (version 1.14).</p>
 
-<pre><code class="r"># knitr::stitch_rmd(script=&quot;./manipulation/te-ellis.R&quot;, output=&quot;./manipulation/stitched-output/te-ellis.md&quot;)
+<pre><code class="r"># knitr::stitch_rmd(script=&quot;./manipulation/te-ellis.R&quot;, output=&quot;./stitched-output/manipulation/te-ellis.md&quot;)
 # For a brief description of this file see the presentation at
 #   - slides: https://rawgit.com/wibeasley/RAnalysisSkeleton/master/documentation/time-and-effort-synthesis.html#/
 #   - code: https://github.com/wibeasley/RAnalysisSkeleton/blob/master/documentation/time-and-effort-synthesis.Rpres
@@ -257,7 +257,7 @@ counties_to_drop_from_rural    &lt;- c(&quot;Central Office&quot;, &quot;Tulsa&q
 default_day_of_month           &lt;- 15L      # Summarize each month at its (rough) midpoint.
 possible_county_ids            &lt;- 1L:77L   #There are 77 counties.
 threshold_mean_fte_t_fill_in   &lt;- 10L      #Any county averaging over 10 hours can be filled in with its mean.
-figure_path &lt;- &#39;manipulation/stitched-output/te/&#39;
+figure_path &lt;- &#39;stitched-output/manipulation/te/&#39;
 
 # URIs of CSV and County lookup table
 path_in_oklahoma  &lt;- &quot;./data-phi-free/raw/te/nurse-month-oklahoma.csv&quot;
@@ -823,7 +823,7 @@ ggplot(ds, aes(x=month, y=fte, group=factor(county_id), color=factor(county_id),
   labs(title=&quot;FTE sum each month (by county)&quot;, y=&quot;Sum of FTE for County&quot;)
 </code></pre>
 
-<p><img src="manipulation/stitched-output/te/inspect-1.png" title="plot of chunk inspect" alt="plot of chunk inspect" style="display: block; margin: auto;" /></p>
+<p><img src="stitched-output/manipulation/te/inspect-1.png" title="plot of chunk inspect" alt="plot of chunk inspect" style="display: block; margin: auto;" /></p>
 
 <pre><code class="r"># Graph each region-month
 ds_region &lt;- ds %&gt;%
@@ -840,7 +840,7 @@ last_plot() %+%
   labs(title=&quot;FTE sum each month (by region)&quot;, y=&quot;Sum of FTE for Region&quot;)
 </code></pre>
 
-<p><img src="manipulation/stitched-output/te/inspect-2.png" title="plot of chunk inspect" alt="plot of chunk inspect" style="display: block; margin: auto;" /></p>
+<p><img src="stitched-output/manipulation/te/inspect-2.png" title="plot of chunk inspect" alt="plot of chunk inspect" style="display: block; margin: auto;" /></p>
 
 <pre><code class="r"># last_plot() +
 #   aes(y=fmla_hours) +
@@ -891,7 +891,7 @@ packages used):</p>
 <pre><code class="r">Sys.time()
 </code></pre>
 
-<pre><code>## [1] &quot;2016-09-16 11:30:47 EDT&quot;
+<pre><code>## [1] &quot;2016-09-16 11:36:08 EDT&quot;
 </code></pre>
 
 </body>

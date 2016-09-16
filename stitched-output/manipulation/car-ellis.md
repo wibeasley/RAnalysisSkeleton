@@ -7,7 +7,7 @@ This report was automatically generated with the R package **knitr**
 
 
 ```r
-# knitr::stitch_rmd(script="./manipulation/car-ellis.R", output="./manipulation/stitched-output/car-ellis.md")
+# knitr::stitch_rmd(script="./manipulation/car-ellis.R", output="./stitched-output/manipulation/car-ellis.md")
 #These first few lines run only when the file is run in RStudio, !!NOT when an Rmd/Rnw file calls it!!
 rm(list=ls(all=TRUE))  #Clear the variables from previous runs.
 ```
@@ -71,7 +71,7 @@ requireNamespace("car") #For it's `recode()` function.
 ```r
 path_input  <- "./data-phi-free/raw/mtcar.csv"
 path_output <- "./data-phi-free/derived/motor-trend-car-test.rds"
-figure_path <- 'manipulation/stitched-output/te/'
+figure_path <- 'stitched-output/manipulation/car/'
 
 premature_threshold_in_weeks <- 37 #Any infant under 37 weeks is considered premature for the current project.  Exactly 37.0 weeks are retained.
 weeks_per_year <- 365.25/7
@@ -171,7 +171,7 @@ ds <- ds %>%
 ggplot2::qplot(ds$weight_gear_z, color=ds$forward_gear_count_f, geom="density")  # mean(ds$weight_gear_z, na.rm=T)
 ```
 
-<img src="manipulation/stitched-output/te/graph-1.png" title="plot of chunk graph" alt="plot of chunk graph" style="display: block; margin: auto;" />
+<img src="stitched-output/manipulation/car/graph-1.png" title="plot of chunk graph" alt="plot of chunk graph" style="display: block; margin: auto;" />
 
 ```r
 # Create a boolean variable, indicating if the z scores is above a certain threshold.
@@ -238,6 +238,6 @@ Sys.time()
 ```
 
 ```
-## [1] "2016-09-16 11:08:43 EDT"
+## [1] "2016-09-16 11:35:45 EDT"
 ```
 

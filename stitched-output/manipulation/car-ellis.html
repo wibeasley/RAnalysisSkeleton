@@ -204,7 +204,7 @@ hr {
 <p>This report was automatically generated with the R package <strong>knitr</strong>
 (version 1.14).</p>
 
-<pre><code class="r"># knitr::stitch_rmd(script=&quot;./manipulation/car-ellis.R&quot;, output=&quot;./manipulation/stitched-output/car-ellis.md&quot;)
+<pre><code class="r"># knitr::stitch_rmd(script=&quot;./manipulation/car-ellis.R&quot;, output=&quot;./stitched-output/manipulation/car-ellis.md&quot;)
 #These first few lines run only when the file is run in RStudio, !!NOT when an Rmd/Rnw file calls it!!
 rm(list=ls(all=TRUE))  #Clear the variables from previous runs.
 </code></pre>
@@ -254,7 +254,7 @@ requireNamespace(&quot;ggplot2&quot;)
 
 <pre><code class="r">path_input  &lt;- &quot;./data-phi-free/raw/mtcar.csv&quot;
 path_output &lt;- &quot;./data-phi-free/derived/motor-trend-car-test.rds&quot;
-figure_path &lt;- &#39;manipulation/stitched-output/te/&#39;
+figure_path &lt;- &#39;stitched-output/manipulation/car/&#39;
 
 premature_threshold_in_weeks &lt;- 37 #Any infant under 37 weeks is considered premature for the current project.  Exactly 37.0 weeks are retained.
 weeks_per_year &lt;- 365.25/7
@@ -346,7 +346,7 @@ ds &lt;- ds %&gt;%
 ggplot2::qplot(ds$weight_gear_z, color=ds$forward_gear_count_f, geom=&quot;density&quot;)  # mean(ds$weight_gear_z, na.rm=T)
 </code></pre>
 
-<p><img src="manipulation/stitched-output/te/graph-1.png" title="plot of chunk graph" alt="plot of chunk graph" style="display: block; margin: auto;" /></p>
+<p><img src="stitched-output/manipulation/car/graph-1.png" title="plot of chunk graph" alt="plot of chunk graph" style="display: block; margin: auto;" /></p>
 
 <pre><code class="r"># Create a boolean variable, indicating if the z scores is above a certain threshold.
 ds$weight_gear_z_above_1 &lt;- (ds$weight_gear_z &gt; 1.00)
@@ -405,7 +405,7 @@ packages used):</p>
 <pre><code class="r">Sys.time()
 </code></pre>
 
-<pre><code>## [1] &quot;2016-09-16 11:08:43 EDT&quot;
+<pre><code>## [1] &quot;2016-09-16 11:35:45 EDT&quot;
 </code></pre>
 
 </body>

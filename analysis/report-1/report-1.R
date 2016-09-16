@@ -40,22 +40,22 @@ histogram_discrete <- function(
 
   d_observed$iv <- base::ordered(d_observed[[variable_name]], levels=rev(levels(d_observed[[variable_name]])))
 
-  ds_count <- dplyr::count_(d_observed, vars ="iv" )
+  d_count <- dplyr::count_(d_observed, vars ="iv" )
   # if( base::length(levels_to_exclude)>0 ) { }
-  ds_count <- ds_count[!(ds_count$iv %in% levels_to_exclude), ]
+  d_count <- d_count[!(d_count$iv %in% levels_to_exclude), ]
 
-  ds_summary <- ds_count %>%
+  d_summary <- d_count %>%
     dplyr::rename_(
       "count"    =  "n"
     ) %>%
     dplyr::mutate(
       proportion = count / sum(count)
     )
-  ds_summary$percentage <- base::paste0(base::round(ds_summary$proportion*100), "%")
+  d_summary$percentage <- base::paste0(base::round(d_summary$proportion*100), "%")
 
-  y_title <- base::paste0(y_title, " (n=", scales::comma(base::sum(ds_summary$count)), ")")
+  y_title <- base::paste0(y_title, " (n=", scales::comma(base::sum(d_summary$count)), ")")
 
-  g <- ggplot(ds_summary, aes_string(x="iv", y="count", fill="iv", label="percentage")) +
+  g <- ggplot(d_summary, aes_string(x="iv", y="count", fill="iv", label="percentage")) +
     geom_bar(stat="identity") +
     geom_text(stat="identity", size=text_size_percentage, hjust=.8) +
     scale_y_continuous(labels=scales::comma_format()) +
@@ -63,13 +63,14 @@ histogram_discrete <- function(
     coord_flip()
 
   theme  <- theme_light(base_size=14) +
-    theme(legend.position = "none") +
-    theme(panel.grid.major.y=element_blank(), panel.grid.minor.y=element_blank()) +
-    theme(axis.text.x=element_text(colour="gray40")) +
-    theme(axis.title.x=element_text(colour="gray40")) +
-    theme(axis.text.y=element_text(size=14)) +
-    theme(panel.border = element_rect(colour="gray80")) +
-    theme(axis.ticks   = element_blank())
+    theme(legend.position       =  "none") +
+    theme(panel.grid.major.y    =  element_blank()) +
+    theme(panel.grid.minor.y    =  element_blank()) +
+    theme(axis.text.x           =  element_text(colour="gray40")) +
+    theme(axis.title.x          =  element_text(colour="gray40")) +
+    theme(axis.text.y           =  element_text(size=14)) +
+    theme(panel.border          =  element_rect(colour="gray80")) +
+    theme(axis.ticks            =  element_blank())
 
   return( g + theme )
 }
@@ -85,22 +86,22 @@ histogram_continuous <- function(
 
   d_observed <- d_observed[!base::is.na(d_observed[[variable_name]]), ]
 
-  ds_mid_points <- base::data.frame(label=c("italic(X)[50]", "bar(italic(X))"), stringsAsFactors=FALSE)
-  ds_mid_points$value <- c(stats::median(d_observed[[variable_name]]), base::mean(d_observed[[variable_name]]))
-  ds_mid_points$value_rounded <- base::round(ds_mid_points$value, rounded_digits)
+  d_mid_points <- base::data.frame(label=c("italic(X)[50]", "bar(italic(X))"), stringsAsFactors=FALSE)
+  d_mid_points$value <- c(stats::median(d_observed[[variable_name]]), base::mean(d_observed[[variable_name]]))
+  d_mid_points$value_rounded <- base::round(d_mid_points$value, rounded_digits)
 
   g <- ggplot(d_observed, aes_string(x=variable_name)) +
     geom_histogram(binwidth=bin_width, fill="gray70", color="gray90", position=position_identity()) +
-    geom_vline(xintercept=ds_mid_points$value, color="gray30") +
-    geom_text(data=ds_mid_points, aes_string(x="value", y=0, label="value_rounded"), color="tomato", hjust=c(1, 0), vjust=.5) +
+    geom_vline(xintercept=d_mid_points$value, color="gray30") +
+    geom_text(data=d_mid_points, aes_string(x="value", y=0, label="value_rounded"), color="tomato", hjust=c(1, 0), vjust=.5) +
     scale_x_continuous(labels=scales::comma_format()) +
     scale_y_continuous(labels=scales::comma_format()) +
     labs(title=main_title, x=x_title, y=y_title) +
     theme_light() +
     theme(axis.ticks = element_blank())
 
-  ds_mid_points$top <- stats::quantile(ggplot2::ggplot_build(g)$panel$ranges[[1]]$y.range, .8)
-  g <- g + ggplot2::geom_text(data=ds_mid_points, ggplot2::aes_string(x="value", y="top", label="label"), color="tomato", hjust=c(1, 0), parse=TRUE)
+  d_mid_points$top <- stats::quantile(ggplot2::ggplot_build(g)$panel$ranges[[1]]$y.range, .8)
+  g <- g + ggplot2::geom_text(data=d_mid_points, ggplot2::aes_string(x="value", y="top", label="label"), color="tomato", hjust=c(1, 0), parse=TRUE)
   return( g )
 }
 

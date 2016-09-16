@@ -618,9 +618,11 @@ ds_month_rural
 ## # ... with 1,774 more rows
 </code></pre>
 
-<pre><code class="r">possible_months &lt;- seq.Date(range(ds_month_rural$month)[1], range(ds_month_rural$month)[2], by=&quot;month&quot;)
-ds_possible &lt;- expand.grid(month=possible_months, county_id=possible_county_ids, stringsAsFactors=F)
-#Consider replacing a join with ds_possible with a call to tidyr::complete().
+<pre><code class="r">#Consider replacing a join with ds_possible with a call to tidyr::complete(), if you can guarantee each month shows up at least once.
+ds_possible &lt;- tidyr::crossing(
+  month     = seq.Date(range(ds_month_rural$month)[1], range(ds_month_rural$month)[2], by=&quot;month&quot;),
+  county_id = possible_county_ids
+)
 
 #Determine the months were we don&#39;t have any rural T&amp;E data.
 months_rural_not_collected &lt;- (ds_month_rural %&gt;%
@@ -740,7 +742,7 @@ ds
 </code></pre>
 
 <pre><code class="r">rm(ds_month_oklahoma, ds_month_tulsa, ds_month_rural, ds_possible)  #Remove these datasets so it&#39;s not accidentally used below.
-rm(possible_months, possible_county_ids)
+rm(possible_county_ids)
 </code></pre>
 
 <pre><code class="r"># Sniff out problems
@@ -889,7 +891,7 @@ packages used):</p>
 <pre><code class="r">Sys.time()
 </code></pre>
 
-<pre><code>## [1] &quot;2016-09-16 11:28:19 EDT&quot;
+<pre><code>## [1] &quot;2016-09-16 11:30:47 EDT&quot;
 </code></pre>
 
 </body>

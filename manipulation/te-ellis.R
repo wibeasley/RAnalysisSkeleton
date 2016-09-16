@@ -188,9 +188,11 @@ ds_month_rural <- ds_nurse_month_rural %>%
   dplyr::ungroup()
 ds_month_rural
 
-possible_months <- seq.Date(range(ds_month_rural$month)[1], range(ds_month_rural$month)[2], by="month")
-ds_possible <- expand.grid(month=possible_months, county_id=possible_county_ids, stringsAsFactors=F)
-#Consider replacing a join with ds_possible with a call to tidyr::complete().
+#Consider replacing a join with ds_possible with a call to tidyr::complete(), if you can guarantee each month shows up at least once.
+ds_possible <- tidyr::crossing(
+  month     = seq.Date(range(ds_month_rural$month)[1], range(ds_month_rural$month)[2], by="month"),
+  county_id = possible_county_ids
+)
 
 #Determine the months were we don't have any rural T&E data.
 months_rural_not_collected <- (ds_month_rural %>%
@@ -268,7 +270,7 @@ for( id in sort(unique(ds$county_id)) ) {# for( id in 13 ) {}
 ds
 
 rm(ds_month_oklahoma, ds_month_tulsa, ds_month_rural, ds_possible)  #Remove these datasets so it's not accidentally used below.
-rm(possible_months, possible_county_ids)
+rm(possible_county_ids)
 
 # ---- verify-values -----------------------------------------------------------
 # Sniff out problems

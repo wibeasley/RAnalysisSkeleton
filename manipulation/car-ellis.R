@@ -84,10 +84,6 @@ ds <- ds %>%
     weight_gear_z       = as.numeric(base::scale(weight_in_pounds))
   )
 
-# ds <- plyr::ddply(ds, .variables="forward_gear_countF", .fun=transform,
-#                   displacement_gear_z=scale(displacement_inches_cubed),
-#                   weight_gear_z=scale(weight_in_pounds)
-#                   )
 # ---- graph, fig.width=10, fig.height=6, fig.path=figure_path ---------------------------------------------------------
 # Quick inspection of the distribution of z scores within levels
 ggplot2::qplot(ds$weight_gear_z, color=ds$forward_gear_count_f, geom="density")  # mean(ds$weight_gear_z, na.rm=T)

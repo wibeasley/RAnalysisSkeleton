@@ -62,7 +62,7 @@ ds_county <- ds_county %>%
     "county_name"   = "CountyName",
     "region_id"     = "C1LeadNurseRegion"
   )
-  
+
 # ---- groom-oklahoma ----------------------------------------------------------
 # Sanitize illegal variable names.
 colnames(ds_nurse_month_oklahoma) <- make.names(colnames(ds_nurse_month_oklahoma))
@@ -162,7 +162,7 @@ ds_nurse_month_rural <- ds_nurse_month_rural %>%
     month       = as.Date(paste0(month, "-", default_day_of_month), format="%m/%Y-%d"),
     fte_string  = gsub("^(\\d{1,3})\\s*%$", "\\1", fte_percent),
     fte         = .01 * as.numeric(ifelse(nchar(fte_string)==0L, 0, fte_string)),
-    county_name = car::recode(county_name, "'Cimmarron'='Cimarron';'Leflore'='Le Flore'") #Or consider `plyr::recode()`.
+    county_name = car::recode(county_name, "'Cimmarron'='Cimarron';'Leflore'='Le Flore'") #Or consider `dplyr::recode()`.
   ) %>%
   dplyr::arrange(county_name, month, name_full) %>%
   dplyr::select(

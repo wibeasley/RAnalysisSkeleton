@@ -3,7 +3,7 @@
 
 
 This report was automatically generated with the R package **knitr**
-(version 1.12).
+(version 1.14).
 
 
 ```r
@@ -22,9 +22,11 @@ library(magrittr) #Pipes
 
 # Verify these packages are available on the machine, but their functions need to be qualified: http://r-pkgs.had.co.nz/namespace.html#search-path
 requireNamespace("ggplot2")
+requireNamespace("readr")
+requireNamespace("tidyr")
 requireNamespace("dplyr") #Avoid attaching dplyr, b/c its function names conflict with a lot of packages (esp base, stats, and plyr).
-requireNamespace("testit")
-# requireNamespace("plyr")
+requireNamespace("testit") #For asserting conditions meet expected patterns.
+requireNamespace("car") #For it's `recode()` function.
 ```
 
 ```r
@@ -52,6 +54,7 @@ colnames(ds)
 
 ```r
 # Dataset description can be found at: http://stat.ethz.ch/R-manual/R-devel/library/datasets/html/mtcars.html
+# Populate the rename entries with OuhscMunge::column_rename_headstart(ds_county) # devtools::install_github("OuhscBbmc/OuhscMunge")
 ds <- dplyr::rename_(ds,
   "model_name"                    = "model"
   , "miles_per_gallon"            = "mpg"
@@ -103,11 +106,6 @@ ds <- ds %>%
     displacement_gear_z = as.numeric(base::scale(displacement_inches_cubed)),
     weight_gear_z       = as.numeric(base::scale(weight_in_pounds))
   )
-
-# ds <- plyr::ddply(ds, .variables="forward_gear_countF", .fun=transform,
-#                   displacement_gear_z=scale(displacement_inches_cubed),
-#                   weight_gear_z=scale(weight_in_pounds)
-#                   )
 ```
 
 ```r
@@ -142,31 +140,41 @@ sessionInfo()
 ```
 
 ```
-## R version 3.2.3 Patched (2016-01-17 r69948)
-## Platform: x86_64-w64-mingw32/x64 (64-bit)
-## Running under: Windows >= 8 x64 (build 9200)
+## R version 3.3.1 (2016-06-21)
+## Platform: x86_64-pc-linux-gnu (64-bit)
+## Running under: Ubuntu 14.04.5 LTS
 ## 
 ## locale:
-## [1] LC_COLLATE=English_United States.1252 
-## [2] LC_CTYPE=English_United States.1252   
-## [3] LC_MONETARY=English_United States.1252
-## [4] LC_NUMERIC=C                          
-## [5] LC_TIME=English_United States.1252    
+##  [1] LC_CTYPE=en_US.UTF-8       LC_NUMERIC=C              
+##  [3] LC_TIME=en_US.UTF-8        LC_COLLATE=en_US.UTF-8    
+##  [5] LC_MONETARY=en_US.UTF-8    LC_MESSAGES=en_US.UTF-8   
+##  [7] LC_PAPER=en_US.UTF-8       LC_NAME=C                 
+##  [9] LC_ADDRESS=C               LC_TELEPHONE=C            
+## [11] LC_MEASUREMENT=en_US.UTF-8 LC_IDENTIFICATION=C       
 ## 
 ## attached base packages:
 ## [1] stats     graphics  grDevices utils     datasets  methods   base     
 ## 
 ## other attached packages:
-## [1] magrittr_1.5
+## [1] magrittr_1.5  ggplot2_2.1.0
 ## 
 ## loaded via a namespace (and not attached):
-##  [1] Rcpp_0.12.3      digest_0.6.9     dplyr_0.4.3      assertthat_0.1  
-##  [5] grid_3.2.3       plyr_1.8.3       R6_2.1.1         gtable_0.1.2    
-##  [9] DBI_0.3.1.9008   formatR_1.2.1    evaluate_0.8     scales_0.3.0    
-## [13] ggplot2_2.0.0    stringi_1.0-1    lazyeval_0.1.10  testit_0.4.1    
-## [17] labeling_0.3     tools_3.2.3      stringr_1.0.0    readr_0.2.2     
-## [21] munsell_0.4.2    parallel_3.2.3   rsconnect_0.3.79 colorspace_1.2-6
-## [25] knitr_1.12
+##  [1] Rcpp_0.12.7        nloptr_1.0.4       RColorBrewer_1.1-2
+##  [4] formatR_1.4        plyr_1.8.4         tools_3.3.1       
+##  [7] digest_0.6.10      lme4_1.1-12        evaluate_0.9      
+## [10] tibble_1.2         gtable_0.2.0       nlme_3.1-128      
+## [13] lattice_0.20-34    mgcv_1.8-14        Matrix_1.2-7.1    
+## [16] DBI_0.5            parallel_3.3.1     yaml_2.1.13       
+## [19] SparseM_1.72       dplyr_0.5.0.9000   stringr_1.1.0     
+## [22] knitr_1.14         MatrixModels_0.4-1 htmlwidgets_0.7   
+## [25] grid_3.3.1         DT_0.2             nnet_7.3-12       
+## [28] R6_2.1.3           rmarkdown_1.0      minqa_1.2.4       
+## [31] readr_1.0.0        tidyr_0.6.0        car_2.1-3         
+## [34] scales_0.4.0       htmltools_0.3.5    MASS_7.3-45       
+## [37] splines_3.3.1      rsconnect_0.4.3    assertthat_0.1    
+## [40] pbkrtest_0.4-6     testit_0.5         colorspace_1.2-6  
+## [43] quantreg_5.29      labeling_0.3       stringi_1.1.1     
+## [46] lazyeval_0.2.0     munsell_0.4.3      markdown_0.7.7
 ```
 
 ```r
@@ -174,6 +182,6 @@ Sys.time()
 ```
 
 ```
-## [1] "2016-01-22 10:36:33 CST"
+## [1] "2016-09-16 10:30:44 EDT"
 ```
 

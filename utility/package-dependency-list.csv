@@ -17,7 +17,7 @@ knitr,TRUE,TRUE,,For reporting.
 lme4,TRUE,FALSE,,Multilevel models.
 lubridate,TRUE,TRUE,,Consistent/convenient function signatures for manipulating dates.
 modeest,TRUE,TRUE,,Estimating the mode of unimodal distributions.
-plyr,TRUE,TRUE,,Important for most of our data manipulation.
+plyr,TRUE,FALSE,,Important for most of our data manipulation.
 random,TRUE,TRUE,,Creates random numbers for salts.
 RColorBrewer,TRUE,TRUE,,Explicit control over the Color Brewer colors.  See http://colorbrewer2.org/.
 readr,TRUE,TRUE,,Reads data files from disk.

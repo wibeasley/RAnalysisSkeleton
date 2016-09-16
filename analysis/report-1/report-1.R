@@ -38,14 +38,14 @@ histogram_discrete <- function(
 
   d_observed$iv <- base::ordered(d_observed[, variable_name], levels=rev(levels(d_observed[, variable_name])))
 
-  ds_count <- plyr::count(d_observed, vars=c("iv"))
+  ds_count <- dplyr::count_(d_observed, vars ="iv" )
   # if( base::length(levels_to_exclude)>0 ) { }
   ds_count <- ds_count[!(ds_count$iv %in% levels_to_exclude), ]
 
-  ds_summary <- plyr::ddply(ds_count, .variables=NULL, transform, count=freq, proportion = freq/sum(freq) )
+  ds_summary <- plyr::ddply(ds_count, .variables=NULL, transform, count=n, proportion = n/sum(n) )
   ds_summary$percentage <- base::paste0(base::round(ds_summary$proportion*100), "%")
 
-  y_title <- base::paste0(y_title, " (n=", scales::comma(base::sum(ds_summary$freq)), ")")
+  y_title <- base::paste0(y_title, " (n=", scales::comma(base::sum(ds_summary$n)), ")")
 
   g <- ggplot(ds_summary, aes_string(x="iv", y="count", fill="iv", label="percentage")) +
     geom_bar(stat="identity") +

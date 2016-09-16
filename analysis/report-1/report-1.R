@@ -61,7 +61,7 @@ histogram_discrete <- function(
     theme(axis.title.x=element_text(colour="gray40")) +
     theme(axis.text.y=element_text(size=14)) +
     theme(panel.border = element_rect(colour="gray80")) +
-    theme(axis.ticks.length = grid::unit(0, "cm"))
+    theme(axis.ticks   = element_blank())
 
   return( g + theme )
 }
@@ -90,7 +90,7 @@ histogram_continuous <- function(
     scale_y_continuous(labels=scales::comma_format()) +
     labs(title=main_title, x=x_title, y=y_title) +
     theme_light() +
-    theme(axis.ticks.length = grid::unit(0, "cm"))
+    theme(axis.ticks = element_blank())
 
   ds_mid_points$top <- stats::quantile(ggplot2::ggplot_build(g)$panel$ranges[[1]]$y.range, .8)
   g <- g + ggplot2::geom_text(data=ds_mid_points, ggplot2::aes_string(x="value", y="top", label="label"), color="tomato", hjust=c(1, 0), parse=TRUE)
@@ -144,7 +144,7 @@ g1 <- ggplot(ds, aes(x=gross_horsepower, y=quarter_mile_in_seconds, color=forwar
   geom_smooth(method="loess", span=2) +
   geom_point(shape=1) +
   theme_light() +
-  theme(axis.ticks.length = grid::unit(0, "cm"))
+  theme(axis.ticks = element_blank())
 g1
 
 g1 %+% aes(color=carburetor_count_f)

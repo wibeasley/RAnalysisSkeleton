@@ -37,11 +37,11 @@ options(width=100) #So the output is 25% wider than the default.
 read_chunk("./analysis/report-1/report-1.R") #This allows knitr to call chunks tagged in the underlying *.R file.
 ```
 
-<!-- Load the sources.  Suppress the output when loading sources. --> 
+<!-- Load 'sourced' R files.  Suppress the output when loading sources. --> 
 ```{r load-sources, echo=echo_chunks, message=message_chunks}
 ```
 
-<!-- Load 'sourced' R files.  Suppress the output when loading packages. --> 
+<!-- Load packages, or at least verify they're available on the local machine.  Suppress the output when loading packages. --> 
 ```{r load-packages, echo=echo_chunks, message=message_chunks}
 ```
 

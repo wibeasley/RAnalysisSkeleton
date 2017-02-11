@@ -244,28 +244,28 @@ ds
 #Loop through each county to determine which (if any) months need to be approximated.
 #   The dataset is small enough that it's not worth vectorizing.
 for( id in sort(unique(ds$county_id)) ) {# for( id in 13 ) {}
-  ds_county <- dplyr::filter(ds, county_id==id)
-  missing   <- ds_county$fte_approximated #is.na(ds_county$fte_approximated)
+  ds_county_approx <- dplyr::filter(ds, county_id==id)
+  missing          <- ds_county_approx$fte_approximated #is.na(ds_county_approx$fte_approximated)
 
   # Attempt to fill in values only for counties missing something.
-  if( any(ds_county$county_any_missing) ) {
+  if( any(ds_county_approx$county_any_missing) ) {
 
     #This statement interpolates missing FTE values
-    ds_county$fte[missing] <- as.numeric(approx(
-      x    = ds_county$month[!missing],
-      y    = ds_county$fte[  !missing],
-      xout = ds_county$month[ missing]
+    ds_county_approx$fte[missing] <- as.numeric(approx(
+      x    = ds_county_approx$month[!missing],
+      y    = ds_county_approx$fte[  !missing],
+      xout = ds_county_approx$month[ missing]
     )$y)
 
     #This statement extrapolates missing FTE values, which occurs when the first/last few months are missing.
-    if( mean(ds_county$fte, na.rm=T) >= threshold_mean_fte_t_fill_in ) {
-      ds_county$fte_approximated <- (ds_county$fte==0)
-      ds_county$fte <- ifelse(ds_county$fte==0, ds_county$fte_rolling_median_11_month, ds_county$fte)
+    if( mean(ds_county_approx$fte, na.rm=T) >= threshold_mean_fte_t_fill_in ) {
+      ds_county_approx$fte_approximated <- (ds_county_approx$fte==0)
+      ds_county_approx$fte              <- ifelse(ds_county_approx$fte==0, ds_county_approx$fte_rolling_median_11_month, ds_county_approx$fte)
     }
 
     #Overwrite selected values in the real dataset
-    ds[ds$county_id==id, ]$fte              <- ds_county$fte
-    ds[ds$county_id==id, ]$fte_approximated <- ds_county$fte_approximated
+    ds[ds$county_id==id, ]$fte              <- ds_county_approx$fte
+    ds[ds$county_id==id, ]$fte_approximated <- ds_county_approx$fte_approximated
   }
 }
 ds

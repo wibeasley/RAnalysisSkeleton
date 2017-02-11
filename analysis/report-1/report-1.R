@@ -13,7 +13,7 @@ requireNamespace("scales") #For formating values in graphs
 requireNamespace("RColorBrewer")
 requireNamespace("dplyr")
 # requireNamespace("tidyr") #For converting wide to long
-# requireNamespace("mgcv, quietly=TRUE) #For the Generalized Additive Model that smooths the longitudinal graphs.
+# requireNamespace("mgcv) #For the Generalized Additive Model that smooths the longitudinal graphs.
 # requireNamespace("TabularManifest") # devtools::install_github("Melinae/TabularManifest")
 
 # ---- declare-globals ---------------------------------------------------------

@@ -3,7 +3,7 @@
 
 
 This report was automatically generated with the R package **knitr**
-(version 1.14).
+(version 1.15.1).
 
 
 ```r
@@ -20,42 +20,14 @@ rm(list=ls(all=TRUE))  #Clear the variables from previous runs.
 
 ```r
 # Attach these package(s) so their functions don't need to be qualified: http://r-pkgs.had.co.nz/namespace.html#search-path
-library(magrittr, quietly=TRUE)
+library(magrittr            , quietly=TRUE)
 
 # Verify these packages are available on the machine, but their functions need to be qualified: http://r-pkgs.had.co.nz/namespace.html#search-path
-requireNamespace("readr")
-```
-
-```
-## Loading required namespace: readr
-```
-
-```r
-requireNamespace("tidyr")
-```
-
-```
-## Loading required namespace: tidyr
-```
-
-```r
-requireNamespace("dplyr") #Avoid attaching dplyr, b/c its function names conflict with a lot of packages (esp base, stats, and plyr).
-```
-
-```
-## Loading required namespace: dplyr
-```
-
-```r
-requireNamespace("testit") #For asserting conditions meet expected patterns.
-```
-
-```
-## Loading required namespace: testit
-```
-
-```r
-requireNamespace("car") #For it's `recode()` function.
+requireNamespace("readr"                  )
+requireNamespace("tidyr"                  )
+requireNamespace("dplyr"                  ) #Avoid attaching dplyr, b/c its function names conflict with a lot of packages (esp base, stats, and plyr).
+requireNamespace("testit"                 ) #For asserting conditions meet expected patterns.
+requireNamespace("car"                    ) #For it's `recode()` function.
 ```
 
 ```
@@ -717,7 +689,7 @@ sessionInfo()
 ```
 ## R version 3.3.1 (2016-06-21)
 ## Platform: x86_64-pc-linux-gnu (64-bit)
-## Running under: Ubuntu 14.04.5 LTS
+## Running under: Ubuntu 16.04.1 LTS
 ## 
 ## locale:
 ##  [1] LC_CTYPE=en_US.UTF-8       LC_NUMERIC=C              
@@ -731,23 +703,26 @@ sessionInfo()
 ## [1] stats     graphics  grDevices utils     datasets  methods   base     
 ## 
 ## other attached packages:
-## [1] ggplot2_2.1.0 magrittr_1.5 
+## [1] ggplot2_2.2.1 magrittr_1.5 
 ## 
 ## loaded via a namespace (and not attached):
-##  [1] Rcpp_0.12.7        formatR_1.4        nloptr_1.0.4      
-##  [4] plyr_1.8.4         tools_3.3.1        digest_0.6.10     
-##  [7] lme4_1.1-12        evaluate_0.9       tibble_1.2        
-## [10] nlme_3.1-128       gtable_0.2.0       lattice_0.20-34   
-## [13] mgcv_1.8-14        Matrix_1.2-7.1     DBI_0.5           
-## [16] parallel_3.3.1     SparseM_1.72       dplyr_0.5.0.9000  
-## [19] stringr_1.1.0      knitr_1.14         MatrixModels_0.4-1
-## [22] grid_3.3.1         nnet_7.3-12        R6_2.1.3          
-## [25] minqa_1.2.4        tidyr_0.6.0        readr_1.0.0       
-## [28] car_2.1-3          scales_0.4.0       MASS_7.3-45       
-## [31] splines_3.3.1      rsconnect_0.4.3    assertthat_0.1    
-## [34] pbkrtest_0.4-6     testit_0.5         colorspace_1.2-6  
-## [37] labeling_0.3       quantreg_5.29      stringi_1.1.1     
-## [40] lazyeval_0.2.0     munsell_0.4.3      zoo_1.7-13
+##  [1] Rcpp_0.12.9        highr_0.6          nloptr_1.0.4      
+##  [4] plyr_1.8.4         tools_3.3.1        digest_0.6.12     
+##  [7] lme4_1.1-12        gtable_0.2.0       evaluate_0.10     
+## [10] tibble_1.2         nlme_3.1-131       lattice_0.20-34   
+## [13] mgcv_1.8-17        Matrix_1.2-7.1     DBI_0.5-1         
+## [16] yaml_2.1.14        parallel_3.3.1     SparseM_1.74      
+## [19] dplyr_0.5.0.9000   stringr_1.1.0      knitr_1.15.1      
+## [22] MatrixModels_0.4-1 htmlwidgets_0.8    rprojroot_1.2     
+## [25] DT_0.2             nnet_7.3-12        grid_3.3.1        
+## [28] R6_2.2.0           rmarkdown_1.3      minqa_1.2.4       
+## [31] tidyr_0.6.1        readr_1.0.0        car_2.1-4         
+## [34] backports_1.0.5    scales_0.4.1       htmltools_0.3.5   
+## [37] MASS_7.3-45        splines_3.3.1      rsconnect_0.7     
+## [40] assertthat_0.1     pbkrtest_0.4-6     testit_0.6        
+## [43] colorspace_1.3-2   labeling_0.3       quantreg_5.29     
+## [46] stringi_1.1.2      lazyeval_0.2.0     munsell_0.4.3     
+## [49] zoo_1.7-14
 ```
 
 ```r
@@ -755,6 +730,6 @@ Sys.time()
 ```
 
 ```
-## [1] "2016-09-16 11:36:08 EDT"
+## [1] "2017-02-10 23:47:54 CST"
 ```
 

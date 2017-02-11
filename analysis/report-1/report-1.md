@@ -9,10 +9,10 @@ This report covers the analyses used in the ZZZ project (Marcus Mark, PI).
 <!-- Set the report-wide options, and point to the external code file. -->
 
 
-<!-- Load the sources.  Suppress the output when loading sources. --> 
+<!-- Load 'sourced' R files.  Suppress the output when loading sources. --> 
 
 
-<!-- Load 'sourced' R files.  Suppress the output when loading packages. --> 
+<!-- Load packages, or at least verify they're available on the local machine.  Suppress the output when loading packages. --> 
 
 
 <!-- Load any global functions and variables declared in the R file.  Suppress the output. --> 
@@ -41,7 +41,18 @@ This report covers the analyses used in the ZZZ project (Marcus Mark, PI).
 1. The Seattle track's phluguerstometer was producing flaky negative values; it's measurements have been dropped.
 
 # Marginals
-![](figure-png/marginals-1.png)<!-- -->![](figure-png/marginals-2.png)<!-- -->![](figure-png/marginals-3.png)<!-- -->![](figure-png/marginals-4.png)<!-- -->
+
+```
+Warning: Removed 2 rows containing missing values (geom_text).
+```
+
+![](figure-png/marginals-1.png)<!-- -->
+
+```
+Warning: Removed 2 rows containing missing values (geom_text).
+```
+
+![](figure-png/marginals-2.png)<!-- -->![](figure-png/marginals-3.png)<!-- -->![](figure-png/marginals-4.png)<!-- -->
 
 # Scatterplots
 ![](figure-png/scatterplots-1.png)<!-- -->![](figure-png/scatterplots-2.png)<!-- -->![](figure-png/scatterplots-3.png)<!-- -->![](figure-png/scatterplots-4.png)<!-- -->![](figure-png/scatterplots-5.png)<!-- -->
@@ -182,8 +193,8 @@ Model 2: quarter_mile_in_seconds ~ 1 + miles_per_gallon + forward_gear_count_f
 |forward_gear_count_fFour |     0.16|       0.67|    0.23|               0.82|
 |forward_gear_count_fFive |    -2.75|       0.73|   -3.77|               0.00|
 
-<!--html_preserve--><div id="htmlwidget-b99b60d79676f5be78b7" style="width:100%;height:auto;" class="datatables html-widget"></div>
-<script type="application/json" data-for="htmlwidget-b99b60d79676f5be78b7">{"x":{"filter":"none","data":[["(Intercept)","miles_per_gallon","forward_gear_count_fFour","forward_gear_count_fFive"],[15.56,0.13,0.16,-2.75],[0.9,0.05,0.67,0.73],[17.33,2.57,0.23,-3.77],[0,0.02,0.82,0]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th> \u003c/th>\n      <th>Estimate\u003c/th>\n      <th>Std. Error\u003c/th>\n      <th>t value\u003c/th>\n      <th>Pr(&gt;|t|)\u003c/th>\n    \u003c/tr>\n  \u003c/thead>\n\u003c/table>","options":{"pageLength":2,"columnDefs":[{"className":"dt-right","targets":[1,2,3,4]},{"orderable":false,"targets":0}],"order":[],"autoWidth":false,"orderClasses":false,"lengthMenu":[2,10,25,50,100]}},"evals":[],"jsHooks":[]}</script><!--/html_preserve-->
+<!--html_preserve--><div id="htmlwidget-e2d29c42766d8c58a7b4" style="width:100%;height:auto;" class="datatables html-widget"></div>
+<script type="application/json" data-for="htmlwidget-e2d29c42766d8c58a7b4">{"x":{"filter":"none","data":[["(Intercept)","miles_per_gallon","forward_gear_count_fFour","forward_gear_count_fFive"],[15.56,0.13,0.16,-2.75],[0.9,0.05,0.67,0.73],[17.33,2.57,0.23,-3.77],[0,0.02,0.82,0]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th> \u003c/th>\n      <th>Estimate\u003c/th>\n      <th>Std. Error\u003c/th>\n      <th>t value\u003c/th>\n      <th>Pr(&gt;|t|)\u003c/th>\n    \u003c/tr>\n  \u003c/thead>\n\u003c/table>","options":{"pageLength":2,"columnDefs":[{"className":"dt-right","targets":[1,2,3,4]},{"orderable":false,"targets":0}],"order":[],"autoWidth":false,"orderClasses":false,"lengthMenu":[2,10,25,50,100]}},"evals":[],"jsHooks":[]}</script><!--/html_preserve-->
 
 **In the model that includes two predictors, the slope coefficent of `Miles per gallon` is 0.13246.**
 
@@ -192,13 +203,13 @@ Model 2: quarter_mile_in_seconds ~ 1 + miles_per_gallon + forward_gear_count_f
 For the sake of documentation and reproducibility, the current report was rendered on a system using the following software.
 
 ```
-Report rendered by wibeasley at 2016-09-16, 11:06 -0400 in 6 seconds.
+Report rendered by wibeasley at 2017-02-10, 23:45 -0600 in 6 seconds.
 ```
 
 ```
 R version 3.3.1 (2016-06-21)
 Platform: x86_64-pc-linux-gnu (64-bit)
-Running under: Ubuntu 14.04.5 LTS
+Running under: Ubuntu 16.04.1 LTS
 
 locale:
  [1] LC_CTYPE=en_US.UTF-8       LC_NUMERIC=C               LC_TIME=en_US.UTF-8       
@@ -210,13 +221,13 @@ attached base packages:
 [1] stats     graphics  grDevices utils     datasets  methods   base     
 
 other attached packages:
-[1] magrittr_1.5  ggplot2_2.1.0 knitr_1.14   
+[1] magrittr_1.5  ggplot2_2.2.1 knitr_1.15.1 
 
 loaded via a namespace (and not attached):
- [1] Rcpp_0.12.7        munsell_0.4.3      colorspace_1.2-6   R6_2.1.3           highr_0.6         
+ [1] Rcpp_0.12.9        munsell_0.4.3      colorspace_1.3-2   R6_2.2.0           highr_0.6         
  [6] stringr_1.1.0      plyr_1.8.4         dplyr_0.5.0.9000   tools_3.3.1        DT_0.2            
-[11] grid_3.3.1         gtable_0.2.0       DBI_0.5            htmltools_0.3.5    lazyeval_0.2.0    
-[16] yaml_2.1.13        digest_0.6.10      assertthat_0.1     tibble_1.2         readr_1.0.0       
-[21] RColorBrewer_1.1-2 formatR_1.4        htmlwidgets_0.7    evaluate_0.9       rmarkdown_1.0     
-[26] labeling_0.3       stringi_1.1.1      scales_0.4.0       jsonlite_1.0      
+[11] grid_3.3.1         gtable_0.2.0       DBI_0.5-1          htmltools_0.3.5    yaml_2.1.14       
+[16] lazyeval_0.2.0     rprojroot_1.2      digest_0.6.12      assertthat_0.1     tibble_1.2        
+[21] readr_1.0.0        RColorBrewer_1.1-2 htmlwidgets_0.8    evaluate_0.10      rmarkdown_1.3     
+[26] labeling_0.3       stringi_1.1.2      scales_0.4.1       backports_1.0.5    jsonlite_1.2      
 ```

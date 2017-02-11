@@ -12,11 +12,11 @@ rm(list=ls(all=TRUE))  #Clear the variables from previous runs.
 library(magrittr            , quietly=TRUE)
 
 # Verify these packages are available on the machine, but their functions need to be qualified: http://r-pkgs.had.co.nz/namespace.html#search-path
-requireNamespace("readr",     quietly=TRUE)
-requireNamespace("tidyr",     quietly=TRUE)
-requireNamespace("dplyr",     quietly=TRUE) #Avoid attaching dplyr, b/c its function names conflict with a lot of packages (esp base, stats, and plyr).
-requireNamespace("testit",    quietly=TRUE) #For asserting conditions meet expected patterns.
-requireNamespace("car",       quietly=TRUE) #For it's `recode()` function.
+requireNamespace("readr"                  )
+requireNamespace("tidyr"                  )
+requireNamespace("dplyr"                  ) #Avoid attaching dplyr, b/c its function names conflict with a lot of packages (esp base, stats, and plyr).
+requireNamespace("testit"                 ) #For asserting conditions meet expected patterns.
+requireNamespace("car"                    ) #For it's `recode()` function.
 # requireNamespace("RODBC") #For communicating with SQL Server over a locally-configured DSN.  Uncomment if you use 'upload-to-db' chunk.
 
 # ---- declare-globals ---------------------------------------------------------

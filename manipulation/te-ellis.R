@@ -10,18 +10,21 @@ rm(list=ls(all=TRUE))  #Clear the variables from previous runs.
 # ---- load-packages -----------------------------------------------------------
 # Attach these package(s) so their functions don't need to be qualified: http://r-pkgs.had.co.nz/namespace.html#search-path
 library(magrittr            , quietly=TRUE)
+library(DBI                 , quietly=TRUE)
 
 # Verify these packages are available on the machine, but their functions need to be qualified: http://r-pkgs.had.co.nz/namespace.html#search-path
 requireNamespace("readr"                  )
 requireNamespace("tidyr"                  )
 requireNamespace("dplyr"                  ) #Avoid attaching dplyr, b/c its function names conflict with a lot of packages (esp base, stats, and plyr).
 requireNamespace("testit"                 ) #For asserting conditions meet expected patterns.
+requireNamespace("RSQLite"                ) #For asserting conditions meet expected patterns.
 # requireNamespace("car"                    ) #For it's `recode()` function.
 # requireNamespace("RODBC") #For communicating with SQL Server over a locally-configured DSN.  Uncomment if you use 'upload-to-db' chunk.
 
 # ---- declare-globals ---------------------------------------------------------
 # Constant values that won't change.
 path_out_unified               <- "data-phi-free/derived/county-month-te.csv"
+path_db                        <- "data-unshared/derived/te.sqlite3"
 counties_to_drop_from_rural    <- c("Central Office", "Tulsa", "Oklahoma") #Exclude these records from the rural dataset.
 default_day_of_month           <- 15L      # Summarize each month at its (rough) midpoint.
 possible_county_ids            <- 1L:77L   #There are 77 counties.
@@ -294,7 +297,58 @@ ds_slim <- ds[, columns_to_write]
 ds_slim$fte_approximated <- as.integer(ds_slim$fte_approximated)
 ds_slim
 
-# # ---- upload-to-db ------------------------------------------------------------
+
+# ---- save-to-disk ------------------------------------------------------------
+# If there's no PHI, a rectangular CSV is usually adequate, and it's portable to other machines and software.
+readr::write_csv(ds, path_out_unified)
+# readr::write_rds(ds, path_out_unified, compress="gz") # Save as a compressed R-binary file if it's large or has a lot of factors.
+
+
+# ---- save-to-db --------------------------------------------------------------
+# If there's no PHI, a local database like SQLite fits a nice niche if
+#   * the data is relational and
+#   * later, only portions need to be queried/retrieved at a time (b/c everything won't need to be loaded into R's memory)
+
+sql_create_tbl_county <- "
+  CREATE TABLE `tbl_county` (
+  	county_id              INTEGER NOT NULL PRIMARY KEY,
+    county_name            VARCHAR NOT NULL,
+    region_id              INTEGER NOT NULL
+  );"
+sql_create_tbl_indicator <- "
+  CREATE TABLE `tbl_te_month` (
+  	county_month_id              INTEGER NOT NULL PRIMARY KEY,
+  	county_id                 INTEGER NOT NULL,
+    month                     VARCHAR,                  # There's no date type in SQLite.  Make sure it's ISO8601:yyyy-mm-dd
+    fte                       REAL,
+    fte_approximated          REAL,
+    month_missing             INTEGER,                  # There's no bit/boolean type in SQLite
+    fte_rolling_median        INTEGER,
+    last_historical_date      TEXT
+  );"
+
+# Remove old DB
+if( file.exists(path_db) ) file.remove(path_db)
+
+# Open connection
+cnn <- DBI::dbConnect(drv=RSQLite::SQLite(), dbname=path_db)
+RSQLite::dbSendQuery(cnn, "PRAGMA foreign_keys=ON;") #This needs to be activated each time a connection is made. #http://stackoverflow.com/questions/15301643/sqlite3-forgets-to-use-foreign-keys
+dbListTables(cnn)
+
+# Create tables
+dbSendQuery(cnn, sql_create_tbl_county)
+dbListTables(cnn)
+
+
+# Write to database
+dbWriteTable(cnn, name='tbl_county',              value=ds_county,        append=TRUE, row.names=FALSE)
+
+
+# Close connection
+dbDisconnect(cnn)
+
+# # ---- upload-to-db ----------------------------------------------------------
+# If there's PHI, write to a central database server that authenticates users (like SQL Server).
 # (startTime <- Sys.time())
 # dbTable <- "Osdh.tblC1TEMonth"
 # channel <- RODBC::odbcConnect("te-example") #getSqlTypeInfo("Microsoft SQL Server") #;odbcGetInfo(channel)
@@ -309,8 +363,6 @@ ds_slim
 # rm(columnInfo, channel, columns_to_write, dbTable, varTypes)
 # (elapsedDuration <-  Sys.time() - startTime) #21.4032 secs 2015-10-31
 
-# ---- save-to-disk ------------------------------------------------------------
-readr::write_csv(ds, path_out_unified)
 
 #Possibly consider writing to sqlite (with RSQLite) if there's no PHI, or a central database if there is PHI.
 

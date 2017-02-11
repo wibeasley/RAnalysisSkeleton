@@ -21,12 +21,14 @@ rm(list=ls(all=TRUE))  #Clear the variables from previous runs.
 ```r
 # Attach these package(s) so their functions don't need to be qualified: http://r-pkgs.had.co.nz/namespace.html#search-path
 library(magrittr            , quietly=TRUE)
+library(DBI                 , quietly=TRUE)
 
 # Verify these packages are available on the machine, but their functions need to be qualified: http://r-pkgs.had.co.nz/namespace.html#search-path
 requireNamespace("readr"                  )
 requireNamespace("tidyr"                  )
 requireNamespace("dplyr"                  ) #Avoid attaching dplyr, b/c its function names conflict with a lot of packages (esp base, stats, and plyr).
 requireNamespace("testit"                 ) #For asserting conditions meet expected patterns.
+requireNamespace("RSQLite"                ) #For asserting conditions meet expected patterns.
 # requireNamespace("car"                    ) #For it's `recode()` function.
 # requireNamespace("RODBC") #For communicating with SQL Server over a locally-configured DSN.  Uncomment if you use 'upload-to-db' chunk.
 ```
@@ -34,6 +36,7 @@ requireNamespace("testit"                 ) #For asserting conditions meet expec
 ```r
 # Constant values that won't change.
 path_out_unified               <- "data-phi-free/derived/county-month-te.csv"
+path_db                        <- "data-unshared/derived/te.sqlite3"
 counties_to_drop_from_rural    <- c("Central Office", "Tulsa", "Oklahoma") #Exclude these records from the rural dataset.
 default_day_of_month           <- 15L      # Summarize each month at its (rough) midpoint.
 possible_county_ids            <- 1L:77L   #There are 77 counties.
@@ -510,28 +513,28 @@ ds
 #Loop through each county to determine which (if any) months need to be approximated.
 #   The dataset is small enough that it's not worth vectorizing.
 for( id in sort(unique(ds$county_id)) ) {# for( id in 13 ) {}
-  ds_county <- dplyr::filter(ds, county_id==id)
-  missing   <- ds_county$fte_approximated #is.na(ds_county$fte_approximated)
+  ds_county_approx <- dplyr::filter(ds, county_id==id)
+  missing          <- ds_county_approx$fte_approximated #is.na(ds_county_approx$fte_approximated)
 
   # Attempt to fill in values only for counties missing something.
-  if( any(ds_county$county_any_missing) ) {
+  if( any(ds_county_approx$county_any_missing) ) {
 
     #This statement interpolates missing FTE values
-    ds_county$fte[missing] <- as.numeric(approx(
-      x    = ds_county$month[!missing],
-      y    = ds_county$fte[  !missing],
-      xout = ds_county$month[ missing]
+    ds_county_approx$fte[missing] <- as.numeric(approx(
+      x    = ds_county_approx$month[!missing],
+      y    = ds_county_approx$fte[  !missing],
+      xout = ds_county_approx$month[ missing]
     )$y)
 
     #This statement extrapolates missing FTE values, which occurs when the first/last few months are missing.
-    if( mean(ds_county$fte, na.rm=T) >= threshold_mean_fte_t_fill_in ) {
-      ds_county$fte_approximated <- (ds_county$fte==0)
-      ds_county$fte <- ifelse(ds_county$fte==0, ds_county$fte_rolling_median_11_month, ds_county$fte)
+    if( mean(ds_county_approx$fte, na.rm=T) >= threshold_mean_fte_t_fill_in ) {
+      ds_county_approx$fte_approximated <- (ds_county_approx$fte==0)
+      ds_county_approx$fte              <- ifelse(ds_county_approx$fte==0, ds_county_approx$fte_rolling_median_11_month, ds_county_approx$fte)
     }
 
     #Overwrite selected values in the real dataset
-    ds[ds$county_id==id, ]$fte              <- ds_county$fte
-    ds[ds$county_id==id, ]$fte_approximated <- ds_county$fte_approximated
+    ds[ds$county_id==id, ]$fte              <- ds_county_approx$fte
+    ds[ds$county_id==id, ]$fte_approximated <- ds_county_approx$fte_approximated
   }
 }
 ds
@@ -606,7 +609,154 @@ ds_slim
 ```
 
 ```r
-# # ---- upload-to-db ------------------------------------------------------------
+# If there's no PHI, a rectangular CSV is usually adequate, and it's portable to other machines and software.
+readr::write_csv(ds, path_out_unified)
+# readr::write_rds(ds, path_out_unified, compress="gz") # Save as a compressed R-binary file if it's large or has a lot of factors.
+```
+
+```r
+# If there's no PHI, a local database like SQLite fits a nice niche if
+#   * the data is relational and
+#   * later, only portions need to be queried/retrieved at a time (b/c everything won't need to be loaded into R's memory)
+
+sql_create_tbl_county <- "
+  CREATE TABLE `tbl_county` (
+  	county_id              INTEGER NOT NULL PRIMARY KEY,
+    county_name            VARCHAR NOT NULL,
+    region_id              INTEGER NOT NULL
+  );"
+
+sql_create_tbl_te_month <- "
+  CREATE TABLE `tbl_te_month` (
+  	county_month_id                    INTEGER NOT NULL PRIMARY KEY,
+  	county_id                          INTEGER NOT NULL,
+    month                              VARCHAR,                  -- There's no date type in SQLite.  Make sure it's ISO8601:yyyy-mm-dd
+    fte                                REAL,
+    fte_approximated                   REAL,
+    month_missing                      INTEGER,                  -- There's no bit/boolean type in SQLite
+    fte_rolling_median_11_month        INTEGER
+  );"
+
+# Remove old DB
+if( file.exists(path_db) ) file.remove(path_db)
+```
+
+```
+## [1] TRUE
+```
+
+```r
+# Open connection
+cnn <- DBI::dbConnect(drv=RSQLite::SQLite(), dbname=path_db)
+RSQLite::dbSendQuery(cnn, "PRAGMA foreign_keys=ON;") #This needs to be activated each time a connection is made. #http://stackoverflow.com/questions/15301643/sqlite3-forgets-to-use-foreign-keys
+```
+
+```
+## <SQLiteResult>
+##   SQL  PRAGMA foreign_keys=ON;
+##   ROWS Fetched: 0 [complete]
+##        Changed: 0
+```
+
+```r
+dbListTables(cnn)
+```
+
+```
+## Warning: Closing open result set, pending rows
+```
+
+```
+## character(0)
+```
+
+```r
+# Create tables
+dbSendQuery(cnn, sql_create_tbl_county)
+```
+
+```
+## <SQLiteResult>
+##   SQL  
+##   CREATE TABLE `tbl_county` (
+##   	county_id              INTEGER NOT NULL PRIMARY KEY,
+##     county_name            VARCHAR NOT NULL,
+##     region_id              INTEGER NOT NULL
+##   );
+##   ROWS Fetched: 0 [complete]
+##        Changed: 0
+```
+
+```r
+dbSendQuery(cnn, sql_create_tbl_te_month)
+```
+
+```
+## Warning: Closing open result set, pending rows
+```
+
+```
+## <SQLiteResult>
+##   SQL  
+##   CREATE TABLE `tbl_te_month` (
+##   	county_month_id                    INTEGER NOT NULL PRIMARY KEY,
+##   	county_id                          INTEGER NOT NULL,
+##     month                              VARCHAR,                  -- There's no date type in SQLite.  Make sure it's ISO8601:yyyy-mm-dd
+##     fte                                REAL,
+##     fte_approximated                   REAL,
+##     month_missing                      INTEGER,                  -- There's no bit/boolean type in SQLite
+##     fte_rolling_median_11_month        INTEGER
+##   );
+##   ROWS Fetched: 0 [complete]
+##        Changed: 0
+```
+
+```r
+dbListTables(cnn)
+```
+
+```
+## Warning: Closing open result set, pending rows
+```
+
+```
+## [1] "tbl_county"   "tbl_te_month"
+```
+
+```r
+# Write to database
+dbWriteTable(cnn, name='tbl_county',              value=ds_county,        append=TRUE, row.names=FALSE)
+```
+
+```
+## [1] TRUE
+```
+
+```r
+ds %>%
+  dplyr::mutate(
+    month               = strftime(month, "%Y-%m-%d")
+  ) %>%
+  dplyr::select(county_month_id, county_id, month, fte, fte_approximated, month_missing, fte_rolling_median_11_month) %>%
+  dbWriteTable(value=., conn=cnn, name='tbl_te_month', append=TRUE, row.names=FALSE)
+```
+
+```
+## [1] TRUE
+```
+
+```r
+# Close connection
+dbDisconnect(cnn)
+```
+
+```
+## [1] TRUE
+```
+
+```r
+# # ---- upload-to-db ----------------------------------------------------------
+# If there's PHI, write to a central database server that authenticates users (like SQL Server).
 # (startTime <- Sys.time())
 # dbTable <- "Osdh.tblC1TEMonth"
 # channel <- RODBC::odbcConnect("te-example") #getSqlTypeInfo("Microsoft SQL Server") #;odbcGetInfo(channel)
@@ -620,10 +770,7 @@ ds_slim
 # RODBC::odbcClose(channel)
 # rm(columnInfo, channel, columns_to_write, dbTable, varTypes)
 # (elapsedDuration <-  Sys.time() - startTime) #21.4032 secs 2015-10-31
-```
 
-```r
-readr::write_csv(ds, path_out_unified)
 
 #Possibly consider writing to sqlite (with RSQLite) if there's no PHI, or a central database if there is PHI.
 ```
@@ -697,16 +844,16 @@ sessionInfo()
 ## [1] stats     graphics  grDevices utils     datasets  methods   base     
 ## 
 ## other attached packages:
-## [1] ggplot2_2.2.1 magrittr_1.5 
+## [1] DBI_0.5-1     ggplot2_2.2.1 magrittr_1.5 
 ## 
 ## loaded via a namespace (and not attached):
 ##  [1] Rcpp_0.12.9      knitr_1.15.1     munsell_0.4.3    testit_0.6      
 ##  [5] colorspace_1.3-2 lattice_0.20-34  R6_2.2.0         stringr_1.1.0   
 ##  [9] highr_0.6        plyr_1.8.4       dplyr_0.5.0.9000 tools_3.3.1     
-## [13] grid_3.3.1       gtable_0.2.0     DBI_0.5-1        lazyeval_0.2.0  
-## [17] assertthat_0.1   digest_0.6.12    tibble_1.2       readr_1.0.0     
-## [21] tidyr_0.6.1      evaluate_0.10    labeling_0.3     stringi_1.1.2   
-## [25] scales_0.4.1     markdown_0.7.7   zoo_1.7-14
+## [13] grid_3.3.1       gtable_0.2.0     lazyeval_0.2.0   assertthat_0.1  
+## [17] digest_0.6.12    tibble_1.2       readr_1.0.0      tidyr_0.6.1     
+## [21] memoise_1.0.0    RSQLite_1.1-2    evaluate_0.10    labeling_0.3    
+## [25] stringi_1.1.2    scales_0.4.1     markdown_0.7.7   zoo_1.7-14
 ```
 
 ```r
@@ -714,6 +861,6 @@ Sys.time()
 ```
 
 ```
-## [1] "2017-02-11 09:59:20 CST"
+## [1] "2017-02-11 16:03:16 CST"
 ```
 

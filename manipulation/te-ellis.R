@@ -315,16 +315,16 @@ sql_create_tbl_county <- "
     county_name            VARCHAR NOT NULL,
     region_id              INTEGER NOT NULL
   );"
-sql_create_tbl_indicator <- "
+
+sql_create_tbl_te_month <- "
   CREATE TABLE `tbl_te_month` (
-  	county_month_id              INTEGER NOT NULL PRIMARY KEY,
-  	county_id                 INTEGER NOT NULL,
-    month                     VARCHAR,                  # There's no date type in SQLite.  Make sure it's ISO8601:yyyy-mm-dd
-    fte                       REAL,
-    fte_approximated          REAL,
-    month_missing             INTEGER,                  # There's no bit/boolean type in SQLite
-    fte_rolling_median        INTEGER,
-    last_historical_date      TEXT
+  	county_month_id                    INTEGER NOT NULL PRIMARY KEY,
+  	county_id                          INTEGER NOT NULL,
+    month                              VARCHAR,                  -- There's no date type in SQLite.  Make sure it's ISO8601:yyyy-mm-dd
+    fte                                REAL,
+    fte_approximated                   REAL,
+    month_missing                      INTEGER,                  -- There's no bit/boolean type in SQLite
+    fte_rolling_median_11_month        INTEGER
   );"
 
 # Remove old DB
@@ -337,12 +337,17 @@ dbListTables(cnn)
 
 # Create tables
 dbSendQuery(cnn, sql_create_tbl_county)
+dbSendQuery(cnn, sql_create_tbl_te_month)
 dbListTables(cnn)
-
 
 # Write to database
 dbWriteTable(cnn, name='tbl_county',              value=ds_county,        append=TRUE, row.names=FALSE)
-
+ds %>%
+  dplyr::mutate(
+    month               = strftime(month, "%Y-%m-%d")
+  ) %>%
+  dplyr::select(county_month_id, county_id, month, fte, fte_approximated, month_missing, fte_rolling_median_11_month) %>%
+  dbWriteTable(value=., conn=cnn, name='tbl_te_month', append=TRUE, row.names=FALSE)
 
 # Close connection
 dbDisconnect(cnn)

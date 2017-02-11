@@ -16,7 +16,7 @@ requireNamespace("readr"                  )
 requireNamespace("tidyr"                  )
 requireNamespace("dplyr"                  ) #Avoid attaching dplyr, b/c its function names conflict with a lot of packages (esp base, stats, and plyr).
 requireNamespace("testit"                 ) #For asserting conditions meet expected patterns.
-requireNamespace("car"                    ) #For it's `recode()` function.
+# requireNamespace("car"                    ) #For it's `recode()` function.
 # requireNamespace("RODBC") #For communicating with SQL Server over a locally-configured DSN.  Uncomment if you use 'upload-to-db' chunk.
 
 # ---- declare-globals ---------------------------------------------------------
@@ -162,7 +162,8 @@ ds_nurse_month_rural <- ds_nurse_month_rural %>%
     month       = as.Date(paste0(month, "-", default_day_of_month), format="%m/%Y-%d"),
     fte_string  = gsub("^(\\d{1,3})\\s*%$", "\\1", fte_percent),
     fte         = .01 * as.numeric(ifelse(nchar(fte_string)==0L, 0, fte_string)),
-    county_name = car::recode(county_name, "'Cimmarron'='Cimarron';'Leflore'='Le Flore'") #Or consider `dplyr::recode()`.
+    county_name = dplyr::recode(county_name, `Cimmarron`='Cimarron', `Leflore`='Le Flore')
+    #county_name = car::recode(county_name, "'Cimmarron'='Cimarron';'Leflore'='Le Flore'") #Or consider `dplyr::recode()`.
   ) %>%
   dplyr::arrange(county_name, month, name_full) %>%
   dplyr::select(

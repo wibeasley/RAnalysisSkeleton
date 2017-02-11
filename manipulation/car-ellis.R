@@ -1,5 +1,5 @@
 # knitr::stitch_rmd(script="./manipulation/car-ellis.R", output="./stitched-output/manipulation/car-ellis.md")
-#These first few lines run only when the file is run in RStudio, !!NOT when an Rmd/Rnw file calls it!!
+# These first few lines run only when the file is run in RStudio, !!NOT when an Rmd/Rnw file calls it!!
 rm(list=ls(all=TRUE))  #Clear the variables from previous runs.
 
 # ---- load-sources ------------------------------------------------------------
@@ -15,7 +15,6 @@ requireNamespace("readr"                   )
 requireNamespace("tidyr"                   )
 requireNamespace("dplyr"                   ) #Avoid attaching dplyr, b/c its function names conflict with a lot of packages (esp base, stats, and plyr).
 requireNamespace("testit"                  ) #For asserting conditions meet expected patterns.
-requireNamespace("car"                     ) #For it's `recode()` function.
 
 # ---- declare-globals ---------------------------------------------------------
 path_input  <- "./data-phi-free/raw/mtcar.csv"

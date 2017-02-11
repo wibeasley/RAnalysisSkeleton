@@ -784,11 +784,13 @@ sql_create_tbl_te_month &lt;- &quot;
   CREATE TABLE `tbl_te_month` (
     county_month_id                    INTEGER NOT NULL PRIMARY KEY,
     county_id                          INTEGER NOT NULL,
-    month                              VARCHAR,                  -- There&#39;s no date type in SQLite.  Make sure it&#39;s ISO8601:yyyy-mm-dd
-    fte                                REAL,
-    fte_approximated                   REAL,
-    month_missing                      INTEGER,                  -- There&#39;s no bit/boolean type in SQLite
-    fte_rolling_median_11_month        INTEGER
+    month                              VARCHAR NOT NULL,         -- There&#39;s no date type in SQLite.  Make sure it&#39;s ISO8601: yyyy-mm-dd
+    fte                                REAL    NOT NULL,
+    fte_approximated                   REAL    NOT NULL,
+    month_missing                      INTEGER NOT NULL,         -- There&#39;s no bit/boolean type in SQLite
+    fte_rolling_median_11_month        INTEGER, --  NOT NULL
+
+    FOREIGN KEY(county_id) REFERENCES tbl_county(county_id)
   );&quot;
 
 # Remove old DB
@@ -844,11 +846,13 @@ dbSendQuery(cnn, sql_create_tbl_county)
 ##   CREATE TABLE `tbl_te_month` (
 ##      county_month_id                    INTEGER NOT NULL PRIMARY KEY,
 ##      county_id                          INTEGER NOT NULL,
-##     month                              VARCHAR,                  -- There&#39;s no date type in SQLite.  Make sure it&#39;s ISO8601:yyyy-mm-dd
-##     fte                                REAL,
-##     fte_approximated                   REAL,
-##     month_missing                      INTEGER,                  -- There&#39;s no bit/boolean type in SQLite
-##     fte_rolling_median_11_month        INTEGER
+##     month                              VARCHAR NOT NULL,         -- There&#39;s no date type in SQLite.  Make sure it&#39;s ISO8601: yyyy-mm-dd
+##     fte                                REAL    NOT NULL,
+##     fte_approximated                   REAL    NOT NULL,
+##     month_missing                      INTEGER NOT NULL,         -- There&#39;s no bit/boolean type in SQLite
+##     fte_rolling_median_11_month        INTEGER, --  NOT NULL
+## 
+##     FOREIGN KEY(county_id) REFERENCES tbl_county(county_id)
 ##   );
 ##   ROWS Fetched: 0 [complete]
 ##        Changed: 0
@@ -872,7 +876,9 @@ dbWriteTable(cnn, name=&#39;tbl_county&#39;,              value=ds_county,      
 
 <pre><code class="r">ds %&gt;%
   dplyr::mutate(
-    month               = strftime(month, &quot;%Y-%m-%d&quot;)
+    month               = strftime(month, &quot;%Y-%m-%d&quot;),
+    fte_approximated    = as.logical(fte_approximated),
+    month_missing       = as.logical(month_missing)
   ) %&gt;%
   dplyr::select(county_month_id, county_id, month, fte, fte_approximated, month_missing, fte_rolling_median_11_month) %&gt;%
   dbWriteTable(value=., conn=cnn, name=&#39;tbl_te_month&#39;, append=TRUE, row.names=FALSE)
@@ -986,7 +992,7 @@ packages used):</p>
 <pre><code class="r">Sys.time()
 </code></pre>
 
-<pre><code>## [1] &quot;2017-02-11 16:03:16 CST&quot;
+<pre><code>## [1] &quot;2017-02-11 16:15:01 CST&quot;
 </code></pre>
 
 </body>

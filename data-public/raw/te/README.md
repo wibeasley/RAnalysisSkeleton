@@ -1,4 +1,4 @@
-`./data-phi-free/raw/te` Directory
+`./data-public/raw/te` Directory
 =========
 
 **The data in this directory are faked.  The nurse names were randomly drawn (from http://listofrandomnames.com/) and the FTE/FMLA amounts were randomly generated.  They were used in support of the December 2015 presentation of [SCUG](https://github.com/OuhscBbmc/StatisticalComputing).**

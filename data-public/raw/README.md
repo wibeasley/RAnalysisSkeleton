@@ -1,4 +1,4 @@
-`./data-phi-free/raw/` Directory
+`./data-public/raw/` Directory
 =========
 
 This directory should contain the raw, unmodified files that serve as an input to the project.  In theory the schema of these data files shouldn't change when new data arrive.  But of course this is frequenlty violated, so at minimum, our code should assert that the required columns are present, and contain reasonable values.  More thorough checking can be warranted.

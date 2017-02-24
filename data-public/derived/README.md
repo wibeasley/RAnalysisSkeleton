@@ -1,7 +1,7 @@
-`./data-phi-free/derived/` Directory
+`./data-public/derived/` Directory
 =========
 
-This directory should contain only data files that can be derived from the raw data files (ie, those in [`./data-phi-free/raw/`](./data-phi-free/raw/))) **using code contained in this repository**.  Unlike the raw data files, proprietary & binary formats are acceptable, since the repository's code should be able to reproduce them.
+This directory should contain only data files that can be derived from the raw data files (ie, those in [`./data-public/raw/`](./data-public/raw/))) **using code contained in this repository**.  Unlike the raw data files, proprietary & binary formats are acceptable, since the repository's code should be able to reproduce them.
 
 When using `R`, the *.rds files are well-suited here, since they are smaller than CSV (thus quicker to load) and persist the metadata (such as factor labels).
 

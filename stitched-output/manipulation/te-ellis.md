@@ -35,7 +35,7 @@ requireNamespace("RSQLite"                ) #For asserting conditions meet expec
 
 ```r
 # Constant values that won't change.
-path_out_unified               <- "data-phi-free/derived/county-month-te.csv"
+path_out_unified               <- "data-public/derived/county-month-te.csv"
 path_db                        <- "data-unshared/derived/te.sqlite3"
 counties_to_drop_from_rural    <- c("Central Office", "Tulsa", "Oklahoma") #Exclude these records from the rural dataset.
 default_day_of_month           <- 15L      # Summarize each month at its (rough) midpoint.
@@ -44,10 +44,10 @@ threshold_mean_fte_t_fill_in   <- 10L      #Any county averaging over 10 hours c
 figure_path <- 'stitched-output/manipulation/te/'
 
 # URIs of CSV and County lookup table
-path_in_oklahoma  <- "./data-phi-free/raw/te/nurse-month-oklahoma.csv"
-path_in_tulsa     <- "./data-phi-free/raw/te/month-tulsa.csv"
-path_in_rural     <- "./data-phi-free/raw/te/nurse-month-rural.csv"
-path_county       <- "./data-phi-free/raw/te/county.csv"
+path_in_oklahoma  <- "./data-public/raw/te/nurse-month-oklahoma.csv"
+path_in_tulsa     <- "./data-public/raw/te/month-tulsa.csv"
+path_in_rural     <- "./data-public/raw/te/nurse-month-rural.csv"
+path_county       <- "./data-public/raw/te/county.csv"
 ```
 
 ```r

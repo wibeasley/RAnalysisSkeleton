@@ -17,8 +17,8 @@ requireNamespace("dplyr"                   ) #Avoid attaching dplyr, b/c its fun
 requireNamespace("testit"                  ) #For asserting conditions meet expected patterns.
 
 # ---- declare-globals ---------------------------------------------------------
-path_input  <- "./data-phi-free/raw/mtcar.csv"
-path_output <- "./data-phi-free/derived/motor-trend-car-test.rds"
+path_input  <- "./data-public/raw/mtcar.csv"
+path_output <- "./data-public/derived/motor-trend-car-test.rds"
 figure_path <- 'stitched-output/manipulation/car/'
 
 premature_threshold_in_weeks <- 37 #Any infant under 37 weeks is considered premature for the current project.  Exactly 37.0 weeks are retained.

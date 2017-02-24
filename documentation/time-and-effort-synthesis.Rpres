@@ -15,13 +15,13 @@ Combine three difference datasets that structurally and cosmetically differ.  Th
 
 | File | Description |
 | ---- | ----------- |
-| [`nurse-month-oklahoma.csv`](https://github.com/wibeasley/RAnalysisSkeleton/blob/master/data-phi-free/raw/te/nurse-month-oklahoma.csv) | one row per nurse per month for Oklahoma County |
-| [`month-tulsa.csv`](https://github.com/wibeasley/RAnalysisSkeleton/blob/master/data-phi-free/raw/te/month-tulsa.csv) | one row per month for Tulsa County (ie, it's already aggregated) |
-| [`nurse-month-rural.csv`](https://github.com/wibeasley/RAnalysisSkeleton/blob/master/data-phi-free/raw/te/nurse-month-rural.csv) | one row per nurse per month for the other 75 counties |
+| [`nurse-month-oklahoma.csv`](https://github.com/wibeasley/RAnalysisSkeleton/blob/master/data-public/raw/te/nurse-month-oklahoma.csv) | one row per nurse per month for Oklahoma County |
+| [`month-tulsa.csv`](https://github.com/wibeasley/RAnalysisSkeleton/blob/master/data-public/raw/te/month-tulsa.csv) | one row per month for Tulsa County (ie, it's already aggregated) |
+| [`nurse-month-rural.csv`](https://github.com/wibeasley/RAnalysisSkeleton/blob/master/data-public/raw/te/nurse-month-rural.csv) | one row per nurse per month for the other 75 counties |
 
 Structural Differences
 ========================================================
-| | [Oklahoma](https://github.com/wibeasley/RAnalysisSkeleton/blob/master/data-phi-free/raw/te/nurse-month-oklahoma.csv) | [Tulsa](https://github.com/wibeasley/RAnalysisSkeleton/blob/master/data-phi-free/raw/te/month-tulsa.csv) | [Rural](https://github.com/wibeasley/RAnalysisSkeleton/blob/master/data-phi-free/raw/te/nurse-month-rural.csv) | Approach |
+| | [Oklahoma](https://github.com/wibeasley/RAnalysisSkeleton/blob/master/data-public/raw/te/nurse-month-oklahoma.csv) | [Tulsa](https://github.com/wibeasley/RAnalysisSkeleton/blob/master/data-public/raw/te/month-tulsa.csv) | [Rural](https://github.com/wibeasley/RAnalysisSkeleton/blob/master/data-public/raw/te/nurse-month-rural.csv) | Approach |
 | :----: | :----: | :----: | :----: | :----: |
 | Structure | one row per month<br/> per nurse | one row per month<br/>(it's already aggregated) | one row per month<br/> per nurse | `dplyr`'s `group_by()`<br/>and `summarize()` |
 | Contains PHI | Yes | n | Yes | Hash |
@@ -33,7 +33,7 @@ Structural Differences
 
 Cosmetic Differences
 ========================================================
-| | [Oklahoma](https://github.com/wibeasley/RAnalysisSkeleton/blob/master/data-phi-free/raw/te/nurse-month-oklahoma.csv) | [Tulsa](https://github.com/wibeasley/RAnalysisSkeleton/blob/master/data-phi-free/raw/te/month-tulsa.csv) | [Rural](https://github.com/wibeasley/RAnalysisSkeleton/blob/master/data-phi-free/raw/te/nurse-month-rural.csv) | Approach |
+| | [Oklahoma](https://github.com/wibeasley/RAnalysisSkeleton/blob/master/data-public/raw/te/nurse-month-oklahoma.csv) | [Tulsa](https://github.com/wibeasley/RAnalysisSkeleton/blob/master/data-public/raw/te/month-tulsa.csv) | [Rural](https://github.com/wibeasley/RAnalysisSkeleton/blob/master/data-public/raw/te/nurse-month-rural.csv) | Approach |
 | :----: | :----: | :----: | :----: | :----: |
 | Date | `Year` & `Month`<br/>separate | `1/15/2009` | `06/2012` | `as.Date()` `format`<br/>parameter |
 | FTE Type | Proportion | Sum | Percentage | regex `gsub()` |

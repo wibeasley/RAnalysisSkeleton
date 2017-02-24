@@ -23,7 +23,7 @@ block_size                    <- 1L   # Number of assignment cycles per block.
 assignment_possible           <- c("tx", "control")
 assignment_possible_block     <- rep(assignment_possible, each=block_size)
 
-path_out                      <- "data-phi-free/derived/randomized-block-simple.csv"
+path_out                      <- "data-public/derived/randomized-block-simple.csv"
 
 
 # ---- load-data ---------------------------------------------------------------

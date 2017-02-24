@@ -229,7 +229,7 @@ requireNamespace(&quot;RSQLite&quot;                ) #For asserting conditions 
 </code></pre>
 
 <pre><code class="r"># Constant values that won&#39;t change.
-path_out_unified               &lt;- &quot;data-phi-free/derived/county-month-te.csv&quot;
+path_out_unified               &lt;- &quot;data-public/derived/county-month-te.csv&quot;
 path_db                        &lt;- &quot;data-unshared/derived/te.sqlite3&quot;
 counties_to_drop_from_rural    &lt;- c(&quot;Central Office&quot;, &quot;Tulsa&quot;, &quot;Oklahoma&quot;) #Exclude these records from the rural dataset.
 default_day_of_month           &lt;- 15L      # Summarize each month at its (rough) midpoint.
@@ -238,10 +238,10 @@ threshold_mean_fte_t_fill_in   &lt;- 10L      #Any county averaging over 10 hour
 figure_path &lt;- &#39;stitched-output/manipulation/te/&#39;
 
 # URIs of CSV and County lookup table
-path_in_oklahoma  &lt;- &quot;./data-phi-free/raw/te/nurse-month-oklahoma.csv&quot;
-path_in_tulsa     &lt;- &quot;./data-phi-free/raw/te/month-tulsa.csv&quot;
-path_in_rural     &lt;- &quot;./data-phi-free/raw/te/nurse-month-rural.csv&quot;
-path_county       &lt;- &quot;./data-phi-free/raw/te/county.csv&quot;
+path_in_oklahoma  &lt;- &quot;./data-public/raw/te/nurse-month-oklahoma.csv&quot;
+path_in_tulsa     &lt;- &quot;./data-public/raw/te/month-tulsa.csv&quot;
+path_in_rural     &lt;- &quot;./data-public/raw/te/nurse-month-rural.csv&quot;
+path_county       &lt;- &quot;./data-public/raw/te/county.csv&quot;
 </code></pre>
 
 <pre><code class="r"># Read the CSVs

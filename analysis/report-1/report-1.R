@@ -19,7 +19,7 @@ requireNamespace("dplyr")
 # ---- declare-globals ---------------------------------------------------------
 options(show.signif.stars=F) #Turn off the annotations on p-values
 
-path_input <- "./data-phi-free/derived/motor-trend-car-test.rds"
+path_input <- "./data-public/derived/motor-trend-car-test.rds"
 
 histogram_discrete <- function(
   d_observed,

@@ -98,8 +98,18 @@ read_chunk("./analysis/report-1/report-1.R") #This allows knitr to call chunks t
 
 # Session Information
 For the sake of documentation and reproducibility, the current report was rendered on a system using the following software.
-```{r session-info, echo=FALSE}
+```{r session-duration, echo=FALSE}
 report_render_duration_in_seconds <- round(as.numeric(difftime(Sys.time(), report_render_start_time, units="secs")))
 cat("Report rendered by", Sys.info()["user"], "at", strftime(Sys.time(), "%Y-%m-%d, %H:%M %z"), "in", report_render_duration_in_seconds, "seconds." )
-sessionInfo()
 ```
+
+<details>
+  <summary><span class="glyphicon glyphicon-plus-sign"></span> Click HERE to expand Session Info.</summary>
+```{r session-info, echo=FALSE}
+if( requireNamespace("devtools", quietly = TRUE) ) {
+  devtools::session_info()
+} else {
+  sessionInfo()
+} 
+```
+</details>

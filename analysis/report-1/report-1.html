@@ -121,7 +121,7 @@ $(document).ready(function () {
 
 
 <h1 class="title toc-ignore">Skeleton Report 1</h1>
-<h4 class="date"><em>Date: 2017-02-10</em></h4>
+<h4 class="date"><em>Date: 2017-03-17</em></h4>
 
 </div>
 
@@ -308,37 +308,63 @@ Model 2: quarter_mile_in_seconds ~ 1 + miles_per_gallon + forward_gear_count_f
 </tr>
 </tbody>
 </table>
-<div id="htmlwidget-e2d29c42766d8c58a7b4" style="width:100%;height:auto;" class="datatables html-widget"></div>
-<script type="application/json" data-for="htmlwidget-e2d29c42766d8c58a7b4">{"x":{"filter":"none","data":[["(Intercept)","miles_per_gallon","forward_gear_count_fFour","forward_gear_count_fFive"],[15.56,0.13,0.16,-2.75],[0.9,0.05,0.67,0.73],[17.33,2.57,0.23,-3.77],[0,0.02,0.82,0]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th> \u003c/th>\n      <th>Estimate\u003c/th>\n      <th>Std. Error\u003c/th>\n      <th>t value\u003c/th>\n      <th>Pr(&gt;|t|)\u003c/th>\n    \u003c/tr>\n  \u003c/thead>\n\u003c/table>","options":{"pageLength":2,"columnDefs":[{"className":"dt-right","targets":[1,2,3,4]},{"orderable":false,"targets":0}],"order":[],"autoWidth":false,"orderClasses":false,"lengthMenu":[2,10,25,50,100]}},"evals":[],"jsHooks":[]}</script>
+<div id="htmlwidget-fa84ed7eee7234f532b1" style="width:100%;height:auto;" class="datatables html-widget"></div>
+<script type="application/json" data-for="htmlwidget-fa84ed7eee7234f532b1">{"x":{"filter":"none","data":[["(Intercept)","miles_per_gallon","forward_gear_count_fFour","forward_gear_count_fFive"],[15.56,0.13,0.16,-2.75],[0.9,0.05,0.67,0.73],[17.33,2.57,0.23,-3.77],[0,0.02,0.82,0]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th> <\/th>\n      <th>Estimate<\/th>\n      <th>Std. Error<\/th>\n      <th>t value<\/th>\n      <th>Pr(&gt;|t|)<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"pageLength":2,"columnDefs":[{"className":"dt-right","targets":[1,2,3,4]},{"orderable":false,"targets":0}],"order":[],"autoWidth":false,"orderClasses":false,"lengthMenu":[2,10,25,50,100]}},"evals":[],"jsHooks":[]}</script>
 <p><strong>In the model that includes two predictors, the slope coefficent of <code>Miles per gallon</code> is 0.13246.</strong></p>
 </div>
 <div id="session-information" class="section level1">
 <h1>Session Information</h1>
 <p>For the sake of documentation and reproducibility, the current report was rendered on a system using the following software.</p>
-<pre><code>Report rendered by wibeasley at 2017-02-10, 23:45 -0600 in 6 seconds.</code></pre>
-<pre><code>R version 3.3.1 (2016-06-21)
-Platform: x86_64-pc-linux-gnu (64-bit)
-Running under: Ubuntu 16.04.1 LTS
-
-locale:
- [1] LC_CTYPE=en_US.UTF-8       LC_NUMERIC=C               LC_TIME=en_US.UTF-8       
- [4] LC_COLLATE=en_US.UTF-8     LC_MONETARY=en_US.UTF-8    LC_MESSAGES=en_US.UTF-8   
- [7] LC_PAPER=en_US.UTF-8       LC_NAME=C                  LC_ADDRESS=C              
-[10] LC_TELEPHONE=C             LC_MEASUREMENT=en_US.UTF-8 LC_IDENTIFICATION=C       
-
-attached base packages:
-[1] stats     graphics  grDevices utils     datasets  methods   base     
-
-other attached packages:
-[1] magrittr_1.5  ggplot2_2.2.1 knitr_1.15.1 
-
-loaded via a namespace (and not attached):
- [1] Rcpp_0.12.9        munsell_0.4.3      colorspace_1.3-2   R6_2.2.0           highr_0.6         
- [6] stringr_1.1.0      plyr_1.8.4         dplyr_0.5.0.9000   tools_3.3.1        DT_0.2            
-[11] grid_3.3.1         gtable_0.2.0       DBI_0.5-1          htmltools_0.3.5    yaml_2.1.14       
-[16] lazyeval_0.2.0     rprojroot_1.2      digest_0.6.12      assertthat_0.1     tibble_1.2        
-[21] readr_1.0.0        RColorBrewer_1.1-2 htmlwidgets_0.8    evaluate_0.10      rmarkdown_1.3     
-[26] labeling_0.3       stringi_1.1.2      scales_0.4.1       backports_1.0.5    jsonlite_1.2      </code></pre>
+<pre><code>Report rendered by wibeasley at 2017-03-17, 17:54 -0500 in 6 seconds.</code></pre>
+<p><details> <summary><span class="glyphicon glyphicon-plus-sign"></span> Click HERE to expand Session Info.</summary></p>
+<pre><code>Session info ---------------------------------------------------------------------------------------</code></pre>
+<pre><code> setting  value                       
+ version  R version 3.3.1 (2016-06-21)
+ system   x86_64, linux-gnu           
+ ui       X11                         
+ language en_US                       
+ collate  en_US.UTF-8                 
+ tz       America/Chicago             
+ date     2017-03-17                  </code></pre>
+<pre><code>Packages -------------------------------------------------------------------------------------------</code></pre>
+<pre><code> package      * version    date       source                       
+ assertthat     0.1        2013-12-06 CRAN (R 3.3.0)               
+ backports      1.0.5      2017-01-18 CRAN (R 3.3.1)               
+ bindr          0.1        2016-11-13 cran (@0.1)                  
+ bindrcpp     * 0.1        2016-12-11 cran (@0.1)                  
+ colorspace     1.3-2      2016-12-14 CRAN (R 3.3.1)               
+ DBI            0.6        2017-03-09 CRAN (R 3.3.1)               
+ devtools       1.12.0     2016-06-24 CRAN (R 3.3.1)               
+ digest         0.6.12     2017-01-27 CRAN (R 3.3.1)               
+ dplyr          0.5.0.9000 2017-02-24 Github (hadley/dplyr@8bf5a99)
+ DT             0.2        2016-08-09 CRAN (R 3.3.1)               
+ evaluate       0.10       2016-10-11 CRAN (R 3.3.1)               
+ ggplot2      * 2.2.1      2016-12-30 CRAN (R 3.3.1)               
+ gtable         0.2.0      2016-02-26 CRAN (R 3.3.0)               
+ highr          0.6        2016-05-09 CRAN (R 3.3.0)               
+ htmltools      0.3.5      2016-03-21 CRAN (R 3.3.0)               
+ htmlwidgets    0.8        2016-11-09 CRAN (R 3.3.1)               
+ jsonlite       1.3        2017-02-28 CRAN (R 3.3.1)               
+ knitr        * 1.15.1     2016-11-22 CRAN (R 3.3.1)               
+ labeling       0.3        2014-08-23 CRAN (R 3.3.0)               
+ lazyeval       0.2.0      2016-06-12 CRAN (R 3.3.0)               
+ magrittr     * 1.5        2014-11-22 CRAN (R 3.3.0)               
+ memoise        1.0.0      2016-01-29 CRAN (R 3.3.0)               
+ munsell        0.4.3      2016-02-13 CRAN (R 3.3.0)               
+ plyr           1.8.4      2016-06-08 CRAN (R 3.3.0)               
+ R6             2.2.0      2016-10-05 CRAN (R 3.3.1)               
+ RColorBrewer   1.1-2      2014-12-07 CRAN (R 3.3.0)               
+ Rcpp           0.12.9     2017-01-14 CRAN (R 3.3.1)               
+ readr          1.0.0      2016-08-03 CRAN (R 3.3.1)               
+ rmarkdown      1.3        2016-12-21 CRAN (R 3.3.1)               
+ rprojroot      1.2        2017-01-16 CRAN (R 3.3.1)               
+ scales         0.4.1      2016-11-09 CRAN (R 3.3.1)               
+ stringi        1.1.2      2016-10-01 CRAN (R 3.3.1)               
+ stringr        1.2.0      2017-02-18 CRAN (R 3.3.1)               
+ tibble         1.2        2016-08-26 CRAN (R 3.3.1)               
+ withr          1.0.2      2016-06-20 CRAN (R 3.3.0)               
+ yaml           2.1.14     2016-11-12 CRAN (R 3.3.1)               </code></pre>
+<p></details></p>
 </div>
 
 

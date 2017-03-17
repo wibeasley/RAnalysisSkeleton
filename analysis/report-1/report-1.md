@@ -27,17 +27,17 @@ This report covers the analyses used in the ZZZ project (Marcus Mark, PI).
 <!-- Tweak the datasets.   -->
 
 
-# Summary
+# Summary {.tabset}
 
-### Notes 
+## Notes 
 1. The current report covers 32 cars, with 6 possible values for `carburetor_count`.
 1. The Seattle track's phluguerstometer was producing flaky negative values; it's measurements have been dropped.
 
-### Unanswered Questions
+## Unanswered Questions
 1. What does `VS` stand for?  How was it measured?
 1. Where the cars at the Philly track measured with the same phluguerstometer and the Cleveland track?
  
-### Answered Questions
+## Answered Questions
 1. The Seattle track's phluguerstometer was producing flaky negative values; it's measurements have been dropped.
 
 # Marginals
@@ -261,5 +261,5 @@ Packages -----------------------------------------------------------------------
 
 
 ```
-Report rendered by wibeasley at 2017-03-17, 18:11 -0500 in 6 seconds.
+Report rendered by wibeasley at 2017-03-17, 18:19 -0500 in 6 seconds.
 ```

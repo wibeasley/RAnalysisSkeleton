@@ -197,14 +197,10 @@ Model 2: quarter_mile_in_seconds ~ 1 + miles_per_gallon + forward_gear_count_f
 
 
 # Session Information
-For the sake of documentation and reproducibility, the current report was rendered on a system using the following software.
-
-```
-Report rendered by wibeasley at 2017-03-17, 17:57 -0500 in 7 seconds.
-```
+For the sake of documentation and reproducibility, the current report was rendered in the following environment.
 
 <details>
-  <summary><span class="glyphicon glyphicon-plus-sign"></span> Click HERE to expand Session Info.</summary>
+  <summary>Click HERE to expand Session Info. <span class="glyphicon glyphicon-plus-sign"></span></summary>
 
 ```
 Session info ---------------------------------------------------------------------------------------
@@ -262,3 +258,8 @@ Packages -----------------------------------------------------------------------
  yaml           2.1.14     2016-11-12 CRAN (R 3.3.1)               
 ```
 </details>
+
+
+```
+Report rendered by wibeasley at 2017-03-17, 18:04 -0500 in 6 seconds.
+```

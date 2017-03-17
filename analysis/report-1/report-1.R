@@ -184,4 +184,6 @@ anova(m1, m2)
 
 # ---- model-results-table  -----------------------------------------------
 knitr::kable(summary(m2)$coef, digits = 2, format="markdown", results = "asis")
-DT::datatable(round(summary(m2)$coef, digits = 2), options = list(pageLength = 2))
+
+# Uncomment the next line for a dynamic, JavaScript [DataTables](https://datatables.net/) table.
+# DT::datatable(round(summary(m2)$coef, digits = 2), options = list(pageLength = 2))

@@ -193,9 +193,6 @@ Model 2: quarter_mile_in_seconds ~ 1 + miles_per_gallon + forward_gear_count_f
 |forward_gear_count_fFour |     0.16|       0.67|    0.23|               0.82|
 |forward_gear_count_fFive |    -2.75|       0.73|   -3.77|               0.00|
 
-<!--html_preserve--><div id="htmlwidget-fa84ed7eee7234f532b1" style="width:100%;height:auto;" class="datatables html-widget"></div>
-<script type="application/json" data-for="htmlwidget-fa84ed7eee7234f532b1">{"x":{"filter":"none","data":[["(Intercept)","miles_per_gallon","forward_gear_count_fFour","forward_gear_count_fFive"],[15.56,0.13,0.16,-2.75],[0.9,0.05,0.67,0.73],[17.33,2.57,0.23,-3.77],[0,0.02,0.82,0]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th> <\/th>\n      <th>Estimate<\/th>\n      <th>Std. Error<\/th>\n      <th>t value<\/th>\n      <th>Pr(&gt;|t|)<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"pageLength":2,"columnDefs":[{"className":"dt-right","targets":[1,2,3,4]},{"orderable":false,"targets":0}],"order":[],"autoWidth":false,"orderClasses":false,"lengthMenu":[2,10,25,50,100]}},"evals":[],"jsHooks":[]}</script><!--/html_preserve-->
-
 **In the model that includes two predictors, the slope coefficent of `Miles per gallon` is 0.13246.**
 
 
@@ -203,7 +200,7 @@ Model 2: quarter_mile_in_seconds ~ 1 + miles_per_gallon + forward_gear_count_f
 For the sake of documentation and reproducibility, the current report was rendered on a system using the following software.
 
 ```
-Report rendered by wibeasley at 2017-03-17, 17:54 -0500 in 6 seconds.
+Report rendered by wibeasley at 2017-03-17, 17:57 -0500 in 7 seconds.
 ```
 
 <details>
@@ -239,14 +236,11 @@ Packages -----------------------------------------------------------------------
  devtools       1.12.0     2016-06-24 CRAN (R 3.3.1)               
  digest         0.6.12     2017-01-27 CRAN (R 3.3.1)               
  dplyr          0.5.0.9000 2017-02-24 Github (hadley/dplyr@8bf5a99)
- DT             0.2        2016-08-09 CRAN (R 3.3.1)               
  evaluate       0.10       2016-10-11 CRAN (R 3.3.1)               
  ggplot2      * 2.2.1      2016-12-30 CRAN (R 3.3.1)               
  gtable         0.2.0      2016-02-26 CRAN (R 3.3.0)               
  highr          0.6        2016-05-09 CRAN (R 3.3.0)               
  htmltools      0.3.5      2016-03-21 CRAN (R 3.3.0)               
- htmlwidgets    0.8        2016-11-09 CRAN (R 3.3.1)               
- jsonlite       1.3        2017-02-28 CRAN (R 3.3.1)               
  knitr        * 1.15.1     2016-11-22 CRAN (R 3.3.1)               
  labeling       0.3        2014-08-23 CRAN (R 3.3.0)               
  lazyeval       0.2.0      2016-06-12 CRAN (R 3.3.0)               

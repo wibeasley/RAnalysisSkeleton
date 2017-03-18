@@ -197,10 +197,10 @@ Model 2: quarter_mile_in_seconds ~ 1 + miles_per_gallon + forward_gear_count_f
 
 
 # Session Information
-For the sake of documentation and reproducibility, the current report was rendered in the following environment.
+For the sake of documentation and reproducibility, the current report was rendered in the following environment.  Click the line below to expand.
 
 <details>
-  <summary>Click HERE to expand Session Info. <span class="glyphicon glyphicon-plus-sign"></span></summary>
+  <summary>Environment <span class="glyphicon glyphicon-plus-sign"></span></summary>
 
 ```
 Session info ---------------------------------------------------------------------------------------
@@ -261,5 +261,5 @@ Packages -----------------------------------------------------------------------
 
 
 ```
-Report rendered by wibeasley at 2017-03-17, 18:19 -0500 in 6 seconds.
+Report rendered by wibeasley at 2017-03-17, 21:34 -0500 in 6 seconds.
 ```

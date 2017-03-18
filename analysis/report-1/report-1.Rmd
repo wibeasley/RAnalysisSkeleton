@@ -98,10 +98,10 @@ read_chunk("./analysis/report-1/report-1.R") #This allows knitr to call chunks t
 
 
 # Session Information
-For the sake of documentation and reproducibility, the current report was rendered in the following environment.
+For the sake of documentation and reproducibility, the current report was rendered in the following environment.  Click the line below to expand.
 
 <details>
-  <summary>Click HERE to expand Session Info. <span class="glyphicon glyphicon-plus-sign"></span></summary>
+  <summary>Environment <span class="glyphicon glyphicon-plus-sign"></span></summary>
 ```{r session-info, echo=FALSE}
 if( requireNamespace("devtools", quietly = TRUE) ) {
   devtools::session_info()

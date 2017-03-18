@@ -87,10 +87,11 @@ read_chunk("./analysis/report-1/report-1.R") #This allows knitr to call chunks t
 ```
 
 # Models
+### Model Exploration
 ```{r models, echo=echo_chunks, message=message_chunks}
 ```
 
-# Result table for model with two predictors
+### Final Model
 ```{r model-results-table, echo=echo_chunks, message=message_chunks, warning=TRUE}
 ```
 

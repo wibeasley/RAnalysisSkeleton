@@ -47,6 +47,7 @@ This report covers the analyses used in the ZZZ project (Marcus Mark, PI).
 ![](figure-png/scatterplots-1.png)<!-- -->![](figure-png/scatterplots-2.png)<!-- -->![](figure-png/scatterplots-3.png)<!-- -->
 
 # Models
+### Model Exploration
 
 ```
 ============= Simple model that's just an intercept. =============
@@ -146,7 +147,7 @@ Model 2: quarter_mile_in_seconds ~ 1 + miles_per_gallon + forward_gear_count_f
 2     28 47.996  2     33.64 9.8124 0.0005896
 ```
 
-# Result table for model with two predictors
+### Final Model
 
 |                         | Estimate| Std. Error| t value| Pr(>&#124;t&#124;)|
 |:------------------------|--------:|----------:|-------:|------------------:|
@@ -223,5 +224,5 @@ Packages -----------------------------------------------------------------------
 
 
 
-Report rendered by wibeasley at 2017-03-17, 23:02 -0500 in 4 seconds.
+Report rendered by wibeasley at 2017-03-17, 23:18 -0500 in 4 seconds.
 

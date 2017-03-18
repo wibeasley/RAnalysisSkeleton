@@ -185,8 +185,7 @@ anova(m1, m2)
 summary(m2)$coef %>%
   knitr::kable(
     digits      = 2,
-    format      = "markdown",
-    results     = "asis"
+    format      = "markdown"
   )
 
 # Uncomment the next line for a dynamic, JavaScript [DataTables](https://datatables.net/) table.

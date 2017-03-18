@@ -6,6 +6,7 @@ output:
     keep_md: yes
     toc: yes
     toc_float: true
+    number_sections: true
 ---
 
 This report covers the analyses used in the ZZZ project (Marcus Mark, PI).
@@ -65,7 +66,7 @@ read_chunk("./analysis/report-1/report-1.R") #This allows knitr to call chunks t
 ```{r tweak-data, echo=echo_chunks, results='show', message=message_chunks}
 ```
 
-# Summary {.tabset}
+# Summary {.tabset .tabset-fade .tabset-pills}
 
 ## Notes 
 1. The current report covers `r nrow(ds)` cars, with `r dplyr::n_distinct(ds$carburetor_count_f)` unique values for `carburetor_count`.
@@ -78,20 +79,22 @@ read_chunk("./analysis/report-1/report-1.R") #This allows knitr to call chunks t
 ## Answered Questions
 1. The Seattle track's phluguerstometer was producing flaky negative values; it's measurements have been dropped.
 
-# Marginals
+# Graphs
+
+## Marginals
 ```{r marginals, echo=echo_chunks, message=message_chunks}
 ```
 
-# Scatterplots
+## Scatterplots
 ```{r scatterplots, echo=echo_chunks, message=message_chunks, fig.width=7}
 ```
 
 # Models
-### Model Exploration
+## Model Exploration
 ```{r models, echo=echo_chunks, message=message_chunks}
 ```
 
-### Final Model
+## Final Model
 ```{r model-results-table, echo=echo_chunks, message=message_chunks, warning=TRUE}
 ```
 

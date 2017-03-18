@@ -27,7 +27,7 @@ This report covers the analyses used in the ZZZ project (Marcus Mark, PI).
 <!-- Tweak the datasets.   -->
 
 
-# Summary {.tabset}
+# Summary {.tabset .tabset-fade .tabset-pills}
 
 ## Notes 
 1. The current report covers 32 cars, with 6 unique values for `carburetor_count`.
@@ -40,14 +40,16 @@ This report covers the analyses used in the ZZZ project (Marcus Mark, PI).
 ## Answered Questions
 1. The Seattle track's phluguerstometer was producing flaky negative values; it's measurements have been dropped.
 
-# Marginals
+# Graphs
+
+## Marginals
 ![](figure-png/marginals-1.png)<!-- -->![](figure-png/marginals-2.png)<!-- -->![](figure-png/marginals-3.png)<!-- -->![](figure-png/marginals-4.png)<!-- -->
 
-# Scatterplots
+## Scatterplots
 ![](figure-png/scatterplots-1.png)<!-- -->![](figure-png/scatterplots-2.png)<!-- -->![](figure-png/scatterplots-3.png)<!-- -->
 
 # Models
-### Model Exploration
+## Model Exploration
 
 ```
 ============= Simple model that's just an intercept. =============
@@ -147,7 +149,7 @@ Model 2: quarter_mile_in_seconds ~ 1 + miles_per_gallon + forward_gear_count_f
 2     28 47.996  2     33.64 9.8124 0.0005896
 ```
 
-### Final Model
+## Final Model
 
 |                         | Estimate| Std. Error| t value| Pr(>&#124;t&#124;)|
 |:------------------------|--------:|----------:|-------:|------------------:|
@@ -223,5 +225,5 @@ Packages -----------------------------------------------------------------------
 
 
 
-Report rendered by wibeasley at 2017-03-18, 00:05 -0500 in 4 seconds.
+Report rendered by wibeasley at 2017-03-18, 00:32 -0500 in 4 seconds.
 

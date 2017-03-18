@@ -6,13 +6,12 @@ rm(list=ls(all=TRUE)) #Clear the memory of variables from previous run. This is 
 # source("./SomethingSomething.R")
 
 # ---- load-packages -----------------------------------------------------------
-library(ggplot2) #For graphing
 library(magrittr) #Pipes
-requireNamespace("knitr")
-requireNamespace("scales") #For formating values in graphs
-requireNamespace("RColorBrewer")
+library(ggplot2) #For graphing
 requireNamespace("dplyr")
 # requireNamespace("tidyr") #For converting wide to long
+# requireNamespace("RColorBrewer")
+# requireNamespace("scales") #For formating values in graphs
 # requireNamespace("mgcv) #For the Generalized Additive Model that smooths the longitudinal graphs.
 # requireNamespace("TabularManifest") # devtools::install_github("Melinae/TabularManifest")
 
@@ -30,7 +29,9 @@ histogram_discrete <- function(
   x_title             = NULL,
   y_title             = "Number of Included Records",
   text_size_percentage= 6,
-  bin_width           = 1L) {
+  bin_width           = 1L,
+  font_base_size      = 12
+) {
 
   # Ungroup, in case it comes in grouped.
   d_observed <- d_observed %>%
@@ -63,13 +64,13 @@ histogram_discrete <- function(
     labs(title=main_title, x=x_title, y=y_title) +
     coord_flip()
 
-  theme  <- theme_light(base_size=14) +
+  theme  <- theme_light(base_size=font_base_size) +
     theme(legend.position       =  "none") +
     theme(panel.grid.major.y    =  element_blank()) +
     theme(panel.grid.minor.y    =  element_blank()) +
+    theme(axis.text.y           =  element_text(size=font_base_size + 2L)) +
     theme(axis.text.x           =  element_text(colour="gray40")) +
     theme(axis.title.x          =  element_text(colour="gray40")) +
-    theme(axis.text.y           =  element_text(size=14)) +
     theme(panel.border          =  element_rect(colour="gray80")) +
     theme(axis.ticks            =  element_blank())
 
@@ -80,7 +81,7 @@ histogram_continuous <- function(
   variable_name,
   bin_width               = NULL,
   main_title              = base::gsub("_", " ", variable_name, perl=TRUE),
-  x_title                 = paste0(variable_name, " (each bin is ", scales::comma(bin_width), " units wide)"),
+  x_title                 = paste0(variable_name, "\n(each bin is ", scales::comma(bin_width), " units wide)"),
   y_title                 = "Frequency",
   rounded_digits          = 0L,
   font_base_size          = 12

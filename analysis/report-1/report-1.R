@@ -159,10 +159,6 @@ g1 %+% aes(color=carburetor_count_f)
 g1 %+% aes(color=cylinder_count)
 g1 %+% aes(color=factor(cylinder_count))
 
-g1 %+% aes(x=miles_per_gallon)
-g1 %+% aes(x=miles_per_gallon, color=carburetor_count_f)
-g1 %+% aes(x=miles_per_gallon, color=factor(cylinder_count))
-
 # ---- models ------------------------------------------------------------------
 cat("============= Simple model that's just an intercept. =============")
 m0 <- lm(quarter_mile_in_seconds ~ 1, data=ds)

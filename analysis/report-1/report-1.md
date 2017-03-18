@@ -55,34 +55,7 @@ Warning: Removed 2 rows containing missing values (geom_text).
 ![](figure-png/marginals-2.png)<!-- -->![](figure-png/marginals-3.png)<!-- -->![](figure-png/marginals-4.png)<!-- -->
 
 # Scatterplots
-![](figure-png/scatterplots-1.png)<!-- -->![](figure-png/scatterplots-2.png)<!-- -->![](figure-png/scatterplots-3.png)<!-- -->![](figure-png/scatterplots-4.png)<!-- -->![](figure-png/scatterplots-5.png)<!-- -->
-
-```
-Warning in simpleLoess(y, x, w, span, degree = degree, parametric = parametric, : span too small.
-fewer data values than degrees of freedom.
-```
-
-```
-Warning in simpleLoess(y, x, w, span, degree = degree, parametric = parametric, : Chernobyl! trL>n 3
-
-Warning in simpleLoess(y, x, w, span, degree = degree, parametric = parametric, : Chernobyl! trL>n 3
-```
-
-```
-Warning in sqrt(sum.squares/one.delta): NaNs produced
-```
-
-```
-Warning in predLoess(object$y, object$x, newx = if (is.null(newdata)) object$x else if
-(is.data.frame(newdata)) as.matrix(model.frame(delete.response(terms(object)), : span too small.
-fewer data values than degrees of freedom.
-```
-
-```
-Warning in stats::qt(level/2 + 0.5, pred$df): NaNs produced
-```
-
-![](figure-png/scatterplots-6.png)<!-- -->![](figure-png/scatterplots-7.png)<!-- -->
+![](figure-png/scatterplots-1.png)<!-- -->![](figure-png/scatterplots-2.png)<!-- -->![](figure-png/scatterplots-3.png)<!-- -->![](figure-png/scatterplots-4.png)<!-- -->
 
 # Models
 
@@ -261,5 +234,5 @@ Packages -----------------------------------------------------------------------
 
 
 ```
-Report rendered by wibeasley at 2017-03-17, 21:34 -0500 in 6 seconds.
+Report rendered by wibeasley at 2017-03-17, 21:42 -0500 in 5 seconds.
 ```

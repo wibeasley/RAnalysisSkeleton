@@ -21,6 +21,7 @@ options(show.signif.stars=F) #Turn off the annotations on p-values
 
 path_input <- "./data-public/derived/motor-trend-car-test.rds"
 
+# The two graphing functions are copied from https://github.com/Melinae/TabularManifest.
 histogram_discrete <- function(
   d_observed,
   variable_name,
@@ -77,31 +78,42 @@ histogram_discrete <- function(
 histogram_continuous <- function(
   d_observed,
   variable_name,
-  bin_width      = NULL,
-  main_title     = variable_name,
-  x_title        = paste0(variable_name, " (each bin is ", scales::comma(bin_width), " units wide)"),
-  y_title        = "Frequency",
-  rounded_digits = 0L
-  ) {
+  bin_width               = NULL,
+  main_title              = base::gsub("_", " ", variable_name, perl=TRUE),
+  x_title                 = paste0(variable_name, " (each bin is ", scales::comma(bin_width), " units wide)"),
+  y_title                 = "Frequency",
+  rounded_digits          = 0L,
+  font_base_size          = 12
+) {
+
+  if( !inherits(d_observed, "data.frame") )
+    stop("`d_observed` should inherit from the data.frame class.")
 
   d_observed <- d_observed[!base::is.na(d_observed[[variable_name]]), ]
 
-  d_mid_points <- base::data.frame(label=c("italic(X)[50]", "bar(italic(X))"), stringsAsFactors=FALSE)
-  d_mid_points$value <- c(stats::median(d_observed[[variable_name]]), base::mean(d_observed[[variable_name]]))
-  d_mid_points$value_rounded <- base::round(d_mid_points$value, rounded_digits)
+  ds_mid_points <- base::data.frame(label=c("italic(X)[50]", "bar(italic(X))"), stringsAsFactors=FALSE)
+  ds_mid_points$value <- c(stats::median(d_observed[[variable_name]]), base::mean(d_observed[[variable_name]]))
+  ds_mid_points$value_rounded <- base::round(ds_mid_points$value, rounded_digits)
 
-  g <- ggplot(d_observed, aes_string(x=variable_name)) +
-    geom_histogram(binwidth=bin_width, fill="gray70", color="gray90", position=position_identity()) +
-    geom_vline(xintercept=d_mid_points$value, color="gray30") +
-    geom_text(data=d_mid_points, aes_string(x="value", y=0, label="value_rounded"), color="tomato", hjust=c(1, 0), vjust=.5) +
-    scale_x_continuous(labels=scales::comma_format()) +
-    scale_y_continuous(labels=scales::comma_format()) +
-    labs(title=main_title, x=x_title, y=y_title) +
-    theme_light() +
-    theme(axis.ticks = element_blank())
+  if( ds_mid_points$value[1] < ds_mid_points$value[2] ) {
+    h_just <- c(1, 0)
+  } else {
+    h_just <- c(0, 1)
+  }
 
-  d_mid_points$top <- stats::quantile(ggplot2::ggplot_build(g)$panel$ranges[[1]]$y.range, .8)
-  g <- g + ggplot2::geom_text(data=d_mid_points, ggplot2::aes_string(x="value", y="top", label="label"), color="tomato", hjust=c(1, 0), parse=TRUE)
+  g <- ggplot2::ggplot(d_observed, ggplot2::aes_string(x=variable_name))
+  g <- g + ggplot2::geom_histogram(binwidth=bin_width, position=ggplot2::position_identity(), fill="gray70", color="gray90", alpha=.7)
+  g <- g + ggplot2::geom_vline(xintercept=ds_mid_points$value, color="gray30")
+  g <- g + ggplot2::geom_text(data=ds_mid_points, ggplot2::aes_string(x="value", y=0, label="value_rounded"), color="tomato", hjust=h_just, vjust=.5)
+  g <- g + ggplot2::scale_x_continuous(labels=scales::comma_format())
+  g <- g + ggplot2::scale_y_continuous(labels=scales::comma_format())
+  g <- g + ggplot2::labs(title=main_title, x=x_title, y=y_title)
+
+  g <- g + ggplot2::theme_light(base_size = font_base_size) +
+    ggplot2::theme(axis.ticks             = ggplot2::element_blank())
+
+  ds_mid_points$top <- stats::quantile(ggplot2::ggplot_build(g)$layout$panel_ranges[[1]]$y.range, .8)
+  g <- g + ggplot2::geom_text(data=ds_mid_points, ggplot2::aes_string(x="value", y="top", label="label"), color="tomato", hjust=h_just, parse=TRUE)
   return( g )
 }
 

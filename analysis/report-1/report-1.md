@@ -41,18 +41,7 @@ This report covers the analyses used in the ZZZ project (Marcus Mark, PI).
 1. The Seattle track's phluguerstometer was producing flaky negative values; it's measurements have been dropped.
 
 # Marginals
-
-```
-Warning: Removed 2 rows containing missing values (geom_text).
-```
-
-![](figure-png/marginals-1.png)<!-- -->
-
-```
-Warning: Removed 2 rows containing missing values (geom_text).
-```
-
-![](figure-png/marginals-2.png)<!-- -->![](figure-png/marginals-3.png)<!-- -->![](figure-png/marginals-4.png)<!-- -->
+![](figure-png/marginals-1.png)<!-- -->![](figure-png/marginals-2.png)<!-- -->![](figure-png/marginals-3.png)<!-- -->![](figure-png/marginals-4.png)<!-- -->
 
 # Scatterplots
 ![](figure-png/scatterplots-1.png)<!-- -->![](figure-png/scatterplots-2.png)<!-- -->![](figure-png/scatterplots-3.png)<!-- -->
@@ -234,5 +223,5 @@ Packages -----------------------------------------------------------------------
 
 
 
-Report rendered by wibeasley at 2017-03-17, 22:42 -0500 in 4 seconds.
+Report rendered by wibeasley at 2017-03-17, 23:02 -0500 in 4 seconds.
 

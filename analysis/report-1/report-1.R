@@ -155,7 +155,6 @@ g1 <- ggplot(ds, aes(x=gross_horsepower, y=quarter_mile_in_seconds, color=forwar
   theme(axis.ticks = element_blank())
 g1
 
-g1 %+% aes(color=carburetor_count_f)
 g1 %+% aes(color=cylinder_count)
 g1 %+% aes(color=factor(cylinder_count))
 

@@ -30,7 +30,7 @@ This report covers the analyses used in the ZZZ project (Marcus Mark, PI).
 # Summary {.tabset}
 
 ## Notes 
-1. The current report covers 32 cars, with 6 possible values for `carburetor_count`.
+1. The current report covers 32 cars, with 6 unique values for `carburetor_count`.
 1. The Seattle track's phluguerstometer was producing flaky negative values; it's measurements have been dropped.
 
 ## Unanswered Questions
@@ -55,7 +55,7 @@ Warning: Removed 2 rows containing missing values (geom_text).
 ![](figure-png/marginals-2.png)<!-- -->![](figure-png/marginals-3.png)<!-- -->![](figure-png/marginals-4.png)<!-- -->
 
 # Scatterplots
-![](figure-png/scatterplots-1.png)<!-- -->![](figure-png/scatterplots-2.png)<!-- -->![](figure-png/scatterplots-3.png)<!-- -->![](figure-png/scatterplots-4.png)<!-- -->
+![](figure-png/scatterplots-1.png)<!-- -->![](figure-png/scatterplots-2.png)<!-- -->![](figure-png/scatterplots-3.png)<!-- -->
 
 # Models
 
@@ -166,7 +166,7 @@ Model 2: quarter_mile_in_seconds ~ 1 + miles_per_gallon + forward_gear_count_f
 |forward_gear_count_fFour |     0.16|       0.67|    0.23|               0.82|
 |forward_gear_count_fFive |    -2.75|       0.73|   -3.77|               0.00|
 
-**In the model that includes two predictors, the slope coefficent of `Miles per gallon` is 0.13246.**
+In the model that includes two predictors, the slope coefficent of `Miles per gallon` is 0.13246.
 
 
 # Session Information
@@ -233,6 +233,6 @@ Packages -----------------------------------------------------------------------
 </details>
 
 
-```
-Report rendered by wibeasley at 2017-03-17, 21:42 -0500 in 5 seconds.
-```
+
+Report rendered by wibeasley at 2017-03-17, 22:02 -0500 in 5 seconds.
+

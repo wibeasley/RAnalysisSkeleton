@@ -109,26 +109,17 @@ histogram_continuous <- function(
 ds <- readr::read_rds(path_input) # 'ds' stands for 'datasets'
 
 # ---- tweak-data --------------------------------------------------------------
-#
-# drop_infant_weight_for_gestational_age_category_sga_or_missing <- (is.na(ds$infant_weight_for_gestational_age_category) | ds$infant_weight_for_gestational_age_category=="Sga")
-# cat("Number of patients excluded b/c Missing or `SGA` for infant_weight_for_gestational_age_category: ", sum(drop_infant_weight_for_gestational_age_category_sga_or_missing, na.rm=T))
-# ds <- ds[!drop_infant_weight_for_gestational_age_category_sga_or_missing, ]
-# ds$infant_weight_for_gestational_age_category <- droplevels(ds$infant_weight_for_gestational_age_category)
-#
-# cat("Number of infants excluded b/c premature age: ", sum(ds$premature_infant, na.rm=T))
-# ds <- ds[!ds$premature_infant, ]
-#
-# #Define the palettes
-# color_center <- RColorBrewer::brewer.pal(n=3, name="Pastel1")[2:1]
-# names(color_center) <- levels(ds$center)
-# color_center_light <- adjustcolor(color_center, alpha.f=.5)
-#
-# # Create a dataset containing only OUHSC patients
-# dsOuhsc <- ds[ds$center=="OUHSC", ]
-#
-# #Remove variables no longer necessary
-# rm(drop_infant_weight_for_gestational_age_category_sga_or_missing)
-# ds$premature_infant <- NULL
+# ds <- ds %>%
+#   tidyr::drop_na(infant_weight_for_gestational_age_category) %>%
+#   dplyr::mutate(
+#     clinic = droplevels(clinic)
+#   ) %>%
+#   dplyr::filter(
+#     !ds$premature_infant
+#   ) %>%
+#   dplyr::select(
+#     -premature_infant
+#   )
 
 # ---- marginals ---------------------------------------------------------------
 # Inspect continuous variables

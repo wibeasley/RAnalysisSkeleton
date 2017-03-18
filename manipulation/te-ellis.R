@@ -37,14 +37,21 @@ path_in_tulsa     <- "./data-public/raw/te/month-tulsa.csv"
 path_in_rural     <- "./data-public/raw/te/nurse-month-rural.csv"
 path_county       <- "./data-public/raw/te/county.csv"
 
+col_types_tulsa <- readr::cols_only(
+  Month       = readr::col_date("%m/%d/%Y"),
+  FteSum      = readr::col_double(),
+  FmlaSum     = readr::col_integer()
+)
+
 # ---- load-data ---------------------------------------------------------------
 # Read the CSVs
 ds_nurse_month_oklahoma <- readr::read_csv(path_in_oklahoma)
-ds_month_tulsa          <- readr::read_csv(path_in_tulsa)
+ds_month_tulsa          <- readr::read_csv(path_in_tulsa, col_types=col_types_tulsa)
 ds_nurse_month_rural    <- readr::read_csv(path_in_rural, col_types=readr::cols("FTE"=readr::col_character()))
 ds_county               <- readr::read_csv(path_county)
 
 rm(path_in_oklahoma, path_in_tulsa, path_in_rural, path_county)
+rm(col_types_tulsa)
 
 # Print the first few rows of each table, especially if you're stitching with knitr (see first line of this file).
 #   If you print, make sure that the datasets don't contain any PHI.
@@ -67,29 +74,27 @@ ds_county <- ds_county %>%
   )
 
 # ---- groom-oklahoma ----------------------------------------------------------
-# Sanitize illegal variable names.
-colnames(ds_nurse_month_oklahoma) <- make.names(colnames(ds_nurse_month_oklahoma))
+# Sanitize illegal variable names if desired: colnames(ds_nurse_month_oklahoma) <- make.names(colnames(ds_nurse_month_oklahoma))
+# OuhscMunge::column_rename_headstart(ds_nurse_month_oklahoma)
 
 # Groom the nurse-month dataset for Oklahoma County.
 ds_nurse_month_oklahoma <- ds_nurse_month_oklahoma %>%
-  dplyr::rename_(
-    "employee_number"   = "Employee.."         # Used to be "Employee #" before sanitizing.
-    , "employee_name"   = "Name"
-    , "year"            = "Year"
-    , "month"           = "Month"
-    , "fte"             = "FTE"
-    , "fmla_hours"      = "FMLA.Hours"         # Used to be "FMLA Hours" before sanitizing.
-    , "training_hours"  = "Training.Hours"     # Used to be "Training Hours" before sanitizing.
+  dplyr::select_(
+    # "employee_number"           = "`Employee..`"          # Used to be "Employee #" before sanitizing. Drop b/c unnecessary.
+    # , "employee_name"           = "`Name`"
+    "year"                        = "`Year`"
+    , "month"                     = "`Month`"
+    , "fte"                       = "`FTE`"
+    , "fmla_hours"                = "`FMLA.Hours`"          # Used to be "FMLA Hours" before sanitizing.
+    , "training_hours"            = "`Training.Hours`"      # Used to be "Training Hours" before sanitizing.
   ) %>%
   dplyr::mutate(
-    county_id       = ds_county[ds_county$county_name=="Oklahoma", ]$county_id,  # Dynamically determine county ID.
-    month           = as.Date(ISOdate(year, month, default_day_of_month)),     # Combine fields for one date.
-    # fmla_hours    = ifelse(!is.na(fmla_hours), fmla_hours, 0.0),             # Set missing values to zero.
-    training_hours  = ifelse(!is.na(training_hours), training_hours, 0.0)      # Set missing values to zero.
+    county_id       = ds_county[ds_county$county_name=="Oklahoma", ]$county_id,        # Dynamically determine county ID.
+    month           = as.Date(ISOdate(year, month, default_day_of_month)),             # Combine fields for one date.
+    # fmla_hours    = dplyr::if_else(!is.na(fmla_hours), fmla_hours, 0L),              # Set missing values to zero.
+    training_hours  = dplyr::if_else(!is.na(training_hours), training_hours, 0L)       # Set missing values to zero.
   ) %>%
   dplyr::select(      # Drop unecessary variables (ie, defensive programming)
-    -employee_number,
-    -employee_name,
     -year
   )
 ds_nurse_month_oklahoma
@@ -129,15 +134,15 @@ rm(ds_nurse_month_oklahoma) #Remove this dataset so it's not accidentally used b
 
 # ---- groom-tulsa -------------------------------------------------------------
 # Groom the nurse-month dataset for Tulsa County.
+# OuhscMunge::column_rename_headstart(ds_month_tulsa)
 ds_month_tulsa <- ds_month_tulsa %>%
-  dplyr::rename_(
-    "month"         = "Month"
-    , "fte"         = "FteSum"
-    #, "fmla_hours" = "FmlaSum"
+  dplyr::select_(
+    "month"             = "`Month`"
+    , "fte"             = "`FteSum`"
+    , "fmla_sum"        = "`FmlaSum`"
   ) %>%
   dplyr::mutate(
     county_id           = ds_county[ds_county$county_name=="Tulsa", ]$county_id,  #Dynamically determine county ID
-    month               = as.Date(month, "%m/%d/%Y"),
     #fmla_hours         = ifelse(!is.na(fmla_hours), fmla_hours, 0.0)
     fte_approximated    = FALSE
   )  %>%
@@ -146,13 +151,15 @@ ds_month_tulsa
 
 # ---- groom-rural -------------------------------------------------------------
 # Groom the nurse-month dataset for the 75 rural counties.
+OuhscMunge::column_rename_headstart(ds_nurse_month_rural)
 ds_nurse_month_rural <- ds_nurse_month_rural %>%
-  dplyr::rename_(
-    "name_full"            = "Name"
-    , "county_name"        = "HOME_COUNTY"
-    , "region_id"          = "REGIONID"
-    , "fte_percent"        = "FTE"
-    , "month"              = "PERIOD"
+  dplyr::select_(
+    "name_full"                 = "`Name`"
+    , "county_name"             = "`HOME_COUNTY`"
+    , "fte_percent"             = "`FTE`"
+    , "month"                   = "`PERIOD`"
+    # , "employee_id"           = "`EMPLOYEEID`"    # Not needed
+    # , "region_id              = "`REGIONID`"      # Not needed
   ) %>%
   dplyr::select(
     county_name,
@@ -165,8 +172,7 @@ ds_nurse_month_rural <- ds_nurse_month_rural %>%
     month       = as.Date(paste0(month, "-", default_day_of_month), format="%m/%Y-%d"),
     fte_string  = gsub("^(\\d{1,3})\\s*%$", "\\1", fte_percent),
     fte         = .01 * as.numeric(ifelse(nchar(fte_string)==0L, 0, fte_string)),
-    county_name = dplyr::recode(county_name, `Cimmarron`='Cimarron', `Leflore`='Le Flore')
-    #county_name = car::recode(county_name, "'Cimmarron'='Cimarron';'Leflore'='Le Flore'") #Or consider `dplyr::recode()`.
+    county_name = dplyr::recode(county_name, `Cimmarron`='Cimarron', `Leflore`='Le Flore') #Or consider `car::recode()`.
   ) %>%
   dplyr::arrange(county_name, month, name_full) %>%
   dplyr::select(
@@ -293,10 +299,14 @@ table(paste(ds$county_id, ds$month))[table(paste(ds$county_id, ds$month))>1]
 # ---- specify-columns-to-upload -----------------------------------------------
 # dput(colnames(ds)) # Print colnames for line below.
 columns_to_write <- c("county_month_id", "county_id", "month", "fte", "fte_approximated", "region_id")
-ds_slim <- ds[, columns_to_write]
-ds_slim$fte_approximated <- as.integer(ds_slim$fte_approximated)
+ds_slim <- ds %>%
+  dplyr::select_(.dots=columns_to_write) %>%
+  dplyr::mutate(
+    fte_approximated <- as.integer(fte_approximated)
+  )
 ds_slim
 
+rm(columns_to_write)
 
 # ---- save-to-disk ------------------------------------------------------------
 # If there's no PHI, a rectangular CSV is usually adequate, and it's portable to other machines and software.

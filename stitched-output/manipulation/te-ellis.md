@@ -48,6 +48,12 @@ path_in_oklahoma  <- "./data-public/raw/te/nurse-month-oklahoma.csv"
 path_in_tulsa     <- "./data-public/raw/te/month-tulsa.csv"
 path_in_rural     <- "./data-public/raw/te/nurse-month-rural.csv"
 path_county       <- "./data-public/raw/te/county.csv"
+
+col_types_tulsa <- readr::cols_only(
+  Month       = readr::col_date("%m/%d/%Y"),
+  FteSum      = readr::col_double(),
+  FmlaSum     = readr::col_integer()
+)
 ```
 
 ```r
@@ -69,19 +75,7 @@ ds_nurse_month_oklahoma <- readr::read_csv(path_in_oklahoma)
 ```
 
 ```r
-ds_month_tulsa          <- readr::read_csv(path_in_tulsa)
-```
-
-```
-## Parsed with column specification:
-## cols(
-##   Month = col_character(),
-##   FteSum = col_double(),
-##   FmlaSum = col_integer()
-## )
-```
-
-```r
+ds_month_tulsa          <- readr::read_csv(path_in_tulsa, col_types=col_types_tulsa)
 ds_nurse_month_rural    <- readr::read_csv(path_in_rural, col_types=readr::cols("FTE"=readr::col_character()))
 ds_county               <- readr::read_csv(path_county)
 ```
@@ -107,6 +101,7 @@ ds_county               <- readr::read_csv(path_county)
 
 ```r
 rm(path_in_oklahoma, path_in_tulsa, path_in_rural, path_county)
+rm(col_types_tulsa)
 
 # Print the first few rows of each table, especially if you're stitching with knitr (see first line of this file).
 #   If you print, make sure that the datasets don't contain any PHI.
@@ -139,17 +134,17 @@ ds_month_tulsa
 ```
 ## # A tibble: 80 × 3
 ##         Month FteSum FmlaSum
-##         <chr>  <dbl>   <int>
-## 1   1/15/2009   25.5      NA
-## 2   2/15/2009   26.5      NA
-## 3   3/15/2009   26.5     274
-## 4   4/15/2009   26.5      NA
-## 5   5/15/2009   25.5     112
-## 6   6/15/2009   25.5      NA
-## 7   7/15/2009   25.5      NA
-## 8   8/15/2009   24.5      51
-## 9   9/15/2009   23.5      NA
-## 10 10/15/2009   23.5      NA
+##        <date>  <dbl>   <int>
+## 1  2009-01-15   25.5      NA
+## 2  2009-02-15   26.5      NA
+## 3  2009-03-15   26.5     274
+## 4  2009-04-15   26.5      NA
+## 5  2009-05-15   25.5     112
+## 6  2009-06-15   25.5      NA
+## 7  2009-07-15   25.5      NA
+## 8  2009-08-15   24.5      51
+## 9  2009-09-15   23.5      NA
+## 10 2009-10-15   23.5      NA
 ## # ... with 70 more rows
 ```
 
@@ -210,29 +205,27 @@ ds_county <- ds_county %>%
 ```
 
 ```r
-# Sanitize illegal variable names.
-colnames(ds_nurse_month_oklahoma) <- make.names(colnames(ds_nurse_month_oklahoma))
+# Sanitize illegal variable names if desired: colnames(ds_nurse_month_oklahoma) <- make.names(colnames(ds_nurse_month_oklahoma))
+# OuhscMunge::column_rename_headstart(ds_nurse_month_oklahoma)
 
 # Groom the nurse-month dataset for Oklahoma County.
 ds_nurse_month_oklahoma <- ds_nurse_month_oklahoma %>%
-  dplyr::rename_(
-    "employee_number"   = "Employee.."         # Used to be "Employee #" before sanitizing.
-    , "employee_name"   = "Name"
-    , "year"            = "Year"
-    , "month"           = "Month"
-    , "fte"             = "FTE"
-    , "fmla_hours"      = "FMLA.Hours"         # Used to be "FMLA Hours" before sanitizing.
-    , "training_hours"  = "Training.Hours"     # Used to be "Training Hours" before sanitizing.
+  dplyr::select_(
+    # "employee_number"           = "`Employee..`"          # Used to be "Employee #" before sanitizing. Drop b/c unnecessary.
+    # , "employee_name"           = "`Name`"
+    "year"                        = "`Year`"
+    , "month"                     = "`Month`"
+    , "fte"                       = "`FTE`"
+    , "fmla_hours"                = "`FMLA.Hours`"          # Used to be "FMLA Hours" before sanitizing.
+    , "training_hours"            = "`Training.Hours`"      # Used to be "Training Hours" before sanitizing.
   ) %>%
   dplyr::mutate(
-    county_id       = ds_county[ds_county$county_name=="Oklahoma", ]$county_id,  # Dynamically determine county ID.
-    month           = as.Date(ISOdate(year, month, default_day_of_month)),     # Combine fields for one date.
-    # fmla_hours    = ifelse(!is.na(fmla_hours), fmla_hours, 0.0),             # Set missing values to zero.
-    training_hours  = ifelse(!is.na(training_hours), training_hours, 0.0)      # Set missing values to zero.
+    county_id       = ds_county[ds_county$county_name=="Oklahoma", ]$county_id,        # Dynamically determine county ID.
+    month           = as.Date(ISOdate(year, month, default_day_of_month)),             # Combine fields for one date.
+    # fmla_hours    = dplyr::if_else(!is.na(fmla_hours), fmla_hours, 0L),              # Set missing values to zero.
+    training_hours  = dplyr::if_else(!is.na(training_hours), training_hours, 0L)       # Set missing values to zero.
   ) %>%
   dplyr::select(      # Drop unecessary variables (ie, defensive programming)
-    -employee_number,
-    -employee_name,
     -year
   )
 ds_nurse_month_oklahoma
@@ -241,7 +234,7 @@ ds_nurse_month_oklahoma
 ```
 ## # A tibble: 1,480 × 5
 ##         month   fte fmla_hours training_hours county_id
-##        <date> <dbl>      <int>          <dbl>     <int>
+##        <date> <dbl>      <int>          <int>     <int>
 ## 1  2009-01-15     1         NA              0        55
 ## 2  2009-02-15     1         NA              0        55
 ## 3  2009-03-15     1         NA              0        55
@@ -311,15 +304,15 @@ rm(ds_nurse_month_oklahoma) #Remove this dataset so it's not accidentally used b
 
 ```r
 # Groom the nurse-month dataset for Tulsa County.
+# OuhscMunge::column_rename_headstart(ds_month_tulsa)
 ds_month_tulsa <- ds_month_tulsa %>%
-  dplyr::rename_(
-    "month"         = "Month"
-    , "fte"         = "FteSum"
-    #, "fmla_hours" = "FmlaSum"
+  dplyr::select_(
+    "month"             = "`Month`"
+    , "fte"             = "`FteSum`"
+    , "fmla_sum"        = "`FmlaSum`"
   ) %>%
   dplyr::mutate(
     county_id           = ds_county[ds_county$county_name=="Tulsa", ]$county_id,  #Dynamically determine county ID
-    month               = as.Date(month, "%m/%d/%Y"),
     #fmla_hours         = ifelse(!is.na(fmla_hours), fmla_hours, 0.0)
     fte_approximated    = FALSE
   )  %>%
@@ -346,13 +339,27 @@ ds_month_tulsa
 
 ```r
 # Groom the nurse-month dataset for the 75 rural counties.
+OuhscMunge::column_rename_headstart(ds_nurse_month_rural)
+```
+
+```
+## , "home_county"            = "`HOME_COUNTY`"
+##  , "fte"                    = "`FTE`"
+##  , "period"                 = "`PERIOD`"
+##  , "employeeid"             = "`EMPLOYEEID`"
+##  , "regionid"               = "`REGIONID`"
+##  , "name"                   = "`Name`"
+```
+
+```r
 ds_nurse_month_rural <- ds_nurse_month_rural %>%
-  dplyr::rename_(
-    "name_full"            = "Name"
-    , "county_name"        = "HOME_COUNTY"
-    , "region_id"          = "REGIONID"
-    , "fte_percent"        = "FTE"
-    , "month"              = "PERIOD"
+  dplyr::select_(
+    "name_full"                 = "`Name`"
+    , "county_name"             = "`HOME_COUNTY`"
+    , "fte_percent"             = "`FTE`"
+    , "month"                   = "`PERIOD`"
+    # , "employee_id"           = "`EMPLOYEEID`"    # Not needed
+    # , "region_id              = "`REGIONID`"      # Not needed
   ) %>%
   dplyr::select(
     county_name,
@@ -365,8 +372,7 @@ ds_nurse_month_rural <- ds_nurse_month_rural %>%
     month       = as.Date(paste0(month, "-", default_day_of_month), format="%m/%Y-%d"),
     fte_string  = gsub("^(\\d{1,3})\\s*%$", "\\1", fte_percent),
     fte         = .01 * as.numeric(ifelse(nchar(fte_string)==0L, 0, fte_string)),
-    county_name = dplyr::recode(county_name, `Cimmarron`='Cimarron', `Leflore`='Le Flore')
-    #county_name = car::recode(county_name, "'Cimmarron'='Cimarron';'Leflore'='Le Flore'") #Or consider `dplyr::recode()`.
+    county_name = dplyr::recode(county_name, `Cimmarron`='Cimarron', `Leflore`='Le Flore') #Or consider `car::recode()`.
   ) %>%
   dplyr::arrange(county_name, month, name_full) %>%
   dplyr::select(
@@ -586,26 +592,34 @@ table(paste(ds$county_id, ds$month))[table(paste(ds$county_id, ds$month))>1]
 ```r
 # dput(colnames(ds)) # Print colnames for line below.
 columns_to_write <- c("county_month_id", "county_id", "month", "fte", "fte_approximated", "region_id")
-ds_slim <- ds[, columns_to_write]
-ds_slim$fte_approximated <- as.integer(ds_slim$fte_approximated)
+ds_slim <- ds %>%
+  dplyr::select_(.dots=columns_to_write) %>%
+  dplyr::mutate(
+    fte_approximated <- as.integer(fte_approximated)
+  )
 ds_slim
 ```
 
 ```
-## # A tibble: 3,080 × 6
+## # A tibble: 3,080 × 7
 ##    county_month_id county_id      month   fte fte_approximated region_id
-##              <int>     <int>     <date> <dbl>            <int>     <int>
-## 1                1         1 2012-06-15   1.0                0        11
-## 2                2         1 2012-07-15   1.0                1        11
-## 3                3         1 2012-08-15   1.0                0        11
-## 4                4         1 2012-09-15   0.5                0        11
-## 5                5         1 2012-10-15   1.0                0        11
-## 6                6         1 2012-11-15   1.0                1        11
-## 7                7         1 2012-12-15   1.0                0        11
-## 8                8         1 2013-01-15   1.0                0        11
-## 9                9         1 2013-02-15   1.0                0        11
-## 10              10         1 2013-03-15   0.5                0        11
-## # ... with 3,070 more rows
+##              <int>     <int>     <date> <dbl>            <lgl>     <int>
+## 1                1         1 2012-06-15   1.0            FALSE        11
+## 2                2         1 2012-07-15   1.0             TRUE        11
+## 3                3         1 2012-08-15   1.0            FALSE        11
+## 4                4         1 2012-09-15   0.5            FALSE        11
+## 5                5         1 2012-10-15   1.0            FALSE        11
+## 6                6         1 2012-11-15   1.0             TRUE        11
+## 7                7         1 2012-12-15   1.0            FALSE        11
+## 8                8         1 2013-01-15   1.0            FALSE        11
+## 9                9         1 2013-02-15   1.0            FALSE        11
+## 10              10         1 2013-03-15   0.5            FALSE        11
+## # ... with 3,070 more rows, and 1 more variables: `fte_approximated <-
+## #   as.integer(fte_ap...` <int>
+```
+
+```r
+rm(columns_to_write)
 ```
 
 ```r
@@ -754,13 +768,7 @@ ds %>%
 ```r
 # Close connection
 dbDisconnect(cnn)
-```
 
-```
-## [1] TRUE
-```
-
-```r
 # # ---- upload-to-db ----------------------------------------------------------
 # If there's PHI, write to a central database server that authenticates users (like SQL Server).
 # (startTime <- Sys.time())
@@ -836,7 +844,7 @@ sessionInfo()
 ```
 ## R version 3.3.1 (2016-06-21)
 ## Platform: x86_64-pc-linux-gnu (64-bit)
-## Running under: Ubuntu 16.04.1 LTS
+## Running under: Ubuntu 16.04.2 LTS
 ## 
 ## locale:
 ##  [1] LC_CTYPE=en_US.UTF-8       LC_NUMERIC=C              
@@ -850,16 +858,19 @@ sessionInfo()
 ## [1] stats     graphics  grDevices utils     datasets  methods   base     
 ## 
 ## other attached packages:
-## [1] DBI_0.5-1     ggplot2_2.2.1 magrittr_1.5 
+## [1] ggplot2_2.2.1 bindrcpp_0.1  DBI_0.6       magrittr_1.5 
 ## 
 ## loaded via a namespace (and not attached):
-##  [1] Rcpp_0.12.9      knitr_1.15.1     munsell_0.4.3    testit_0.6      
-##  [5] colorspace_1.3-2 lattice_0.20-34  R6_2.2.0         stringr_1.1.0   
-##  [9] highr_0.6        plyr_1.8.4       dplyr_0.5.0.9000 tools_3.3.1     
-## [13] grid_3.3.1       gtable_0.2.0     lazyeval_0.2.0   assertthat_0.1  
-## [17] digest_0.6.12    tibble_1.2       readr_1.0.0      tidyr_0.6.1     
-## [21] memoise_1.0.0    RSQLite_1.1-2    evaluate_0.10    labeling_0.3    
-## [25] stringi_1.1.2    scales_0.4.1     markdown_0.7.7   zoo_1.7-14
+##  [1] Rcpp_0.12.9           knitr_1.15.1          bindr_0.1            
+##  [4] munsell_0.4.3         testit_0.6            colorspace_1.3-2     
+##  [7] lattice_0.20-34       R6_2.2.0              highr_0.6            
+## [10] plyr_1.8.4            stringr_1.2.0         dplyr_0.5.0.9000     
+## [13] tools_3.3.1           grid_3.3.1            gtable_0.2.0         
+## [16] lazyeval_0.2.0        assertthat_0.1        digest_0.6.12        
+## [19] tibble_1.2            readr_1.0.0           tidyr_0.6.1          
+## [22] memoise_1.0.0         OuhscMunge_0.1.7.9000 RSQLite_1.1-2        
+## [25] evaluate_0.10         labeling_0.3          stringi_1.1.2        
+## [28] scales_0.4.1          zoo_1.7-14
 ```
 
 ```r
@@ -867,6 +878,6 @@ Sys.time()
 ```
 
 ```
-## [1] "2017-02-11 16:15:01 CST"
+## [1] "2017-03-18 11:24:01 CDT"
 ```
 

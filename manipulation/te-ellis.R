@@ -13,13 +13,13 @@ library(magrittr            , quietly=TRUE)
 library(DBI                 , quietly=TRUE)
 
 # Verify these packages are available on the machine, but their functions need to be qualified: http://r-pkgs.had.co.nz/namespace.html#search-path
-requireNamespace("readr"                  )
-requireNamespace("tidyr"                  )
-requireNamespace("dplyr"                  ) #Avoid attaching dplyr, b/c its function names conflict with a lot of packages (esp base, stats, and plyr).
-requireNamespace("testit"                 ) #For asserting conditions meet expected patterns.
-requireNamespace("RSQLite"                ) #For asserting conditions meet expected patterns.
-# requireNamespace("car"                    ) #For it's `recode()` function.
-# requireNamespace("RODBC") #For communicating with SQL Server over a locally-configured DSN.  Uncomment if you use 'upload-to-db' chunk.
+requireNamespace("readr"        )
+requireNamespace("tidyr"        )
+requireNamespace("dplyr"        ) # void attaching dplyr, b/c its function names conflict with a lot of packages (esp base, stats, and plyr).
+requireNamespace("testit"       ) # or asserting conditions meet expected patterns.
+requireNamespace("checkmate"    ) # or asserting conditions meet expected patterns. # devtools::install_github("mllg/checkmate")
+requireNamespace("RSQLite"      ) # ightweight database for non-PHI data.
+# requireNamespace("RODBC"      ) # or communicating with SQL Server over a locally-configured DSN.  Uncomment if you use 'upload-to-db' chunk.
 
 # ---- declare-globals ---------------------------------------------------------
 # Constant values that won't change.
@@ -27,7 +27,7 @@ path_out_unified               <- "data-public/derived/county-month-te.csv"
 path_db                        <- "data-unshared/derived/te.sqlite3"
 counties_to_drop_from_rural    <- c("Central Office", "Tulsa", "Oklahoma") #Exclude these records from the rural dataset.
 default_day_of_month           <- 15L      # Summarize each month at its (rough) midpoint.
-possible_county_ids            <- 1L:77L   #There are 77 counties.
+possible_county_ids            <- 1:77     #There are 77 counties.
 threshold_mean_fte_t_fill_in   <- 10L      #Any county averaging over 10 hours can be filled in with its mean.
 figure_path <- 'stitched-output/manipulation/te/'
 
@@ -63,11 +63,9 @@ ds_nurse_month_rural
 ds_county
 
 # ---- tweak-data --------------------------------------------------------------
-# ds_nurse_month_ruralOklahoma <- ds_nurse_month_rural[ds_nurse_month_rural$HOME_COUNTY=="Oklahoma", ]
-
 # OuhscMunge::column_rename_headstart(ds_county) #Spit out columns to help write call ato `dplyr::rename()`.
 ds_county <- ds_county %>%
-  dplyr::select_( #`select()` implicitly drops the 7 other columns not mentioned.
+  dplyr::select_( #`select()` implicitly drops the other columns not mentioned.
     "county_id"     = "CountyID",
     "county_name"   = "CountyName",
     "region_id"     = "C1LeadNurseRegion"
@@ -101,7 +99,7 @@ ds_nurse_month_oklahoma
 
 # Collapse across nurses to create one record per month for Oklahoma County.
 ds_month_oklahoma <- ds_nurse_month_oklahoma %>%
-  dplyr::group_by(county_id, month) %>%                   # Split by County & month into sub-datasets
+  dplyr::group_by(county_id, month) %>%                  # Split by County & month into sub-datasets
   dplyr::summarize(                                      # Aggregate/summarize within sub-datasets
     fte                = sum(fte, na.rm=T),
     # fmla_hours       = sum(fmla_hours, na.rm=T)
@@ -170,9 +168,9 @@ ds_nurse_month_rural <- ds_nurse_month_rural %>%
   dplyr::filter(!(county_name %in% counties_to_drop_from_rural)) %>%
   dplyr::mutate(
     month       = as.Date(paste0(month, "-", default_day_of_month), format="%m/%Y-%d"),
-    fte_string  = gsub("^(\\d{1,3})\\s*%$", "\\1", fte_percent),
+    fte_string  = gsub("^(\\d{1,3})\\s*%$", "\\1", fte_percent),                           # Extract digits before the '%' sign.
     fte         = .01 * as.numeric(ifelse(nchar(fte_string)==0L, 0, fte_string)),
-    county_name = dplyr::recode(county_name, `Cimmarron`='Cimarron', `Leflore`='Le Flore') #Or consider `car::recode()`.
+    county_name = dplyr::recode(county_name, `Cimmarron`='Cimarron', `Leflore`='Le Flore') # Or consider `car::recode()`.
   ) %>%
   dplyr::arrange(county_name, month, name_full) %>%
   dplyr::select(
@@ -205,7 +203,7 @@ ds_possible <- tidyr::crossing(
 )
 
 #Determine the months were we don't have any rural T&E data.
-months_rural_not_collected <- (ds_month_rural %>%
+months_rural_not_collected <- ds_month_rural %>%
   dplyr::right_join(
     ds_possible, by=c("county_id", "month")
   ) %>%
@@ -214,7 +212,8 @@ months_rural_not_collected <- (ds_month_rural %>%
     mean_na = mean(is.na(fte))
   ) %>%
   dplyr::ungroup() %>%
-  dplyr::filter(mean_na >= .9999))$month
+  dplyr::filter(mean_na >= .9999) %>%
+  dplyr::pull(month)
 months_rural_not_collected
 
 rm(ds_nurse_month_rural) #Remove this dataset so it's not accidentally used below.
@@ -223,12 +222,8 @@ rm(counties_to_drop_from_rural, default_day_of_month)
 # ---- union-all-counties -----------------------------------------------------
 # Stack the three datasets on top of each other.
 ds <- ds_month_oklahoma %>%
-  dplyr::union(
-    ds_month_tulsa
-  ) %>%
-  dplyr::union(
-    ds_month_rural
-  ) %>%
+  dplyr::union(ds_month_tulsa) %>%
+  dplyr::union(ds_month_rural) %>%
   dplyr::right_join(
     ds_possible, by=c("county_id", "month")
   ) %>%
@@ -284,13 +279,12 @@ rm(possible_county_ids)
 
 # ---- verify-values -----------------------------------------------------------
 # Sniff out problems
-testit::assert("The month value must be nonmissing & since 2000", all(!is.na(ds$month) & (ds$month>="2012-01-01")))
-testit::assert("The county_id value must be nonmissing & positive.", all(!is.na(ds$county_id) & (ds$county_id>0)))
-testit::assert("The county_id value must be in [1, 77].", all(ds$county_id %in% seq_len(77L)))
-testit::assert("The region_id value must be nonmissing & positive.", all(!is.na(ds$region_id) & (ds$region_id>0)))
-testit::assert("The region_id value must be in [1, 20].", all(ds$region_id %in% seq_len(20L)))
-testit::assert("The `fte` value must be nonmissing & positive.", all(!is.na(ds$fte) & (ds$fte>=0)))
-# testit::assert("The `fmla_hours` value must be nonmissing & nonnegative", all(is.na(ds$fmla_hours) | (ds$fmla_hours>=0)))
+checkmate::assert_integer(ds$county_month_id    , lower=          1L              , any.missing=F, unique=T)
+checkmate::assert_integer(ds$county_id          , lower=          1L   , upper=77L, any.missing=F, unique=F)
+checkmate::assert_date(   ds$month              , lower="2012-01-01"              , any.missing=F)
+checkmate::assert_integer(ds$region_id          , lower=          1L   , upper=20L, any.missing=F)
+checkmate::assert_numeric(ds$fte                , lower=          0    , upper=40L, any.missing=F)
+checkmate::assert_logical(ds$fte_approximated                                     , any.missing=F)
 
 testit::assert("The County-month combination should be unique.", all(!duplicated(paste(ds$county_id, ds$month))))
 testit::assert("The Region-County-month combination should be unique.", all(!duplicated(paste(ds$region_id, ds$county_id, ds$month))))

@@ -3,11 +3,11 @@
 
 
 This report was automatically generated with the R package **knitr**
-(version 1.15.1).
+(version 1.16).
 
 
 ```r
-# knitr::stitch_rmd(script="./manipulation/te-ellis.R", output="./stitched-output/manipulation/te-ellis.md")
+# knitr::stitch_rmd(script="./manipulation/te-ellis.R", output="./stitched-output/manipulation/te-ellis.md") # dir.create(output="./stitched-output/manipulation/", recursive=T)
 # For a brief description of this file see the presentation at
 #   - slides: https://rawgit.com/wibeasley/RAnalysisSkeleton/master/documentation/time-and-effort-synthesis.html#/
 #   - code: https://github.com/wibeasley/RAnalysisSkeleton/blob/master/documentation/time-and-effort-synthesis.Rpres
@@ -24,13 +24,13 @@ library(magrittr            , quietly=TRUE)
 library(DBI                 , quietly=TRUE)
 
 # Verify these packages are available on the machine, but their functions need to be qualified: http://r-pkgs.had.co.nz/namespace.html#search-path
-requireNamespace("readr"                  )
-requireNamespace("tidyr"                  )
-requireNamespace("dplyr"                  ) #Avoid attaching dplyr, b/c its function names conflict with a lot of packages (esp base, stats, and plyr).
-requireNamespace("testit"                 ) #For asserting conditions meet expected patterns.
-requireNamespace("RSQLite"                ) #For asserting conditions meet expected patterns.
-# requireNamespace("car"                    ) #For it's `recode()` function.
-# requireNamespace("RODBC") #For communicating with SQL Server over a locally-configured DSN.  Uncomment if you use 'upload-to-db' chunk.
+requireNamespace("readr"        )
+requireNamespace("tidyr"        )
+requireNamespace("dplyr"        ) # void attaching dplyr, b/c its function names conflict with a lot of packages (esp base, stats, and plyr).
+requireNamespace("testit"       ) # or asserting conditions meet expected patterns.
+requireNamespace("checkmate"    ) # or asserting conditions meet expected patterns. # devtools::install_github("mllg/checkmate")
+requireNamespace("RSQLite"      ) # ightweight database for non-PHI data.
+# requireNamespace("RODBC"      ) # or communicating with SQL Server over a locally-configured DSN.  Uncomment if you use 'upload-to-db' chunk.
 ```
 
 ```r
@@ -39,7 +39,7 @@ path_out_unified               <- "data-public/derived/county-month-te.csv"
 path_db                        <- "data-unshared/derived/te.sqlite3"
 counties_to_drop_from_rural    <- c("Central Office", "Tulsa", "Oklahoma") #Exclude these records from the rural dataset.
 default_day_of_month           <- 15L      # Summarize each month at its (rough) midpoint.
-possible_county_ids            <- 1L:77L   #There are 77 counties.
+possible_county_ids            <- 1:77     #There are 77 counties.
 threshold_mean_fte_t_fill_in   <- 10L      #Any county averaging over 10 hours can be filled in with its mean.
 figure_path <- 'stitched-output/manipulation/te/'
 
@@ -111,18 +111,18 @@ ds_nurse_month_oklahoma
 ```
 
 ```
-## # A tibble: 1,480 × 7
+## # A tibble: 1,480 x 7
 ##    Employee..  Year Month   FTE FMLA.Hours Training.Hours          Name
 ##         <int> <int> <int> <dbl>      <int>          <int>         <chr>
-## 1           1  2009     1     1         NA             NA Akilah Amyx  
-## 2           1  2009     2     1         NA             NA Akilah Amyx  
-## 3           1  2009     3     1         NA             NA Akilah Amyx  
-## 4           1  2009     4     1         NA             NA Akilah Amyx  
-## 5           1  2009     5     1         NA             NA Akilah Amyx  
-## 6           1  2009     6     1         NA             NA Akilah Amyx  
-## 7           1  2009     7     1         NA             NA Akilah Amyx  
-## 8           1  2009     8     1         NA             32 Akilah Amyx  
-## 9           1  2009     9     1         NA             NA Akilah Amyx  
+##  1          1  2009     1     1         NA             NA Akilah Amyx  
+##  2          1  2009     2     1         NA             NA Akilah Amyx  
+##  3          1  2009     3     1         NA             NA Akilah Amyx  
+##  4          1  2009     4     1         NA             NA Akilah Amyx  
+##  5          1  2009     5     1         NA             NA Akilah Amyx  
+##  6          1  2009     6     1         NA             NA Akilah Amyx  
+##  7          1  2009     7     1         NA             NA Akilah Amyx  
+##  8          1  2009     8     1         NA             32 Akilah Amyx  
+##  9          1  2009     9     1         NA             NA Akilah Amyx  
 ## 10          1  2009    10     1         NA             NA Akilah Amyx  
 ## # ... with 1,470 more rows
 ```
@@ -132,18 +132,18 @@ ds_month_tulsa
 ```
 
 ```
-## # A tibble: 80 × 3
+## # A tibble: 80 x 3
 ##         Month FteSum FmlaSum
 ##        <date>  <dbl>   <int>
-## 1  2009-01-15   25.5      NA
-## 2  2009-02-15   26.5      NA
-## 3  2009-03-15   26.5     274
-## 4  2009-04-15   26.5      NA
-## 5  2009-05-15   25.5     112
-## 6  2009-06-15   25.5      NA
-## 7  2009-07-15   25.5      NA
-## 8  2009-08-15   24.5      51
-## 9  2009-09-15   23.5      NA
+##  1 2009-01-15   25.5      NA
+##  2 2009-02-15   26.5      NA
+##  3 2009-03-15   26.5     274
+##  4 2009-04-15   26.5      NA
+##  5 2009-05-15   25.5     112
+##  6 2009-06-15   25.5      NA
+##  7 2009-07-15   25.5      NA
+##  8 2009-08-15   24.5      51
+##  9 2009-09-15   23.5      NA
 ## 10 2009-10-15   23.5      NA
 ## # ... with 70 more rows
 ```
@@ -153,18 +153,18 @@ ds_nurse_month_rural
 ```
 
 ```
-## # A tibble: 4,726 × 6
+## # A tibble: 4,726 x 6
 ##     HOME_COUNTY   FTE  PERIOD EMPLOYEEID REGIONID            Name
 ##           <chr> <chr>   <chr>      <int>    <int>           <chr>
-## 1  Pottawatomie 100 % 06/2012         46       49 Cheree Crites  
-## 2  Pottawatomie 100 % 08/2012         46       49 Cheree Crites  
-## 3  Pottawatomie 100 % 09/2012         46       49 Cheree Crites  
-## 4  Pottawatomie 100 % 10/2012         46       49 Cheree Crites  
-## 5  Pottawatomie 100 % 12/2012         46       49 Cheree Crites  
-## 6  Pottawatomie 100 % 01/2013         46       49 Cheree Crites  
-## 7  Pottawatomie 100 % 02/2013         46       49 Cheree Crites  
-## 8      Oklahoma 100 % 08/2012         47       44 Cheryll Canez  
-## 9      Oklahoma 100 % 09/2012         47       44 Cheryll Canez  
+##  1 Pottawatomie 100 % 06/2012         46       49 Cheree Crites  
+##  2 Pottawatomie 100 % 08/2012         46       49 Cheree Crites  
+##  3 Pottawatomie 100 % 09/2012         46       49 Cheree Crites  
+##  4 Pottawatomie 100 % 10/2012         46       49 Cheree Crites  
+##  5 Pottawatomie 100 % 12/2012         46       49 Cheree Crites  
+##  6 Pottawatomie 100 % 01/2013         46       49 Cheree Crites  
+##  7 Pottawatomie 100 % 02/2013         46       49 Cheree Crites  
+##  8     Oklahoma 100 % 08/2012         47       44 Cheryll Canez  
+##  9     Oklahoma 100 % 09/2012         47       44 Cheryll Canez  
 ## 10     Oklahoma 100 % 10/2012         47       44 Cheryll Canez  
 ## # ... with 4,716 more rows
 ```
@@ -174,18 +174,18 @@ ds_county
 ```
 
 ```
-## # A tibble: 77 × 13
+## # A tibble: 77 x 13
 ##    CountyID CountyName GeoID FipsCode FundingC1 FundingOcap
 ##       <int>      <chr> <int>    <int>     <int>       <int>
-## 1         1      Adair 40001        1         1           0
-## 2         2    Alfalfa 40003        3         0           0
-## 3         3      Atoka 40005        5         1           0
-## 4         4     Beaver 40007        7         0           0
-## 5         5    Beckham 40009        9         1           0
-## 6         6     Blaine 40011       11         1           0
-## 7         7      Bryan 40013       13         1           0
-## 8         8      Caddo 40015       15         1           0
-## 9         9   Canadian 40017       17         1           0
+##  1        1      Adair 40001        1         1           0
+##  2        2    Alfalfa 40003        3         0           0
+##  3        3      Atoka 40005        5         1           0
+##  4        4     Beaver 40007        7         0           0
+##  5        5    Beckham 40009        9         1           0
+##  6        6     Blaine 40011       11         1           0
+##  7        7      Bryan 40013       13         1           0
+##  8        8      Caddo 40015       15         1           0
+##  9        9   Canadian 40017       17         1           0
 ## 10       10     Carter 40019       19         1           0
 ## # ... with 67 more rows, and 7 more variables: C1LeadNurseRegion <int>,
 ## #   C1LeadNurseName <chr>, Urban <int>, LabelLongitude <dbl>,
@@ -193,11 +193,9 @@ ds_county
 ```
 
 ```r
-# ds_nurse_month_ruralOklahoma <- ds_nurse_month_rural[ds_nurse_month_rural$HOME_COUNTY=="Oklahoma", ]
-
 # OuhscMunge::column_rename_headstart(ds_county) #Spit out columns to help write call ato `dplyr::rename()`.
 ds_county <- ds_county %>%
-  dplyr::select_( #`select()` implicitly drops the 7 other columns not mentioned.
+  dplyr::select_( #`select()` implicitly drops the other columns not mentioned.
     "county_id"     = "CountyID",
     "county_name"   = "CountyName",
     "region_id"     = "C1LeadNurseRegion"
@@ -232,18 +230,18 @@ ds_nurse_month_oklahoma
 ```
 
 ```
-## # A tibble: 1,480 × 5
+## # A tibble: 1,480 x 5
 ##         month   fte fmla_hours training_hours county_id
 ##        <date> <dbl>      <int>          <int>     <int>
-## 1  2009-01-15     1         NA              0        55
-## 2  2009-02-15     1         NA              0        55
-## 3  2009-03-15     1         NA              0        55
-## 4  2009-04-15     1         NA              0        55
-## 5  2009-05-15     1         NA              0        55
-## 6  2009-06-15     1         NA              0        55
-## 7  2009-07-15     1         NA              0        55
-## 8  2009-08-15     1         NA             32        55
-## 9  2009-09-15     1         NA              0        55
+##  1 2009-01-15     1         NA              0        55
+##  2 2009-02-15     1         NA              0        55
+##  3 2009-03-15     1         NA              0        55
+##  4 2009-04-15     1         NA              0        55
+##  5 2009-05-15     1         NA              0        55
+##  6 2009-06-15     1         NA              0        55
+##  7 2009-07-15     1         NA              0        55
+##  8 2009-08-15     1         NA             32        55
+##  9 2009-09-15     1         NA              0        55
 ## 10 2009-10-15     1         NA              0        55
 ## # ... with 1,470 more rows
 ```
@@ -251,7 +249,7 @@ ds_nurse_month_oklahoma
 ```r
 # Collapse across nurses to create one record per month for Oklahoma County.
 ds_month_oklahoma <- ds_nurse_month_oklahoma %>%
-  dplyr::group_by(county_id, month) %>%                   # Split by County & month into sub-datasets
+  dplyr::group_by(county_id, month) %>%                  # Split by County & month into sub-datasets
   dplyr::summarize(                                      # Aggregate/summarize within sub-datasets
     fte                = sum(fte, na.rm=T),
     # fmla_hours       = sum(fmla_hours, na.rm=T)
@@ -262,18 +260,18 @@ ds_month_oklahoma
 ```
 
 ```
-## # A tibble: 81 × 4
+## # A tibble: 81 x 4
 ##    county_id      month   fte fte_approximated
 ##        <int>     <date> <dbl>            <lgl>
-## 1         55 2009-01-15 17.00            FALSE
-## 2         55 2009-02-15 17.00            FALSE
-## 3         55 2009-03-15 17.00            FALSE
-## 4         55 2009-04-15 17.50            FALSE
-## 5         55 2009-05-15 18.76            FALSE
-## 6         55 2009-06-15 18.50            FALSE
-## 7         55 2009-07-15 18.00            FALSE
-## 8         55 2009-08-15 18.50            FALSE
-## 9         55 2009-09-15 19.00            FALSE
+##  1        55 2009-01-15 17.00            FALSE
+##  2        55 2009-02-15 17.00            FALSE
+##  3        55 2009-03-15 17.00            FALSE
+##  4        55 2009-04-15 17.50            FALSE
+##  5        55 2009-05-15 18.76            FALSE
+##  6        55 2009-06-15 18.50            FALSE
+##  7        55 2009-07-15 18.00            FALSE
+##  8        55 2009-08-15 18.50            FALSE
+##  9        55 2009-09-15 19.00            FALSE
 ## 10        55 2009-10-15 18.76            FALSE
 ## # ... with 71 more rows
 ```
@@ -321,18 +319,18 @@ ds_month_tulsa
 ```
 
 ```
-## # A tibble: 80 × 4
+## # A tibble: 80 x 4
 ##    county_id      month   fte fte_approximated
 ##        <int>     <date> <dbl>            <lgl>
-## 1         72 2009-01-15  25.5            FALSE
-## 2         72 2009-02-15  26.5            FALSE
-## 3         72 2009-03-15  26.5            FALSE
-## 4         72 2009-04-15  26.5            FALSE
-## 5         72 2009-05-15  25.5            FALSE
-## 6         72 2009-06-15  25.5            FALSE
-## 7         72 2009-07-15  25.5            FALSE
-## 8         72 2009-08-15  24.5            FALSE
-## 9         72 2009-09-15  23.5            FALSE
+##  1        72 2009-01-15  25.5            FALSE
+##  2        72 2009-02-15  26.5            FALSE
+##  3        72 2009-03-15  26.5            FALSE
+##  4        72 2009-04-15  26.5            FALSE
+##  5        72 2009-05-15  25.5            FALSE
+##  6        72 2009-06-15  25.5            FALSE
+##  7        72 2009-07-15  25.5            FALSE
+##  8        72 2009-08-15  24.5            FALSE
+##  9        72 2009-09-15  23.5            FALSE
 ## 10        72 2009-10-15  23.5            FALSE
 ## # ... with 70 more rows
 ```
@@ -370,9 +368,9 @@ ds_nurse_month_rural <- ds_nurse_month_rural %>%
   dplyr::filter(!(county_name %in% counties_to_drop_from_rural)) %>%
   dplyr::mutate(
     month       = as.Date(paste0(month, "-", default_day_of_month), format="%m/%Y-%d"),
-    fte_string  = gsub("^(\\d{1,3})\\s*%$", "\\1", fte_percent),
+    fte_string  = gsub("^(\\d{1,3})\\s*%$", "\\1", fte_percent),                           # Extract digits before the '%' sign.
     fte         = .01 * as.numeric(ifelse(nchar(fte_string)==0L, 0, fte_string)),
-    county_name = dplyr::recode(county_name, `Cimmarron`='Cimarron', `Leflore`='Le Flore') #Or consider `car::recode()`.
+    county_name = dplyr::recode(county_name, `Cimmarron`='Cimarron', `Leflore`='Le Flore') # Or consider `car::recode()`.
   ) %>%
   dplyr::arrange(county_name, month, name_full) %>%
   dplyr::select(
@@ -386,18 +384,18 @@ ds_nurse_month_rural
 ```
 
 ```
-## # A tibble: 3,248 × 5
+## # A tibble: 3,248 x 5
 ##    county_name      month          name_full   fte county_id
 ##          <chr>     <date>              <chr> <dbl>     <int>
-## 1        Adair 2012-06-15      Hilda Hypes     1.0         1
-## 2        Adair 2012-08-15      Hilda Hypes     1.0         1
-## 3        Adair 2012-09-15      Hilda Hypes     0.5         1
-## 4        Adair 2012-10-15      Hilda Hypes     1.0         1
-## 5        Adair 2012-12-15      Hilda Hypes     1.0         1
-## 6        Adair 2013-01-15      Hilda Hypes     1.0         1
-## 7        Adair 2013-02-15      Hilda Hypes     1.0         1
-## 8        Adair 2013-03-15      Hilda Hypes     0.5         1
-## 9        Adair 2013-06-15      Hilda Hypes     1.0         1
+##  1       Adair 2012-06-15      Hilda Hypes     1.0         1
+##  2       Adair 2012-08-15      Hilda Hypes     1.0         1
+##  3       Adair 2012-09-15      Hilda Hypes     0.5         1
+##  4       Adair 2012-10-15      Hilda Hypes     1.0         1
+##  5       Adair 2012-12-15      Hilda Hypes     1.0         1
+##  6       Adair 2013-01-15      Hilda Hypes     1.0         1
+##  7       Adair 2013-02-15      Hilda Hypes     1.0         1
+##  8       Adair 2013-03-15      Hilda Hypes     0.5         1
+##  9       Adair 2013-06-15      Hilda Hypes     1.0         1
 ## 10       Adair 2015-06-15 Franchesca Futch     1.0         1
 ## # ... with 3,238 more rows
 ```
@@ -419,18 +417,18 @@ ds_month_rural
 ```
 
 ```
-## # A tibble: 1,784 × 4
+## # A tibble: 1,784 x 4
 ##    county_id      month   fte fte_approximated
 ##        <int>     <date> <dbl>            <lgl>
-## 1          1 2012-06-15   1.0            FALSE
-## 2          1 2012-08-15   1.0            FALSE
-## 3          1 2012-09-15   0.5            FALSE
-## 4          1 2012-10-15   1.0            FALSE
-## 5          1 2012-12-15   1.0            FALSE
-## 6          1 2013-01-15   1.0            FALSE
-## 7          1 2013-02-15   1.0            FALSE
-## 8          1 2013-03-15   0.5            FALSE
-## 9          1 2013-06-15   1.0            FALSE
+##  1         1 2012-06-15   1.0            FALSE
+##  2         1 2012-08-15   1.0            FALSE
+##  3         1 2012-09-15   0.5            FALSE
+##  4         1 2012-10-15   1.0            FALSE
+##  5         1 2012-12-15   1.0            FALSE
+##  6         1 2013-01-15   1.0            FALSE
+##  7         1 2013-02-15   1.0            FALSE
+##  8         1 2013-03-15   0.5            FALSE
+##  9         1 2013-06-15   1.0            FALSE
 ## 10         1 2015-06-15   1.0            FALSE
 ## # ... with 1,774 more rows
 ```
@@ -443,7 +441,7 @@ ds_possible <- tidyr::crossing(
 )
 
 #Determine the months were we don't have any rural T&E data.
-months_rural_not_collected <- (ds_month_rural %>%
+months_rural_not_collected <- ds_month_rural %>%
   dplyr::right_join(
     ds_possible, by=c("county_id", "month")
   ) %>%
@@ -452,7 +450,8 @@ months_rural_not_collected <- (ds_month_rural %>%
     mean_na = mean(is.na(fte))
   ) %>%
   dplyr::ungroup() %>%
-  dplyr::filter(mean_na >= .9999))$month
+  dplyr::filter(mean_na >= .9999) %>%
+  dplyr::pull(month)
 months_rural_not_collected
 ```
 
@@ -468,12 +467,8 @@ rm(counties_to_drop_from_rural, default_day_of_month)
 ```r
 # Stack the three datasets on top of each other.
 ds <- ds_month_oklahoma %>%
-  dplyr::union(
-    ds_month_tulsa
-  ) %>%
-  dplyr::union(
-    ds_month_rural
-  ) %>%
+  dplyr::union(ds_month_tulsa) %>%
+  dplyr::union(ds_month_rural) %>%
   dplyr::right_join(
     ds_possible, by=c("county_id", "month")
   ) %>%
@@ -497,18 +492,18 @@ ds
 ```
 
 ```
-## # A tibble: 3,080 × 10
+## # A tibble: 3,080 x 10
 ##    county_id      month   fte fte_approximated county_name region_id
 ##        <int>     <date> <dbl>            <lgl>       <chr>     <int>
-## 1          1 2012-06-15   1.0            FALSE       Adair        11
-## 2          1 2012-07-15   0.0             TRUE       Adair        11
-## 3          1 2012-08-15   1.0            FALSE       Adair        11
-## 4          1 2012-09-15   0.5            FALSE       Adair        11
-## 5          1 2012-10-15   1.0            FALSE       Adair        11
-## 6          1 2012-11-15   0.0             TRUE       Adair        11
-## 7          1 2012-12-15   1.0            FALSE       Adair        11
-## 8          1 2013-01-15   1.0            FALSE       Adair        11
-## 9          1 2013-02-15   1.0            FALSE       Adair        11
+##  1         1 2012-06-15   1.0            FALSE       Adair        11
+##  2         1 2012-07-15   0.0             TRUE       Adair        11
+##  3         1 2012-08-15   1.0            FALSE       Adair        11
+##  4         1 2012-09-15   0.5            FALSE       Adair        11
+##  5         1 2012-10-15   1.0            FALSE       Adair        11
+##  6         1 2012-11-15   0.0             TRUE       Adair        11
+##  7         1 2012-12-15   1.0            FALSE       Adair        11
+##  8         1 2013-01-15   1.0            FALSE       Adair        11
+##  9         1 2013-02-15   1.0            FALSE       Adair        11
 ## 10         1 2013-03-15   0.5            FALSE       Adair        11
 ## # ... with 3,070 more rows, and 4 more variables: county_month_id <int>,
 ## #   month_missing <lgl>, fte_rolling_median_11_month <dbl>,
@@ -547,18 +542,18 @@ ds
 ```
 
 ```
-## # A tibble: 3,080 × 10
+## # A tibble: 3,080 x 10
 ##    county_id      month   fte fte_approximated county_name region_id
 ##        <int>     <date> <dbl>            <lgl>       <chr>     <int>
-## 1          1 2012-06-15   1.0            FALSE       Adair        11
-## 2          1 2012-07-15   1.0             TRUE       Adair        11
-## 3          1 2012-08-15   1.0            FALSE       Adair        11
-## 4          1 2012-09-15   0.5            FALSE       Adair        11
-## 5          1 2012-10-15   1.0            FALSE       Adair        11
-## 6          1 2012-11-15   1.0             TRUE       Adair        11
-## 7          1 2012-12-15   1.0            FALSE       Adair        11
-## 8          1 2013-01-15   1.0            FALSE       Adair        11
-## 9          1 2013-02-15   1.0            FALSE       Adair        11
+##  1         1 2012-06-15   1.0            FALSE       Adair        11
+##  2         1 2012-07-15   1.0             TRUE       Adair        11
+##  3         1 2012-08-15   1.0            FALSE       Adair        11
+##  4         1 2012-09-15   0.5            FALSE       Adair        11
+##  5         1 2012-10-15   1.0            FALSE       Adair        11
+##  6         1 2012-11-15   1.0             TRUE       Adair        11
+##  7         1 2012-12-15   1.0            FALSE       Adair        11
+##  8         1 2013-01-15   1.0            FALSE       Adair        11
+##  9         1 2013-02-15   1.0            FALSE       Adair        11
 ## 10         1 2013-03-15   0.5            FALSE       Adair        11
 ## # ... with 3,070 more rows, and 4 more variables: county_month_id <int>,
 ## #   month_missing <lgl>, fte_rolling_median_11_month <dbl>,
@@ -572,13 +567,12 @@ rm(possible_county_ids)
 
 ```r
 # Sniff out problems
-testit::assert("The month value must be nonmissing & since 2000", all(!is.na(ds$month) & (ds$month>="2012-01-01")))
-testit::assert("The county_id value must be nonmissing & positive.", all(!is.na(ds$county_id) & (ds$county_id>0)))
-testit::assert("The county_id value must be in [1, 77].", all(ds$county_id %in% seq_len(77L)))
-testit::assert("The region_id value must be nonmissing & positive.", all(!is.na(ds$region_id) & (ds$region_id>0)))
-testit::assert("The region_id value must be in [1, 20].", all(ds$region_id %in% seq_len(20L)))
-testit::assert("The `fte` value must be nonmissing & positive.", all(!is.na(ds$fte) & (ds$fte>=0)))
-# testit::assert("The `fmla_hours` value must be nonmissing & nonnegative", all(is.na(ds$fmla_hours) | (ds$fmla_hours>=0)))
+checkmate::assert_integer(ds$county_month_id    , lower=          1L              , any.missing=F, unique=T)
+checkmate::assert_integer(ds$county_id          , lower=          1L   , upper=77L, any.missing=F, unique=F)
+checkmate::assert_date(   ds$month              , lower="2012-01-01"              , any.missing=F)
+checkmate::assert_integer(ds$region_id          , lower=          1L   , upper=20L, any.missing=F)
+checkmate::assert_numeric(ds$fte                , lower=          0    , upper=40L, any.missing=F)
+checkmate::assert_logical(ds$fte_approximated                                     , any.missing=F)
 
 testit::assert("The County-month combination should be unique.", all(!duplicated(paste(ds$county_id, ds$month))))
 testit::assert("The Region-County-month combination should be unique.", all(!duplicated(paste(ds$region_id, ds$county_id, ds$month))))
@@ -601,21 +595,21 @@ ds_slim
 ```
 
 ```
-## # A tibble: 3,080 × 7
+## # A tibble: 3,080 x 7
 ##    county_month_id county_id      month   fte fte_approximated region_id
 ##              <int>     <int>     <date> <dbl>            <lgl>     <int>
-## 1                1         1 2012-06-15   1.0            FALSE        11
-## 2                2         1 2012-07-15   1.0             TRUE        11
-## 3                3         1 2012-08-15   1.0            FALSE        11
-## 4                4         1 2012-09-15   0.5            FALSE        11
-## 5                5         1 2012-10-15   1.0            FALSE        11
-## 6                6         1 2012-11-15   1.0             TRUE        11
-## 7                7         1 2012-12-15   1.0            FALSE        11
-## 8                8         1 2013-01-15   1.0            FALSE        11
-## 9                9         1 2013-02-15   1.0            FALSE        11
+##  1               1         1 2012-06-15   1.0            FALSE        11
+##  2               2         1 2012-07-15   1.0             TRUE        11
+##  3               3         1 2012-08-15   1.0            FALSE        11
+##  4               4         1 2012-09-15   0.5            FALSE        11
+##  5               5         1 2012-10-15   1.0            FALSE        11
+##  6               6         1 2012-11-15   1.0             TRUE        11
+##  7               7         1 2012-12-15   1.0            FALSE        11
+##  8               8         1 2013-01-15   1.0            FALSE        11
+##  9               9         1 2013-02-15   1.0            FALSE        11
 ## 10              10         1 2013-03-15   0.5            FALSE        11
 ## # ... with 3,070 more rows, and 1 more variables: `fte_approximated <-
-## #   as.integer(fte_ap...` <int>
+## #   as.integer(fte_approximated)` <int>
 ```
 
 ```r
@@ -744,13 +738,6 @@ dbListTables(cnn)
 ```r
 # Write to database
 dbWriteTable(cnn, name='tbl_county',              value=ds_county,        append=TRUE, row.names=FALSE)
-```
-
-```
-## [1] TRUE
-```
-
-```r
 ds %>%
   dplyr::mutate(
     month               = strftime(month, "%Y-%m-%d"),
@@ -759,13 +746,7 @@ ds %>%
   ) %>%
   dplyr::select(county_month_id, county_id, month, fte, fte_approximated, month_missing, fte_rolling_median_11_month) %>%
   dbWriteTable(value=., conn=cnn, name='tbl_te_month', append=TRUE, row.names=FALSE)
-```
 
-```
-## [1] TRUE
-```
-
-```r
 # Close connection
 dbDisconnect(cnn)
 
@@ -842,9 +823,13 @@ sessionInfo()
 ```
 
 ```
-## R version 3.3.1 (2016-06-21)
+## R version 3.4.1 (2017-06-30)
 ## Platform: x86_64-pc-linux-gnu (64-bit)
 ## Running under: Ubuntu 16.04.2 LTS
+## 
+## Matrix products: default
+## BLAS: /usr/lib/atlas-base/atlas/libblas.so.3.0
+## LAPACK: /usr/lib/atlas-base/atlas/liblapack.so.3.0
 ## 
 ## locale:
 ##  [1] LC_CTYPE=en_US.UTF-8       LC_NUMERIC=C              
@@ -858,19 +843,22 @@ sessionInfo()
 ## [1] stats     graphics  grDevices utils     datasets  methods   base     
 ## 
 ## other attached packages:
-## [1] ggplot2_2.2.1 bindrcpp_0.1  DBI_0.6       magrittr_1.5 
+## [1] ggplot2_2.2.1 bindrcpp_0.2  DBI_0.7       magrittr_1.5 
 ## 
 ## loaded via a namespace (and not attached):
-##  [1] Rcpp_0.12.9           knitr_1.15.1          bindr_0.1            
-##  [4] munsell_0.4.3         testit_0.6            colorspace_1.3-2     
-##  [7] lattice_0.20-34       R6_2.2.0              highr_0.6            
-## [10] plyr_1.8.4            stringr_1.2.0         dplyr_0.5.0.9000     
-## [13] tools_3.3.1           grid_3.3.1            gtable_0.2.0         
-## [16] lazyeval_0.2.0        assertthat_0.1        digest_0.6.12        
-## [19] tibble_1.2            readr_1.0.0           tidyr_0.6.1          
-## [22] memoise_1.0.0         OuhscMunge_0.1.7.9000 RSQLite_1.1-2        
-## [25] evaluate_0.10         labeling_0.3          stringi_1.1.2        
-## [28] scales_0.4.1          zoo_1.7-14
+##  [1] Rcpp_0.12.11          highr_0.6             compiler_3.4.1       
+##  [4] plyr_1.8.4            bindr_0.1             tools_3.4.1          
+##  [7] digest_0.6.12         bit_1.1-12            RSQLite_2.0          
+## [10] memoise_1.1.0         evaluate_0.10.1       tibble_1.3.3         
+## [13] checkmate_1.8.3       gtable_0.2.0          lattice_0.20-35      
+## [16] pkgconfig_2.0.1       rlang_0.1.1.9000      stringr_1.2.0        
+## [19] dplyr_0.7.1           knitr_1.16            hms_0.3              
+## [22] bit64_0.9-7           grid_3.4.1            OuhscMunge_0.1.8.9002
+## [25] glue_1.1.1            R6_2.2.2              tidyr_0.6.3          
+## [28] readr_1.1.1           blob_1.1.0            backports_1.1.0      
+## [31] scales_0.4.1          assertthat_0.2.0      testit_0.7           
+## [34] colorspace_1.3-2      labeling_0.3          stringi_1.1.5        
+## [37] lazyeval_0.2.0        munsell_0.4.3         zoo_1.8-0
 ```
 
 ```r
@@ -878,6 +866,6 @@ Sys.time()
 ```
 
 ```
-## [1] "2017-03-18 11:24:01 CDT"
+## [1] "2017-07-03 11:01:50 CDT"
 ```
 

@@ -15,11 +15,11 @@ library(DBI                 , quietly=TRUE)
 # Verify these packages are available on the machine, but their functions need to be qualified: http://r-pkgs.had.co.nz/namespace.html#search-path
 requireNamespace("readr"        )
 requireNamespace("tidyr"        )
-requireNamespace("dplyr"        ) # void attaching dplyr, b/c its function names conflict with a lot of packages (esp base, stats, and plyr).
-requireNamespace("testit"       ) # or asserting conditions meet expected patterns.
-requireNamespace("checkmate"    ) # or asserting conditions meet expected patterns. # devtools::install_github("mllg/checkmate")
-requireNamespace("RSQLite"      ) # ightweight database for non-PHI data.
-# requireNamespace("RODBC"      ) # or communicating with SQL Server over a locally-configured DSN.  Uncomment if you use 'upload-to-db' chunk.
+requireNamespace("dplyr"        ) # Avoid attaching dplyr, b/c its function names conflict with a lot of packages (esp base, stats, and plyr).
+requireNamespace("testit"       ) # For asserting conditions meet expected patterns.
+requireNamespace("checkmate"    ) # For asserting conditions meet expected patterns. # devtools::install_github("mllg/checkmate")
+requireNamespace("RSQLite"      ) # Lightweight database for non-PHI data.
+# requireNamespace("RODBC"      ) # For communicating with SQL Server over a locally-configured DSN.  Uncomment if you use 'upload-to-db' chunk.
 requireNamespace("OuhscMunge") #devtools::install_github(repo="OuhscBbmc/OuhscMunge")
 
 # ---- declare-globals ---------------------------------------------------------
@@ -328,9 +328,25 @@ checkmate::assert_integer(ds$region_id          , lower=          1L   , upper=2
 checkmate::assert_numeric(ds$fte                , lower=          0    , upper=40L, any.missing=F)
 checkmate::assert_logical(ds$fte_approximated                                     , any.missing=F)
 
-testit::assert("The County-month combination should be unique.", all(!duplicated(paste(ds$county_id, ds$month))))
-testit::assert("The Region-County-month combination should be unique.", all(!duplicated(paste(ds$region_id, ds$county_id, ds$month))))
-table(paste(ds$county_id, ds$month))[table(paste(ds$county_id, ds$month))>1]
+county_month_combo   <- paste(ds$county_id, ds$month)
+# Light way to test combination
+checkmate::assert_character(county_month_combo, min.chars=8            , any.missing=F, unique=T)
+# Vigilant way to test combination
+checkmate::assert_character(county_month_combo, pattern  ="^\\d{1,2} \\d{4}-\\d{2}-\\d{2}$"            , any.missing=F, unique=T)
+
+# # Two ways to diagnose/identify bad patterns
+# which(!grepl("^\\d{1,2} \\d{4}-\\d{2}-\\d{2}$", county_month_combo))                  # Ideally this is an empty set (ie, `integer(0)`)
+# county_month_combo[!grepl("^\\d{1,2} \\d{4}-\\d{2}-\\d{2}$", county_month_combo)]     # Ideally this is an empty set (ie, `chracter(0)`)
+#
+# # Two ways to diagnose/identify bad patterns duplicates
+# which(duplicated(county_month_combo))                                                 # Ideally this is an empty set (ie, `integer(0)`)
+# county_month_combo[!grepl("^\\d{1,2} \\d{4}-\\d{2}-\\d{2}$", county_month_combo)]     # Ideally this is an empty set (ie, `chracter(0)`)
+
+
+# Alternative ways to test & diagnose unique combintations.
+# testit::assert("The County-month combination should be unique.", all(!duplicated(paste(ds$county_id, ds$month))))
+# testit::assert("The Region-County-month combination should be unique.", all(!duplicated(paste(ds$region_id, ds$county_id, ds$month))))
+# table(paste(ds$county_id, ds$month))[table(paste(ds$county_id, ds$month))>1]
 
 # ---- specify-columns-to-upload -----------------------------------------------
 # dput(colnames(ds)) # Print colnames for line below.

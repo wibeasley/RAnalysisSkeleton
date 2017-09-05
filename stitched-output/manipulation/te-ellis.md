@@ -26,11 +26,11 @@ library(DBI                 , quietly=TRUE)
 # Verify these packages are available on the machine, but their functions need to be qualified: http://r-pkgs.had.co.nz/namespace.html#search-path
 requireNamespace("readr"        )
 requireNamespace("tidyr"        )
-requireNamespace("dplyr"        ) # void attaching dplyr, b/c its function names conflict with a lot of packages (esp base, stats, and plyr).
-requireNamespace("testit"       ) # or asserting conditions meet expected patterns.
-requireNamespace("checkmate"    ) # or asserting conditions meet expected patterns. # devtools::install_github("mllg/checkmate")
-requireNamespace("RSQLite"      ) # ightweight database for non-PHI data.
-# requireNamespace("RODBC"      ) # or communicating with SQL Server over a locally-configured DSN.  Uncomment if you use 'upload-to-db' chunk.
+requireNamespace("dplyr"        ) # Avoid attaching dplyr, b/c its function names conflict with a lot of packages (esp base, stats, and plyr).
+requireNamespace("testit"       ) # For asserting conditions meet expected patterns.
+requireNamespace("checkmate"    ) # For asserting conditions meet expected patterns. # devtools::install_github("mllg/checkmate")
+requireNamespace("RSQLite"      ) # Lightweight database for non-PHI data.
+# requireNamespace("RODBC"      ) # For communicating with SQL Server over a locally-configured DSN.  Uncomment if you use 'upload-to-db' chunk.
 requireNamespace("OuhscMunge") #devtools::install_github(repo="OuhscBbmc/OuhscMunge")
 ```
 
@@ -579,13 +579,25 @@ checkmate::assert_integer(ds$region_id          , lower=          1L   , upper=2
 checkmate::assert_numeric(ds$fte                , lower=          0    , upper=40L, any.missing=F)
 checkmate::assert_logical(ds$fte_approximated                                     , any.missing=F)
 
-testit::assert("The County-month combination should be unique.", all(!duplicated(paste(ds$county_id, ds$month))))
-testit::assert("The Region-County-month combination should be unique.", all(!duplicated(paste(ds$region_id, ds$county_id, ds$month))))
-table(paste(ds$county_id, ds$month))[table(paste(ds$county_id, ds$month))>1]
-```
+county_month_combo   <- paste(ds$county_id, ds$month)
+# Light way to test combination
+checkmate::assert_character(county_month_combo, min.chars=8            , any.missing=F, unique=T)
+# Vigilant way to test combination
+checkmate::assert_character(county_month_combo, pattern  ="^\\d{1,2} \\d{4}-\\d{2}-\\d{2}$"            , any.missing=F, unique=T)
 
-```
-## named integer(0)
+# # Two ways to diagnose/identify bad patterns
+# which(!grepl("^\\d{1,2} \\d{4}-\\d{2}-\\d{2}$", county_month_combo))                  # Ideally this is an empty set (ie, `integer(0)`)
+# county_month_combo[!grepl("^\\d{1,2} \\d{4}-\\d{2}-\\d{2}$", county_month_combo)]     # Ideally this is an empty set (ie, `chracter(0)`)
+#
+# # Two ways to diagnose/identify bad patterns duplicates
+# which(duplicated(county_month_combo))                                                 # Ideally this is an empty set (ie, `integer(0)`)
+# county_month_combo[!grepl("^\\d{1,2} \\d{4}-\\d{2}-\\d{2}$", county_month_combo)]     # Ideally this is an empty set (ie, `chracter(0)`)
+
+
+# Alternative ways to test & diagnose unique combintations.
+# testit::assert("The County-month combination should be unique.", all(!duplicated(paste(ds$county_id, ds$month))))
+# testit::assert("The Region-County-month combination should be unique.", all(!duplicated(paste(ds$region_id, ds$county_id, ds$month))))
+# table(paste(ds$county_id, ds$month))[table(paste(ds$county_id, ds$month))>1]
 ```
 
 ```r
@@ -597,7 +609,7 @@ columns_to_write <- c(
 )
 ds_slim <- ds %>%
   dplyr::select_(.dots=columns_to_write) %>%
-  dplyr::slice(1:100) %>%
+  # dplyr::slice(1:100) %>%
   dplyr::mutate(
     fte_approximated <- as.integer(fte_approximated)
   )
@@ -605,7 +617,7 @@ ds_slim
 ```
 
 ```
-## # A tibble: 100 x 7
+## # A tibble: 3,080 x 7
 ##    county_month_id county_id      month   fte fte_approximated region_id
 ##              <int>     <int>     <date> <dbl>            <lgl>     <int>
 ##  1               1         1 2012-06-15   1.0            FALSE        11
@@ -618,7 +630,7 @@ ds_slim
 ##  8               8         1 2013-01-15   1.0            FALSE        11
 ##  9               9         1 2013-02-15   1.0            FALSE        11
 ## 10              10         1 2013-03-15   0.5            FALSE        11
-## # ... with 90 more rows, and 1 more variables: `fte_approximated <-
+## # ... with 3,070 more rows, and 1 more variables: `fte_approximated <-
 ## #   as.integer(fte_approximated)` <int>
 ```
 
@@ -859,18 +871,19 @@ sessionInfo()
 ## loaded via a namespace (and not attached):
 ##  [1] Rcpp_0.12.12          highr_0.6             compiler_3.4.1       
 ##  [4] plyr_1.8.4            bindr_0.1             tools_3.4.1          
-##  [7] digest_0.6.12         bit_1.1-12            evaluate_0.10.1      
-## [10] RSQLite_2.0           memoise_1.1.0         tibble_1.3.4         
+##  [7] digest_0.6.12         bit_1.1-12            RSQLite_2.0          
+## [10] evaluate_0.10.1       memoise_1.1.0         tibble_1.3.4         
 ## [13] checkmate_1.8.4       gtable_0.2.0          lattice_0.20-35      
 ## [16] pkgconfig_2.0.1       rlang_0.1.2.9000      yaml_2.1.14          
-## [19] stringr_1.2.0         knitr_1.17            withr_2.0.0          
-## [22] dplyr_0.7.2           hms_0.3               bit64_0.9-7          
+## [19] withr_2.0.0           dplyr_0.7.2           stringr_1.2.0        
+## [22] knitr_1.17            hms_0.3               bit64_0.9-7          
 ## [25] grid_3.4.1            glue_1.1.1            OuhscMunge_0.1.8.9004
 ## [28] R6_2.2.2              tidyr_0.7.1           readr_1.1.1          
 ## [31] purrr_0.2.3           blob_1.1.0            backports_1.1.0      
 ## [34] scales_0.5.0          assertthat_0.2.0      testit_0.7           
 ## [37] colorspace_1.3-2      labeling_0.3          stringi_1.1.5        
-## [40] lazyeval_0.2.0        munsell_0.4.3         zoo_1.8-0
+## [40] lazyeval_0.2.0        munsell_0.4.3         markdown_0.8         
+## [43] zoo_1.8-0
 ```
 
 ```r
@@ -878,6 +891,6 @@ Sys.time()
 ```
 
 ```
-## [1] "2017-09-04 23:28:41 CDT"
+## [1] "2017-09-05 10:39:06 CDT"
 ```
 

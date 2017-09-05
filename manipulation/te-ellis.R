@@ -20,7 +20,7 @@ requireNamespace("testit"       ) # For asserting conditions meet expected patte
 requireNamespace("checkmate"    ) # For asserting conditions meet expected patterns. # devtools::install_github("mllg/checkmate")
 requireNamespace("RSQLite"      ) # Lightweight database for non-PHI data.
 # requireNamespace("RODBC"      ) # For communicating with SQL Server over a locally-configured DSN.  Uncomment if you use 'upload-to-db' chunk.
-requireNamespace("OuhscMunge") #devtools::install_github(repo="OuhscBbmc/OuhscMunge")
+requireNamespace("OuhscMunge"   ) # devtools::install_github(repo="OuhscBbmc/OuhscMunge")
 
 # ---- declare-globals ---------------------------------------------------------
 # Constant values that won't change.
@@ -78,6 +78,7 @@ col_types_county <- readr::cols_only(
   MiechvEvaluation      = readr::col_integer(),
   MiechvFormula         = readr::col_integer()
 )
+
 
 # readr::spec_csv(path_in_oklahoma)
 # readr::spec_csv(path_in_tulsa   )
@@ -357,7 +358,7 @@ columns_to_write <- c(
 )
 ds_slim <- ds %>%
   dplyr::select_(.dots=columns_to_write) %>%
-  dplyr::slice(1:100) %>%
+  # dplyr::slice(1:100) %>%
   dplyr::mutate(
     fte_approximated <- as.integer(fte_approximated)
   )

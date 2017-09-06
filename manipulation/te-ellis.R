@@ -15,11 +15,12 @@ library(DBI                 , quietly=TRUE)
 # Verify these packages are available on the machine, but their functions need to be qualified: http://r-pkgs.had.co.nz/namespace.html#search-path
 requireNamespace("readr"        )
 requireNamespace("tidyr"        )
-requireNamespace("dplyr"        ) # void attaching dplyr, b/c its function names conflict with a lot of packages (esp base, stats, and plyr).
-requireNamespace("testit"       ) # or asserting conditions meet expected patterns.
-requireNamespace("checkmate"    ) # or asserting conditions meet expected patterns. # devtools::install_github("mllg/checkmate")
-requireNamespace("RSQLite"      ) # ightweight database for non-PHI data.
-# requireNamespace("RODBC"      ) # or communicating with SQL Server over a locally-configured DSN.  Uncomment if you use 'upload-to-db' chunk.
+requireNamespace("dplyr"        ) # Avoid attaching dplyr, b/c its function names conflict with a lot of packages (esp base, stats, and plyr).
+requireNamespace("testit"       ) # For asserting conditions meet expected patterns.
+requireNamespace("checkmate"    ) # For asserting conditions meet expected patterns. # devtools::install_github("mllg/checkmate")
+requireNamespace("RSQLite"      ) # Lightweight database for non-PHI data.
+# requireNamespace("RODBC"      ) # For communicating with SQL Server over a locally-configured DSN.  Uncomment if you use 'upload-to-db' chunk.
+requireNamespace("OuhscMunge"   ) # devtools::install_github(repo="OuhscBbmc/OuhscMunge")
 
 # ---- declare-globals ---------------------------------------------------------
 # Constant values that won't change.
@@ -37,21 +38,62 @@ path_in_tulsa     <- "./data-public/raw/te/month-tulsa.csv"
 path_in_rural     <- "./data-public/raw/te/nurse-month-rural.csv"
 path_county       <- "./data-public/raw/te/county.csv"
 
-col_types_tulsa <- readr::cols_only(
-  Month       = readr::col_date("%m/%d/%Y"),
-  FteSum      = readr::col_double(),
-  FmlaSum     = readr::col_integer()
+col_types_oklahoma <- readr::cols_only(
+  `Employee..`          = readr::col_integer(),
+  `Year`                = readr::col_integer(),
+  `Month`               = readr::col_integer(),
+  `FTE`                 = readr::col_double(),
+  `FMLA.Hours`          = readr::col_integer(),
+  `Training.Hours`      = readr::col_integer(),
+  `Name`                = readr::col_character()
 )
+
+col_types_tulsa <- readr::cols_only(
+  Month                 = readr::col_date("%m/%d/%Y"),
+  FteSum                = readr::col_double(),
+  FmlaSum               = readr::col_integer()
+)
+
+col_types_rural <- readr::cols_only(
+  HOME_COUNTY           = readr::col_character(),
+  FTE                   = readr::col_character(),  # Force as a character.
+  PERIOD                = readr::col_character(),
+  EMPLOYEEID            = readr::col_integer(),
+  REGIONID              = readr::col_integer(),
+  Name                  = readr::col_character()
+)
+
+col_types_county <- readr::cols_only(
+  CountyID              = readr::col_integer(),
+  CountyName            = readr::col_character(),
+  GeoID                 = readr::col_integer(),
+  FipsCode              = readr::col_integer(),
+  FundingC1             = readr::col_integer(),
+  FundingOcap           = readr::col_integer(),
+  C1LeadNurseRegion     = readr::col_integer(),
+  C1LeadNurseName       = readr::col_character(),
+  Urban                 = readr::col_integer(),
+  LabelLongitude        = readr::col_double(),
+  LabelLatitude         = readr::col_double(),
+  MiechvEvaluation      = readr::col_integer(),
+  MiechvFormula         = readr::col_integer()
+)
+
+
+# readr::spec_csv(path_in_oklahoma)
+# readr::spec_csv(path_in_tulsa   )
+# readr::spec_csv(path_in_rural   )
+# readr::spec_csv(path_county     )
 
 # ---- load-data ---------------------------------------------------------------
 # Read the CSVs
-ds_nurse_month_oklahoma <- readr::read_csv(path_in_oklahoma)
-ds_month_tulsa          <- readr::read_csv(path_in_tulsa, col_types=col_types_tulsa)
-ds_nurse_month_rural    <- readr::read_csv(path_in_rural, col_types=readr::cols("FTE"=readr::col_character()))
-ds_county               <- readr::read_csv(path_county)
+ds_nurse_month_oklahoma <- readr::read_csv(path_in_oklahoma   , col_types=col_types_oklahoma)
+ds_month_tulsa          <- readr::read_csv(path_in_tulsa      , col_types=col_types_tulsa)
+ds_nurse_month_rural    <- readr::read_csv(path_in_rural      , col_types=col_types_rural)
+ds_county               <- readr::read_csv(path_county        , col_types=col_types_county)
 
 rm(path_in_oklahoma, path_in_tulsa, path_in_rural, path_county)
-rm(col_types_tulsa)
+rm(col_types_oklahoma, col_types_tulsa, col_types_rural, col_types_county)
 
 # Print the first few rows of each table, especially if you're stitching with knitr (see first line of this file).
 #   If you print, make sure that the datasets don't contain any PHI.
@@ -87,10 +129,11 @@ ds_nurse_month_oklahoma <- ds_nurse_month_oklahoma %>%
     , "training_hours"            = "`Training.Hours`"      # Used to be "Training Hours" before sanitizing.
   ) %>%
   dplyr::mutate(
-    county_id       = ds_county[ds_county$county_name=="Oklahoma", ]$county_id,        # Dynamically determine county ID.
-    month           = as.Date(ISOdate(year, month, default_day_of_month)),             # Combine fields for one date.
-    # fmla_hours    = dplyr::if_else(!is.na(fmla_hours), fmla_hours, 0L),              # Set missing values to zero.
-    training_hours  = dplyr::if_else(!is.na(training_hours), training_hours, 0L)       # Set missing values to zero.
+    county_id         = ds_county[ds_county$county_name=="Oklahoma", ]$county_id,        # Dynamically determine county ID.
+    month             = as.Date(ISOdate(year, month, default_day_of_month)),             # Combine fields for one date.
+    # fmla_hours      = dplyr::if_else(!is.na(fmla_hours), fmla_hours, 0L),              # Set missing values to zero.
+    training_hours    = dplyr::coalesce(training_hours, 0L)                              # Set missing values to zero.
+    # training_hours  = dplyr::if_else(!is.na(training_hours), training_hours, 0L)       # Set missing values to zero.
   ) %>%
   dplyr::select(      # Drop unecessary variables (ie, defensive programming)
     -year
@@ -196,13 +239,13 @@ ds_month_rural <- ds_nurse_month_rural %>%
   dplyr::ungroup()
 ds_month_rural
 
-#Consider replacing a join with ds_possible with a call to tidyr::complete(), if you can guarantee each month shows up at least once.
+# Consider replacing a join with ds_possible with a call to tidyr::complete(), if you can guarantee each month shows up at least once.
 ds_possible <- tidyr::crossing(
   month     = seq.Date(range(ds_month_rural$month)[1], range(ds_month_rural$month)[2], by="month"),
   county_id = possible_county_ids
 )
 
-#Determine the months were we don't have any rural T&E data.
+# Determine the months were we don't have any rural T&E data.
 months_rural_not_collected <- ds_month_rural %>%
   dplyr::right_join(
     ds_possible, by=c("county_id", "month")
@@ -233,7 +276,7 @@ ds <- ds_month_oklahoma %>%
   dplyr::arrange(county_id, month) %>%
   dplyr::mutate(
     county_month_id             = seq_len(n()), # Add the primary key
-    fte                         = ifelse(is.na(fte), 0, fte),
+    fte                         = dplyr::coalesce(fte, 0),
     month_missing               = is.na(fte_approximated),
     fte_approximated            = month_missing & (month %in% months_rural_not_collected),
     fte_rolling_median_11_month = zoo::rollmedian(x=fte, 11, na.pad=T, align="right")
@@ -254,20 +297,20 @@ for( id in sort(unique(ds$county_id)) ) {# for( id in 13 ) {}
   # Attempt to fill in values only for counties missing something.
   if( any(ds_county_approx$county_any_missing) ) {
 
-    #This statement interpolates missing FTE values
+    # This statement interpolates missing FTE values
     ds_county_approx$fte[missing] <- as.numeric(approx(
       x    = ds_county_approx$month[!missing],
       y    = ds_county_approx$fte[  !missing],
       xout = ds_county_approx$month[ missing]
     )$y)
 
-    #This statement extrapolates missing FTE values, which occurs when the first/last few months are missing.
+    # This statement extrapolates missing FTE values, which occurs when the first/last few months are missing.
     if( mean(ds_county_approx$fte, na.rm=T) >= threshold_mean_fte_t_fill_in ) {
       ds_county_approx$fte_approximated <- (ds_county_approx$fte==0)
       ds_county_approx$fte              <- ifelse(ds_county_approx$fte==0, ds_county_approx$fte_rolling_median_11_month, ds_county_approx$fte)
     }
 
-    #Overwrite selected values in the real dataset
+    # Overwrite selected values in the real dataset
     ds[ds$county_id==id, ]$fte              <- ds_county_approx$fte
     ds[ds$county_id==id, ]$fte_approximated <- ds_county_approx$fte_approximated
   }
@@ -286,15 +329,36 @@ checkmate::assert_integer(ds$region_id          , lower=          1L   , upper=2
 checkmate::assert_numeric(ds$fte                , lower=          0    , upper=40L, any.missing=F)
 checkmate::assert_logical(ds$fte_approximated                                     , any.missing=F)
 
-testit::assert("The County-month combination should be unique.", all(!duplicated(paste(ds$county_id, ds$month))))
-testit::assert("The Region-County-month combination should be unique.", all(!duplicated(paste(ds$region_id, ds$county_id, ds$month))))
-table(paste(ds$county_id, ds$month))[table(paste(ds$county_id, ds$month))>1]
+county_month_combo   <- paste(ds$county_id, ds$month)
+# Light way to test combination
+checkmate::assert_character(county_month_combo, min.chars=8            , any.missing=F, unique=T)
+# Vigilant way to test combination
+checkmate::assert_character(county_month_combo, pattern  ="^\\d{1,2} \\d{4}-\\d{2}-\\d{2}$"            , any.missing=F, unique=T)
+
+# # Two ways to diagnose/identify bad patterns
+# which(!grepl("^\\d{1,2} \\d{4}-\\d{2}-\\d{2}$", county_month_combo))                  # Ideally this is an empty set (ie, `integer(0)`)
+# county_month_combo[!grepl("^\\d{1,2} \\d{4}-\\d{2}-\\d{2}$", county_month_combo)]     # Ideally this is an empty set (ie, `chracter(0)`)
+#
+# # Two ways to diagnose/identify bad patterns duplicates
+# which(duplicated(county_month_combo))                                                 # Ideally this is an empty set (ie, `integer(0)`)
+# county_month_combo[!grepl("^\\d{1,2} \\d{4}-\\d{2}-\\d{2}$", county_month_combo)]     # Ideally this is an empty set (ie, `chracter(0)`)
+
+
+# Alternative ways to test & diagnose unique combintations.
+# testit::assert("The County-month combination should be unique.", all(!duplicated(paste(ds$county_id, ds$month))))
+# testit::assert("The Region-County-month combination should be unique.", all(!duplicated(paste(ds$region_id, ds$county_id, ds$month))))
+# table(paste(ds$county_id, ds$month))[table(paste(ds$county_id, ds$month))>1]
 
 # ---- specify-columns-to-upload -----------------------------------------------
 # dput(colnames(ds)) # Print colnames for line below.
-columns_to_write <- c("county_month_id", "county_id", "month", "fte", "fte_approximated", "region_id")
+columns_to_write <- c(
+  "county_month_id", "county_id",
+  "month", "fte", "fte_approximated",
+  "region_id"
+)
 ds_slim <- ds %>%
   dplyr::select_(.dots=columns_to_write) %>%
+  # dplyr::slice(1:100) %>%
   dplyr::mutate(
     fte_approximated <- as.integer(fte_approximated)
   )

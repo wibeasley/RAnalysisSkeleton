@@ -23,6 +23,12 @@ Guidelines
     1. if the CSV should legitimately produce two different tables after munging.  This happens infrequently, such as one warehouse table needs to be wide, and another long.
     
 
+Examples
+---------------------------------    
+* https://github.com/wibeasley/RAnalysisSkeleton/blob/master/manipulation/te-ellis.R
+* https://github.com/wibeasley/RAnalysisSkeleton/blob/master/manipulation/
+* https://github.com/OuhscBbmc/usnavy-billets/blob/master/manipulation/survey-ellis.R
+
 Elements
 ---------------------------------
 

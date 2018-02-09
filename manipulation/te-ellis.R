@@ -16,11 +16,11 @@ library(DBI                 , quietly=TRUE)
 requireNamespace("readr"        )
 requireNamespace("tidyr"        )
 requireNamespace("dplyr"        ) # Avoid attaching dplyr, b/c its function names conflict with a lot of packages (esp base, stats, and plyr).
-requireNamespace("testit"       ) # For asserting conditions meet expected patterns.
-requireNamespace("checkmate"    ) # For asserting conditions meet expected patterns. # devtools::install_github("mllg/checkmate")
+requireNamespace("testit"       ) # For asserting conditions meet expected patterns/conditions.
+requireNamespace("checkmate"    ) # For asserting conditions meet expected patterns/conditions. # remotes::install_github("mllg/checkmate")
 requireNamespace("RSQLite"      ) # Lightweight database for non-PHI data.
 # requireNamespace("RODBC"      ) # For communicating with SQL Server over a locally-configured DSN.  Uncomment if you use 'upload-to-db' chunk.
-requireNamespace("OuhscMunge"   ) # devtools::install_github(repo="OuhscBbmc/OuhscMunge")
+requireNamespace("OuhscMunge"   ) # remotes::install_github(repo="OuhscBbmc/OuhscMunge")
 
 # ---- declare-globals ---------------------------------------------------------
 # Constant values that won't change.
@@ -38,7 +38,7 @@ path_in_tulsa     <- "./data-public/raw/te/month-tulsa.csv"
 path_in_rural     <- "./data-public/raw/te/nurse-month-rural.csv"
 path_county       <- "./data-public/raw/te/county.csv"
 
-col_types_oklahoma <- readr::cols_only(
+col_types_oklahoma <- readr::cols_only( # readr::spec_csv(path_in_oklahoma)
   `Employee..`          = readr::col_integer(),
   `Year`                = readr::col_integer(),
   `Month`               = readr::col_integer(),
@@ -48,13 +48,13 @@ col_types_oklahoma <- readr::cols_only(
   `Name`                = readr::col_character()
 )
 
-col_types_tulsa <- readr::cols_only(
+col_types_tulsa <- readr::cols_only( # readr::spec_csv(path_in_tulsa)
   Month                 = readr::col_date("%m/%d/%Y"),
   FteSum                = readr::col_double(),
   FmlaSum               = readr::col_integer()
 )
 
-col_types_rural <- readr::cols_only(
+col_types_rural <- readr::cols_only( # readr::spec_csv(path_in_rural)
   HOME_COUNTY           = readr::col_character(),
   FTE                   = readr::col_character(),  # Force as a character.
   PERIOD                = readr::col_character(),
@@ -63,7 +63,7 @@ col_types_rural <- readr::cols_only(
   Name                  = readr::col_character()
 )
 
-col_types_county <- readr::cols_only(
+col_types_county <- readr::cols_only( # readr::spec_csv(path_county)
   CountyID              = readr::col_integer(),
   CountyName            = readr::col_character(),
   GeoID                 = readr::col_integer(),
@@ -78,12 +78,6 @@ col_types_county <- readr::cols_only(
   MiechvEvaluation      = readr::col_integer(),
   MiechvFormula         = readr::col_integer()
 )
-
-
-# readr::spec_csv(path_in_oklahoma)
-# readr::spec_csv(path_in_tulsa   )
-# readr::spec_csv(path_in_rural   )
-# readr::spec_csv(path_county     )
 
 # ---- load-data ---------------------------------------------------------------
 # Read the CSVs
@@ -322,6 +316,7 @@ rm(possible_county_ids)
 
 # ---- verify-values -----------------------------------------------------------
 # Sniff out problems
+# OuhscMunge::verify_values_headstart(ds)
 checkmate::assert_integer(ds$county_month_id    , lower=          1L              , any.missing=F, unique=T)
 checkmate::assert_integer(ds$county_id          , lower=          1L   , upper=77L, any.missing=F, unique=F)
 checkmate::assert_date(   ds$month              , lower="2012-01-01"              , any.missing=F)

@@ -316,7 +316,7 @@ rm(possible_county_ids)
 
 # ---- verify-values -----------------------------------------------------------
 # Sniff out problems
-# OuhscMunge::verify_values_headstart(ds)
+# OuhscMunge::verify_value_headstart(ds)
 checkmate::assert_integer(ds$county_month_id    , lower=          1L              , any.missing=F, unique=T)
 checkmate::assert_integer(ds$county_id          , lower=          1L   , upper=77L, any.missing=F, unique=F)
 checkmate::assert_date(   ds$month              , lower="2012-01-01"              , any.missing=F)

@@ -3,7 +3,7 @@
 
 
 This report was automatically generated with the R package **knitr**
-(version 1.15.1).
+(version 1.20).
 
 
 ```r
@@ -47,45 +47,40 @@ ds <- readr::read_csv(path_input)
 ## cols(
 ##   model = col_character(),
 ##   mpg = col_double(),
-##   cyl = col_integer(),
+##   cyl = col_double(),
 ##   disp = col_double(),
-##   hp = col_integer(),
+##   hp = col_double(),
 ##   drat = col_double(),
 ##   wt = col_double(),
 ##   qsec = col_double(),
-##   vs = col_integer(),
-##   am = col_integer(),
-##   gear = col_integer(),
-##   carb = col_integer()
+##   vs = col_double(),
+##   am = col_double(),
+##   gear = col_double(),
+##   carb = col_double()
 ## )
 ```
 
 ```r
-colnames(ds)
-```
+# OuhscMunge::column_rename_headstart(ds) #Spit out columns to help write call ato `dplyr::rename()`.
 
-```
-##  [1] "model" "mpg"   "cyl"   "disp"  "hp"    "drat"  "wt"    "qsec" 
-##  [9] "vs"    "am"    "gear"  "carb"
-```
-
-```r
 # Dataset description can be found at: http://stat.ethz.ch/R-manual/R-devel/library/datasets/html/mtcars.html
 # Populate the rename entries with OuhscMunge::column_rename_headstart(ds_county) # devtools::install_github("OuhscBbmc/OuhscMunge")
-ds <- dplyr::rename_(ds,
-  "model_name"                    = "model"
-  , "miles_per_gallon"            = "mpg"
-  , "cylinder_count"              = "cyl"
-  , "displacement_inches_cubed"   = "disp"
-  , "gross_horsepower"            = "hp"
-  , "rear_axle_ratio"             = "drat"
-  , "weight_in_pounds_per_1000"   = "wt"
-  , "quarter_mile_in_seconds"     = "qsec"
-  , "vs"                          = "vs" #TODO: need a definition for this variable
-  , "automatic_transmission"      = "am"
-  , "forward_gear_count"          = "gear"
-  , "carburetor_count"            = "carb"
-)
+ds <-
+  ds %>%
+  dplyr::rename_(
+    "model_name"                    = "model"
+    , "miles_per_gallon"            = "mpg"
+    , "cylinder_count"              = "cyl"
+    , "displacement_inches_cubed"   = "disp"
+    , "gross_horsepower"            = "hp"
+    , "rear_axle_ratio"             = "drat"
+    , "weight_in_pounds_per_1000"   = "wt"
+    , "quarter_mile_in_seconds"     = "qsec"
+    , "vs"                          = "vs" #TODO: need a definition for this variable
+    , "automatic_transmission"      = "am"
+    , "forward_gear_count"          = "gear"
+    , "carburetor_count"            = "carb"
+  )
 
 # Add a unique identifier
 ds$car_id <- seq_len(nrow(ds))
@@ -117,7 +112,8 @@ ds$miles_per_gallon <- ifelse(ds$miles_per_gallon_artifact, NA_real_, ds$miles_p
 
 ```r
 # This creates z-scores WITHIN forward_gear_count levels
-ds <- ds %>%
+ds <-
+  ds %>%
   dplyr::group_by(forward_gear_count) %>%
   dplyr::mutate(
     displacement_gear_z = as.numeric(base::scale(displacement_inches_cubed)),
@@ -158,32 +154,45 @@ sessionInfo()
 ```
 
 ```
-## R version 3.3.1 (2016-06-21)
-## Platform: x86_64-pc-linux-gnu (64-bit)
-## Running under: Ubuntu 16.04.1 LTS
+## R version 3.5.1 Patched (2018-09-10 r75281)
+## Platform: x86_64-w64-mingw32/x64 (64-bit)
+## Running under: Windows >= 8 x64 (build 9200)
+## 
+## Matrix products: default
 ## 
 ## locale:
-##  [1] LC_CTYPE=en_US.UTF-8       LC_NUMERIC=C              
-##  [3] LC_TIME=en_US.UTF-8        LC_COLLATE=en_US.UTF-8    
-##  [5] LC_MONETARY=en_US.UTF-8    LC_MESSAGES=en_US.UTF-8   
-##  [7] LC_PAPER=en_US.UTF-8       LC_NAME=C                 
-##  [9] LC_ADDRESS=C               LC_TELEPHONE=C            
-## [11] LC_MEASUREMENT=en_US.UTF-8 LC_IDENTIFICATION=C       
+## [1] LC_COLLATE=English_United States.1252 
+## [2] LC_CTYPE=English_United States.1252   
+## [3] LC_MONETARY=English_United States.1252
+## [4] LC_NUMERIC=C                          
+## [5] LC_TIME=English_United States.1252    
 ## 
 ## attached base packages:
 ## [1] stats     graphics  grDevices utils     datasets  methods   base     
 ## 
 ## other attached packages:
-## [1] ggplot2_2.2.1 magrittr_1.5 
+## [1] DBI_1.0.0      bindrcpp_0.2.2 ggplot2_3.0.0  magrittr_1.5  
 ## 
 ## loaded via a namespace (and not attached):
-##  [1] Rcpp_0.12.9      knitr_1.15.1     munsell_0.4.3    testit_0.6      
-##  [5] colorspace_1.3-2 lattice_0.20-34  R6_2.2.0         stringr_1.1.0   
-##  [9] highr_0.6        plyr_1.8.4       dplyr_0.5.0.9000 tools_3.3.1     
-## [13] grid_3.3.1       gtable_0.2.0     DBI_0.5-1        lazyeval_0.2.0  
-## [17] assertthat_0.1   digest_0.6.12    tibble_1.2       readr_1.0.0     
-## [21] tidyr_0.6.1      evaluate_0.10    labeling_0.3     stringi_1.1.2   
-## [25] scales_0.4.1     markdown_0.7.7   zoo_1.7-14
+##  [1] Rcpp_0.12.18          pillar_1.3.0          compiler_3.5.1       
+##  [4] plyr_1.8.4            highr_0.7             bindr_0.1.1          
+##  [7] tools_3.5.1           bit_1.1-14            digest_0.6.17        
+## [10] packrat_0.4.9-3       memoise_1.1.0         RSQLite_2.1.1        
+## [13] checkmate_1.8.9-9000  lattice_0.20-35       evaluate_0.11        
+## [16] tibble_1.4.2          gtable_0.2.0          viridisLite_0.3.0    
+## [19] pkgconfig_2.0.2       rlang_0.2.2           cli_1.0.1            
+## [22] rstudioapi_0.7        yaml_2.2.0            withr_2.1.2          
+## [25] dplyr_0.7.6           stringr_1.3.1         knitr_1.20           
+## [28] hms_0.4.2.9001        bit64_0.9-7           rprojroot_1.3-2      
+## [31] grid_3.5.1            tidyselect_0.2.4      OuhscMunge_0.1.9.9009
+## [34] glue_1.3.0            R6_2.2.2              fansi_0.3.0          
+## [37] rmarkdown_1.10        blob_1.1.1            tidyr_0.8.1          
+## [40] readr_1.2.0           purrr_0.2.5           scales_1.0.0         
+## [43] backports_1.1.2       htmltools_0.3.6       testit_0.8.1         
+## [46] rsconnect_0.8.8       assertthat_0.2.0      colorspace_1.3-2     
+## [49] labeling_0.3          utf8_1.1.4            stringi_1.2.4        
+## [52] lazyeval_0.2.1        munsell_0.5.0         crayon_1.3.4         
+## [55] zoo_1.8-4
 ```
 
 ```r
@@ -191,6 +200,6 @@ Sys.time()
 ```
 
 ```
-## [1] "2017-02-11 09:59:33 CST"
+## [1] "2018-09-28 16:09:19 CDT"
 ```
 

@@ -34,7 +34,8 @@ histogram_discrete <- function(
 ) {
 
   # Ungroup, in case it comes in grouped.
-  d_observed <- d_observed %>%
+  d_observed <-
+    d_observed %>%
     dplyr::ungroup()
 
   if( !base::is.factor(d_observed[[variable_name]]) )
@@ -57,14 +58,16 @@ histogram_discrete <- function(
 
   y_title <- base::paste0(y_title, " (n=", scales::comma(base::sum(d_summary$count)), ")")
 
-  g <- ggplot(d_summary, aes_string(x="iv", y="count", fill="iv", label="percentage")) +
+  g <-
+    ggplot(d_summary, aes_string(x="iv", y="count", fill="iv", label="percentage")) +
     geom_bar(stat="identity") +
-    geom_text(stat="identity", size=text_size_percentage, hjust=.8) +
+    geom_text(stat="identity", size=text_size_percentage, hjust=.8, na.rm=T) +
     scale_y_continuous(labels=scales::comma_format()) +
     labs(title=main_title, x=x_title, y=y_title) +
     coord_flip()
 
-  theme  <- theme_light(base_size=font_base_size) +
+  theme  <-
+    theme_light(base_size=font_base_size) +
     theme(legend.position       =  "none") +
     theme(panel.grid.major.y    =  element_blank()) +
     theme(panel.grid.minor.y    =  element_blank()) +
@@ -105,16 +108,17 @@ histogram_continuous <- function(
   g <- ggplot2::ggplot(d_observed, ggplot2::aes_string(x=variable_name))
   g <- g + ggplot2::geom_histogram(binwidth=bin_width, position=ggplot2::position_identity(), fill="gray70", color="gray90", alpha=.7)
   g <- g + ggplot2::geom_vline(xintercept=ds_mid_points$value, color="gray30")
-  g <- g + ggplot2::geom_text(data=ds_mid_points, ggplot2::aes_string(x="value", y=0, label="value_rounded"), color="tomato", hjust=h_just, vjust=.5)
+  g <- g + ggplot2::geom_text(data=ds_mid_points, ggplot2::aes_string(x="value", y=0, label="value_rounded"), color="tomato", hjust=h_just, vjust=.5, na.rm=T)
   g <- g + ggplot2::scale_x_continuous(labels=scales::comma_format())
   g <- g + ggplot2::scale_y_continuous(labels=scales::comma_format())
   g <- g + ggplot2::labs(title=main_title, x=x_title, y=y_title)
 
-  g <- g + ggplot2::theme_light(base_size = font_base_size) +
+  g <-
+    g + ggplot2::theme_light(base_size = font_base_size) +
     ggplot2::theme(axis.ticks             = ggplot2::element_blank())
 
   ds_mid_points$top <- stats::quantile(ggplot2::ggplot_build(g)$layout$panel_ranges[[1]]$y.range, .8)
-  g <- g + ggplot2::geom_text(data=ds_mid_points, ggplot2::aes_string(x="value", y="top", label="label"), color="tomato", hjust=h_just, parse=TRUE)
+  g <- g + ggplot2::geom_text(data=ds_mid_points, ggplot2::aes_string(x="value", y="top", label="label"), color="tomato", hjust=h_just, parse=TRUE, na.rm=T)
   return( g )
 }
 
@@ -152,7 +156,8 @@ histogram_discrete(d_observed=ds, variable_name="forward_gear_count_f")
 # }
 
 # ---- scatterplots ------------------------------------------------------------
-g1 <- ggplot(ds, aes(x=gross_horsepower, y=quarter_mile_in_seconds, color=forward_gear_count_f)) +
+g1 <-
+  ggplot(ds, aes(x=gross_horsepower, y=quarter_mile_in_seconds, color=forward_gear_count_f)) +
   geom_smooth(method="loess", span=2) +
   geom_point(shape=1) +
   theme_light() +

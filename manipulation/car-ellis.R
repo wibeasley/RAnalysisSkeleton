@@ -29,24 +29,26 @@ days_per_week <- 7
 ds <- readr::read_csv(path_input)
 
 # ---- tweak-data --------------------------------------------------------------
-colnames(ds)
+# OuhscMunge::column_rename_headstart(ds) #Spit out columns to help write call ato `dplyr::rename()`.
 
 # Dataset description can be found at: http://stat.ethz.ch/R-manual/R-devel/library/datasets/html/mtcars.html
 # Populate the rename entries with OuhscMunge::column_rename_headstart(ds_county) # devtools::install_github("OuhscBbmc/OuhscMunge")
-ds <- dplyr::rename_(ds,
-  "model_name"                    = "model"
-  , "miles_per_gallon"            = "mpg"
-  , "cylinder_count"              = "cyl"
-  , "displacement_inches_cubed"   = "disp"
-  , "gross_horsepower"            = "hp"
-  , "rear_axle_ratio"             = "drat"
-  , "weight_in_pounds_per_1000"   = "wt"
-  , "quarter_mile_in_seconds"     = "qsec"
-  , "vs"                          = "vs" #TODO: need a definition for this variable
-  , "automatic_transmission"      = "am"
-  , "forward_gear_count"          = "gear"
-  , "carburetor_count"            = "carb"
-)
+ds <-
+  ds %>%
+  dplyr::rename_(
+    "model_name"                    = "model"
+    , "miles_per_gallon"            = "mpg"
+    , "cylinder_count"              = "cyl"
+    , "displacement_inches_cubed"   = "disp"
+    , "gross_horsepower"            = "hp"
+    , "rear_axle_ratio"             = "drat"
+    , "weight_in_pounds_per_1000"   = "wt"
+    , "quarter_mile_in_seconds"     = "qsec"
+    , "vs"                          = "vs" #TODO: need a definition for this variable
+    , "automatic_transmission"      = "am"
+    , "forward_gear_count"          = "gear"
+    , "carburetor_count"            = "carb"
+  )
 
 # Add a unique identifier
 ds$car_id <- seq_len(nrow(ds))
@@ -76,7 +78,8 @@ ds$miles_per_gallon <- ifelse(ds$miles_per_gallon_artifact, NA_real_, ds$miles_p
 
 # ---- create-z-scores ---------------------------------------------------------
 # This creates z-scores WITHIN forward_gear_count levels
-ds <- ds %>%
+ds <-
+  ds %>%
   dplyr::group_by(forward_gear_count) %>%
   dplyr::mutate(
     displacement_gear_z = as.numeric(base::scale(displacement_inches_cubed)),

@@ -32,12 +32,14 @@ path_out                      <- "data-public/derived/randomized-block-simple.cs
 
 
 # ---- assign ------------------------------------------------------------------
-ds <- tibble::tibble(
-  assignment_id         = seq_len(block_count * block_size * length(assignment_possible)),
-  block_id              = rep(seq_len(block_count), each=length(assignment_possible))
-)
+ds <-
+  tibble::tibble(
+    assignment_id         = seq_len(block_count * block_size * length(assignment_possible)),
+    block_id              = rep(seq_len(block_count), each=length(assignment_possible))
+  )
 
-ds <- ds %>%
+ds <-
+  ds %>%
   dplyr::group_by(block_id) %>%
   dplyr::mutate(
     condition           = sample(assignment_possible_block, replace=FALSE),
@@ -64,8 +66,14 @@ columns_to_write <- c(
   "assignment_id", "block_id", "condition", "client_id",
   "year_assigned", "month_assigned", "day_assigned"
 )
-ds_slim <- ds[, columns_to_write]
+ds_slim <-
+  ds %>%
+  # dplyr::slice(1:100) %>%
+  dplyr::select_(.dots=columns_to_write)
+
 ds_slim
+
+rm(columns_to_write)
 
 
 # # ---- upload-to-db ------------------------------------------------------------

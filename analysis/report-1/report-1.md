@@ -1,5 +1,13 @@
-# Skeleton Report 1
-Date: `r Sys.Date()`  
+---
+title: Skeleton Report 1
+date: "Date: 2018-09-28"
+output:
+  html_document:
+    keep_md: yes
+    toc: 4
+    toc_float: true
+    number_sections: true
+---
 
 This report covers the analyses used in the ZZZ project (Marcus Mark, PI).
 
@@ -168,62 +176,80 @@ For the sake of documentation and reproducibility, the current report was render
   <summary>Environment <span class="glyphicon glyphicon-plus-sign"></span></summary>
 
 ```
-Session info ---------------------------------------------------------------------------------------
+Session info --------------------------------------------------------------------------------------
 ```
 
 ```
- setting  value                       
- version  R version 3.3.1 (2016-06-21)
- system   x86_64, linux-gnu           
- ui       X11                         
- language en_US                       
- collate  en_US.UTF-8                 
- tz       America/Chicago             
- date     2017-03-18                  
+ setting  value                                      
+ version  R version 3.5.1 Patched (2018-09-10 r75281)
+ system   x86_64, mingw32                            
+ ui       RTerm                                      
+ language (EN)                                       
+ collate  English_United States.1252                 
+ tz       America/Chicago                            
+ date     2018-09-28                                 
 ```
 
 ```
-Packages -------------------------------------------------------------------------------------------
+Packages ------------------------------------------------------------------------------------------
 ```
 
 ```
- package    * version    date       source                       
- assertthat   0.1        2013-12-06 CRAN (R 3.3.0)               
- backports    1.0.5      2017-01-18 CRAN (R 3.3.1)               
- bindr        0.1        2016-11-13 cran (@0.1)                  
- bindrcpp   * 0.1        2016-12-11 cran (@0.1)                  
- colorspace   1.3-2      2016-12-14 CRAN (R 3.3.1)               
- DBI          0.6        2017-03-09 CRAN (R 3.3.1)               
- devtools     1.12.0     2016-06-24 CRAN (R 3.3.1)               
- digest       0.6.12     2017-01-27 CRAN (R 3.3.1)               
- dplyr        0.5.0.9000 2017-02-24 Github (hadley/dplyr@8bf5a99)
- evaluate     0.10       2016-10-11 CRAN (R 3.3.1)               
- ggplot2    * 2.2.1      2016-12-30 CRAN (R 3.3.1)               
- gtable       0.2.0      2016-02-26 CRAN (R 3.3.0)               
- highr        0.6        2016-05-09 CRAN (R 3.3.0)               
- htmltools    0.3.5      2016-03-21 CRAN (R 3.3.0)               
- knitr      * 1.15.1     2016-11-22 CRAN (R 3.3.1)               
- labeling     0.3        2014-08-23 CRAN (R 3.3.0)               
- lazyeval     0.2.0      2016-06-12 CRAN (R 3.3.0)               
- magrittr   * 1.5        2014-11-22 CRAN (R 3.3.0)               
- memoise      1.0.0      2016-01-29 CRAN (R 3.3.0)               
- munsell      0.4.3      2016-02-13 CRAN (R 3.3.0)               
- plyr         1.8.4      2016-06-08 CRAN (R 3.3.0)               
- R6           2.2.0      2016-10-05 CRAN (R 3.3.1)               
- Rcpp         0.12.9     2017-01-14 CRAN (R 3.3.1)               
- readr        1.0.0      2016-08-03 CRAN (R 3.3.1)               
- rmarkdown    1.3        2016-12-21 CRAN (R 3.3.1)               
- rprojroot    1.2        2017-01-16 CRAN (R 3.3.1)               
- scales       0.4.1      2016-11-09 CRAN (R 3.3.1)               
- stringi      1.1.2      2016-10-01 CRAN (R 3.3.1)               
- stringr      1.2.0      2017-02-18 CRAN (R 3.3.1)               
- tibble       1.2        2016-08-26 CRAN (R 3.3.1)               
- withr        1.0.2      2016-06-20 CRAN (R 3.3.0)               
- yaml         2.1.14     2016-11-12 CRAN (R 3.3.1)               
+ package     * version    date       source                          
+ assertthat    0.2.0      2017-04-11 CRAN (R 3.5.0)                  
+ backports     1.1.2      2017-12-13 CRAN (R 3.5.0)                  
+ base        * 3.5.1      2018-09-11 local                           
+ bindr         0.1.1      2018-03-13 CRAN (R 3.5.0)                  
+ bindrcpp    * 0.2.2      2018-03-29 CRAN (R 3.5.0)                  
+ colorspace    1.3-2      2016-12-14 CRAN (R 3.5.0)                  
+ compiler      3.5.1      2018-09-11 local                           
+ crayon        1.3.4      2017-09-16 CRAN (R 3.5.0)                  
+ datasets    * 3.5.1      2018-09-11 local                           
+ devtools      1.13.6     2018-06-27 CRAN (R 3.5.0)                  
+ digest        0.6.17     2018-09-12 CRAN (R 3.5.1)                  
+ dplyr         0.7.6      2018-06-29 CRAN (R 3.5.1)                  
+ evaluate      0.11       2018-07-17 CRAN (R 3.5.1)                  
+ ggplot2     * 3.0.0      2018-07-03 CRAN (R 3.5.1)                  
+ glue          1.3.0      2018-07-17 CRAN (R 3.5.1)                  
+ graphics    * 3.5.1      2018-09-11 local                           
+ grDevices   * 3.5.1      2018-09-11 local                           
+ grid          3.5.1      2018-09-11 local                           
+ gtable        0.2.0      2016-02-26 CRAN (R 3.5.0)                  
+ highr         0.7        2018-06-09 CRAN (R 3.5.0)                  
+ hms           0.4.2.9001 2018-08-09 Github (tidyverse/hms@979286f)  
+ htmltools     0.3.6      2017-04-28 CRAN (R 3.5.0)                  
+ knitr       * 1.20       2018-02-20 CRAN (R 3.5.0)                  
+ labeling      0.3        2014-08-23 CRAN (R 3.5.0)                  
+ lazyeval      0.2.1      2017-10-29 CRAN (R 3.5.0)                  
+ magrittr    * 1.5        2014-11-22 CRAN (R 3.5.0)                  
+ memoise       1.1.0      2017-04-21 CRAN (R 3.5.0)                  
+ methods     * 3.5.1      2018-09-11 local                           
+ munsell       0.5.0      2018-06-12 CRAN (R 3.5.0)                  
+ pillar        1.3.0      2018-07-14 CRAN (R 3.5.1)                  
+ pkgconfig     2.0.2      2018-08-16 CRAN (R 3.5.1)                  
+ plyr          1.8.4      2016-06-08 CRAN (R 3.5.0)                  
+ purrr         0.2.5      2018-05-29 CRAN (R 3.5.0)                  
+ R6            2.2.2      2017-06-17 CRAN (R 3.5.0)                  
+ Rcpp          0.12.18    2018-07-23 CRAN (R 3.5.1)                  
+ readr         1.2.0      2018-08-09 Github (tidyverse/readr@4b2e93a)
+ rlang         0.2.2      2018-08-16 CRAN (R 3.5.1)                  
+ rmarkdown     1.10       2018-06-11 CRAN (R 3.5.0)                  
+ rprojroot     1.3-2      2018-01-03 CRAN (R 3.5.0)                  
+ scales        1.0.0      2018-08-09 CRAN (R 3.5.1)                  
+ stats       * 3.5.1      2018-09-11 local                           
+ stringi       1.2.4      2018-07-20 CRAN (R 3.5.1)                  
+ stringr       1.3.1      2018-05-10 CRAN (R 3.5.0)                  
+ tibble        1.4.2      2018-01-22 CRAN (R 3.5.0)                  
+ tidyselect    0.2.4      2018-02-26 CRAN (R 3.5.0)                  
+ tools         3.5.1      2018-09-11 local                           
+ utils       * 3.5.1      2018-09-11 local                           
+ viridisLite   0.3.0      2018-02-01 CRAN (R 3.5.0)                  
+ withr         2.1.2      2018-03-15 CRAN (R 3.5.0)                  
+ yaml          2.2.0      2018-07-25 CRAN (R 3.5.1)                  
 ```
 </details>
 
 
 
-Report rendered by wibeasley at 2017-03-18, 00:32 -0500 in 4 seconds.
+Report rendered by Will at 2018-09-28, 16:02 -0500 in 4 seconds.
 

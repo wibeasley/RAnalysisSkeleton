@@ -2,6 +2,7 @@
 title: Skeleton Report 1
 date: "Date: 2018-09-28"
 output:
+  # radix::radix_article: # radix is a newer alternative that has some advantages over `html_document`.
   html_document:
     keep_md: yes
     toc: 4
@@ -35,29 +36,50 @@ This report covers the analyses used in the ZZZ project (Marcus Mark, PI).
 <!-- Tweak the datasets.   -->
 
 
-# Summary {.tabset .tabset-fade .tabset-pills}
+Summary {.tabset .tabset-fade .tabset-pills}
+===========================================================================
 
-## Notes 
+Notes 
+---------------------------------------------------------------------------
+
 1. The current report covers 32 cars, with 6 unique values for `carburetor_count`.
 1. The Seattle track's phluguerstometer was producing flaky negative values; it's measurements have been dropped.
 
-## Unanswered Questions
+
+Unanswered Questions
+---------------------------------------------------------------------------
+
 1. What does `VS` stand for?  How was it measured?
 1. Where the cars at the Philly track measured with the same phluguerstometer and the Cleveland track?
  
-## Answered Questions
+ 
+Answered Questions
+---------------------------------------------------------------------------
+
 1. The Seattle track's phluguerstometer was producing flaky negative values; it's measurements have been dropped.
 
-# Graphs
 
-## Marginals
+Graphs
+===========================================================================
+
+
+Marginals
+---------------------------------------------------------------------------
+
 ![](figure-png/marginals-1.png)<!-- -->![](figure-png/marginals-2.png)<!-- -->![](figure-png/marginals-3.png)<!-- -->![](figure-png/marginals-4.png)<!-- -->
 
-## Scatterplots
+
+Scatterplots
+---------------------------------------------------------------------------
+
 ![](figure-png/scatterplots-1.png)<!-- -->![](figure-png/scatterplots-2.png)<!-- -->![](figure-png/scatterplots-3.png)<!-- -->
 
-# Models
-## Model Exploration
+
+Models
+===========================================================================
+
+Model Exploration
+---------------------------------------------------------------------------
 
 ```
 ============= Simple model that's just an intercept. =============
@@ -157,7 +179,10 @@ Model 2: quarter_mile_in_seconds ~ 1 + miles_per_gallon + forward_gear_count_f
 2     28 47.996  2     33.64 9.8124 0.0005896
 ```
 
-## Final Model
+
+Final Model
+---------------------------------------------------------------------------
+
 
 |                         | Estimate| Std. Error| t value| Pr(>&#124;t&#124;)|
 |:------------------------|--------:|----------:|-------:|------------------:|
@@ -169,7 +194,9 @@ Model 2: quarter_mile_in_seconds ~ 1 + miles_per_gallon + forward_gear_count_f
 In the model that includes two predictors, the slope coefficent of `Miles per gallon` is 0.13246.
 
 
-# Session Information
+Session Information
+===========================================================================
+
 For the sake of documentation and reproducibility, the current report was rendered in the following environment.  Click the line below to expand.
 
 <details>
@@ -251,5 +278,4 @@ Packages -----------------------------------------------------------------------
 
 
 
-Report rendered by Will at 2018-09-28, 16:02 -0500 in 4 seconds.
-
+Report rendered by Will at 2018-09-28, 16:18 -0500 in 4 seconds.

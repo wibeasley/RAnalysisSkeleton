@@ -19,6 +19,7 @@ us.stackdump
 *.RDS
 *.rds
 *.csv
+*.csv#
 *.mdb
 *.accdb
 *.sav

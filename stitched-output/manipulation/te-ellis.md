@@ -21,14 +21,15 @@ rm(list=ls(all=TRUE))  #Clear the variables from previous runs.
 ```r
 # Attach these package(s) so their functions don't need to be qualified: http://r-pkgs.had.co.nz/namespace.html#search-path
 library(magrittr            , quietly=TRUE)
-library(DBI                 , quietly=TRUE)
 
 # Verify these packages are available on the machine, but their functions need to be qualified: http://r-pkgs.had.co.nz/namespace.html#search-path
 requireNamespace("readr"        )
 requireNamespace("tidyr"        )
 requireNamespace("dplyr"        ) # Avoid attaching dplyr, b/c its function names conflict with a lot of packages (esp base, stats, and plyr).
+requireNamespace("rlang"        ) # Language constucts, like quosures
 requireNamespace("testit"       ) # For asserting conditions meet expected patterns/conditions.
 requireNamespace("checkmate"    ) # For asserting conditions meet expected patterns/conditions. # remotes::install_github("mllg/checkmate")
+requireNamespace("DBI"          ) # Database-agnostic interface
 requireNamespace("RSQLite"      ) # Lightweight database for non-PHI data.
 # requireNamespace("RODBC"      ) # For communicating with SQL Server over a locally-configured DSN.  Uncomment if you use 'upload-to-db' chunk.
 requireNamespace("OuhscMunge"   ) # remotes::install_github(repo="OuhscBbmc/OuhscMunge")
@@ -614,7 +615,7 @@ columns_to_write <- c(
 )
 ds_slim <-
   ds %>%
-  dplyr::select_(.dots=columns_to_write) %>%
+  dplyr::select(!!columns_to_write) %>%
   # dplyr::slice(1:100) %>%
   dplyr::mutate_if(is.logical, as.integer)       # Some databases & drivers need 0/1 instead of FALSE/TRUE.
 ds_slim
@@ -866,28 +867,26 @@ sessionInfo()
 ## [1] stats     graphics  grDevices utils     datasets  methods   base     
 ## 
 ## other attached packages:
-## [1] DBI_1.0.0      bindrcpp_0.2.2 ggplot2_3.0.0  magrittr_1.5  
+## [1] ggplot2_3.0.0  bindrcpp_0.2.2 DBI_1.0.0      magrittr_1.5  
 ## 
 ## loaded via a namespace (and not attached):
-##  [1] Rcpp_0.12.18          pillar_1.3.0          compiler_3.5.1       
-##  [4] plyr_1.8.4            highr_0.7             bindr_0.1.1          
-##  [7] tools_3.5.1           bit_1.1-14            digest_0.6.17        
-## [10] packrat_0.4.9-3       memoise_1.1.0         RSQLite_2.1.1        
-## [13] checkmate_1.8.9-9000  lattice_0.20-35       evaluate_0.11        
-## [16] tibble_1.4.2          gtable_0.2.0          viridisLite_0.3.0    
-## [19] pkgconfig_2.0.2       rlang_0.2.2           cli_1.0.1            
-## [22] rstudioapi_0.7        yaml_2.2.0            withr_2.1.2          
-## [25] dplyr_0.7.6           stringr_1.3.1         knitr_1.20           
-## [28] hms_0.4.2.9001        bit64_0.9-7           rprojroot_1.3-2      
-## [31] grid_3.5.1            tidyselect_0.2.4      OuhscMunge_0.1.9.9009
-## [34] glue_1.3.0            R6_2.2.2              fansi_0.3.0          
-## [37] rmarkdown_1.10        blob_1.1.1            tidyr_0.8.1          
-## [40] readr_1.2.0           purrr_0.2.5           scales_1.0.0         
-## [43] backports_1.1.2       htmltools_0.3.6       testit_0.8.1         
-## [46] rsconnect_0.8.8       assertthat_0.2.0      colorspace_1.3-2     
-## [49] labeling_0.3          utf8_1.1.4            stringi_1.2.4        
-## [52] lazyeval_0.2.1        munsell_0.5.0         markdown_0.8         
-## [55] crayon_1.3.4          zoo_1.8-4
+##  [1] Rcpp_0.12.19          highr_0.7             plyr_1.8.4           
+##  [4] pillar_1.3.0          compiler_3.5.1        bindr_0.1.1          
+##  [7] tools_3.5.1           digest_0.6.18         packrat_0.4.9-3      
+## [10] bit_1.1-14            evaluate_0.12         gtable_0.2.0         
+## [13] RSQLite_2.1.1         memoise_1.1.0         tibble_1.4.2         
+## [16] checkmate_1.8.5       lattice_0.20-35       pkgconfig_2.0.2      
+## [19] rlang_0.2.2           cli_1.0.1             rstudioapi_0.8       
+## [22] stringr_1.3.1         knitr_1.20            withr_2.1.2          
+## [25] dplyr_0.7.6           hms_0.4.2.9001        bit64_0.9-7          
+## [28] grid_3.5.1            tidyselect_0.2.5      OuhscMunge_0.1.9.9009
+## [31] glue_1.3.0            R6_2.3.0              fansi_0.4.0          
+## [34] tidyr_0.8.1           readr_1.2.0           purrr_0.2.5          
+## [37] blob_1.1.1            scales_1.0.0          backports_1.1.2      
+## [40] assertthat_0.2.0      testit_0.8.1          colorspace_1.3-2     
+## [43] labeling_0.3          utf8_1.1.4            stringi_1.2.4        
+## [46] lazyeval_0.2.1        munsell_0.5.0         crayon_1.3.4         
+## [49] zoo_1.8-4
 ```
 
 ```r
@@ -895,6 +894,6 @@ Sys.time()
 ```
 
 ```
-## [1] "2018-09-28 16:09:33 CDT"
+## [1] "2018-10-14 10:39:00 CDT"
 ```
 

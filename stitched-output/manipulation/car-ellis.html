@@ -202,7 +202,7 @@ hr {
 
 <body>
 <p>This report was automatically generated with the R package <strong>knitr</strong>
-(version 1.15.1).</p>
+(version 1.20).</p>
 
 <pre><code class="r"># knitr::stitch_rmd(script=&quot;./manipulation/car-ellis.R&quot;, output=&quot;./stitched-output/manipulation/car-ellis.md&quot;)
 # These first few lines run only when the file is run in RStudio, !!NOT when an Rmd/Rnw file calls it!!
@@ -217,10 +217,28 @@ library(magrittr             , quietly=TRUE) #Pipes
 
 # Verify these packages are available on the machine, but their functions need to be qualified: http://r-pkgs.had.co.nz/namespace.html#search-path
 requireNamespace(&quot;ggplot2&quot;                 )
-requireNamespace(&quot;readr&quot;                   )
-requireNamespace(&quot;tidyr&quot;                   )
-requireNamespace(&quot;dplyr&quot;                   ) #Avoid attaching dplyr, b/c its function names conflict with a lot of packages (esp base, stats, and plyr).
+</code></pre>
+
+<pre><code>## Loading required namespace: ggplot2
+</code></pre>
+
+<pre><code class="r">requireNamespace(&quot;readr&quot;                   )
+</code></pre>
+
+<pre><code>## Loading required namespace: readr
+</code></pre>
+
+<pre><code class="r">requireNamespace(&quot;tidyr&quot;                   )
+</code></pre>
+
+<pre><code>## Loading required namespace: tidyr
+</code></pre>
+
+<pre><code class="r">requireNamespace(&quot;dplyr&quot;                   ) #Avoid attaching dplyr, b/c its function names conflict with a lot of packages (esp base, stats, and plyr).
 requireNamespace(&quot;testit&quot;                  ) #For asserting conditions meet expected patterns.
+</code></pre>
+
+<pre><code>## Loading required namespace: testit
 </code></pre>
 
 <pre><code class="r">path_input  &lt;- &quot;./data-public/raw/mtcar.csv&quot;
@@ -239,16 +257,16 @@ days_per_week &lt;- 7
 ## cols(
 ##   model = col_character(),
 ##   mpg = col_double(),
-##   cyl = col_integer(),
+##   cyl = col_double(),
 ##   disp = col_double(),
-##   hp = col_integer(),
+##   hp = col_double(),
 ##   drat = col_double(),
 ##   wt = col_double(),
 ##   qsec = col_double(),
-##   vs = col_integer(),
-##   am = col_integer(),
-##   gear = col_integer(),
-##   carb = col_integer()
+##   vs = col_double(),
+##   am = col_double(),
+##   gear = col_double(),
+##   carb = col_double()
 ## )
 </code></pre>
 
@@ -261,71 +279,79 @@ days_per_week &lt;- 7
 
 <pre><code class="r"># Dataset description can be found at: http://stat.ethz.ch/R-manual/R-devel/library/datasets/html/mtcars.html
 # Populate the rename entries with OuhscMunge::column_rename_headstart(ds_county) # devtools::install_github(&quot;OuhscBbmc/OuhscMunge&quot;)
-ds &lt;- dplyr::rename_(ds,
-  &quot;model_name&quot;                    = &quot;model&quot;
-  , &quot;miles_per_gallon&quot;            = &quot;mpg&quot;
-  , &quot;cylinder_count&quot;              = &quot;cyl&quot;
-  , &quot;displacement_inches_cubed&quot;   = &quot;disp&quot;
-  , &quot;gross_horsepower&quot;            = &quot;hp&quot;
-  , &quot;rear_axle_ratio&quot;             = &quot;drat&quot;
-  , &quot;weight_in_pounds_per_1000&quot;   = &quot;wt&quot;
-  , &quot;quarter_mile_in_seconds&quot;     = &quot;qsec&quot;
-  , &quot;vs&quot;                          = &quot;vs&quot; #TODO: need a definition for this variable
-  , &quot;automatic_transmission&quot;      = &quot;am&quot;
-  , &quot;forward_gear_count&quot;          = &quot;gear&quot;
-  , &quot;carburetor_count&quot;            = &quot;carb&quot;
-)
+ds &lt;-
+  ds %&gt;%
+  dplyr::rename_(
+    &quot;model_name&quot;                    = &quot;model&quot;
+    , &quot;miles_per_gallon&quot;            = &quot;mpg&quot;
+    , &quot;cylinder_count&quot;              = &quot;cyl&quot;
+    , &quot;displacement_inches_cubed&quot;   = &quot;disp&quot;
+    , &quot;horsepower&quot;                  = &quot;hp&quot;
+    , &quot;rear_axle_ratio&quot;             = &quot;drat&quot;
+    , &quot;weight_pounds_per_1000&quot;      = &quot;wt&quot;
+    , &quot;quarter_mile_sec&quot;            = &quot;qsec&quot;
+    , &quot;engine_v_shape&quot;              = &quot;vs&quot;
+    , &quot;transmission_automatic&quot;      = &quot;am&quot;
+    , &quot;forward_gear_count&quot;          = &quot;gear&quot;
+    , &quot;carburetor_count&quot;            = &quot;carb&quot;
+  ) %&gt;%
+  dplyr::mutate(
+    weight_pounds           = weight_pounds_per_1000 * 1000,     # Clear up confusion about units
 
-# Add a unique identifier
-ds$car_id &lt;- seq_len(nrow(ds))
-
-# Clear up confusion about units and remove old variable
-ds$weight_in_pounds &lt;- ds$weight_in_pounds_per_1000 * 1000
-ds$weight_in_pounds_per_1000 &lt;- NULL
-
-# Convert some to boolean variables
-ds$VS &lt;- as.logical(ds$vs)
-ds$automatic_transmission &lt;- as.logical(ds$automatic_transmission)
-
-# Create duplicates of variables as factors (not numbers), which can help with later graphs or analyses.
-#   Admittedly, the labels are a contrived example of a factor, but helps the example later.
-ds$forward_gear_count_f &lt;- factor(ds$forward_gear_count, levels=3:5, labels=c(&quot;Three&quot;, &quot;Four&quot;, &quot;Five&quot;))
-ds$carburetor_count_f &lt;- factor(ds$carburetor_count)
-
-### Create transformations and interactions to help later graphs and models.
-ds$displacement_inches_cubed_log_10 &lt;- log10(ds$displacement_inches_cubed)
-ds$gross_horsepower_by_gear_count_3 &lt;- ds$gross_horsepower * (ds$forward_gear_count==&quot;three&quot;)
-ds$gross_horsepower_by_gear_count_4 &lt;- ds$gross_horsepower * (ds$forward_gear_count==&quot;four&quot;)
+    engine_v_shape          = as.logical(engine_v_shape),           # Convert to boolean
+    transmission_automatic  = as.logical(transmission_automatic),   # Convert to boolean
+    horsepower_log_10       = log10(horsepower)
+  ) %&gt;%
+  dplyr::select(
+    -weight_pounds_per_1000 # Remove old variable
+  ) %&gt;%
+  tibble::rowid_to_column(&quot;car_id&quot;) # Add a unique identifier
 </code></pre>
 
-<pre><code class="r"># I&#39;m pretending the dataset had unreasonably low values that were artifacts of the measurement equipment.
-ds$miles_per_gallon_artifact &lt;- (ds$miles_per_gallon &lt; 2.2)
-ds$miles_per_gallon &lt;- ifelse(ds$miles_per_gallon_artifact, NA_real_, ds$miles_per_gallon)
+<pre><code class="r"># I&#39;m pretending there are low values that were artifacts of the measurement equipment.
+ds &lt;-
+  ds %&gt;%
+  dplyr::mutate(
+    miles_per_gallon_artifact = (miles_per_gallon &lt; 2.2),
+    miles_per_gallon          = dplyr::if_else(miles_per_gallon_artifact, NA_real_, miles_per_gallon)
+  )
 </code></pre>
 
 <pre><code class="r"># This creates z-scores WITHIN forward_gear_count levels
-ds &lt;- ds %&gt;%
+ds &lt;-
+  ds %&gt;%
   dplyr::group_by(forward_gear_count) %&gt;%
   dplyr::mutate(
     displacement_gear_z = as.numeric(base::scale(displacement_inches_cubed)),
-    weight_gear_z       = as.numeric(base::scale(weight_in_pounds))
+    weight_gear_z       = as.numeric(base::scale(weight_pounds))
   ) %&gt;%
-  dplyr::ungroup()  #Always leave the dataset ungrouped, so later operations act as expected.
+  dplyr::ungroup() %&gt;%   #Always leave the dataset ungrouped, so later operations act as expected.
+  dplyr::mutate(
+    # Create a boolean variable, indicating if the z scores is above a certain threshold.
+    weight_gear_z_above_1 = (1 &lt; weight_gear_z)
+  )
 </code></pre>
 
-<pre><code class="r"># Quick inspection of the distribution of z scores within levels
-ggplot2::qplot(ds$weight_gear_z, color=ds$forward_gear_count_f, geom=&quot;density&quot;)  # mean(ds$weight_gear_z, na.rm=T)
-</code></pre>
+<pre><code class="r"># OuhscMunge::verify_value_headstart(ds) # Run this to line to start the checkmate asserts.
 
-<p><img src="stitched-output/manipulation/car/graph-1.png" title="plot of chunk graph" alt="plot of chunk graph" style="display: block; margin: auto;" /></p>
-
-<pre><code class="r"># Create a boolean variable, indicating if the z scores is above a certain threshold.
-ds$weight_gear_z_above_1 &lt;- (ds$weight_gear_z &gt; 1.00)
-</code></pre>
-
-<pre><code class="r">testit::assert(&quot;`model_name` should be a unique value&quot;, sum(duplicated(ds$model_name))==0L)
-testit::assert(&quot;`miles_per_gallon` should be a positive value.&quot;, all(ds$miles_per_gallon&gt;0))
-testit::assert(&quot;`weight_gear_z` should be a positive or missing value.&quot;, all(is.na(ds$miles_per_gallon) | (ds$miles_per_gallon&gt;0)))
+checkmate::assert_integer(  ds$car_id                       , any.missing=F , lower=   1, upper=  32  , unique=T)
+checkmate::assert_character(ds$model_name                   , any.missing=F , pattern=&quot;^.{7,19}$&quot;     , unique=T)
+checkmate::assert_numeric(  ds$miles_per_gallon             , any.missing=F , lower=  10, upper=  34  )
+checkmate::assert_numeric(  ds$cylinder_count               , any.missing=F , lower=   4, upper=   8  )
+checkmate::assert_numeric(  ds$displacement_inches_cubed    , any.missing=F , lower=  71, upper= 472  )
+checkmate::assert_numeric(  ds$horsepower                   , any.missing=F , lower=  52, upper= 335  )
+checkmate::assert_numeric(  ds$rear_axle_ratio              , any.missing=F , lower=   2, upper=   5  )
+checkmate::assert_numeric(  ds$quarter_mile_sec             , any.missing=F , lower=  14, upper=  23  )
+checkmate::assert_logical(  ds$engine_v_shape               , any.missing=F                           )
+checkmate::assert_logical(  ds$transmission_automatic       , any.missing=F                           )
+checkmate::assert_numeric(  ds$forward_gear_count           , any.missing=F , lower=   3, upper=   5  )
+checkmate::assert_numeric(  ds$carburetor_count             , any.missing=F , lower=   1, upper=   8  )
+checkmate::assert_numeric(  ds$weight_pounds                , any.missing=F , lower=1513, upper=5424  )
+checkmate::assert_numeric(  ds$horsepower_log_10            , any.missing=F , lower=   1, upper=   3  )
+checkmate::assert_logical(  ds$miles_per_gallon_artifact    , any.missing=F                           )
+checkmate::assert_numeric(  ds$displacement_gear_z          , any.missing=F , lower=  -3, upper=   3  )
+checkmate::assert_numeric(  ds$weight_gear_z                , any.missing=F , lower=  -3, upper=   3  )
+checkmate::assert_logical(  ds$weight_gear_z_above_1        , any.missing=F                           )
 </code></pre>
 
 <pre><code class="r"># Save as a compress, binary R dataset.  It&#39;s no longer readable with a text editor, but it saves metadata (eg, factor information).
@@ -338,9 +364,13 @@ packages used):</p>
 <pre><code class="r">sessionInfo()
 </code></pre>
 
-<pre><code>## R version 3.3.1 (2016-06-21)
+<pre><code>## R version 3.5.1 (2018-07-02)
 ## Platform: x86_64-pc-linux-gnu (64-bit)
-## Running under: Ubuntu 16.04.1 LTS
+## Running under: Ubuntu 18.04.1 LTS
+## 
+## Matrix products: default
+## BLAS: /usr/lib/x86_64-linux-gnu/blas/libblas.so.3.7.1
+## LAPACK: /usr/lib/x86_64-linux-gnu/lapack/liblapack.so.3.7.1
 ## 
 ## locale:
 ##  [1] LC_CTYPE=en_US.UTF-8       LC_NUMERIC=C              
@@ -354,22 +384,27 @@ packages used):</p>
 ## [1] stats     graphics  grDevices utils     datasets  methods   base     
 ## 
 ## other attached packages:
-## [1] ggplot2_2.2.1 magrittr_1.5 
+## [1] bindrcpp_0.2.2 magrittr_1.5  
 ## 
 ## loaded via a namespace (and not attached):
-##  [1] Rcpp_0.12.9      knitr_1.15.1     munsell_0.4.3    testit_0.6      
-##  [5] colorspace_1.3-2 lattice_0.20-34  R6_2.2.0         stringr_1.1.0   
-##  [9] highr_0.6        plyr_1.8.4       dplyr_0.5.0.9000 tools_3.3.1     
-## [13] grid_3.3.1       gtable_0.2.0     DBI_0.5-1        lazyeval_0.2.0  
-## [17] assertthat_0.1   digest_0.6.12    tibble_1.2       readr_1.0.0     
-## [21] tidyr_0.6.1      evaluate_0.10    labeling_0.3     stringi_1.1.2   
-## [25] scales_0.4.1     markdown_0.7.7   zoo_1.7-14
+##  [1] Rcpp_0.12.19         knitr_1.20           bindr_0.1.1         
+##  [4] hms_0.4.2.9001       testit_0.8           tidyselect_0.2.5    
+##  [7] munsell_0.5.0        colorspace_1.3-2     R6_2.3.0            
+## [10] rlang_0.2.2          stringr_1.3.1        plyr_1.8.4          
+## [13] dplyr_0.7.7          tools_3.5.1          grid_3.5.1          
+## [16] packrat_0.4.9-3      checkmate_1.8.9-9000 gtable_0.2.0        
+## [19] lazyeval_0.2.1       assertthat_0.2.0     tibble_1.4.2        
+## [22] crayon_1.3.4         tidyr_0.8.1          readr_1.2.0         
+## [25] purrr_0.2.5          ggplot2_3.0.0        glue_1.3.0          
+## [28] evaluate_0.12        stringi_1.2.4        compiler_3.5.1      
+## [31] pillar_1.3.0         backports_1.1.2      scales_1.0.0        
+## [34] pkgconfig_2.0.2
 </code></pre>
 
 <pre><code class="r">Sys.time()
 </code></pre>
 
-<pre><code>## [1] &quot;2017-02-11 09:59:33 CST&quot;
+<pre><code>## [1] &quot;2018-10-21 09:07:46 CDT&quot;
 </code></pre>
 
 </body>

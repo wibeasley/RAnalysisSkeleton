@@ -7,6 +7,7 @@ output:
     toc: 4
     toc_float: true
     number_sections: true
+    css: ../common/styles.css         # analysis/common/styles.css 
 ---
 
 This report covers the analyses used in the ZZZ project (Marcus Mark, PI).
@@ -94,14 +95,16 @@ read_chunk("./analysis/report-1/report-1.R") #This allows knitr to call chunks t
 ```{r models, echo=echo_chunks, message=message_chunks}
 ```
 
-## Final Model
+## Final Model {.highlight}
+<!-- the ".highlight" class applies a yellow background to the subsection.  Properties specified in analysis/common/styles.css.-->
 ```{r model-results-table, echo=echo_chunks, message=message_chunks, warning=TRUE}
 ```
 
 In the model that includes two predictors, the slope coefficent of `Miles per gallon` is `r summary(m2)$coefficients[2,1]`.
 
 
-# Session Information
+# Session Information {#session-info}
+<!-- the "#session-info" id applies a yellow background to the subsection.  Properties specified in analysis/common/styles.css.-->
 For the sake of documentation and reproducibility, the current report was rendered in the following environment.  Click the line below to expand.
 
 <details>

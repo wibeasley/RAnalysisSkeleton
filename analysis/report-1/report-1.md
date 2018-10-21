@@ -7,6 +7,7 @@ output:
     toc: 4
     toc_float: true
     number_sections: true
+    css: ../common/styles.css         # analysis/common/styles.css 
 ---
 
 This report covers the analyses used in the ZZZ project (Marcus Mark, PI).
@@ -156,7 +157,8 @@ Model 2: quarter_mile_sec ~ 1 + miles_per_gallon + forward_gear_count_f
 2     28 47.996  2     33.64 9.8124 0.0005896
 ```
 
-## Final Model
+## Final Model {.highlight}
+<!-- the ".highlight" class applies a yellow background to the subsection.  Properties specified in analysis/common/styles.css.-->
 
 |                         | Estimate| Std. Error| t value| Pr(>&#124;t&#124;)|
 |:------------------------|--------:|----------:|-------:|------------------:|
@@ -168,7 +170,8 @@ Model 2: quarter_mile_sec ~ 1 + miles_per_gallon + forward_gear_count_f
 In the model that includes two predictors, the slope coefficent of `Miles per gallon` is 0.13246.
 
 
-# Session Information
+# Session Information {#session-info}
+<!-- the "#session-info" id applies a yellow background to the subsection.  Properties specified in analysis/common/styles.css.-->
 For the sake of documentation and reproducibility, the current report was rendered in the following environment.  Click the line below to expand.
 
 <details>
@@ -255,5 +258,5 @@ For the sake of documentation and reproducibility, the current report was render
 
 
 
-Report rendered by wibeasley at 2018-10-21, 09:06 -0500 in 10 seconds.
+Report rendered by wibeasley at 2018-10-21, 09:37 -0500 in 10 seconds.
 

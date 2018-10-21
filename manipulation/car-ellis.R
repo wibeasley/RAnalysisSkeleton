@@ -55,17 +55,6 @@ ds <-
     engine_v_shape          = as.logical(engine_v_shape),           # Convert to boolean
     transmission_automatic  = as.logical(transmission_automatic),   # Convert to boolean
     horsepower_log_10       = log10(horsepower)
-
-  ) %>%
-  dplyr::mutate(
-    # Create duplicates of variables as factors (not numbers), which can help with later graphs or analyses.
-    #   Admittedly, the labels are a contrived example of a factor, but helps the demo later.
-    forward_gear_count_f  = factor(forward_gear_count, levels=3:5, labels=c("Three", "Four", "Five")),
-    carburetor_count_f    = factor(carburetor_count),
-
-    ### Create transformations and interactions to help later graphs and models.
-    horsepower_by_gear_count_3  = horsepower * (forward_gear_count=="three"),
-    horsepower_by_gear_count_4  = horsepower * (forward_gear_count=="four" )
   ) %>%
   dplyr::select(
     -weight_in_pounds_per_1000 # Remove old variable
@@ -96,10 +85,6 @@ ds <-
     weight_gear_z_above_1 = (1 < weight_gear_z)
   )
 
-# ---- graph, fig.width=10, fig.height=6, fig.path=figure_path ---------------------------------------------------------
-# Quick inspection of the distribution of z scores within levels
-ggplot2::qplot(ds$weight_gear_z, color=ds$forward_gear_count_f, geom="density")  # mean(ds$weight_gear_z, na.rm=T)
-
 # ---- verify-values -----------------------------------------------------------
 # OuhscMunge::verify_value_headstart(ds) # Run this to line to start the checkmate asserts.
 
@@ -117,10 +102,6 @@ checkmate::assert_numeric(  ds$forward_gear_count           , any.missing=F , lo
 checkmate::assert_numeric(  ds$carburetor_count             , any.missing=F , lower=   1, upper=   8  )
 checkmate::assert_numeric(  ds$weight_in_pounds             , any.missing=F , lower=1513, upper=5424  )
 checkmate::assert_numeric(  ds$horsepower_log_10            , any.missing=F , lower=   1, upper=   3  )
-checkmate::assert_factor(   ds$forward_gear_count_f         , any.missing=F                           )
-checkmate::assert_factor(   ds$carburetor_count_f           , any.missing=F                           )
-checkmate::assert_numeric(  ds$horsepower_by_gear_count_3   , any.missing=F , lower=   0, upper=   0  )
-checkmate::assert_numeric(  ds$horsepower_by_gear_count_4   , any.missing=F , lower=   0, upper=   0  )
 checkmate::assert_logical(  ds$miles_per_gallon_artifact    , any.missing=F                           )
 checkmate::assert_numeric(  ds$displacement_gear_z          , any.missing=F , lower=  -3, upper=   3  )
 checkmate::assert_numeric(  ds$weight_gear_z                , any.missing=F , lower=  -3, upper=   3  )

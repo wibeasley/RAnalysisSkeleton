@@ -122,18 +122,23 @@ histogram_continuous <- function(
 ds <- readr::read_rds(path_input) # 'ds' stands for 'datasets'
 
 # ---- tweak-data --------------------------------------------------------------
-# ds <-
-#   ds %>%
-#   tidyr::drop_na(infant_weight_for_gestational_age_category) %>%
-#   dplyr::mutate(
-#     clinic = droplevels(clinic)
-#   ) %>%
-#   dplyr::filter(
-#     !ds$premature_infant
-#   ) %>%
-#   dplyr::select(
-#     -premature_infant
-#   )
+ds <-
+  ds %>%
+  dplyr::mutate(
+    # Create duplicates of variables as factors (not numbers), which can help with later graphs or analyses.
+    #   Admittedly, the labels are a contrived example of a factor, but helps the demo later.
+    forward_gear_count_f  = factor(forward_gear_count, levels=3:5, labels=c("Three", "Four", "Five")),
+    carburetor_count_f    = factor(carburetor_count),
+
+    ### Create transformations and interactions to help later graphs and models.
+    horsepower_by_gear_count_3  = horsepower * (forward_gear_count=="three"),
+    horsepower_by_gear_count_4  = horsepower * (forward_gear_count=="four" )
+  )
+
+checkmate::assert_factor(   ds$forward_gear_count_f         , any.missing=F                           )
+checkmate::assert_factor(   ds$carburetor_count_f           , any.missing=F                           )
+checkmate::assert_numeric(  ds$horsepower_by_gear_count_3   , any.missing=F , lower=   0, upper=   0  )
+checkmate::assert_numeric(  ds$horsepower_by_gear_count_4   , any.missing=F , lower=   0, upper=   0  )
 
 # ---- marginals ---------------------------------------------------------------
 # Inspect continuous variables
@@ -162,6 +167,12 @@ g1
 
 g1 %+% aes(color=cylinder_count)
 g1 %+% aes(color=factor(cylinder_count))
+
+ggplot2::qplot(ds$weight_gear_z, color=ds$forward_gear_count_f, geom="density")  # mean(ds$weight_gear_z, na.rm=T)
+
+ggplot(ds, aes(x=weight_gear_z, fill=forward_gear_count_f)) +
+  geom_density(alpha=.1) +
+  theme_minimal()
 
 # ---- models ------------------------------------------------------------------
 cat("============= Simple model that's just an intercept. =============")

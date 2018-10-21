@@ -65,7 +65,7 @@ Warning: Removed 2 rows containing missing values (geom_text).
 ![](figure-png/marginals-2.png)<!-- -->![](figure-png/marginals-3.png)<!-- -->![](figure-png/marginals-4.png)<!-- -->
 
 ## Scatterplots
-![](figure-png/scatterplots-1.png)<!-- -->![](figure-png/scatterplots-2.png)<!-- -->![](figure-png/scatterplots-3.png)<!-- -->
+![](figure-png/scatterplots-1.png)<!-- -->![](figure-png/scatterplots-2.png)<!-- -->![](figure-png/scatterplots-3.png)<!-- -->![](figure-png/scatterplots-4.png)<!-- -->![](figure-png/scatterplots-5.png)<!-- -->
 
 # Models
 ## Model Exploration
@@ -186,7 +186,7 @@ For the sake of documentation and reproducibility, the current report was render
   <summary>Environment <span class="glyphicon glyphicon-plus-sign"></span></summary>
 
 ```
-─ Session info ───────────────────────────────────────────────────────────────────────────────────
+─ Session info ──────────────────────────────────────────────────────────
  setting  value                       
  version  R version 3.5.1 (2018-07-02)
  os       Ubuntu 18.04.1 LTS          
@@ -198,7 +198,7 @@ For the sake of documentation and reproducibility, the current report was render
  tz       America/Chicago             
  date     2018-10-21                  
 
-─ Packages ───────────────────────────────────────────────────────────────────────────────────────
+─ Packages ──────────────────────────────────────────────────────────────
  package     * version    date       lib source                          
  assertthat    0.2.0      2017-04-11 [1] CRAN (R 3.5.1)                  
  backports     1.1.2      2017-12-13 [1] CRAN (R 3.5.1)                  
@@ -206,6 +206,7 @@ For the sake of documentation and reproducibility, the current report was render
  bindr         0.1.1      2018-03-13 [1] CRAN (R 3.5.1)                  
  bindrcpp    * 0.2.2      2018-03-29 [1] CRAN (R 3.5.1)                  
  callr         3.0.0      2018-08-24 [1] CRAN (R 3.5.1)                  
+ checkmate     1.8.9-9000 2018-08-18 [1] Github (mllg/checkmate@bd7d200) 
  cli           1.0.1      2018-09-25 [1] CRAN (R 3.5.1)                  
  colorspace    1.3-2      2016-12-14 [1] CRAN (R 3.5.1)                  
  crayon        1.3.4      2017-09-16 [1] CRAN (R 3.5.1)                  
@@ -264,5 +265,5 @@ For the sake of documentation and reproducibility, the current report was render
 
 
 
-Report rendered by wibeasley at 2018-10-21, 06:45 -0500 in 7 seconds.
+Report rendered by wibeasley at 2018-10-21, 07:03 -0500 in 9 seconds.
 

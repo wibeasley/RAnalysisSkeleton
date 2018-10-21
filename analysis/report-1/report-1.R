@@ -9,7 +9,6 @@ rm(list=ls(all=TRUE)) #Clear the memory of variables from previous run. This is 
 library(magrittr) #Pipes
 library(ggplot2) #For graphing
 requireNamespace("dplyr")
-# requireNamespace("tidyr") #For converting wide to long
 # requireNamespace("RColorBrewer")
 # requireNamespace("scales") #For formating values in graphs
 # requireNamespace("mgcv) #For the Generalized Additive Model that smooths the longitudinal graphs.
@@ -146,7 +145,7 @@ checkmate::assert_numeric(  ds$horsepower_by_gear_count_4   , any.missing=F , lo
 # ---- marginals ---------------------------------------------------------------
 # Inspect continuous variables
 histogram_continuous(d_observed=ds, variable_name="quarter_mile_sec", bin_width=.5, rounded_digits=1)
-TabularManifest::histogram_continuous(d_observed=ds, variable_name="quarter_mile_sec", bin_width=.5, rounded_digits=1)
+# slightly better function: TabularManifest::histogram_continuous(d_observed=ds, variable_name="quarter_mile_sec", bin_width=.5, rounded_digits=1)
 histogram_continuous(d_observed=ds, variable_name="displacement_inches_cubed", bin_width=50, rounded_digits=1)
 
 # Inspect discrete/categorical variables

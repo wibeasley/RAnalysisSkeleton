@@ -33,68 +33,98 @@ colnames(ds)
 
 # Dataset description can be found at: http://stat.ethz.ch/R-manual/R-devel/library/datasets/html/mtcars.html
 # Populate the rename entries with OuhscMunge::column_rename_headstart(ds_county) # devtools::install_github("OuhscBbmc/OuhscMunge")
-ds <- dplyr::rename_(ds,
-  "model_name"                    = "model"
-  , "miles_per_gallon"            = "mpg"
-  , "cylinder_count"              = "cyl"
-  , "displacement_inches_cubed"   = "disp"
-  , "gross_horsepower"            = "hp"
-  , "rear_axle_ratio"             = "drat"
-  , "weight_in_pounds_per_1000"   = "wt"
-  , "quarter_mile_in_seconds"     = "qsec"
-  , "vs"                          = "vs" #TODO: need a definition for this variable
-  , "automatic_transmission"      = "am"
-  , "forward_gear_count"          = "gear"
-  , "carburetor_count"            = "carb"
-)
+ds <-
+  ds %>%
+  dplyr::rename_(
+    "model_name"                    = "model"
+    , "miles_per_gallon"            = "mpg"
+    , "cylinder_count"              = "cyl"
+    , "displacement_inches_cubed"   = "disp"
+    , "horsepower"                  = "hp"
+    , "rear_axle_ratio"             = "drat"
+    , "weight_in_pounds_per_1000"   = "wt"
+    , "quarter_mile_sec"            = "qsec"
+    , "engine_v_shape"              = "vs"
+    , "transmission_automatic"      = "am"
+    , "forward_gear_count"          = "gear"
+    , "carburetor_count"            = "carb"
+  ) %>%
+  dplyr::mutate(
+    weight_in_pounds        = weight_in_pounds_per_1000 * 1000,     # Clear up confusion about units
 
-# Add a unique identifier
-ds$car_id <- seq_len(nrow(ds))
+    engine_v_shape          = as.logical(engine_v_shape),           # Convert to boolean
+    transmission_automatic  = as.logical(transmission_automatic),   # Convert to boolean
+    horsepower_log_10       = log10(horsepower)
 
-# Clear up confusion about units and remove old variable
-ds$weight_in_pounds <- ds$weight_in_pounds_per_1000 * 1000
-ds$weight_in_pounds_per_1000 <- NULL
+  ) %>%
+  dplyr::mutate(
+    # Create duplicates of variables as factors (not numbers), which can help with later graphs or analyses.
+    #   Admittedly, the labels are a contrived example of a factor, but helps the demo later.
+    forward_gear_count_f  = factor(forward_gear_count, levels=3:5, labels=c("Three", "Four", "Five")),
+    carburetor_count_f    = factor(carburetor_count),
 
-# Convert some to boolean variables
-ds$VS <- as.logical(ds$vs)
-ds$automatic_transmission <- as.logical(ds$automatic_transmission)
-
-# Create duplicates of variables as factors (not numbers), which can help with later graphs or analyses.
-#   Admittedly, the labels are a contrived example of a factor, but helps the example later.
-ds$forward_gear_count_f <- factor(ds$forward_gear_count, levels=3:5, labels=c("Three", "Four", "Five"))
-ds$carburetor_count_f <- factor(ds$carburetor_count)
-
-### Create transformations and interactions to help later graphs and models.
-ds$displacement_inches_cubed_log_10 <- log10(ds$displacement_inches_cubed)
-ds$gross_horsepower_by_gear_count_3 <- ds$gross_horsepower * (ds$forward_gear_count=="three")
-ds$gross_horsepower_by_gear_count_4 <- ds$gross_horsepower * (ds$forward_gear_count=="four")
+    ### Create transformations and interactions to help later graphs and models.
+    horsepower_by_gear_count_3  = horsepower * (forward_gear_count=="three"),
+    horsepower_by_gear_count_4  = horsepower * (forward_gear_count=="four" )
+  ) %>%
+  dplyr::select(
+    -weight_in_pounds_per_1000 # Remove old variable
+  ) %>%
+  tibble::rowid_to_column("car_id") # Add a unique identifier
 
 # ---- erase-artifacts ---------------------------------------------------------
-# I'm pretending the dataset had unreasonably low values that were artifacts of the measurement equipment.
-ds$miles_per_gallon_artifact <- (ds$miles_per_gallon < 2.2)
-ds$miles_per_gallon <- ifelse(ds$miles_per_gallon_artifact, NA_real_, ds$miles_per_gallon)
+# I'm pretending there are low values that were artifacts of the measurement equipment.
+ds <-
+  ds %>%
+  dplyr::mutate(
+    miles_per_gallon_artifact = (miles_per_gallon < 2.2),
+    miles_per_gallon          = dplyr::if_else(miles_per_gallon_artifact, NA_real_, miles_per_gallon)
+  )
 
 # ---- create-z-scores ---------------------------------------------------------
 # This creates z-scores WITHIN forward_gear_count levels
-ds <- ds %>%
+ds <-
+  ds %>%
   dplyr::group_by(forward_gear_count) %>%
   dplyr::mutate(
     displacement_gear_z = as.numeric(base::scale(displacement_inches_cubed)),
     weight_gear_z       = as.numeric(base::scale(weight_in_pounds))
   ) %>%
-  dplyr::ungroup()  #Always leave the dataset ungrouped, so later operations act as expected.
+  dplyr::ungroup() %>%   #Always leave the dataset ungrouped, so later operations act as expected.
+  dplyr::mutate(
+    # Create a boolean variable, indicating if the z scores is above a certain threshold.
+    weight_gear_z_above_1 = (1 < weight_gear_z)
+  )
 
 # ---- graph, fig.width=10, fig.height=6, fig.path=figure_path ---------------------------------------------------------
 # Quick inspection of the distribution of z scores within levels
 ggplot2::qplot(ds$weight_gear_z, color=ds$forward_gear_count_f, geom="density")  # mean(ds$weight_gear_z, na.rm=T)
 
-# Create a boolean variable, indicating if the z scores is above a certain threshold.
-ds$weight_gear_z_above_1 <- (ds$weight_gear_z > 1.00)
-
 # ---- verify-values -----------------------------------------------------------
-testit::assert("`model_name` should be a unique value", sum(duplicated(ds$model_name))==0L)
-testit::assert("`miles_per_gallon` should be a positive value.", all(ds$miles_per_gallon>0))
-testit::assert("`weight_gear_z` should be a positive or missing value.", all(is.na(ds$miles_per_gallon) | (ds$miles_per_gallon>0)))
+# OuhscMunge::verify_value_headstart(ds) # Run this to line to start the checkmate asserts.
+
+checkmate::assert_integer(  ds$car_id                       , any.missing=F , lower=   1, upper=  32  , unique=T)
+checkmate::assert_character(ds$model_name                   , any.missing=F , pattern="^.{7,19}$"     , unique=T)
+checkmate::assert_numeric(  ds$miles_per_gallon             , any.missing=F , lower=  10, upper=  34  )
+checkmate::assert_numeric(  ds$cylinder_count               , any.missing=F , lower=   4, upper=   8  )
+checkmate::assert_numeric(  ds$displacement_inches_cubed    , any.missing=F , lower=  71, upper= 472  )
+checkmate::assert_numeric(  ds$horsepower                   , any.missing=F , lower=  52, upper= 335  )
+checkmate::assert_numeric(  ds$rear_axle_ratio              , any.missing=F , lower=   2, upper=   5  )
+checkmate::assert_numeric(  ds$quarter_mile_sec             , any.missing=F , lower=  14, upper=  23  )
+checkmate::assert_logical(  ds$engine_v_shape               , any.missing=F                           )
+checkmate::assert_logical(  ds$transmission_automatic       , any.missing=F                           )
+checkmate::assert_numeric(  ds$forward_gear_count           , any.missing=F , lower=   3, upper=   5  )
+checkmate::assert_numeric(  ds$carburetor_count             , any.missing=F , lower=   1, upper=   8  )
+checkmate::assert_numeric(  ds$weight_in_pounds             , any.missing=F , lower=1513, upper=5424  )
+checkmate::assert_numeric(  ds$horsepower_log_10            , any.missing=F , lower=   1, upper=   3  )
+checkmate::assert_factor(   ds$forward_gear_count_f         , any.missing=F                           )
+checkmate::assert_factor(   ds$carburetor_count_f           , any.missing=F                           )
+checkmate::assert_numeric(  ds$horsepower_by_gear_count_3   , any.missing=F , lower=   0, upper=   0  )
+checkmate::assert_numeric(  ds$horsepower_by_gear_count_4   , any.missing=F , lower=   0, upper=   0  )
+checkmate::assert_logical(  ds$miles_per_gallon_artifact    , any.missing=F                           )
+checkmate::assert_numeric(  ds$displacement_gear_z          , any.missing=F , lower=  -3, upper=   3  )
+checkmate::assert_numeric(  ds$weight_gear_z                , any.missing=F , lower=  -3, upper=   3  )
+checkmate::assert_logical(  ds$weight_gear_z_above_1        , any.missing=F                           )
 
 # ---- save-to-disk ------------------------------------------------------------
 # Save as a compress, binary R dataset.  It's no longer readable with a text editor, but it saves metadata (eg, factor information).

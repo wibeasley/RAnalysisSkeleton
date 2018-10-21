@@ -59,7 +59,7 @@ histogram_discrete <- function(
 
   g <- ggplot(d_summary, aes_string(x="iv", y="count", fill="iv", label="percentage")) +
     geom_bar(stat="identity") +
-    geom_text(stat="identity", size=text_size_percentage, hjust=.8) +
+    geom_text(stat="identity", size=text_size_percentage, hjust=.8, na.rm=T) +
     scale_y_continuous(labels=scales::comma_format()) +
     labs(title=main_title, x=x_title, y=y_title) +
     coord_flip()
@@ -105,7 +105,7 @@ histogram_continuous <- function(
   g <- ggplot2::ggplot(d_observed, ggplot2::aes_string(x=variable_name))
   g <- g + ggplot2::geom_histogram(binwidth=bin_width, position=ggplot2::position_identity(), fill="gray70", color="gray90", alpha=.7)
   g <- g + ggplot2::geom_vline(xintercept=ds_mid_points$value, color="gray30")
-  g <- g + ggplot2::geom_text(data=ds_mid_points, ggplot2::aes_string(x="value", y=0, label="value_rounded"), color="tomato", hjust=h_just, vjust=.5)
+  g <- g + ggplot2::geom_text(data=ds_mid_points, ggplot2::aes_string(x="value", y=0, label="value_rounded"), color="tomato", hjust=h_just, vjust=.5, na.rm=T)
   g <- g + ggplot2::scale_x_continuous(labels=scales::comma_format())
   g <- g + ggplot2::scale_y_continuous(labels=scales::comma_format())
   g <- g + ggplot2::labs(title=main_title, x=x_title, y=y_title)
@@ -122,7 +122,8 @@ histogram_continuous <- function(
 ds <- readr::read_rds(path_input) # 'ds' stands for 'datasets'
 
 # ---- tweak-data --------------------------------------------------------------
-# ds <- ds %>%
+# ds <-
+#   ds %>%
 #   tidyr::drop_na(infant_weight_for_gestational_age_category) %>%
 #   dplyr::mutate(
 #     clinic = droplevels(clinic)
@@ -136,7 +137,7 @@ ds <- readr::read_rds(path_input) # 'ds' stands for 'datasets'
 
 # ---- marginals ---------------------------------------------------------------
 # Inspect continuous variables
-histogram_continuous(d_observed=ds, variable_name="quarter_mile_in_seconds", bin_width=.5, rounded_digits=1)
+histogram_continuous(d_observed=ds, variable_name="quarter_mile_sec", bin_width=.5, rounded_digits=1)
 histogram_continuous(d_observed=ds, variable_name="displacement_inches_cubed", bin_width=50, rounded_digits=1)
 
 # Inspect discrete/categorical variables
@@ -152,7 +153,7 @@ histogram_discrete(d_observed=ds, variable_name="forward_gear_count_f")
 # }
 
 # ---- scatterplots ------------------------------------------------------------
-g1 <- ggplot(ds, aes(x=gross_horsepower, y=quarter_mile_in_seconds, color=forward_gear_count_f)) +
+g1 <- ggplot(ds, aes(x=horsepower, y=quarter_mile_sec, color=forward_gear_count_f)) +
   geom_smooth(method="loess", span=2) +
   geom_point(shape=1) +
   theme_light() +
@@ -164,18 +165,18 @@ g1 %+% aes(color=factor(cylinder_count))
 
 # ---- models ------------------------------------------------------------------
 cat("============= Simple model that's just an intercept. =============")
-m0 <- lm(quarter_mile_in_seconds ~ 1, data=ds)
+m0 <- lm(quarter_mile_sec ~ 1, data=ds)
 summary(m0)
 
 cat("============= Model includes one predictor. =============")
-m1 <- lm(quarter_mile_in_seconds ~ 1 + miles_per_gallon, data=ds)
+m1 <- lm(quarter_mile_sec ~ 1 + miles_per_gallon, data=ds)
 summary(m1)
 
 cat("The one predictor is significantly tighter.")
 anova(m0, m1)
 
 cat("============= Model includes two predictors. =============")
-m2 <- lm(quarter_mile_in_seconds ~ 1 + miles_per_gallon + forward_gear_count_f, data=ds)
+m2 <- lm(quarter_mile_sec ~ 1 + miles_per_gallon + forward_gear_count_f, data=ds)
 summary(m2)
 
 cat("The two predictor is significantly tighter.")

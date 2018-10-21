@@ -64,7 +64,8 @@ histogram_discrete <- function(
     labs(title=main_title, x=x_title, y=y_title) +
     coord_flip()
 
-  theme  <- theme_light(base_size=font_base_size) +
+  theme <-
+    theme_light(base_size=font_base_size) +
     theme(legend.position       =  "none") +
     theme(panel.grid.major.y    =  element_blank()) +
     theme(panel.grid.minor.y    =  element_blank()) +
@@ -90,31 +91,33 @@ histogram_continuous <- function(
   if( !inherits(d_observed, "data.frame") )
     stop("`d_observed` should inherit from the data.frame class.")
 
-  d_observed <- d_observed[!base::is.na(d_observed[[variable_name]]), ]
+  d_observed <- tidyr::drop_na_(d_observed, variable_name)
 
-  ds_mid_points <- base::data.frame(label=c("italic(X)[50]", "bar(italic(X))"), stringsAsFactors=FALSE)
-  ds_mid_points$value <- c(stats::median(d_observed[[variable_name]]), base::mean(d_observed[[variable_name]]))
+  ds_mid_points               <- base::data.frame(label=c("italic(X)[50]", "bar(italic(X))"), stringsAsFactors=FALSE)
+  ds_mid_points$value         <- c(stats::median(d_observed[[variable_name]]), base::mean(d_observed[[variable_name]]))
   ds_mid_points$value_rounded <- base::round(ds_mid_points$value, rounded_digits)
 
   if( ds_mid_points$value[1] < ds_mid_points$value[2] ) {
-    h_just <- c(1, 0)
+    h_just <- c(1.1, -0.1)
   } else {
-    h_just <- c(0, 1)
+    h_just <- c(-0.1, 1.1)
   }
 
-  g <- ggplot2::ggplot(d_observed, ggplot2::aes_string(x=variable_name))
-  g <- g + ggplot2::geom_histogram(binwidth=bin_width, position=ggplot2::position_identity(), fill="gray70", color="gray90", alpha=.7)
-  g <- g + ggplot2::geom_vline(xintercept=ds_mid_points$value, color="gray30")
-  g <- g + ggplot2::geom_text(data=ds_mid_points, ggplot2::aes_string(x="value", y=0, label="value_rounded"), color="tomato", hjust=h_just, vjust=.5, na.rm=T)
-  g <- g + ggplot2::scale_x_continuous(labels=scales::comma_format())
-  g <- g + ggplot2::scale_y_continuous(labels=scales::comma_format())
-  g <- g + ggplot2::labs(title=main_title, x=x_title, y=y_title)
+  g <-
+    d_observed %>%
+    ggplot2::ggplot(ggplot2::aes_string(x=variable_name)) +
+    ggplot2::geom_histogram(binwidth=bin_width, position=ggplot2::position_identity(), fill="gray70", color="gray90", alpha=.7) +
+    ggplot2::geom_vline(xintercept=ds_mid_points$value, color="gray30") +
+    ggplot2::geom_text(data=ds_mid_points, ggplot2::aes_string(x="value", y=0, label="value_rounded"), color="tomato", hjust=h_just, vjust=.5, na.rm=T) +
+    ggplot2::scale_x_continuous(labels=scales::comma_format()) +
+    ggplot2::scale_y_continuous(labels=scales::comma_format()) +
+    ggplot2::labs(title=main_title, x=x_title, y=y_title)
 
-  g <- g + ggplot2::theme_light(base_size = font_base_size) +
+  g <- g +
+    ggplot2::theme_light(base_size = font_base_size) +
     ggplot2::theme(axis.ticks             = ggplot2::element_blank())
 
-  ds_mid_points$top <- stats::quantile(ggplot2::ggplot_build(g)$layout$panel_ranges[[1]]$y.range, .8)
-  g <- g + ggplot2::geom_text(data=ds_mid_points, ggplot2::aes_string(x="value", y="top", label="label"), color="tomato", hjust=h_just, parse=TRUE)
+  g <- g + ggplot2::geom_text(data=ds_mid_points, ggplot2::aes_string(x="value", y=Inf, label="label"), color="tomato", hjust=h_just, vjust=2, parse=TRUE)
   return( g )
 }
 
@@ -143,6 +146,7 @@ checkmate::assert_numeric(  ds$horsepower_by_gear_count_4   , any.missing=F , lo
 # ---- marginals ---------------------------------------------------------------
 # Inspect continuous variables
 histogram_continuous(d_observed=ds, variable_name="quarter_mile_sec", bin_width=.5, rounded_digits=1)
+TabularManifest::histogram_continuous(d_observed=ds, variable_name="quarter_mile_sec", bin_width=.5, rounded_digits=1)
 histogram_continuous(d_observed=ds, variable_name="displacement_inches_cubed", bin_width=50, rounded_digits=1)
 
 # Inspect discrete/categorical variables
@@ -170,9 +174,10 @@ g1 %+% aes(color=factor(cylinder_count))
 
 ggplot2::qplot(ds$weight_gear_z, color=ds$forward_gear_count_f, geom="density")  # mean(ds$weight_gear_z, na.rm=T)
 
-ggplot(ds, aes(x=weight_gear_z, fill=forward_gear_count_f)) +
+ggplot(ds, aes(x=weight_gear_z, color=forward_gear_count_f, fill=forward_gear_count_f)) +
   geom_density(alpha=.1) +
-  theme_minimal()
+  theme_minimal() +
+  labs(x=expression(z[gear]))
 
 # ---- models ------------------------------------------------------------------
 cat("============= Simple model that's just an intercept. =============")
@@ -194,7 +199,6 @@ cat("The two predictor is significantly tighter.")
 anova(m1, m2)
 
 # ---- model-results-table  -----------------------------------------------
-
 summary(m2)$coef %>%
   knitr::kable(
     digits      = 2,

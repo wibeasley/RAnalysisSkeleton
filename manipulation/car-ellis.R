@@ -42,7 +42,7 @@ ds <-
     , "displacement_inches_cubed"   = "disp"
     , "horsepower"                  = "hp"
     , "rear_axle_ratio"             = "drat"
-    , "weight_in_pounds_per_1000"   = "wt"
+    , "weight_pounds_per_1000"      = "wt"
     , "quarter_mile_sec"            = "qsec"
     , "engine_v_shape"              = "vs"
     , "transmission_automatic"      = "am"
@@ -50,14 +50,14 @@ ds <-
     , "carburetor_count"            = "carb"
   ) %>%
   dplyr::mutate(
-    weight_in_pounds        = weight_in_pounds_per_1000 * 1000,     # Clear up confusion about units
+    weight_pounds           = weight_pounds_per_1000 * 1000,     # Clear up confusion about units
 
     engine_v_shape          = as.logical(engine_v_shape),           # Convert to boolean
     transmission_automatic  = as.logical(transmission_automatic),   # Convert to boolean
     horsepower_log_10       = log10(horsepower)
   ) %>%
   dplyr::select(
-    -weight_in_pounds_per_1000 # Remove old variable
+    -weight_pounds_per_1000 # Remove old variable
   ) %>%
   tibble::rowid_to_column("car_id") # Add a unique identifier
 
@@ -77,7 +77,7 @@ ds <-
   dplyr::group_by(forward_gear_count) %>%
   dplyr::mutate(
     displacement_gear_z = as.numeric(base::scale(displacement_inches_cubed)),
-    weight_gear_z       = as.numeric(base::scale(weight_in_pounds))
+    weight_gear_z       = as.numeric(base::scale(weight_pounds))
   ) %>%
   dplyr::ungroup() %>%   #Always leave the dataset ungrouped, so later operations act as expected.
   dplyr::mutate(
@@ -100,7 +100,7 @@ checkmate::assert_logical(  ds$engine_v_shape               , any.missing=F     
 checkmate::assert_logical(  ds$transmission_automatic       , any.missing=F                           )
 checkmate::assert_numeric(  ds$forward_gear_count           , any.missing=F , lower=   3, upper=   5  )
 checkmate::assert_numeric(  ds$carburetor_count             , any.missing=F , lower=   1, upper=   8  )
-checkmate::assert_numeric(  ds$weight_in_pounds             , any.missing=F , lower=1513, upper=5424  )
+checkmate::assert_numeric(  ds$weight_pounds                , any.missing=F , lower=1513, upper=5424  )
 checkmate::assert_numeric(  ds$horsepower_log_10            , any.missing=F , lower=   1, upper=   3  )
 checkmate::assert_logical(  ds$miles_per_gallon_artifact    , any.missing=F                           )
 checkmate::assert_numeric(  ds$displacement_gear_z          , any.missing=F , lower=  -3, upper=   3  )

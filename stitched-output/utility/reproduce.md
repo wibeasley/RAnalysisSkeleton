@@ -22,13 +22,21 @@ requireNamespace("OuhscMunge") # remotes::install_github("OuhscBbmc/OuhscMunge")
 ```r
 # config        <- config::get(file="data-public/metadata/config.yml")
 
+# Allow multiple files below to have the same chunk name.
+#    If the `root.dir` option is properly managed in the Rmd files, no files will be overwritten.
+options(knitr.duplicate.label = "allow")
+
 ds_rail  <- tibble::tribble(
   ~fx               , ~path,
+
+  # First run the manipulation files to prepare the dataset(s).
   "run_file_r"      , "./manipulation/te-ellis.R",
   "run_file_r"      , "./manipulation/car-ellis.R",
-  "run_file_r"      , "./manipulation/randomization-block-simple.R"
+  # "run_ferry_sql" , "./manipulation/inserts-to-normalized-tables.sql"
+  "run_file_r"      , "./manipulation/randomization-block-simple.R",
 
-  # "run_ferry_sql"   , "./manipulation/inserts-to-normalized-tables.sql"
+  # Next render the analysis report(s):
+  "run_rmd"       , "analysis/report-1/report-1.Rmd"
 )
 
 run_file_r <- function( minion ) {
@@ -43,12 +51,19 @@ run_ferry_sql <- function( minion ) {
   message("Completed `", basename(minion), "`.")
   return( TRUE )
 }
+run_rmd <- function( minion ) {
+  message("\nStarting `", basename(minion), "` at ", Sys.time(), ".")
+  path_out <- rmarkdown::render(minion, envir=new.env())
+  Sys.sleep(3) # Sleep for three secs, to let pandoc finish
+  message(path_out)
+  return( TRUE )
+}
 
 (file_found <- purrr::map_lgl(ds_rail$path, file.exists))
 ```
 
 ```
-## [1] TRUE TRUE TRUE
+## [1] TRUE TRUE TRUE TRUE
 ```
 
 ```r
@@ -65,7 +80,7 @@ message("Starting update of files at ", Sys.time(), ".")
 ```
 
 ```
-## Starting update of files at 2018-10-22 08:55:21.
+## Starting update of files at 2018-10-22 09:24:14.
 ```
 
 ```r
@@ -79,7 +94,7 @@ elapsed_time <- system.time({
 
 ```
 ## 
-## Starting `te-ellis.R` at 2018-10-22 08:55:21.
+## Starting `te-ellis.R` at 2018-10-22 09:24:14.
 ```
 
 ```
@@ -105,7 +120,7 @@ elapsed_time <- system.time({
 
 ```
 ## 
-## Starting `car-ellis.R` at 2018-10-22 08:55:22.
+## Starting `car-ellis.R` at 2018-10-22 09:24:15.
 ```
 
 ```
@@ -132,11 +147,176 @@ elapsed_time <- system.time({
 
 ```
 ## 
-## Starting `randomization-block-simple.R` at 2018-10-22 08:55:22.
+## Starting `randomization-block-simple.R` at 2018-10-22 09:24:15.
 ```
 
 ```
 ## Completed `randomization-block-simple.R`.
+```
+
+```
+## 
+## Starting `report-1.Rmd` at 2018-10-22 09:24:15.
+```
+
+```
+## 
+## 
+## processing file: report-1.Rmd
+```
+
+```
+##   |                                                                         |                                                                 |   0%  |                                                                         |..                                                               |   3%
+##    inline R code fragments
+## 
+##   |                                                                         |....                                                             |   7%
+## label: unnamed-chunk-2 (with options) 
+## List of 2
+##  $ echo   : symbol F
+##  $ message: symbol F
+## 
+##   |                                                                         |.......                                                          |  10%
+##   ordinary text without R code
+## 
+##   |                                                                         |.........                                                        |  14%
+## label: set-options (with options) 
+## List of 1
+##  $ echo: symbol F
+## 
+##   |                                                                         |...........                                                      |  17%
+##   ordinary text without R code
+## 
+##   |                                                                         |.............                                                    |  21%
+## label: load-sources (with options) 
+## List of 2
+##  $ echo   : symbol echo_chunks
+##  $ message: symbol message_chunks
+## 
+##   |                                                                         |................                                                 |  24%
+##   ordinary text without R code
+## 
+##   |                                                                         |..................                                               |  28%
+## label: load-packages (with options) 
+## List of 2
+##  $ echo   : symbol echo_chunks
+##  $ message: symbol message_chunks
+## 
+##   |                                                                         |....................                                             |  31%
+##   ordinary text without R code
+## 
+##   |                                                                         |......................                                           |  34%
+## label: declare-globals (with options) 
+## List of 3
+##  $ echo   : symbol echo_chunks
+##  $ results: chr "show"
+##  $ message: symbol message_chunks
+## 
+##   |                                                                         |.........................                                        |  38%
+##   ordinary text without R code
+## 
+##   |                                                                         |...........................                                      |  41%
+## label: rmd-specific (with options) 
+## List of 2
+##  $ echo   : symbol echo_chunks
+##  $ message: symbol message_chunks
+## 
+##   |                                                                         |.............................                                    |  45%
+##   ordinary text without R code
+## 
+##   |                                                                         |...............................                                  |  48%
+## label: load-data (with options) 
+## List of 3
+##  $ echo   : symbol echo_chunks
+##  $ results: chr "show"
+##  $ message: symbol message_chunks
+## 
+##   |                                                                         |..................................                               |  52%
+##   ordinary text without R code
+## 
+##   |                                                                         |....................................                             |  55%
+## label: tweak-data (with options) 
+## List of 3
+##  $ echo   : symbol echo_chunks
+##  $ results: chr "show"
+##  $ message: symbol message_chunks
+## 
+##   |                                                                         |......................................                           |  59%
+##    inline R code fragments
+## 
+##   |                                                                         |........................................                         |  62%
+## label: marginals (with options) 
+## List of 2
+##  $ echo   : symbol echo_chunks
+##  $ message: symbol message_chunks
+```
+
+```
+##   |                                                                         |...........................................                      |  66%
+##   ordinary text without R code
+## 
+##   |                                                                         |.............................................                    |  69%
+## label: scatterplots (with options) 
+## List of 3
+##  $ echo     : symbol echo_chunks
+##  $ message  : symbol message_chunks
+##  $ fig.width: num 7
+```
+
+```
+##   |                                                                         |...............................................                  |  72%
+##   ordinary text without R code
+## 
+##   |                                                                         |.................................................                |  76%
+## label: models (with options) 
+## List of 2
+##  $ echo   : symbol echo_chunks
+##  $ message: symbol message_chunks
+## 
+##   |                                                                         |....................................................             |  79%
+##   ordinary text without R code
+## 
+##   |                                                                         |......................................................           |  83%
+## label: model-results-table (with options) 
+## List of 3
+##  $ echo   : symbol echo_chunks
+##  $ message: symbol message_chunks
+##  $ warning: logi TRUE
+## 
+##   |                                                                         |........................................................         |  86%
+##    inline R code fragments
+## 
+##   |                                                                         |..........................................................       |  90%
+## label: session-info-3 (with options) 
+## List of 1
+##  $ echo: logi FALSE
+## 
+##   |                                                                         |.............................................................    |  93%
+##   ordinary text without R code
+## 
+##   |                                                                         |...............................................................  |  97%
+## label: session-duration (with options) 
+## List of 1
+##  $ echo: logi FALSE
+## 
+##   |                                                                         |.................................................................| 100%
+##    inline R code fragments
+```
+
+```
+## output file: report-1.knit.md
+```
+
+```
+## /usr/lib/rstudio/bin/pandoc/pandoc +RTS -K512m -RTS report-1.utf8.md --to html4 --from markdown+autolink_bare_uris+ascii_identifiers+tex_math_single_backslash+smart --output report-1.html --email-obfuscation none --self-contained --standalone --section-divs --table-of-contents --toc-depth 3 --variable toc_float=1 --variable toc_selectors=h1,h2,h3 --variable toc_collapsed=1 --variable toc_smooth_scroll=1 --variable toc_print=1 --template /home/wibeasley/R/x86_64-pc-linux-gnu-library/3.5/rmarkdown/rmd/h/default.html --no-highlight --variable highlightjs=1 --number-sections --css ../common/styles.css --variable 'theme:bootstrap' --include-in-header /tmp/Rtmph4BRqE/rmarkdown-str2211ca45225.html --mathjax --variable 'mathjax-url:https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML'
+```
+
+```
+## 
+## Output created: report-1.html
+```
+
+```
+## /home/wibeasley/Documents/wibeasley/RAnalysisSkeleton/analysis/report-1/report-1.html
 ```
 
 ```r
@@ -144,8 +324,10 @@ message("Completed update of files at ", Sys.time(), "")
 ```
 
 ```
-## Completed update of files at 2018-10-22 08:55:22
+## Completed update of files at 2018-10-22 09:24:25
 ```
+
+<img src="figure/reproduce-Rmdrun-1.png" title="plot of chunk run" alt="plot of chunk run" style="display: block; margin: auto;" />
 
 ```r
 elapsed_time
@@ -153,7 +335,7 @@ elapsed_time
 
 ```
 ##    user  system elapsed 
-##   0.818   0.069   0.896
+##   6.692   0.866  10.491
 ```
 
 The R session information (including the OS info, R version and all
@@ -185,7 +367,8 @@ sessionInfo()
 ## [1] stats     graphics  grDevices utils     datasets  methods   base     
 ## 
 ## other attached packages:
-## [1] ggplot2_3.0.0  DBI_1.0.0      bindrcpp_0.2.2 magrittr_1.5  
+## [1] knitr_1.20     ggplot2_3.0.0  DBI_1.0.0      bindrcpp_0.2.2
+## [5] magrittr_1.5  
 ## 
 ## loaded via a namespace (and not attached):
 ##  [1] Rcpp_0.12.19                lattice_0.20-35            
@@ -222,8 +405,7 @@ sessionInfo()
 ## [63] processx_3.2.0              pkgload_1.0.1              
 ## [65] yaml_2.2.0                  colorspace_1.3-2           
 ## [67] sessioninfo_1.1.0           memoise_1.1.0              
-## [69] knitr_1.20                  bindr_0.1.1                
-## [71] usethis_1.4.0
+## [69] bindr_0.1.1                 usethis_1.4.0
 ```
 
 ```r
@@ -231,6 +413,6 @@ Sys.time()
 ```
 
 ```
-## [1] "2018-10-22 08:55:22 CDT"
+## [1] "2018-10-22 09:24:26 CDT"
 ```
 

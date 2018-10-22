@@ -67,13 +67,13 @@ Graphs
 Marginals
 ---------------------------------------------------------------------------
 
-![](figure-png/marginals-1.png)<!-- -->![](figure-png/marginals-2.png)<!-- -->![](figure-png/marginals-3.png)<!-- -->![](figure-png/marginals-4.png)<!-- -->
+<img src="figure-png/marginals-1.png" style="display: block; margin: auto;" /><img src="figure-png/marginals-2.png" style="display: block; margin: auto;" /><img src="figure-png/marginals-3.png" style="display: block; margin: auto;" /><img src="figure-png/marginals-4.png" style="display: block; margin: auto;" />
 
 
 Scatterplots
 ---------------------------------------------------------------------------
 
-![](figure-png/scatterplots-1.png)<!-- -->![](figure-png/scatterplots-2.png)<!-- -->![](figure-png/scatterplots-3.png)<!-- -->![](figure-png/scatterplots-4.png)<!-- -->![](figure-png/scatterplots-5.png)<!-- -->
+<img src="figure-png/scatterplots-1.png" style="display: block; margin: auto;" /><img src="figure-png/scatterplots-2.png" style="display: block; margin: auto;" /><img src="figure-png/scatterplots-3.png" style="display: block; margin: auto;" /><img src="figure-png/scatterplots-4.png" style="display: block; margin: auto;" /><img src="figure-png/scatterplots-5.png" style="display: block; margin: auto;" />
 
 
 Models
@@ -208,7 +208,7 @@ For the sake of documentation and reproducibility, the current report was render
  version  R version 3.5.1 (2018-07-02)
  os       Ubuntu 18.04.1 LTS          
  system   x86_64, linux-gnu           
- ui       X11                         
+ ui       RStudio                     
  language (EN)                        
  collate  en_US.UTF-8                 
  ctype    en_US.UTF-8                 
@@ -216,63 +216,152 @@ For the sake of documentation and reproducibility, the current report was render
  date     2018-10-22                  
 
 ─ Packages ──────────────────────────────────────────────────────────────
- package     * version    date       lib source                          
- assertthat    0.2.0      2017-04-11 [1] CRAN (R 3.5.1)                  
- backports     1.1.2      2017-12-13 [1] CRAN (R 3.5.1)                  
- base64enc     0.1-3      2015-07-28 [1] CRAN (R 3.5.1)                  
- bindr         0.1.1      2018-03-13 [1] CRAN (R 3.5.1)                  
- bindrcpp    * 0.2.2      2018-03-29 [1] CRAN (R 3.5.1)                  
- callr         3.0.0      2018-08-24 [1] CRAN (R 3.5.1)                  
- checkmate     1.8.9-9000 2018-08-18 [1] Github (mllg/checkmate@bd7d200) 
- cli           1.0.1      2018-09-25 [1] CRAN (R 3.5.1)                  
- colorspace    1.3-2      2016-12-14 [1] CRAN (R 3.5.1)                  
- crayon        1.3.4      2017-09-16 [1] CRAN (R 3.5.1)                  
- desc          1.2.0      2018-05-01 [1] CRAN (R 3.5.1)                  
- devtools      2.0.0      2018-10-19 [1] CRAN (R 3.5.1)                  
- digest        0.6.18     2018-10-10 [1] CRAN (R 3.5.1)                  
- dplyr         0.7.7      2018-10-16 [1] CRAN (R 3.5.1)                  
- evaluate      0.12       2018-10-09 [1] CRAN (R 3.5.1)                  
- fs            1.2.6      2018-08-23 [1] CRAN (R 3.5.1)                  
- ggplot2     * 3.0.0      2018-07-03 [1] CRAN (R 3.5.1)                  
- glue          1.3.0      2018-07-17 [1] CRAN (R 3.5.1)                  
- gtable        0.2.0      2016-02-26 [1] CRAN (R 3.5.1)                  
- highr         0.7        2018-06-09 [1] CRAN (R 3.5.1)                  
- hms           0.4.2.9001 2018-08-18 [1] Github (tidyverse/hms@979286f)  
- htmltools     0.3.6      2017-04-28 [1] CRAN (R 3.5.1)                  
- knitr       * 1.20       2018-02-20 [1] CRAN (R 3.5.1)                  
- labeling      0.3        2014-08-23 [1] CRAN (R 3.5.1)                  
- lazyeval      0.2.1      2017-10-29 [1] CRAN (R 3.5.1)                  
- magrittr    * 1.5        2014-11-22 [1] CRAN (R 3.5.1)                  
- memoise       1.1.0      2017-04-21 [1] CRAN (R 3.5.1)                  
- munsell       0.5.0      2018-06-12 [1] CRAN (R 3.5.1)                  
- pillar        1.3.0      2018-07-14 [1] CRAN (R 3.5.1)                  
- pkgbuild      1.0.2      2018-10-16 [1] CRAN (R 3.5.1)                  
- pkgconfig     2.0.2      2018-08-16 [1] CRAN (R 3.5.1)                  
- pkgload       1.0.1      2018-10-11 [1] CRAN (R 3.5.1)                  
- plyr          1.8.4      2016-06-08 [1] CRAN (R 3.5.1)                  
- prettyunits   1.0.2      2015-07-13 [1] CRAN (R 3.5.1)                  
- processx      3.2.0      2018-08-16 [1] CRAN (R 3.5.1)                  
- ps            1.2.0      2018-10-16 [1] CRAN (R 3.5.1)                  
- purrr         0.2.5      2018-05-29 [1] CRAN (R 3.5.1)                  
- R6            2.3.0      2018-10-04 [1] CRAN (R 3.5.1)                  
- Rcpp          0.12.19    2018-10-01 [1] CRAN (R 3.5.1)                  
- readr         1.2.0      2018-09-16 [1] Github (tidyverse/readr@a19ffac)
- remotes       2.0.0      2018-10-11 [1] CRAN (R 3.5.1)                  
- rlang         0.2.2      2018-08-16 [1] CRAN (R 3.5.1)                  
- rmarkdown     1.10       2018-06-11 [1] CRAN (R 3.5.1)                  
- rprojroot     1.3-2      2018-01-03 [1] CRAN (R 3.5.1)                  
- scales        1.0.0      2018-08-09 [1] CRAN (R 3.5.1)                  
- sessioninfo   1.1.0      2018-09-25 [1] CRAN (R 3.5.1)                  
- stringi       1.2.4      2018-07-20 [1] CRAN (R 3.5.1)                  
- stringr       1.3.1      2018-05-10 [1] CRAN (R 3.5.1)                  
- testthat      2.0.1      2018-10-13 [1] CRAN (R 3.5.1)                  
- tibble        1.4.2      2018-01-22 [1] CRAN (R 3.5.1)                  
- tidyr         0.8.1      2018-05-18 [1] CRAN (R 3.5.1)                  
- tidyselect    0.2.5      2018-10-11 [1] CRAN (R 3.5.1)                  
- usethis       1.4.0      2018-08-14 [1] CRAN (R 3.5.1)                  
- viridisLite   0.3.0      2018-02-01 [1] CRAN (R 3.5.1)                  
- withr         2.1.2      2018-03-15 [1] CRAN (R 3.5.1)                  
- yaml          2.2.0      2018-07-25 [1] CRAN (R 3.5.1)                  
+ package         * version     date       lib
+ assertthat        0.2.0       2017-04-11 [1]
+ backports         1.1.2       2017-12-13 [1]
+ base64enc         0.1-3       2015-07-28 [1]
+ bindr             0.1.1       2018-03-13 [1]
+ bindrcpp        * 0.2.2       2018-03-29 [1]
+ bit               1.1-14      2018-05-29 [1]
+ bit64             0.9-7       2017-05-08 [1]
+ blob              1.1.1       2018-03-25 [1]
+ callr             3.0.0       2018-08-24 [1]
+ checkmate         1.8.9-9000  2018-08-18 [1]
+ cli               1.0.1       2018-09-25 [1]
+ colorspace        1.3-2       2016-12-14 [1]
+ config            0.3         2018-03-27 [1]
+ crayon            1.3.4       2017-09-16 [1]
+ DBI             * 1.0.0       2018-05-02 [1]
+ desc              1.2.0       2018-05-01 [1]
+ devtools          2.0.0       2018-10-19 [1]
+ digest            0.6.18      2018-10-10 [1]
+ dplyr             0.7.7       2018-10-16 [1]
+ evaluate          0.12        2018-10-09 [1]
+ fansi             0.4.0       2018-10-05 [1]
+ fs                1.2.6       2018-08-23 [1]
+ ggplot2         * 3.0.0       2018-07-03 [1]
+ glue              1.3.0       2018-07-17 [1]
+ gtable            0.2.0       2016-02-26 [1]
+ highr             0.7         2018-06-09 [1]
+ hms               0.4.2.9001  2018-08-18 [1]
+ htmltools         0.3.6       2017-04-28 [1]
+ knitr           * 1.20        2018-02-20 [1]
+ labeling          0.3         2014-08-23 [1]
+ lattice           0.20-35     2017-03-25 [4]
+ lazyeval          0.2.1       2017-10-29 [1]
+ magrittr        * 1.5         2014-11-22 [1]
+ markdown          0.8         2017-04-20 [1]
+ memoise           1.1.0       2017-04-21 [1]
+ munsell           0.5.0       2018-06-12 [1]
+ OuhscMunge        0.1.9.9009  2018-08-18 [1]
+ packrat           0.4.9-3     2018-06-01 [1]
+ pillar            1.3.0       2018-07-14 [1]
+ pkgbuild          1.0.2       2018-10-16 [1]
+ pkgconfig         2.0.2       2018-08-16 [1]
+ pkgload           1.0.1       2018-10-11 [1]
+ plyr              1.8.4       2016-06-08 [1]
+ prettyunits       1.0.2       2015-07-13 [1]
+ processx          3.2.0       2018-08-16 [1]
+ ps                1.2.0       2018-10-16 [1]
+ purrr             0.2.5       2018-05-29 [1]
+ R6                2.3.0       2018-10-04 [1]
+ Rcpp              0.12.19     2018-10-01 [1]
+ readr             1.2.0       2018-09-16 [1]
+ remotes           2.0.0       2018-10-11 [1]
+ rlang             0.2.2       2018-08-16 [1]
+ rmarkdown         1.10        2018-06-11 [1]
+ rprojroot         1.3-2       2018-01-03 [1]
+ rsconnect         0.8.8       2018-03-09 [1]
+ RSQLite           2.1.1       2018-05-06 [1]
+ scales            1.0.0       2018-08-09 [1]
+ sessioninfo       1.1.0       2018-09-25 [1]
+ stringi           1.2.4       2018-07-20 [1]
+ stringr           1.3.1       2018-05-10 [1]
+ TabularManifest   0.1-16.9003 2018-08-18 [1]
+ testit            0.8         2018-06-14 [1]
+ testthat          2.0.1       2018-10-13 [1]
+ tibble            1.4.2       2018-01-22 [1]
+ tidyr             0.8.1       2018-05-18 [1]
+ tidyselect        0.2.5       2018-10-11 [1]
+ usethis           1.4.0       2018-08-14 [1]
+ utf8              1.1.4       2018-05-24 [1]
+ viridisLite       0.3.0       2018-02-01 [1]
+ withr             2.1.2       2018-03-15 [1]
+ yaml              2.2.0       2018-07-25 [1]
+ zoo               1.8-4       2018-09-19 [1]
+ source                                  
+ CRAN (R 3.5.1)                          
+ CRAN (R 3.5.1)                          
+ CRAN (R 3.5.1)                          
+ CRAN (R 3.5.1)                          
+ CRAN (R 3.5.1)                          
+ CRAN (R 3.5.1)                          
+ CRAN (R 3.5.1)                          
+ CRAN (R 3.5.1)                          
+ CRAN (R 3.5.1)                          
+ Github (mllg/checkmate@bd7d200)         
+ CRAN (R 3.5.1)                          
+ CRAN (R 3.5.1)                          
+ CRAN (R 3.5.1)                          
+ CRAN (R 3.5.1)                          
+ CRAN (R 3.5.1)                          
+ CRAN (R 3.5.1)                          
+ CRAN (R 3.5.1)                          
+ CRAN (R 3.5.1)                          
+ CRAN (R 3.5.1)                          
+ CRAN (R 3.5.1)                          
+ CRAN (R 3.5.1)                          
+ CRAN (R 3.5.1)                          
+ CRAN (R 3.5.1)                          
+ CRAN (R 3.5.1)                          
+ CRAN (R 3.5.1)                          
+ CRAN (R 3.5.1)                          
+ Github (tidyverse/hms@979286f)          
+ CRAN (R 3.5.1)                          
+ CRAN (R 3.5.1)                          
+ CRAN (R 3.5.1)                          
+ CRAN (R 3.5.0)                          
+ CRAN (R 3.5.1)                          
+ CRAN (R 3.5.1)                          
+ CRAN (R 3.5.1)                          
+ CRAN (R 3.5.1)                          
+ CRAN (R 3.5.1)                          
+ Github (OuhscBbmc/OuhscMunge@addee2e)   
+ CRAN (R 3.5.1)                          
+ CRAN (R 3.5.1)                          
+ CRAN (R 3.5.1)                          
+ CRAN (R 3.5.1)                          
+ CRAN (R 3.5.1)                          
+ CRAN (R 3.5.1)                          
+ CRAN (R 3.5.1)                          
+ CRAN (R 3.5.1)                          
+ CRAN (R 3.5.1)                          
+ CRAN (R 3.5.1)                          
+ CRAN (R 3.5.1)                          
+ CRAN (R 3.5.1)                          
+ Github (tidyverse/readr@a19ffac)        
+ CRAN (R 3.5.1)                          
+ CRAN (R 3.5.1)                          
+ CRAN (R 3.5.1)                          
+ CRAN (R 3.5.1)                          
+ CRAN (R 3.5.1)                          
+ CRAN (R 3.5.1)                          
+ CRAN (R 3.5.1)                          
+ CRAN (R 3.5.1)                          
+ CRAN (R 3.5.1)                          
+ CRAN (R 3.5.1)                          
+ Github (Melinae/TabularManifest@4cbc21c)
+ CRAN (R 3.5.1)                          
+ CRAN (R 3.5.1)                          
+ CRAN (R 3.5.1)                          
+ CRAN (R 3.5.1)                          
+ CRAN (R 3.5.1)                          
+ CRAN (R 3.5.1)                          
+ CRAN (R 3.5.1)                          
+ CRAN (R 3.5.1)                          
+ CRAN (R 3.5.1)                          
+ CRAN (R 3.5.1)                          
+ CRAN (R 3.5.1)                          
 
 [1] /home/wibeasley/R/x86_64-pc-linux-gnu-library/3.5
 [2] /usr/local/lib/R/site-library
@@ -283,4 +372,4 @@ For the sake of documentation and reproducibility, the current report was render
 
 
 
-Report rendered by wibeasley at 2018-10-22, 08:49 -0500 in 11 seconds.
+Report rendered by wibeasley at 2018-10-22, 09:24 -0500 in 6 seconds.

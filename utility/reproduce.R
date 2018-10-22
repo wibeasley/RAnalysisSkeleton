@@ -12,13 +12,21 @@ requireNamespace("OuhscMunge") # remotes::install_github("OuhscBbmc/OuhscMunge")
 # ---- declare-globals ---------------------------------------------------------
 # config        <- config::get(file="data-public/metadata/config.yml")
 
+# Allow multiple files below to have the same chunk name.
+#    If the `root.dir` option is properly managed in the Rmd files, no files will be overwritten.
+options(knitr.duplicate.label = "allow")
+
 ds_rail  <- tibble::tribble(
   ~fx               , ~path,
+
+  # First run the manipulation files to prepare the dataset(s).
   "run_file_r"      , "./manipulation/te-ellis.R",
   "run_file_r"      , "./manipulation/car-ellis.R",
-  "run_file_r"      , "./manipulation/randomization-block-simple.R"
+  # "run_ferry_sql" , "./manipulation/inserts-to-normalized-tables.sql"
+  "run_file_r"      , "./manipulation/randomization-block-simple.R",
 
-  # "run_ferry_sql"   , "./manipulation/inserts-to-normalized-tables.sql"
+  # Next render the analysis report(s):
+  "run_rmd"       , "analysis/report-1/report-1.Rmd"
 )
 
 run_file_r <- function( minion ) {
@@ -31,6 +39,13 @@ run_ferry_sql <- function( minion ) {
   message("\nStarting `", basename(minion), "` at ", Sys.time(), ".")
   OuhscMunge::execute_sql_file(minion, config$dsn_staging)
   message("Completed `", basename(minion), "`.")
+  return( TRUE )
+}
+run_rmd <- function( minion ) {
+  message("\nStarting `", basename(minion), "` at ", Sys.time(), ".")
+  path_out <- rmarkdown::render(minion, envir=new.env())
+  Sys.sleep(3) # Sleep for three secs, to let pandoc finish
+  message(path_out)
   return( TRUE )
 }
 

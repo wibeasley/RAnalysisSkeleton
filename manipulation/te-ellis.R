@@ -24,6 +24,11 @@ requireNamespace("OuhscMunge"   ) # remotes::install_github(repo="OuhscBbmc/Ouhs
 
 # ---- declare-globals ---------------------------------------------------------
 # Constant values that won't change.
+# config                         <- config::get()
+# path_out_unified               <- config$path_te_county_month
+# path_db                        <- config$path_te_database
+# Uncomment the lines above and delete the two below if values are stored in 'config.yml'.
+
 path_out_unified               <- "data-public/derived/county-month-te.csv"
 path_db                        <- "data-unshared/derived/te.sqlite3"
 counties_to_drop_from_rural    <- c("Central Office", "Tulsa", "Oklahoma") #Exclude these records from the rural dataset.

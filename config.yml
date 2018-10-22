@@ -1,0 +1,6 @@
+default:
+    path_car_raw:             "data-public/raw/mtcar.csv"
+    path_car_derived:         "data-public/derived/motor-trend-car-test.rds"
+
+    path_te_county_month:     "data-public/derived/county-month-te.csv"
+    path_te_database:         "data-unshared/derived/te.sqlite3"

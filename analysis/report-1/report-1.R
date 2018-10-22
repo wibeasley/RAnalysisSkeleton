@@ -16,6 +16,9 @@ requireNamespace("dplyr")
 
 # ---- declare-globals ---------------------------------------------------------
 options(show.signif.stars=F) #Turn off the annotations on p-values
+# config                      <- config::get()
+# path_input                  <- config$path_car_derived
+# Uncomment the lines above and delete the one below if value is stored in 'config.yml'.
 
 path_input <- "./data-public/derived/motor-trend-car-test.rds"
 

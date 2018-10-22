@@ -17,6 +17,12 @@ requireNamespace("dplyr"                   ) #Avoid attaching dplyr, b/c its fun
 requireNamespace("testit"                  ) #For asserting conditions meet expected patterns.
 
 # ---- declare-globals ---------------------------------------------------------
+# Constant values that won't change.
+# config                  <- config::get()
+# path_input              <- config$path_car_raw
+# path_output             <- config$path_car_derived
+# Uncomment the lines above and delete the two below if values are stored in 'config.yml'.
+
 path_input  <- "./data-public/raw/mtcar.csv"
 path_output <- "./data-public/derived/motor-trend-car-test.rds"
 figure_path <- 'stitched-output/manipulation/car/'

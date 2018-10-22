@@ -21,32 +21,27 @@ rm(list=ls(all=TRUE))  #Clear the variables from previous runs.
 ```r
 # Attach these package(s) so their functions don't need to be qualified: http://r-pkgs.had.co.nz/namespace.html#search-path
 library(magrittr            , quietly=TRUE)
-library(DBI                 , quietly=TRUE)
 
 # Verify these packages are available on the machine, but their functions need to be qualified: http://r-pkgs.had.co.nz/namespace.html#search-path
 requireNamespace("readr"        )
 requireNamespace("tidyr"        )
 requireNamespace("dplyr"        ) # Avoid attaching dplyr, b/c its function names conflict with a lot of packages (esp base, stats, and plyr).
+requireNamespace("rlang"        ) # Language constucts, like quosures
 requireNamespace("testit"       ) # For asserting conditions meet expected patterns/conditions.
 requireNamespace("checkmate"    ) # For asserting conditions meet expected patterns/conditions. # remotes::install_github("mllg/checkmate")
+requireNamespace("DBI"          ) # Database-agnostic interface
 requireNamespace("RSQLite"      ) # Lightweight database for non-PHI data.
-```
-
-```
-## Loading required namespace: RSQLite
-```
-
-```r
 # requireNamespace("RODBC"      ) # For communicating with SQL Server over a locally-configured DSN.  Uncomment if you use 'upload-to-db' chunk.
 requireNamespace("OuhscMunge"   ) # remotes::install_github(repo="OuhscBbmc/OuhscMunge")
 ```
 
-```
-## Loading required namespace: OuhscMunge
-```
-
 ```r
 # Constant values that won't change.
+# config                         <- config::get()
+# path_out_unified               <- config$path_te_county_month
+# path_db                        <- config$path_te_database
+# Uncomment the lines above and delete the two below if values are stored in 'config.yml'.
+
 path_out_unified               <- "data-public/derived/county-month-te.csv"
 path_db                        <- "data-unshared/derived/te.sqlite3"
 counties_to_drop_from_rural    <- c("Central Office", "Tulsa", "Oklahoma") #Exclude these records from the rural dataset.
@@ -204,7 +199,8 @@ ds_county
 
 ```r
 # OuhscMunge::column_rename_headstart(ds_county) #Spit out columns to help write call ato `dplyr::rename()`.
-ds_county <- ds_county %>%
+ds_county <-
+  ds_county %>%
   dplyr::select_( #`select()` implicitly drops the other columns not mentioned.
     "county_id"     = "CountyID",
     "county_name"   = "CountyName",
@@ -217,7 +213,8 @@ ds_county <- ds_county %>%
 # OuhscMunge::column_rename_headstart(ds_nurse_month_oklahoma)
 
 # Groom the nurse-month dataset for Oklahoma County.
-ds_nurse_month_oklahoma <- ds_nurse_month_oklahoma %>%
+ds_nurse_month_oklahoma <-
+  ds_nurse_month_oklahoma %>%
   dplyr::select_(
     # "employee_number"           = "`Employee..`"          # Used to be "Employee #" before sanitizing. Drop b/c unnecessary.
     # , "employee_name"           = "`Name`"
@@ -259,7 +256,8 @@ ds_nurse_month_oklahoma
 
 ```r
 # Collapse across nurses to create one record per month for Oklahoma County.
-ds_month_oklahoma <- ds_nurse_month_oklahoma %>%
+ds_month_oklahoma <-
+  ds_nurse_month_oklahoma %>%
   dplyr::group_by(county_id, month) %>%                  # Split by County & month into sub-datasets
   dplyr::summarize(                                      # Aggregate/summarize within sub-datasets
     fte                = sum(fte, na.rm=T),
@@ -314,7 +312,8 @@ rm(ds_nurse_month_oklahoma) #Remove this dataset so it's not accidentally used b
 ```r
 # Groom the nurse-month dataset for Tulsa County.
 # OuhscMunge::column_rename_headstart(ds_month_tulsa)
-ds_month_tulsa <- ds_month_tulsa %>%
+ds_month_tulsa <-
+  ds_month_tulsa %>%
   dplyr::select_(
     "month"             = "`Month`"
     , "fte"             = "`FteSum`"
@@ -361,7 +360,8 @@ OuhscMunge::column_rename_headstart(ds_nurse_month_rural)
 ```
 
 ```r
-ds_nurse_month_rural <- ds_nurse_month_rural %>%
+ds_nurse_month_rural <-
+  ds_nurse_month_rural %>%
   dplyr::select_(
     "name_full"                 = "`Name`"
     , "county_name"             = "`HOME_COUNTY`"
@@ -416,7 +416,8 @@ ds_nurse_month_rural
 # table(ds_nurse_month_rural$county_name, useNA="always")
 
 # Collapse across nurses to create one record per month per county.
-ds_month_rural <- ds_nurse_month_rural %>%
+ds_month_rural <-
+  ds_nurse_month_rural %>%
   dplyr::group_by(county_id, month) %>%
   dplyr::summarize(
     fte                 = sum(fte, na.rm=TRUE),
@@ -446,13 +447,15 @@ ds_month_rural
 
 ```r
 # Consider replacing a join with ds_possible with a call to tidyr::complete(), if you can guarantee each month shows up at least once.
-ds_possible <- tidyr::crossing(
-  month     = seq.Date(range(ds_month_rural$month)[1], range(ds_month_rural$month)[2], by="month"),
-  county_id = possible_county_ids
-)
+ds_possible <-
+  tidyr::crossing(
+    month     = seq.Date(range(ds_month_rural$month)[1], range(ds_month_rural$month)[2], by="month"),
+    county_id = possible_county_ids
+  )
 
 # Determine the months were we don't have any rural T&E data.
-months_rural_not_collected <- ds_month_rural %>%
+months_rural_not_collected <-
+  ds_month_rural %>%
   dplyr::right_join(
     ds_possible, by=c("county_id", "month")
   ) %>%
@@ -477,7 +480,8 @@ rm(counties_to_drop_from_rural, default_day_of_month)
 
 ```r
 # Stack the three datasets on top of each other.
-ds <- ds_month_oklahoma %>%
+ds <-
+  ds_month_oklahoma %>%
   dplyr::union(ds_month_tulsa) %>%
   dplyr::union(ds_month_rural) %>%
   dplyr::right_join(
@@ -614,31 +618,29 @@ columns_to_write <- c(
   "month", "fte", "fte_approximated",
   "region_id"
 )
-ds_slim <- ds %>%
-  dplyr::select_(.dots=columns_to_write) %>%
+ds_slim <-
+  ds %>%
+  dplyr::select(!!columns_to_write) %>%
   # dplyr::slice(1:100) %>%
-  dplyr::mutate(
-    fte_approximated <- as.integer(fte_approximated)
-  )
+  dplyr::mutate_if(is.logical, as.integer)       # Some databases & drivers need 0/1 instead of FALSE/TRUE.
 ds_slim
 ```
 
 ```
-## # A tibble: 3,080 x 7
+## # A tibble: 3,080 x 6
 ##    county_month_id county_id month        fte fte_approximated region_id
-##              <int>     <int> <date>     <dbl> <lgl>                <int>
-##  1               1         1 2012-06-15   1   FALSE                   11
-##  2               2         1 2012-07-15   1   TRUE                    11
-##  3               3         1 2012-08-15   1   FALSE                   11
-##  4               4         1 2012-09-15   0.5 FALSE                   11
-##  5               5         1 2012-10-15   1   FALSE                   11
-##  6               6         1 2012-11-15   1   TRUE                    11
-##  7               7         1 2012-12-15   1   FALSE                   11
-##  8               8         1 2013-01-15   1   FALSE                   11
-##  9               9         1 2013-02-15   1   FALSE                   11
-## 10              10         1 2013-03-15   0.5 FALSE                   11
-## # ... with 3,070 more rows, and 1 more variable: `fte_approximated <-
-## #   as.integer(fte_approximated)` <int>
+##              <int>     <int> <date>     <dbl>            <int>     <int>
+##  1               1         1 2012-06-15   1                  0        11
+##  2               2         1 2012-07-15   1                  1        11
+##  3               3         1 2012-08-15   1                  0        11
+##  4               4         1 2012-09-15   0.5                0        11
+##  5               5         1 2012-10-15   1                  0        11
+##  6               6         1 2012-11-15   1                  1        11
+##  7               7         1 2012-12-15   1                  0        11
+##  8               8         1 2013-01-15   1                  0        11
+##  9               9         1 2013-02-15   1                  0        11
+## 10              10         1 2013-03-15   0.5                0        11
+## # ... with 3,070 more rows
 ```
 
 ```r
@@ -678,7 +680,13 @@ sql_create_tbl_te_month <- "
 
 # Remove old DB
 if( file.exists(path_db) ) file.remove(path_db)
+```
 
+```
+## [1] TRUE
+```
+
+```r
 # Open connection
 cnn <- DBI::dbConnect(drv=RSQLite::SQLite(), dbname=path_db)
 RSQLite::dbSendQuery(cnn, "PRAGMA foreign_keys=ON;") #This needs to be activated each time a connection is made. #http://stackoverflow.com/questions/15301643/sqlite3-forgets-to-use-foreign-keys
@@ -798,14 +806,7 @@ dbDisconnect(cnn)
 #   It's included here for the sake of demonstration.
 
 library(ggplot2)
-```
 
-```
-## Want to understand how all the pieces fit together? See the R for
-## Data Science book: http://r4ds.had.co.nz/
-```
-
-```r
 # Graph each county-month
 ggplot(ds, aes(x=month, y=fte, group=factor(county_id), color=factor(county_id), shape=fte_approximated, ymin=0)) +
   geom_point(position=position_jitter(height=.05, width=5), size=4, na.rm=T) +
@@ -822,7 +823,8 @@ ggplot(ds, aes(x=month, y=fte, group=factor(county_id), color=factor(county_id),
 
 ```r
 # Graph each region-month
-ds_region <- ds %>%
+ds_region <-
+  ds %>%
   dplyr::group_by(region_id, month) %>%
   dplyr::summarize(
     fte              = sum(fte, na.rm=T),
@@ -876,23 +878,42 @@ sessionInfo()
 ## [1] ggplot2_3.0.0  DBI_1.0.0      bindrcpp_0.2.2 magrittr_1.5  
 ## 
 ## loaded via a namespace (and not attached):
-##  [1] Rcpp_0.12.19          highr_0.7             pillar_1.3.0         
-##  [4] compiler_3.5.1        plyr_1.8.4            bindr_0.1.1          
-##  [7] tools_3.5.1           digest_0.6.18         bit_1.1-14           
-## [10] packrat_0.4.9-3       lattice_0.20-35       memoise_1.1.0        
-## [13] evaluate_0.12         RSQLite_2.1.1         tibble_1.4.2         
-## [16] gtable_0.2.0          checkmate_1.8.9-9000  pkgconfig_2.0.2      
-## [19] rlang_0.2.2           cli_1.0.1             withr_2.1.2          
-## [22] dplyr_0.7.7           stringr_1.3.1         knitr_1.20           
-## [25] hms_0.4.2.9001        bit64_0.9-7           grid_3.5.1           
-## [28] tidyselect_0.2.5      OuhscMunge_0.1.9.9009 glue_1.3.0           
-## [31] R6_2.3.0              fansi_0.4.0           blob_1.1.1           
-## [34] purrr_0.2.5           readr_1.2.0           tidyr_0.8.1          
-## [37] scales_1.0.0          backports_1.1.2       assertthat_0.2.0     
-## [40] testit_0.8            colorspace_1.3-2      labeling_0.3         
-## [43] utf8_1.1.4            stringi_1.2.4         lazyeval_0.2.1       
-## [46] munsell_0.5.0         markdown_0.8          crayon_1.3.4         
-## [49] zoo_1.8-4
+##  [1] Rcpp_0.12.19                lattice_0.20-35            
+##  [3] tidyr_0.8.1                 prettyunits_1.0.2          
+##  [5] ps_1.2.0                    zoo_1.8-4                  
+##  [7] assertthat_0.2.0            rprojroot_1.3-2            
+##  [9] digest_0.6.18               packrat_0.4.9-3            
+## [11] utf8_1.1.4                  R6_2.3.0                   
+## [13] plyr_1.8.4                  backports_1.1.2            
+## [15] RSQLite_2.1.1               evaluate_0.12              
+## [17] highr_0.7                   pillar_1.3.0               
+## [19] rlang_0.2.2                 lazyeval_0.2.1             
+## [21] callr_3.0.0                 blob_1.1.1                 
+## [23] checkmate_1.8.9-9000        rmarkdown_1.10             
+## [25] config_0.3                  desc_1.2.0                 
+## [27] labeling_0.3                devtools_2.0.0             
+## [29] readr_1.2.0                 stringr_1.3.1              
+## [31] bit_1.1-14                  munsell_0.5.0              
+## [33] compiler_3.5.1              pkgconfig_2.0.2            
+## [35] base64enc_0.1-3             pkgbuild_1.0.2             
+## [37] htmltools_0.3.6             tidyselect_0.2.5           
+## [39] tibble_1.4.2                viridisLite_0.3.0          
+## [41] fansi_0.4.0                 crayon_1.3.4               
+## [43] dplyr_0.7.7                 withr_2.1.2                
+## [45] grid_3.5.1                  gtable_0.2.0               
+## [47] scales_1.0.0                TabularManifest_0.1-16.9003
+## [49] cli_1.0.1                   stringi_1.2.4              
+## [51] fs_1.2.6                    remotes_2.0.0              
+## [53] testit_0.8                  testthat_2.0.1             
+## [55] tools_3.5.1                 bit64_0.9-7                
+## [57] OuhscMunge_0.1.9.9009       glue_1.3.0                 
+## [59] markdown_0.8                purrr_0.2.5                
+## [61] hms_0.4.2.9001              rsconnect_0.8.8            
+## [63] processx_3.2.0              pkgload_1.0.1              
+## [65] yaml_2.2.0                  colorspace_1.3-2           
+## [67] sessioninfo_1.1.0           memoise_1.1.0              
+## [69] knitr_1.20                  bindr_0.1.1                
+## [71] usethis_1.4.0
 ```
 
 ```r
@@ -900,6 +921,6 @@ Sys.time()
 ```
 
 ```
-## [1] "2018-10-21 09:08:58 CDT"
+## [1] "2018-10-22 08:46:43 CDT"
 ```
 

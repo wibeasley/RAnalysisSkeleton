@@ -167,7 +167,7 @@ histogram_discrete(d_observed=ds, variable_name="forward_gear_count_f")
 
 # ---- scatterplots ------------------------------------------------------------
 g1 <-
-  ggplot(ds, aes(x=gross_horsepower, y=quarter_mile_in_seconds, color=forward_gear_count_f)) +
+  ggplot(ds, aes(x=horsepower, y=quarter_mile_sec, color=forward_gear_count_f)) +
   geom_smooth(method="loess", span=2) +
   geom_point(shape=1) +
   theme_light() +

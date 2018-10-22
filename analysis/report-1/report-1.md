@@ -1,13 +1,14 @@
 ---
 title: Skeleton Report 1
-date: "Date: 2018-10-21"
+date: "Date: 2018-10-22"
 output:
+  # radix::radix_article: # radix is a newer alternative that has some advantages over `html_document`.
   html_document:
     keep_md: yes
     toc: 4
     toc_float: true
     number_sections: true
-    css: ../common/styles.css         # analysis/common/styles.css 
+    css: ../common/styles.css         # analysis/common/styles.css
 ---
 
 This report covers the analyses used in the ZZZ project (Marcus Mark, PI).
@@ -18,16 +19,16 @@ This report covers the analyses used in the ZZZ project (Marcus Mark, PI).
 <!-- Set the report-wide options, and point to the external code file. -->
 
 
-<!-- Load 'sourced' R files.  Suppress the output when loading sources. --> 
+<!-- Load 'sourced' R files.  Suppress the output when loading sources. -->
 
 
-<!-- Load packages, or at least verify they're available on the local machine.  Suppress the output when loading packages. --> 
+<!-- Load packages, or at least verify they're available on the local machine.  Suppress the output when loading packages. -->
 
 
-<!-- Load any global functions and variables declared in the R file.  Suppress the output. --> 
+<!-- Load any global functions and variables declared in the R file.  Suppress the output. -->
 
 
-<!-- Declare any global functions specific to a Rmd output.  Suppress the output. --> 
+<!-- Declare any global functions specific to a Rmd output.  Suppress the output. -->
 
 
 <!-- Load the datasets.   -->
@@ -36,29 +37,50 @@ This report covers the analyses used in the ZZZ project (Marcus Mark, PI).
 <!-- Tweak the datasets.   -->
 
 
-# Summary {.tabset .tabset-fade .tabset-pills}
+Summary {.tabset .tabset-fade .tabset-pills}
+===========================================================================
 
-## Notes 
+Notes
+---------------------------------------------------------------------------
+
 1. The current report covers 32 cars, with 6 unique values for `carburetor_count`.
 1. The Seattle track's phluguerstometer was producing flaky negative values; it's measurements have been dropped.
 
-## Unanswered Questions
+
+Unanswered Questions
+---------------------------------------------------------------------------
+
 1. What does `VS` stand for?  How was it measured?
 1. Where the cars at the Philly track measured with the same phluguerstometer and the Cleveland track?
- 
-## Answered Questions
+
+
+Answered Questions
+---------------------------------------------------------------------------
+
 1. The Seattle track's phluguerstometer was producing flaky negative values; it's measurements have been dropped.
 
-# Graphs
 
-## Marginals
+Graphs
+===========================================================================
+
+
+Marginals
+---------------------------------------------------------------------------
+
 ![](figure-png/marginals-1.png)<!-- -->![](figure-png/marginals-2.png)<!-- -->![](figure-png/marginals-3.png)<!-- -->![](figure-png/marginals-4.png)<!-- -->
 
-## Scatterplots
+
+Scatterplots
+---------------------------------------------------------------------------
+
 ![](figure-png/scatterplots-1.png)<!-- -->![](figure-png/scatterplots-2.png)<!-- -->![](figure-png/scatterplots-3.png)<!-- -->![](figure-png/scatterplots-4.png)<!-- -->![](figure-png/scatterplots-5.png)<!-- -->
 
-# Models
-## Model Exploration
+
+Models
+===========================================================================
+
+Model Exploration
+---------------------------------------------------------------------------
 
 ```
 ============= Simple model that's just an intercept. =============
@@ -157,8 +179,10 @@ Model 2: quarter_mile_sec ~ 1 + miles_per_gallon + forward_gear_count_f
 2     28 47.996  2     33.64 9.8124 0.0005896
 ```
 
-## Final Model {.highlight}
-<!-- the ".highlight" class applies a yellow background to the subsection.  Properties specified in analysis/common/styles.css.-->
+
+Final Model
+---------------------------------------------------------------------------
+
 
 |                         | Estimate| Std. Error| t value| Pr(>&#124;t&#124;)|
 |:------------------------|--------:|----------:|-------:|------------------:|
@@ -170,8 +194,9 @@ Model 2: quarter_mile_sec ~ 1 + miles_per_gallon + forward_gear_count_f
 In the model that includes two predictors, the slope coefficent of `Miles per gallon` is 0.13246.
 
 
-# Session Information {#session-info}
-<!-- the "#session-info" id applies a yellow background to the subsection.  Properties specified in analysis/common/styles.css.-->
+Session Information {#session-info}
+===========================================================================
+
 For the sake of documentation and reproducibility, the current report was rendered in the following environment.  Click the line below to expand.
 
 <details>
@@ -188,7 +213,7 @@ For the sake of documentation and reproducibility, the current report was render
  collate  en_US.UTF-8                 
  ctype    en_US.UTF-8                 
  tz       America/Chicago             
- date     2018-10-21                  
+ date     2018-10-22                  
 
 ─ Packages ──────────────────────────────────────────────────────────────
  package     * version    date       lib source                          
@@ -258,5 +283,4 @@ For the sake of documentation and reproducibility, the current report was render
 
 
 
-Report rendered by wibeasley at 2018-10-21, 09:37 -0500 in 10 seconds.
-
+Report rendered by wibeasley at 2018-10-22, 08:49 -0500 in 11 seconds.

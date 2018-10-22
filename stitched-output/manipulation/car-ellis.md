@@ -22,38 +22,19 @@ library(magrittr             , quietly=TRUE) #Pipes
 
 # Verify these packages are available on the machine, but their functions need to be qualified: http://r-pkgs.had.co.nz/namespace.html#search-path
 requireNamespace("ggplot2"                 )
-```
-
-```
-## Loading required namespace: ggplot2
-```
-
-```r
 requireNamespace("readr"                   )
-```
-
-```
-## Loading required namespace: readr
-```
-
-```r
 requireNamespace("tidyr"                   )
-```
-
-```
-## Loading required namespace: tidyr
-```
-
-```r
 requireNamespace("dplyr"                   ) #Avoid attaching dplyr, b/c its function names conflict with a lot of packages (esp base, stats, and plyr).
 requireNamespace("testit"                  ) #For asserting conditions meet expected patterns.
 ```
 
-```
-## Loading required namespace: testit
-```
-
 ```r
+# Constant values that won't change.
+# config                  <- config::get()
+# path_input              <- config$path_car_raw
+# path_output             <- config$path_car_derived
+# Uncomment the lines above and delete the two below if values are stored in 'config.yml'.
+
 path_input  <- "./data-public/raw/mtcar.csv"
 path_output <- "./data-public/derived/motor-trend-car-test.rds"
 figure_path <- 'stitched-output/manipulation/car/'
@@ -86,15 +67,8 @@ ds <- readr::read_csv(path_input)
 ```
 
 ```r
-colnames(ds)
-```
+# OuhscMunge::column_rename_headstart(ds) #Spit out columns to help write call ato `dplyr::rename()`.
 
-```
-##  [1] "model" "mpg"   "cyl"   "disp"  "hp"    "drat"  "wt"    "qsec" 
-##  [9] "vs"    "am"    "gear"  "carb"
-```
-
-```r
 # Dataset description can be found at: http://stat.ethz.ch/R-manual/R-devel/library/datasets/html/mtcars.html
 # Populate the rename entries with OuhscMunge::column_rename_headstart(ds_county) # devtools::install_github("OuhscBbmc/OuhscMunge")
 ds <-
@@ -209,21 +183,45 @@ sessionInfo()
 ## [1] stats     graphics  grDevices utils     datasets  methods   base     
 ## 
 ## other attached packages:
-## [1] bindrcpp_0.2.2 magrittr_1.5  
+## [1] ggplot2_3.0.0  DBI_1.0.0      bindrcpp_0.2.2 magrittr_1.5  
 ## 
 ## loaded via a namespace (and not attached):
-##  [1] Rcpp_0.12.19         knitr_1.20           bindr_0.1.1         
-##  [4] hms_0.4.2.9001       testit_0.8           tidyselect_0.2.5    
-##  [7] munsell_0.5.0        colorspace_1.3-2     R6_2.3.0            
-## [10] rlang_0.2.2          stringr_1.3.1        plyr_1.8.4          
-## [13] dplyr_0.7.7          tools_3.5.1          grid_3.5.1          
-## [16] packrat_0.4.9-3      checkmate_1.8.9-9000 gtable_0.2.0        
-## [19] lazyeval_0.2.1       assertthat_0.2.0     tibble_1.4.2        
-## [22] crayon_1.3.4         tidyr_0.8.1          readr_1.2.0         
-## [25] purrr_0.2.5          ggplot2_3.0.0        glue_1.3.0          
-## [28] evaluate_0.12        stringi_1.2.4        compiler_3.5.1      
-## [31] pillar_1.3.0         backports_1.1.2      scales_1.0.0        
-## [34] pkgconfig_2.0.2
+##  [1] Rcpp_0.12.19                lattice_0.20-35            
+##  [3] tidyr_0.8.1                 prettyunits_1.0.2          
+##  [5] ps_1.2.0                    zoo_1.8-4                  
+##  [7] assertthat_0.2.0            rprojroot_1.3-2            
+##  [9] digest_0.6.18               packrat_0.4.9-3            
+## [11] utf8_1.1.4                  R6_2.3.0                   
+## [13] plyr_1.8.4                  backports_1.1.2            
+## [15] RSQLite_2.1.1               evaluate_0.12              
+## [17] highr_0.7                   pillar_1.3.0               
+## [19] rlang_0.2.2                 lazyeval_0.2.1             
+## [21] callr_3.0.0                 blob_1.1.1                 
+## [23] checkmate_1.8.9-9000        rmarkdown_1.10             
+## [25] config_0.3                  desc_1.2.0                 
+## [27] labeling_0.3                devtools_2.0.0             
+## [29] readr_1.2.0                 stringr_1.3.1              
+## [31] bit_1.1-14                  munsell_0.5.0              
+## [33] compiler_3.5.1              pkgconfig_2.0.2            
+## [35] base64enc_0.1-3             pkgbuild_1.0.2             
+## [37] htmltools_0.3.6             tidyselect_0.2.5           
+## [39] tibble_1.4.2                viridisLite_0.3.0          
+## [41] fansi_0.4.0                 crayon_1.3.4               
+## [43] dplyr_0.7.7                 withr_2.1.2                
+## [45] grid_3.5.1                  gtable_0.2.0               
+## [47] scales_1.0.0                TabularManifest_0.1-16.9003
+## [49] cli_1.0.1                   stringi_1.2.4              
+## [51] fs_1.2.6                    remotes_2.0.0              
+## [53] testit_0.8                  testthat_2.0.1             
+## [55] tools_3.5.1                 bit64_0.9-7                
+## [57] OuhscMunge_0.1.9.9009       glue_1.3.0                 
+## [59] markdown_0.8                purrr_0.2.5                
+## [61] hms_0.4.2.9001              rsconnect_0.8.8            
+## [63] processx_3.2.0              pkgload_1.0.1              
+## [65] yaml_2.2.0                  colorspace_1.3-2           
+## [67] sessioninfo_1.1.0           memoise_1.1.0              
+## [69] knitr_1.20                  bindr_0.1.1                
+## [71] usethis_1.4.0
 ```
 
 ```r
@@ -231,6 +229,6 @@ Sys.time()
 ```
 
 ```
-## [1] "2018-10-21 09:07:46 CDT"
+## [1] "2018-10-22 08:46:45 CDT"
 ```
 

@@ -36,7 +36,8 @@ histogram_discrete <- function(
 ) {
 
   # Ungroup, in case it comes in grouped.
-  d_observed <- d_observed %>%
+  d_observed <-
+    d_observed %>%
     dplyr::ungroup()
 
   if( !base::is.factor(d_observed[[variable_name]]) )
@@ -59,7 +60,8 @@ histogram_discrete <- function(
 
   y_title <- base::paste0(y_title, " (n=", scales::comma(base::sum(d_summary$count)), ")")
 
-  g <- ggplot(d_summary, aes_string(x="iv", y="count", fill="iv", label="percentage")) +
+  g <-
+    ggplot(d_summary, aes_string(x="iv", y="count", fill="iv", label="percentage")) +
     geom_bar(stat="identity") +
     geom_text(stat="identity", size=text_size_percentage, hjust=.8, na.rm=T) +
     scale_y_continuous(labels=scales::comma_format()) +
@@ -164,7 +166,8 @@ histogram_discrete(d_observed=ds, variable_name="forward_gear_count_f")
 # }
 
 # ---- scatterplots ------------------------------------------------------------
-g1 <- ggplot(ds, aes(x=horsepower, y=quarter_mile_sec, color=forward_gear_count_f)) +
+g1 <-
+  ggplot(ds, aes(x=gross_horsepower, y=quarter_mile_in_seconds, color=forward_gear_count_f)) +
   geom_smooth(method="loess", span=2) +
   geom_point(shape=1) +
   theme_light() +

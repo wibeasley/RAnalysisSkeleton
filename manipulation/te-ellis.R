@@ -10,14 +10,15 @@ rm(list=ls(all=TRUE))  #Clear the variables from previous runs.
 # ---- load-packages -----------------------------------------------------------
 # Attach these package(s) so their functions don't need to be qualified: http://r-pkgs.had.co.nz/namespace.html#search-path
 library(magrittr            , quietly=TRUE)
-library(DBI                 , quietly=TRUE)
 
 # Verify these packages are available on the machine, but their functions need to be qualified: http://r-pkgs.had.co.nz/namespace.html#search-path
 requireNamespace("readr"        )
 requireNamespace("tidyr"        )
 requireNamespace("dplyr"        ) # Avoid attaching dplyr, b/c its function names conflict with a lot of packages (esp base, stats, and plyr).
+requireNamespace("rlang"        ) # Language constucts, like quosures
 requireNamespace("testit"       ) # For asserting conditions meet expected patterns/conditions.
 requireNamespace("checkmate"    ) # For asserting conditions meet expected patterns/conditions. # remotes::install_github("mllg/checkmate")
+requireNamespace("DBI"          ) # Database-agnostic interface
 requireNamespace("RSQLite"      ) # Lightweight database for non-PHI data.
 # requireNamespace("RODBC"      ) # For communicating with SQL Server over a locally-configured DSN.  Uncomment if you use 'upload-to-db' chunk.
 requireNamespace("OuhscMunge"   ) # remotes::install_github(repo="OuhscBbmc/OuhscMunge")
@@ -105,7 +106,8 @@ ds_county
 
 # ---- tweak-data --------------------------------------------------------------
 # OuhscMunge::column_rename_headstart(ds_county) #Spit out columns to help write call ato `dplyr::rename()`.
-ds_county <- ds_county %>%
+ds_county <-
+  ds_county %>%
   dplyr::select_( #`select()` implicitly drops the other columns not mentioned.
     "county_id"     = "CountyID",
     "county_name"   = "CountyName",
@@ -117,7 +119,8 @@ ds_county <- ds_county %>%
 # OuhscMunge::column_rename_headstart(ds_nurse_month_oklahoma)
 
 # Groom the nurse-month dataset for Oklahoma County.
-ds_nurse_month_oklahoma <- ds_nurse_month_oklahoma %>%
+ds_nurse_month_oklahoma <-
+  ds_nurse_month_oklahoma %>%
   dplyr::select_(
     # "employee_number"           = "`Employee..`"          # Used to be "Employee #" before sanitizing. Drop b/c unnecessary.
     # , "employee_name"           = "`Name`"
@@ -140,7 +143,8 @@ ds_nurse_month_oklahoma <- ds_nurse_month_oklahoma %>%
 ds_nurse_month_oklahoma
 
 # Collapse across nurses to create one record per month for Oklahoma County.
-ds_month_oklahoma <- ds_nurse_month_oklahoma %>%
+ds_month_oklahoma <-
+  ds_nurse_month_oklahoma %>%
   dplyr::group_by(county_id, month) %>%                  # Split by County & month into sub-datasets
   dplyr::summarize(                                      # Aggregate/summarize within sub-datasets
     fte                = sum(fte, na.rm=T),
@@ -175,7 +179,8 @@ rm(ds_nurse_month_oklahoma) #Remove this dataset so it's not accidentally used b
 # ---- groom-tulsa -------------------------------------------------------------
 # Groom the nurse-month dataset for Tulsa County.
 # OuhscMunge::column_rename_headstart(ds_month_tulsa)
-ds_month_tulsa <- ds_month_tulsa %>%
+ds_month_tulsa <-
+  ds_month_tulsa %>%
   dplyr::select_(
     "month"             = "`Month`"
     , "fte"             = "`FteSum`"
@@ -192,7 +197,8 @@ ds_month_tulsa
 # ---- groom-rural -------------------------------------------------------------
 # Groom the nurse-month dataset for the 75 rural counties.
 OuhscMunge::column_rename_headstart(ds_nurse_month_rural)
-ds_nurse_month_rural <- ds_nurse_month_rural %>%
+ds_nurse_month_rural <-
+  ds_nurse_month_rural %>%
   dplyr::select_(
     "name_full"                 = "`Name`"
     , "county_name"             = "`HOME_COUNTY`"
@@ -228,7 +234,8 @@ ds_nurse_month_rural
 # table(ds_nurse_month_rural$county_name, useNA="always")
 
 # Collapse across nurses to create one record per month per county.
-ds_month_rural <- ds_nurse_month_rural %>%
+ds_month_rural <-
+  ds_nurse_month_rural %>%
   dplyr::group_by(county_id, month) %>%
   dplyr::summarize(
     fte                 = sum(fte, na.rm=TRUE),
@@ -239,13 +246,15 @@ ds_month_rural <- ds_nurse_month_rural %>%
 ds_month_rural
 
 # Consider replacing a join with ds_possible with a call to tidyr::complete(), if you can guarantee each month shows up at least once.
-ds_possible <- tidyr::crossing(
-  month     = seq.Date(range(ds_month_rural$month)[1], range(ds_month_rural$month)[2], by="month"),
-  county_id = possible_county_ids
-)
+ds_possible <-
+  tidyr::crossing(
+    month     = seq.Date(range(ds_month_rural$month)[1], range(ds_month_rural$month)[2], by="month"),
+    county_id = possible_county_ids
+  )
 
 # Determine the months were we don't have any rural T&E data.
-months_rural_not_collected <- ds_month_rural %>%
+months_rural_not_collected <-
+  ds_month_rural %>%
   dplyr::right_join(
     ds_possible, by=c("county_id", "month")
   ) %>%
@@ -263,7 +272,8 @@ rm(counties_to_drop_from_rural, default_day_of_month)
 
 # ---- union-all-counties -----------------------------------------------------
 # Stack the three datasets on top of each other.
-ds <- ds_month_oklahoma %>%
+ds <-
+  ds_month_oklahoma %>%
   dplyr::union(ds_month_tulsa) %>%
   dplyr::union(ds_month_rural) %>%
   dplyr::right_join(
@@ -356,12 +366,11 @@ columns_to_write <- c(
   "month", "fte", "fte_approximated",
   "region_id"
 )
-ds_slim <- ds %>%
-  dplyr::select_(.dots=columns_to_write) %>%
+ds_slim <-
+  ds %>%
+  dplyr::select(!!columns_to_write) %>%
   # dplyr::slice(1:100) %>%
-  dplyr::mutate(
-    fte_approximated <- as.integer(fte_approximated)
-  )
+  dplyr::mutate_if(is.logical, as.integer)       # Some databases & drivers need 0/1 instead of FALSE/TRUE.
 ds_slim
 
 rm(columns_to_write)
@@ -461,7 +470,8 @@ ggplot(ds, aes(x=month, y=fte, group=factor(county_id), color=factor(county_id),
   labs(title="FTE sum each month (by county)", y="Sum of FTE for County")
 
 # Graph each region-month
-ds_region <- ds %>%
+ds_region <-
+  ds %>%
   dplyr::group_by(region_id, month) %>%
   dplyr::summarize(
     fte              = sum(fte, na.rm=T),

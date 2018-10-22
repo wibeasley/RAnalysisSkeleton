@@ -35,7 +35,7 @@ days_per_week <- 7
 ds <- readr::read_csv(path_input)
 
 # ---- tweak-data --------------------------------------------------------------
-colnames(ds)
+# OuhscMunge::column_rename_headstart(ds) #Spit out columns to help write call ato `dplyr::rename()`.
 
 # Dataset description can be found at: http://stat.ethz.ch/R-manual/R-devel/library/datasets/html/mtcars.html
 # Populate the rename entries with OuhscMunge::column_rename_headstart(ds_county) # devtools::install_github("OuhscBbmc/OuhscMunge")

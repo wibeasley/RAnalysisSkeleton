@@ -386,14 +386,15 @@ readr::write_csv(ds, path_out_unified)
 #   * the data is relational and
 #   * later, only portions need to be queried/retrieved at a time (b/c everything won't need to be loaded into R's memory)
 
-sql_create_tbl_county <- "
+sql_create <- "
+  DROP TABLE IF EXISTS tbl_county;
   CREATE TABLE `tbl_county` (
   	county_id              INTEGER NOT NULL PRIMARY KEY,
     county_name            VARCHAR NOT NULL,
     region_id              INTEGER NOT NULL
-  );"
+  );
 
-sql_create_tbl_te_month <- "
+  DROP TABLE IF EXISTS tbl_te_month;
   CREATE TABLE `tbl_te_month` (
   	county_month_id                    INTEGER NOT NULL PRIMARY KEY,
   	county_id                          INTEGER NOT NULL,
@@ -411,16 +412,17 @@ if( file.exists(path_db) ) file.remove(path_db)
 
 # Open connection
 cnn <- DBI::dbConnect(drv=RSQLite::SQLite(), dbname=path_db)
-RSQLite::dbSendQuery(cnn, "PRAGMA foreign_keys=ON;") #This needs to be activated each time a connection is made. #http://stackoverflow.com/questions/15301643/sqlite3-forgets-to-use-foreign-keys
-dbListTables(cnn)
+result <- DBI::dbSendQuery(cnn, "PRAGMA foreign_keys=ON;") #This needs to be activated each time a connection is made. #http://stackoverflow.com/questions/15301643/sqlite3-forgets-to-use-foreign-keys
+DBI::dbClearResult(result)
+DBI::dbListTables(cnn)
 
 # Create tables
-dbSendQuery(cnn, sql_create_tbl_county)
-dbSendQuery(cnn, sql_create_tbl_te_month)
-dbListTables(cnn)
+result <- DBI::dbSendQuery(cnn, sql_create)
+DBI::dbClearResult(result)
+DBI::dbListTables(cnn)
 
 # Write to database
-dbWriteTable(cnn, name='tbl_county',              value=ds_county,        append=TRUE, row.names=FALSE)
+DBI::dbWriteTable(cnn, name='tbl_county',              value=ds_county,        append=TRUE, row.names=FALSE)
 ds %>%
   dplyr::mutate(
     month               = strftime(month, "%Y-%m-%d"),
@@ -428,10 +430,10 @@ ds %>%
     month_missing       = as.logical(month_missing)
   ) %>%
   dplyr::select(county_month_id, county_id, month, fte, fte_approximated, month_missing, fte_rolling_median_11_month) %>%
-  dbWriteTable(value=., conn=cnn, name='tbl_te_month', append=TRUE, row.names=FALSE)
+  DBI::dbWriteTable(value=., conn=cnn, name='tbl_te_month', append=TRUE, row.names=FALSE)
 
 # Close connection
-dbDisconnect(cnn)
+DBI::dbDisconnect(cnn)
 
 # # ---- upload-to-db ----------------------------------------------------------
 # If there's PHI, write to a central database server that authenticates users (like SQL Server).

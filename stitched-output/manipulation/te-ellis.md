@@ -658,14 +658,15 @@ readr::write_csv(ds, path_out_unified)
 #   * the data is relational and
 #   * later, only portions need to be queried/retrieved at a time (b/c everything won't need to be loaded into R's memory)
 
-sql_create_tbl_county <- "
+sql_create <- "
+  DROP TABLE IF EXISTS tbl_county;
   CREATE TABLE `tbl_county` (
   	county_id              INTEGER NOT NULL PRIMARY KEY,
     county_name            VARCHAR NOT NULL,
     region_id              INTEGER NOT NULL
-  );"
+  );
 
-sql_create_tbl_te_month <- "
+  DROP TABLE IF EXISTS tbl_te_month;
   CREATE TABLE `tbl_te_month` (
   	county_month_id                    INTEGER NOT NULL PRIMARY KEY,
   	county_id                          INTEGER NOT NULL,
@@ -689,22 +690,9 @@ if( file.exists(path_db) ) file.remove(path_db)
 ```r
 # Open connection
 cnn <- DBI::dbConnect(drv=RSQLite::SQLite(), dbname=path_db)
-RSQLite::dbSendQuery(cnn, "PRAGMA foreign_keys=ON;") #This needs to be activated each time a connection is made. #http://stackoverflow.com/questions/15301643/sqlite3-forgets-to-use-foreign-keys
-```
-
-```
-## <SQLiteResult>
-##   SQL  PRAGMA foreign_keys=ON;
-##   ROWS Fetched: 0 [complete]
-##        Changed: 0
-```
-
-```r
-dbListTables(cnn)
-```
-
-```
-## Warning: Closing open result set, pending rows
+result <- DBI::dbSendQuery(cnn, "PRAGMA foreign_keys=ON;") #This needs to be activated each time a connection is made. #http://stackoverflow.com/questions/15301643/sqlite3-forgets-to-use-foreign-keys
+DBI::dbClearResult(result)
+DBI::dbListTables(cnn)
 ```
 
 ```
@@ -713,62 +701,18 @@ dbListTables(cnn)
 
 ```r
 # Create tables
-dbSendQuery(cnn, sql_create_tbl_county)
+result <- DBI::dbSendQuery(cnn, sql_create)
+DBI::dbClearResult(result)
+DBI::dbListTables(cnn)
 ```
 
 ```
-## <SQLiteResult>
-##   SQL  
-##   CREATE TABLE `tbl_county` (
-##   	county_id              INTEGER NOT NULL PRIMARY KEY,
-##     county_name            VARCHAR NOT NULL,
-##     region_id              INTEGER NOT NULL
-##   );
-##   ROWS Fetched: 0 [complete]
-##        Changed: 0
-```
-
-```r
-dbSendQuery(cnn, sql_create_tbl_te_month)
-```
-
-```
-## Warning: Closing open result set, pending rows
-```
-
-```
-## <SQLiteResult>
-##   SQL  
-##   CREATE TABLE `tbl_te_month` (
-##   	county_month_id                    INTEGER NOT NULL PRIMARY KEY,
-##   	county_id                          INTEGER NOT NULL,
-##     month                              VARCHAR NOT NULL,         -- There's no date type in SQLite.  Make sure it's ISO8601: yyyy-mm-dd
-##     fte                                REAL    NOT NULL,
-##     fte_approximated                   REAL    NOT NULL,
-##     month_missing                      INTEGER NOT NULL,         -- There's no bit/boolean type in SQLite
-##     fte_rolling_median_11_month        INTEGER, --  NOT NULL
-## 
-##     FOREIGN KEY(county_id) REFERENCES tbl_county(county_id)
-##   );
-##   ROWS Fetched: 0 [complete]
-##        Changed: 0
-```
-
-```r
-dbListTables(cnn)
-```
-
-```
-## Warning: Closing open result set, pending rows
-```
-
-```
-## [1] "tbl_county"   "tbl_te_month"
+## character(0)
 ```
 
 ```r
 # Write to database
-dbWriteTable(cnn, name='tbl_county',              value=ds_county,        append=TRUE, row.names=FALSE)
+DBI::dbWriteTable(cnn, name='tbl_county',              value=ds_county,        append=TRUE, row.names=FALSE)
 ds %>%
   dplyr::mutate(
     month               = strftime(month, "%Y-%m-%d"),
@@ -776,10 +720,10 @@ ds %>%
     month_missing       = as.logical(month_missing)
   ) %>%
   dplyr::select(county_month_id, county_id, month, fte, fte_approximated, month_missing, fte_rolling_median_11_month) %>%
-  dbWriteTable(value=., conn=cnn, name='tbl_te_month', append=TRUE, row.names=FALSE)
+  DBI::dbWriteTable(value=., conn=cnn, name='tbl_te_month', append=TRUE, row.names=FALSE)
 
 # Close connection
-dbDisconnect(cnn)
+DBI::dbDisconnect(cnn)
 
 # # ---- upload-to-db ----------------------------------------------------------
 # If there's PHI, write to a central database server that authenticates users (like SQL Server).
@@ -875,45 +819,26 @@ sessionInfo()
 ## [1] stats     graphics  grDevices utils     datasets  methods   base     
 ## 
 ## other attached packages:
-## [1] ggplot2_3.0.0  DBI_1.0.0      bindrcpp_0.2.2 magrittr_1.5  
+## [1] ggplot2_3.1.0  bindrcpp_0.2.2 magrittr_1.5  
 ## 
 ## loaded via a namespace (and not attached):
-##  [1] Rcpp_0.12.19                lattice_0.20-35            
-##  [3] tidyr_0.8.1                 prettyunits_1.0.2          
-##  [5] ps_1.2.0                    zoo_1.8-4                  
-##  [7] assertthat_0.2.0            rprojroot_1.3-2            
-##  [9] digest_0.6.18               packrat_0.4.9-3            
-## [11] utf8_1.1.4                  R6_2.3.0                   
-## [13] plyr_1.8.4                  backports_1.1.2            
-## [15] RSQLite_2.1.1               evaluate_0.12              
-## [17] highr_0.7                   pillar_1.3.0               
-## [19] rlang_0.2.2                 lazyeval_0.2.1             
-## [21] callr_3.0.0                 blob_1.1.1                 
-## [23] checkmate_1.8.9-9000        rmarkdown_1.10             
-## [25] config_0.3                  desc_1.2.0                 
-## [27] labeling_0.3                devtools_2.0.0             
-## [29] readr_1.2.0                 stringr_1.3.1              
-## [31] bit_1.1-14                  munsell_0.5.0              
-## [33] compiler_3.5.1              pkgconfig_2.0.2            
-## [35] base64enc_0.1-3             pkgbuild_1.0.2             
-## [37] htmltools_0.3.6             tidyselect_0.2.5           
-## [39] tibble_1.4.2                viridisLite_0.3.0          
-## [41] fansi_0.4.0                 crayon_1.3.4               
-## [43] dplyr_0.7.7                 withr_2.1.2                
-## [45] grid_3.5.1                  gtable_0.2.0               
-## [47] scales_1.0.0                TabularManifest_0.1-16.9003
-## [49] cli_1.0.1                   stringi_1.2.4              
-## [51] fs_1.2.6                    remotes_2.0.0              
-## [53] testit_0.8                  testthat_2.0.1             
-## [55] tools_3.5.1                 bit64_0.9-7                
-## [57] OuhscMunge_0.1.9.9009       glue_1.3.0                 
-## [59] markdown_0.8                purrr_0.2.5                
-## [61] hms_0.4.2.9001              rsconnect_0.8.8            
-## [63] processx_3.2.0              pkgload_1.0.1              
-## [65] yaml_2.2.0                  colorspace_1.3-2           
-## [67] sessioninfo_1.1.0           memoise_1.1.0              
-## [69] knitr_1.20                  bindr_0.1.1                
-## [71] usethis_1.4.0
+##  [1] Rcpp_1.0.0            highr_0.7             plyr_1.8.4           
+##  [4] pillar_1.3.0          compiler_3.5.1        bindr_0.1.1          
+##  [7] tools_3.5.1           digest_0.6.18         packrat_0.5.0        
+## [10] bit_1.1-14            evaluate_0.12         gtable_0.2.0         
+## [13] RSQLite_2.1.1         memoise_1.1.0         tibble_1.4.2         
+## [16] checkmate_1.8.9-9000  lattice_0.20-38       pkgconfig_2.0.2      
+## [19] rlang_0.3.0.1         DBI_1.0.0             cli_1.0.1            
+## [22] rstudioapi_0.8        stringr_1.3.1         knitr_1.20           
+## [25] withr_2.1.2           dplyr_0.7.8           hms_0.4.2.9001       
+## [28] bit64_0.9-7           grid_3.5.1            tidyselect_0.2.5     
+## [31] OuhscMunge_0.1.9.9009 glue_1.3.0            R6_2.3.0             
+## [34] fansi_0.4.0           tidyr_0.8.2           readr_1.2.1          
+## [37] purrr_0.2.5           blob_1.1.1            scales_1.0.0         
+## [40] backports_1.1.2       assertthat_0.2.0      testit_0.8.1         
+## [43] colorspace_1.3-2      labeling_0.3          utf8_1.1.4           
+## [46] stringi_1.2.4         lazyeval_0.2.1        munsell_0.5.0        
+## [49] crayon_1.3.4          zoo_1.8-4
 ```
 
 ```r
@@ -921,6 +846,6 @@ Sys.time()
 ```
 
 ```
-## [1] "2018-10-22 08:46:43 CDT"
+## [1] "2018-11-24 15:54:05 CST"
 ```
 

@@ -377,8 +377,8 @@ rm(columns_to_write)
 
 # ---- save-to-disk ------------------------------------------------------------
 # If there's no PHI, a rectangular CSV is usually adequate, and it's portable to other machines and software.
-readr::write_csv(ds, path_out_unified)
-# readr::write_rds(ds, path_out_unified, compress="gz") # Save as a compressed R-binary file if it's large or has a lot of factors.
+readr::write_csv(ds_slim, path_out_unified)
+# readr::write_rds(ds_slim, path_out_unified, compress="gz") # Save as a compressed R-binary file if it's large or has a lot of factors.
 
 
 # ---- save-to-db --------------------------------------------------------------
@@ -386,27 +386,34 @@ readr::write_csv(ds, path_out_unified)
 #   * the data is relational and
 #   * later, only portions need to be queried/retrieved at a time (b/c everything won't need to be loaded into R's memory)
 
-sql_create <- "
-  DROP TABLE IF EXISTS tbl_county;
-  CREATE TABLE `tbl_county` (
-  	county_id              INTEGER NOT NULL PRIMARY KEY,
-    county_name            VARCHAR NOT NULL,
-    region_id              INTEGER NOT NULL
-  );
+sql_create <- c(
+  "
+    DROP TABLE IF EXISTS county;
+  ",
+  "
+    CREATE TABLE `county` (
+    	county_id              INTEGER NOT NULL PRIMARY KEY,
+      county_name            VARCHAR NOT NULL,
+      region_id              INTEGER NOT NULL
+    );
+  ",
+  "
+    DROP TABLE IF EXISTS te_month;
+  ",
+  "
+    CREATE TABLE `te_month` (
+    	county_month_id                    INTEGER NOT NULL PRIMARY KEY,
+    	county_id                          INTEGER NOT NULL,
+      month                              VARCHAR NOT NULL,         -- There's no date type in SQLite.  Make sure it's ISO8601: yyyy-mm-dd
+      fte                                REAL    NOT NULL,
+      fte_approximated                   REAL    NOT NULL,
+      month_missing                      INTEGER NOT NULL,         -- There's no bit/boolean type in SQLite
+      fte_rolling_median_11_month        INTEGER, --  NOT NULL
 
-  DROP TABLE IF EXISTS tbl_te_month;
-  CREATE TABLE `tbl_te_month` (
-  	county_month_id                    INTEGER NOT NULL PRIMARY KEY,
-  	county_id                          INTEGER NOT NULL,
-    month                              VARCHAR NOT NULL,         -- There's no date type in SQLite.  Make sure it's ISO8601: yyyy-mm-dd
-    fte                                REAL    NOT NULL,
-    fte_approximated                   REAL    NOT NULL,
-    month_missing                      INTEGER NOT NULL,         -- There's no bit/boolean type in SQLite
-    fte_rolling_median_11_month        INTEGER, --  NOT NULL
-
-    FOREIGN KEY(county_id) REFERENCES tbl_county(county_id)
-  );"
-
+      FOREIGN KEY(county_id) REFERENCES county(county_id)
+    );
+  "
+)
 # Remove old DB
 if( file.exists(path_db) ) file.remove(path_db)
 
@@ -417,12 +424,12 @@ DBI::dbClearResult(result)
 DBI::dbListTables(cnn)
 
 # Create tables
-result <- DBI::dbSendQuery(cnn, sql_create)
-DBI::dbClearResult(result)
+sql_create %>%
+  purrr::walk(~DBI::dbExecute(cnn, .))
 DBI::dbListTables(cnn)
 
 # Write to database
-DBI::dbWriteTable(cnn, name='tbl_county',              value=ds_county,        append=TRUE, row.names=FALSE)
+DBI::dbWriteTable(cnn, name='county',              value=ds_county,        append=TRUE, row.names=FALSE)
 ds %>%
   dplyr::mutate(
     month               = strftime(month, "%Y-%m-%d"),
@@ -430,7 +437,7 @@ ds %>%
     month_missing       = as.logical(month_missing)
   ) %>%
   dplyr::select(county_month_id, county_id, month, fte, fte_approximated, month_missing, fte_rolling_median_11_month) %>%
-  DBI::dbWriteTable(value=., conn=cnn, name='tbl_te_month', append=TRUE, row.names=FALSE)
+  DBI::dbWriteTable(value=., conn=cnn, name='te_month', append=TRUE, row.names=FALSE)
 
 # Close connection
 DBI::dbDisconnect(cnn)

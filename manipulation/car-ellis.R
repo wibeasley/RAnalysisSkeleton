@@ -27,21 +27,23 @@ path_input  <- "./data-public/raw/mtcar.csv"
 path_output <- "./data-public/derived/motor-trend-car-test.rds"
 figure_path <- 'stitched-output/manipulation/car/'
 
-premature_threshold_in_weeks <- 37 #Any infant under 37 weeks is considered premature for the current project.  Exactly 37.0 weeks are retained.
-weeks_per_year <- 365.25/7
-days_per_week <- 7
+miles_per_gallon_threshold    <- 2.2 # I'm pretending that low values that are artifacts of the measurement equipment.
+days_per_week                 <- 7L
+weeks_per_year                <- 365.25 / days_per_week
 
 # ---- load-data ---------------------------------------------------------------
 ds <- readr::read_csv(path_input)
 
+rm(path_input)
+
 # ---- tweak-data --------------------------------------------------------------
-# OuhscMunge::column_rename_headstart(ds) #Spit out columns to help write call ato `dplyr::rename()`.
+# OuhscMunge::column_rename_headstart(ds) # Spit out columns to help populate arguments to `dplyr::rename()` or `dplyr::select()`.
 
 # Dataset description can be found at: http://stat.ethz.ch/R-manual/R-devel/library/datasets/html/mtcars.html
 # Populate the rename entries with OuhscMunge::column_rename_headstart(ds_county) # devtools::install_github("OuhscBbmc/OuhscMunge")
 ds <-
   ds %>%
-  dplyr::rename_(
+  dplyr::select_(
     "model_name"                    = "model"
     , "miles_per_gallon"            = "mpg"
     , "cylinder_count"              = "cyl"
@@ -68,11 +70,11 @@ ds <-
   tibble::rowid_to_column("car_id") # Add a unique identifier
 
 # ---- erase-artifacts ---------------------------------------------------------
-# I'm pretending there are low values that were artifacts of the measurement equipment.
+
 ds <-
   ds %>%
   dplyr::mutate(
-    miles_per_gallon_artifact = (miles_per_gallon < 2.2),
+    miles_per_gallon_artifact = (miles_per_gallon < miles_per_gallon_threshold),
     miles_per_gallon          = dplyr::if_else(miles_per_gallon_artifact, NA_real_, miles_per_gallon)
   )
 
@@ -82,8 +84,8 @@ ds <-
   ds %>%
   dplyr::group_by(forward_gear_count) %>%
   dplyr::mutate(
-    displacement_gear_z = as.numeric(base::scale(displacement_inches_cubed)),
-    weight_gear_z       = as.numeric(base::scale(weight_pounds))
+    displacement_gear_z = base::scale(displacement_inches_cubed),
+    weight_gear_z       = base::scale(weight_pounds)
   ) %>%
   dplyr::ungroup() %>%   #Always leave the dataset ungrouped, so later operations act as expected.
   dplyr::mutate(

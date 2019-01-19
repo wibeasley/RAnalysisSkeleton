@@ -332,12 +332,17 @@ rm(possible_county_ids)
 # ---- verify-values -----------------------------------------------------------
 # Sniff out problems
 # OuhscMunge::verify_value_headstart(ds)
-checkmate::assert_integer(ds$county_month_id    , lower=          1L              , any.missing=F, unique=T)
-checkmate::assert_integer(ds$county_id          , lower=          1L   , upper=77L, any.missing=F, unique=F)
-checkmate::assert_date(   ds$month              , lower="2012-01-01"              , any.missing=F)
-checkmate::assert_integer(ds$region_id          , lower=          1L   , upper=20L, any.missing=F)
-checkmate::assert_numeric(ds$fte                , lower=          0    , upper=40L, any.missing=F)
-checkmate::assert_logical(ds$fte_approximated                                     , any.missing=F)
+checkmate::assert_integer(  ds$county_month_id             , any.missing=F , lower=1, upper=3080                , unique=T)
+checkmate::assert_integer(  ds$county_id                   , any.missing=F , lower=1, upper=77                            )
+checkmate::assert_date(     ds$month                       , any.missing=F , lower=as.Date("2012-06-15"), upper=Sys.Date())
+checkmate::assert_character(ds$county_name                 , any.missing=F , pattern="^.{3,12}$"                          )
+checkmate::assert_integer(  ds$region_id                   , any.missing=F , lower=1, upper=20                            )
+checkmate::assert_numeric(  ds$fte                         , any.missing=F , lower=0, upper=40                            )
+checkmate::assert_logical(  ds$fte_approximated            , any.missing=F                                                )
+checkmate::assert_numeric(  ds$fte_rolling_median_11_month , any.missing=T , lower=0, upper=40                            )
+checkmate::assert_logical(  ds$month_missing               , any.missing=F                                                )
+checkmate::assert_logical(  ds$county_any_missing          , any.missing=F                                                )
+
 
 county_month_combo   <- paste(ds$county_id, ds$month)
 # Light way to test combination
@@ -359,17 +364,20 @@ checkmate::assert_character(county_month_combo, pattern  ="^\\d{1,2} \\d{4}-\\d{
 # testit::assert("The Region-County-month combination should be unique.", all(!duplicated(paste(ds$region_id, ds$county_id, ds$month))))
 # table(paste(ds$county_id, ds$month))[table(paste(ds$county_id, ds$month))>1]
 
-# ---- specify-columns-to-upload -----------------------------------------------
-# dput(colnames(ds)) # Print colnames for line below.
+# ---- specify-columns-to-write ------------------------------------------------
+# dput(colnames(ds)) # Print colnames that `columns_to_write` should contain.
 columns_to_write <- c(
   "county_month_id", "county_id",
   "month", "fte", "fte_approximated",
   "region_id"
 )
+
+# Define the subset of columns that will be needed in the analyses.
+#   The fewer columns that are exported, the fewer things that can break downstream.
 ds_slim <-
   ds %>%
-  dplyr::select(!!columns_to_write) %>%
   # dplyr::slice(1:100) %>%
+  dplyr::select(!!columns_to_write) %>%
   dplyr::mutate_if(is.logical, as.integer)       # Some databases & drivers need 0/1 instead of FALSE/TRUE.
 ds_slim
 
@@ -379,7 +387,6 @@ rm(columns_to_write)
 # If there's no PHI, a rectangular CSV is usually adequate, and it's portable to other machines and software.
 readr::write_csv(ds_slim, path_out_unified)
 # readr::write_rds(ds_slim, path_out_unified, compress="gz") # Save as a compressed R-binary file if it's large or has a lot of factors.
-
 
 # ---- save-to-db --------------------------------------------------------------
 # If there's no PHI, a local database like SQLite fits a nice niche if

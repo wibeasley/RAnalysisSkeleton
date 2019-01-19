@@ -3,7 +3,7 @@
 
 
 This report was automatically generated with the R package **knitr**
-(version 1.20).
+(version 1.21).
 
 
 ```r
@@ -129,7 +129,7 @@ ds_nurse_month_oklahoma
 ##  8          1  2009     8     1         NA             32 Akilah Amyx  
 ##  9          1  2009     9     1         NA             NA Akilah Amyx  
 ## 10          1  2009    10     1         NA             NA Akilah Amyx  
-## # ... with 1,470 more rows
+## # … with 1,470 more rows
 ```
 
 ```r
@@ -150,7 +150,7 @@ ds_month_tulsa
 ##  8 2009-08-15   24.5      51
 ##  9 2009-09-15   23.5      NA
 ## 10 2009-10-15   23.5      NA
-## # ... with 70 more rows
+## # … with 70 more rows
 ```
 
 ```r
@@ -171,7 +171,7 @@ ds_nurse_month_rural
 ##  8 Oklahoma     100 % 08/2012         47       44 Cheryll Canez  
 ##  9 Oklahoma     100 % 09/2012         47       44 Cheryll Canez  
 ## 10 Oklahoma     100 % 10/2012         47       44 Cheryll Canez  
-## # ... with 4,716 more rows
+## # … with 4,716 more rows
 ```
 
 ```r
@@ -192,7 +192,7 @@ ds_county
 ##  8        8 Caddo      40015       15         1           0
 ##  9        9 Canadian   40017       17         1           0
 ## 10       10 Carter     40019       19         1           0
-## # ... with 67 more rows, and 7 more variables: C1LeadNurseRegion <int>,
+## # … with 67 more rows, and 7 more variables: C1LeadNurseRegion <int>,
 ## #   C1LeadNurseName <chr>, Urban <int>, LabelLongitude <dbl>,
 ## #   LabelLatitude <dbl>, MiechvEvaluation <int>, MiechvFormula <int>
 ```
@@ -251,7 +251,7 @@ ds_nurse_month_oklahoma
 ##  8 2009-08-15     1         NA             32        55
 ##  9 2009-09-15     1         NA              0        55
 ## 10 2009-10-15     1         NA              0        55
-## # ... with 1,470 more rows
+## # … with 1,470 more rows
 ```
 
 ```r
@@ -282,7 +282,7 @@ ds_month_oklahoma
 ##  8        55 2009-08-15  18.5 FALSE           
 ##  9        55 2009-09-15  19   FALSE           
 ## 10        55 2009-10-15  18.8 FALSE           
-## # ... with 71 more rows
+## # … with 71 more rows
 ```
 
 ```r
@@ -342,7 +342,7 @@ ds_month_tulsa
 ##  8        72 2009-08-15  24.5 FALSE           
 ##  9        72 2009-09-15  23.5 FALSE           
 ## 10        72 2009-10-15  23.5 FALSE           
-## # ... with 70 more rows
+## # … with 70 more rows
 ```
 
 ```r
@@ -408,7 +408,7 @@ ds_nurse_month_rural
 ##  8 Adair       2013-03-15 Hilda Hypes          0.5         1
 ##  9 Adair       2013-06-15 Hilda Hypes          1           1
 ## 10 Adair       2015-06-15 Franchesca Futch     1           1
-## # ... with 3,238 more rows
+## # … with 3,238 more rows
 ```
 
 ```r
@@ -442,7 +442,7 @@ ds_month_rural
 ##  8         1 2013-03-15   0.5 FALSE           
 ##  9         1 2013-06-15   1   FALSE           
 ## 10         1 2015-06-15   1   FALSE           
-## # ... with 1,774 more rows
+## # … with 1,774 more rows
 ```
 
 ```r
@@ -520,7 +520,7 @@ ds
 ##  8         1 2013-01-15   1   FALSE            Adair              11
 ##  9         1 2013-02-15   1   FALSE            Adair              11
 ## 10         1 2013-03-15   0.5 FALSE            Adair              11
-## # ... with 3,070 more rows, and 4 more variables: county_month_id <int>,
+## # … with 3,070 more rows, and 4 more variables: county_month_id <int>,
 ## #   month_missing <lgl>, fte_rolling_median_11_month <dbl>,
 ## #   county_any_missing <lgl>
 ```
@@ -570,7 +570,7 @@ ds
 ##  8         1 2013-01-15   1   FALSE            Adair              11
 ##  9         1 2013-02-15   1   FALSE            Adair              11
 ## 10         1 2013-03-15   0.5 FALSE            Adair              11
-## # ... with 3,070 more rows, and 4 more variables: county_month_id <int>,
+## # … with 3,070 more rows, and 4 more variables: county_month_id <int>,
 ## #   month_missing <lgl>, fte_rolling_median_11_month <dbl>,
 ## #   county_any_missing <lgl>
 ```
@@ -583,12 +583,17 @@ rm(possible_county_ids)
 ```r
 # Sniff out problems
 # OuhscMunge::verify_value_headstart(ds)
-checkmate::assert_integer(ds$county_month_id    , lower=          1L              , any.missing=F, unique=T)
-checkmate::assert_integer(ds$county_id          , lower=          1L   , upper=77L, any.missing=F, unique=F)
-checkmate::assert_date(   ds$month              , lower="2012-01-01"              , any.missing=F)
-checkmate::assert_integer(ds$region_id          , lower=          1L   , upper=20L, any.missing=F)
-checkmate::assert_numeric(ds$fte                , lower=          0    , upper=40L, any.missing=F)
-checkmate::assert_logical(ds$fte_approximated                                     , any.missing=F)
+checkmate::assert_integer(  ds$county_month_id             , any.missing=F , lower=1, upper=3080                , unique=T)
+checkmate::assert_integer(  ds$county_id                   , any.missing=F , lower=1, upper=77                            )
+checkmate::assert_date(     ds$month                       , any.missing=F , lower=as.Date("2012-06-15"), upper=Sys.Date())
+checkmate::assert_character(ds$county_name                 , any.missing=F , pattern="^.{3,12}$"                          )
+checkmate::assert_integer(  ds$region_id                   , any.missing=F , lower=1, upper=20                            )
+checkmate::assert_numeric(  ds$fte                         , any.missing=F , lower=0, upper=40                            )
+checkmate::assert_logical(  ds$fte_approximated            , any.missing=F                                                )
+checkmate::assert_numeric(  ds$fte_rolling_median_11_month , any.missing=T , lower=0, upper=40                            )
+checkmate::assert_logical(  ds$month_missing               , any.missing=F                                                )
+checkmate::assert_logical(  ds$county_any_missing          , any.missing=F                                                )
+
 
 county_month_combo   <- paste(ds$county_id, ds$month)
 # Light way to test combination
@@ -612,16 +617,19 @@ checkmate::assert_character(county_month_combo, pattern  ="^\\d{1,2} \\d{4}-\\d{
 ```
 
 ```r
-# dput(colnames(ds)) # Print colnames for line below.
+# dput(colnames(ds)) # Print colnames that `columns_to_write` should contain.
 columns_to_write <- c(
   "county_month_id", "county_id",
   "month", "fte", "fte_approximated",
   "region_id"
 )
+
+# Define the subset of columns that will be needed in the analyses.
+#   The fewer columns that are exported, the fewer things that can break downstream.
 ds_slim <-
   ds %>%
-  dplyr::select(!!columns_to_write) %>%
   # dplyr::slice(1:100) %>%
+  dplyr::select(!!columns_to_write) %>%
   dplyr::mutate_if(is.logical, as.integer)       # Some databases & drivers need 0/1 instead of FALSE/TRUE.
 ds_slim
 ```
@@ -640,7 +648,7 @@ ds_slim
 ##  8               8         1 2013-01-15   1                  0        11
 ##  9               9         1 2013-02-15   1                  0        11
 ## 10              10         1 2013-03-15   0.5                0        11
-## # ... with 3,070 more rows
+## # … with 3,070 more rows
 ```
 
 ```r
@@ -649,8 +657,8 @@ rm(columns_to_write)
 
 ```r
 # If there's no PHI, a rectangular CSV is usually adequate, and it's portable to other machines and software.
-readr::write_csv(ds, path_out_unified)
-# readr::write_rds(ds, path_out_unified, compress="gz") # Save as a compressed R-binary file if it's large or has a lot of factors.
+readr::write_csv(ds_slim, path_out_unified)
+# readr::write_rds(ds_slim, path_out_unified, compress="gz") # Save as a compressed R-binary file if it's large or has a lot of factors.
 ```
 
 ```r
@@ -658,27 +666,34 @@ readr::write_csv(ds, path_out_unified)
 #   * the data is relational and
 #   * later, only portions need to be queried/retrieved at a time (b/c everything won't need to be loaded into R's memory)
 
-sql_create <- "
-  DROP TABLE IF EXISTS tbl_county;
-  CREATE TABLE `tbl_county` (
-  	county_id              INTEGER NOT NULL PRIMARY KEY,
-    county_name            VARCHAR NOT NULL,
-    region_id              INTEGER NOT NULL
-  );
+sql_create <- c(
+  "
+    DROP TABLE IF EXISTS county;
+  ",
+  "
+    CREATE TABLE `county` (
+    	county_id              INTEGER NOT NULL PRIMARY KEY,
+      county_name            VARCHAR NOT NULL,
+      region_id              INTEGER NOT NULL
+    );
+  ",
+  "
+    DROP TABLE IF EXISTS te_month;
+  ",
+  "
+    CREATE TABLE `te_month` (
+    	county_month_id                    INTEGER NOT NULL PRIMARY KEY,
+    	county_id                          INTEGER NOT NULL,
+      month                              VARCHAR NOT NULL,         -- There's no date type in SQLite.  Make sure it's ISO8601: yyyy-mm-dd
+      fte                                REAL    NOT NULL,
+      fte_approximated                   REAL    NOT NULL,
+      month_missing                      INTEGER NOT NULL,         -- There's no bit/boolean type in SQLite
+      fte_rolling_median_11_month        INTEGER, --  NOT NULL
 
-  DROP TABLE IF EXISTS tbl_te_month;
-  CREATE TABLE `tbl_te_month` (
-  	county_month_id                    INTEGER NOT NULL PRIMARY KEY,
-  	county_id                          INTEGER NOT NULL,
-    month                              VARCHAR NOT NULL,         -- There's no date type in SQLite.  Make sure it's ISO8601: yyyy-mm-dd
-    fte                                REAL    NOT NULL,
-    fte_approximated                   REAL    NOT NULL,
-    month_missing                      INTEGER NOT NULL,         -- There's no bit/boolean type in SQLite
-    fte_rolling_median_11_month        INTEGER, --  NOT NULL
-
-    FOREIGN KEY(county_id) REFERENCES tbl_county(county_id)
-  );"
-
+      FOREIGN KEY(county_id) REFERENCES county(county_id)
+    );
+  "
+)
 # Remove old DB
 if( file.exists(path_db) ) file.remove(path_db)
 ```
@@ -701,18 +716,18 @@ DBI::dbListTables(cnn)
 
 ```r
 # Create tables
-result <- DBI::dbSendQuery(cnn, sql_create)
-DBI::dbClearResult(result)
+sql_create %>%
+  purrr::walk(~DBI::dbExecute(cnn, .))
 DBI::dbListTables(cnn)
 ```
 
 ```
-## character(0)
+## [1] "county"   "te_month"
 ```
 
 ```r
 # Write to database
-DBI::dbWriteTable(cnn, name='tbl_county',              value=ds_county,        append=TRUE, row.names=FALSE)
+DBI::dbWriteTable(cnn, name='county',              value=ds_county,        append=TRUE, row.names=FALSE)
 ds %>%
   dplyr::mutate(
     month               = strftime(month, "%Y-%m-%d"),
@@ -720,7 +735,7 @@ ds %>%
     month_missing       = as.logical(month_missing)
   ) %>%
   dplyr::select(county_month_id, county_id, month, fte, fte_approximated, month_missing, fte_rolling_median_11_month) %>%
-  DBI::dbWriteTable(value=., conn=cnn, name='tbl_te_month', append=TRUE, row.names=FALSE)
+  DBI::dbWriteTable(value=., conn=cnn, name='te_month', append=TRUE, row.names=FALSE)
 
 # Close connection
 DBI::dbDisconnect(cnn)
@@ -799,7 +814,7 @@ sessionInfo()
 ```
 
 ```
-## R version 3.5.1 (2018-07-02)
+## R version 3.5.2 (2018-12-20)
 ## Platform: x86_64-pc-linux-gnu (64-bit)
 ## Running under: Ubuntu 18.04.1 LTS
 ## 
@@ -823,22 +838,22 @@ sessionInfo()
 ## 
 ## loaded via a namespace (and not attached):
 ##  [1] Rcpp_1.0.0            highr_0.7             plyr_1.8.4           
-##  [4] pillar_1.3.0          compiler_3.5.1        bindr_0.1.1          
-##  [7] tools_3.5.1           digest_0.6.18         packrat_0.5.0        
+##  [4] pillar_1.3.1          compiler_3.5.2        bindr_0.1.1          
+##  [7] tools_3.5.2           digest_0.6.18         packrat_0.5.0        
 ## [10] bit_1.1-14            evaluate_0.12         gtable_0.2.0         
-## [13] RSQLite_2.1.1         memoise_1.1.0         tibble_1.4.2         
-## [16] checkmate_1.8.9-9000  lattice_0.20-38       pkgconfig_2.0.2      
-## [19] rlang_0.3.0.1         DBI_1.0.0             cli_1.0.1            
-## [22] rstudioapi_0.8        stringr_1.3.1         knitr_1.20           
-## [25] withr_2.1.2           dplyr_0.7.8           hms_0.4.2.9001       
-## [28] bit64_0.9-7           grid_3.5.1            tidyselect_0.2.5     
-## [31] OuhscMunge_0.1.9.9009 glue_1.3.0            R6_2.3.0             
-## [34] fansi_0.4.0           tidyr_0.8.2           readr_1.2.1          
-## [37] purrr_0.2.5           blob_1.1.1            scales_1.0.0         
-## [40] backports_1.1.2       assertthat_0.2.0      testit_0.8.1         
-## [43] colorspace_1.3-2      labeling_0.3          utf8_1.1.4           
-## [46] stringi_1.2.4         lazyeval_0.2.1        munsell_0.5.0        
-## [49] crayon_1.3.4          zoo_1.8-4
+## [13] RSQLite_2.1.1         memoise_1.1.0         tibble_2.0.1         
+## [16] checkmate_1.9.0       lattice_0.20-38       pkgconfig_2.0.2      
+## [19] rlang_0.3.1           DBI_1.0.0             cli_1.0.1            
+## [22] rstudioapi_0.9.0      xfun_0.4              stringr_1.3.1        
+## [25] knitr_1.21            withr_2.1.2           dplyr_0.7.8          
+## [28] hms_0.4.2.9001        bit64_0.9-7           grid_3.5.2           
+## [31] tidyselect_0.2.5      OuhscMunge_0.1.9.9009 glue_1.3.0           
+## [34] R6_2.3.0              fansi_0.4.0           tidyr_0.8.2          
+## [37] readr_1.3.1           purrr_0.2.5           blob_1.1.1           
+## [40] scales_1.0.0.9000     backports_1.1.3       assertthat_0.2.0     
+## [43] testit_0.9            colorspace_1.4-0      labeling_0.3         
+## [46] utf8_1.1.4            stringi_1.2.4         lazyeval_0.2.1       
+## [49] munsell_0.5.0         crayon_1.3.4          zoo_1.8-4
 ```
 
 ```r
@@ -846,6 +861,6 @@ Sys.time()
 ```
 
 ```
-## [1] "2018-11-24 15:54:05 CST"
+## [1] "2019-01-19 17:25:38 CST"
 ```
 

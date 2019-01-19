@@ -1,6 +1,6 @@
 # knitr::stitch_rmd(script="./manipulation/car-ellis.R", output="./stitched-output/manipulation/car-ellis.md")
 # These first few lines run only when the file is run in RStudio, !!NOT when an Rmd/Rnw file calls it!!
-rm(list=ls(all=TRUE))  #Clear the variables from previous runs.
+rm(list=ls(all=TRUE))  # Clear the variables from previous runs.
 
 # ---- load-sources ------------------------------------------------------------
 # Call `base::source()` on any repo file that defines functions needed below.  Ideally, no real operations are performed.
@@ -13,8 +13,8 @@ library(magrittr             , quietly=TRUE) #Pipes
 requireNamespace("ggplot2"                 )
 requireNamespace("readr"                   )
 requireNamespace("tidyr"                   )
-requireNamespace("dplyr"                   ) #Avoid attaching dplyr, b/c its function names conflict with a lot of packages (esp base, stats, and plyr).
-requireNamespace("testit"                  ) #For asserting conditions meet expected patterns.
+requireNamespace("dplyr"                   ) # Avoid attaching dplyr, b/c its function names conflict with a lot of packages (esp base, stats, and plyr).
+requireNamespace("testit"                  ) # For asserting conditions meet expected patterns.
 
 # ---- declare-globals ---------------------------------------------------------
 # Constant values that won't change.
@@ -43,7 +43,7 @@ rm(path_input)
 # Populate the rename entries with OuhscMunge::column_rename_headstart(ds_county) # devtools::install_github("OuhscBbmc/OuhscMunge")
 ds <-
   ds %>%
-  dplyr::select_(
+  dplyr::select_( # `dplyr::select()` implicitly drops the other columns not mentioned.
     "model_name"                    = "model"
     , "miles_per_gallon"            = "mpg"
     , "cylinder_count"              = "cyl"
@@ -115,6 +115,43 @@ checkmate::assert_numeric(  ds$displacement_gear_z          , any.missing=F , lo
 checkmate::assert_numeric(  ds$weight_gear_z                , any.missing=F , lower=  -3, upper=   3  )
 checkmate::assert_logical(  ds$weight_gear_z_above_1        , any.missing=F                           )
 
+# ---- specify-columns-to-write ------------------------------------------------
+# Print colnames that `columns_to_write` should contain: dput(colnames(ds))
+#   Use this array to adjust which variables are saved, and their position within the dataset.
+columns_to_write <- c(
+  "car_id",
+  "model_name",
+  "miles_per_gallon",
+  "displacement_inches_cubed",
+  "cylinder_count",
+  "horsepower",
+  "quarter_mile_sec",
+  "forward_gear_count",
+  "carburetor_count",
+  "weight_gear_z",
+  "weight_gear_z_above_1"
+
+  # The variables below aren't currently included in the analyses.
+  # "rear_axle_ratio",
+  # "engine_v_shape",
+  # "transmission_automatic",
+  # "weight_pounds",
+  # "horsepower_log_10",
+  # "miles_per_gallon_artifact",
+  # "displacement_gear_z"
+)
+
+# Define the subset of columns that will be needed in the analyses.
+#   The fewer columns that are exported, the fewer things that can break downstream.
+ds_slim <-
+  ds %>%
+  # dplyr::slice(1:100) %>%
+  dplyr::select(!!columns_to_write) %>%
+  dplyr::mutate_if(is.logical, as.integer)       # Some databases & drivers need 0/1 instead of FALSE/TRUE.
+ds_slim
+
+rm(columns_to_write)
+
 # ---- save-to-disk ------------------------------------------------------------
 # Save as a compress, binary R dataset.  It's no longer readable with a text editor, but it saves metadata (eg, factor information).
-readr::write_rds(ds, path_output, compress="xz")
+readr::write_rds(ds_slim, path_output, compress="xz")

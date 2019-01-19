@@ -108,7 +108,7 @@ ds_county
 # OuhscMunge::column_rename_headstart(ds_county) #Spit out columns to help write call ato `dplyr::rename()`.
 ds_county <-
   ds_county %>%
-  dplyr::select_( #`select()` implicitly drops the other columns not mentioned.
+  dplyr::select_( # `dplyr::select()` implicitly drops the other columns not mentioned.
     "county_id"     = "CountyID",
     "county_name"   = "CountyName",
     "region_id"     = "C1LeadNurseRegion"
@@ -366,6 +366,7 @@ checkmate::assert_character(county_month_combo, pattern  ="^\\d{1,2} \\d{4}-\\d{
 
 # ---- specify-columns-to-write ------------------------------------------------
 # dput(colnames(ds)) # Print colnames that `columns_to_write` should contain.
+# Use this array to adjust which variables are saved, and their position within the dataset.
 columns_to_write <- c(
   "county_month_id", "county_id",
   "month", "fte", "fte_approximated",

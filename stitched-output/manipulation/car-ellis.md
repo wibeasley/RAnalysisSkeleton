@@ -3,13 +3,13 @@
 
 
 This report was automatically generated with the R package **knitr**
-(version 1.20).
+(version 1.21).
 
 
 ```r
 # knitr::stitch_rmd(script="./manipulation/car-ellis.R", output="./stitched-output/manipulation/car-ellis.md")
 # These first few lines run only when the file is run in RStudio, !!NOT when an Rmd/Rnw file calls it!!
-rm(list=ls(all=TRUE))  #Clear the variables from previous runs.
+rm(list=ls(all=TRUE))  # Clear the variables from previous runs.
 ```
 
 ```r
@@ -24,8 +24,8 @@ library(magrittr             , quietly=TRUE) #Pipes
 requireNamespace("ggplot2"                 )
 requireNamespace("readr"                   )
 requireNamespace("tidyr"                   )
-requireNamespace("dplyr"                   ) #Avoid attaching dplyr, b/c its function names conflict with a lot of packages (esp base, stats, and plyr).
-requireNamespace("testit"                  ) #For asserting conditions meet expected patterns.
+requireNamespace("dplyr"                   ) # Avoid attaching dplyr, b/c its function names conflict with a lot of packages (esp base, stats, and plyr).
+requireNamespace("testit"                  ) # For asserting conditions meet expected patterns.
 ```
 
 ```r
@@ -39,9 +39,9 @@ path_input  <- "./data-public/raw/mtcar.csv"
 path_output <- "./data-public/derived/motor-trend-car-test.rds"
 figure_path <- 'stitched-output/manipulation/car/'
 
-premature_threshold_in_weeks <- 37 #Any infant under 37 weeks is considered premature for the current project.  Exactly 37.0 weeks are retained.
-weeks_per_year <- 365.25/7
-days_per_week <- 7
+miles_per_gallon_threshold    <- 2.2 # I'm pretending that low values that are artifacts of the measurement equipment.
+days_per_week                 <- 7L
+weeks_per_year                <- 365.25 / days_per_week
 ```
 
 ```r
@@ -67,13 +67,17 @@ ds <- readr::read_csv(path_input)
 ```
 
 ```r
-# OuhscMunge::column_rename_headstart(ds) #Spit out columns to help write call ato `dplyr::rename()`.
+rm(path_input)
+```
+
+```r
+# OuhscMunge::column_rename_headstart(ds) # Spit out columns to help populate arguments to `dplyr::rename()` or `dplyr::select()`.
 
 # Dataset description can be found at: http://stat.ethz.ch/R-manual/R-devel/library/datasets/html/mtcars.html
 # Populate the rename entries with OuhscMunge::column_rename_headstart(ds_county) # devtools::install_github("OuhscBbmc/OuhscMunge")
 ds <-
   ds %>%
-  dplyr::rename_(
+  dplyr::select_( # `dplyr::select()` implicitly drops the other columns not mentioned.
     "model_name"                    = "model"
     , "miles_per_gallon"            = "mpg"
     , "cylinder_count"              = "cyl"
@@ -101,11 +105,10 @@ ds <-
 ```
 
 ```r
-# I'm pretending there are low values that were artifacts of the measurement equipment.
 ds <-
   ds %>%
   dplyr::mutate(
-    miles_per_gallon_artifact = (miles_per_gallon < 2.2),
+    miles_per_gallon_artifact = (miles_per_gallon < miles_per_gallon_threshold),
     miles_per_gallon          = dplyr::if_else(miles_per_gallon_artifact, NA_real_, miles_per_gallon)
   )
 ```
@@ -116,8 +119,8 @@ ds <-
   ds %>%
   dplyr::group_by(forward_gear_count) %>%
   dplyr::mutate(
-    displacement_gear_z = as.numeric(base::scale(displacement_inches_cubed)),
-    weight_gear_z       = as.numeric(base::scale(weight_pounds))
+    displacement_gear_z = base::scale(displacement_inches_cubed),
+    weight_gear_z       = base::scale(weight_pounds)
   ) %>%
   dplyr::ungroup() %>%   #Always leave the dataset ungrouped, so later operations act as expected.
   dplyr::mutate(
@@ -150,8 +153,68 @@ checkmate::assert_logical(  ds$weight_gear_z_above_1        , any.missing=F     
 ```
 
 ```r
+# Print colnames that `columns_to_write` should contain: dput(colnames(ds))
+#   Use this array to adjust which variables are saved, and their position within the dataset.
+columns_to_write <- c(
+  "car_id",
+  "model_name",
+  "miles_per_gallon",
+  "displacement_inches_cubed",
+  "cylinder_count",
+  "horsepower",
+  "quarter_mile_sec",
+  "forward_gear_count",
+  "carburetor_count",
+  "weight_gear_z",
+  "weight_gear_z_above_1"
+
+  # The variables below aren't currently included in the analyses.
+  # "rear_axle_ratio",
+  # "engine_v_shape",
+  # "transmission_automatic",
+  # "weight_pounds",
+  # "horsepower_log_10",
+  # "miles_per_gallon_artifact",
+  # "displacement_gear_z"
+)
+
+# Define the subset of columns that will be needed in the analyses.
+#   The fewer columns that are exported, the fewer things that can break downstream.
+ds_slim <-
+  ds %>%
+  # dplyr::slice(1:100) %>%
+  dplyr::select(!!columns_to_write) %>%
+  dplyr::mutate_if(is.logical, as.integer)       # Some databases & drivers need 0/1 instead of FALSE/TRUE.
+ds_slim
+```
+
+```
+## # A tibble: 32 x 11
+##    car_id model_name miles_per_gallon displacement_in… cylinder_count
+##     <int> <chr>                 <dbl>            <dbl>          <dbl>
+##  1      1 Mazda RX4              21               160               6
+##  2      2 Mazda RX4…             21               160               6
+##  3      3 Datsun 710             22.8             108               4
+##  4      4 Hornet 4 …             21.4             258               6
+##  5      5 Hornet Sp…             18.7             360               8
+##  6      6 Valiant                18.1             225               6
+##  7      7 Duster 360             14.3             360               8
+##  8      8 Merc 240D              24.4             147.              4
+##  9      9 Merc 230               22.8             141.              4
+## 10     10 Merc 280               19.2             168.              6
+## # … with 22 more rows, and 6 more variables: horsepower <dbl>,
+## #   quarter_mile_sec <dbl>, forward_gear_count <dbl>,
+## #   carburetor_count <dbl>, weight_gear_z <dbl>,
+## #   weight_gear_z_above_1 <int>
+```
+
+```r
+rm(columns_to_write)
+```
+
+```r
 # Save as a compress, binary R dataset.  It's no longer readable with a text editor, but it saves metadata (eg, factor information).
-readr::write_rds(ds, path_output, compress="xz")
+readr::write_rds(ds_slim, path_output, compress="xz")
 ```
 
 The R session information (including the OS info, R version and all
@@ -163,7 +226,7 @@ sessionInfo()
 ```
 
 ```
-## R version 3.5.1 (2018-07-02)
+## R version 3.5.2 (2018-12-20)
 ## Platform: x86_64-pc-linux-gnu (64-bit)
 ## Running under: Ubuntu 18.04.1 LTS
 ## 
@@ -183,45 +246,28 @@ sessionInfo()
 ## [1] stats     graphics  grDevices utils     datasets  methods   base     
 ## 
 ## other attached packages:
-## [1] ggplot2_3.0.0  DBI_1.0.0      bindrcpp_0.2.2 magrittr_1.5  
+## [1] ggplot2_3.1.0  bindrcpp_0.2.2 magrittr_1.5  
 ## 
 ## loaded via a namespace (and not attached):
-##  [1] Rcpp_0.12.19                lattice_0.20-35            
-##  [3] tidyr_0.8.1                 prettyunits_1.0.2          
-##  [5] ps_1.2.0                    zoo_1.8-4                  
-##  [7] assertthat_0.2.0            rprojroot_1.3-2            
-##  [9] digest_0.6.18               packrat_0.4.9-3            
-## [11] utf8_1.1.4                  R6_2.3.0                   
-## [13] plyr_1.8.4                  backports_1.1.2            
-## [15] RSQLite_2.1.1               evaluate_0.12              
-## [17] highr_0.7                   pillar_1.3.0               
-## [19] rlang_0.2.2                 lazyeval_0.2.1             
-## [21] callr_3.0.0                 blob_1.1.1                 
-## [23] checkmate_1.8.9-9000        rmarkdown_1.10             
-## [25] config_0.3                  desc_1.2.0                 
-## [27] labeling_0.3                devtools_2.0.0             
-## [29] readr_1.2.0                 stringr_1.3.1              
-## [31] bit_1.1-14                  munsell_0.5.0              
-## [33] compiler_3.5.1              pkgconfig_2.0.2            
-## [35] base64enc_0.1-3             pkgbuild_1.0.2             
-## [37] htmltools_0.3.6             tidyselect_0.2.5           
-## [39] tibble_1.4.2                viridisLite_0.3.0          
-## [41] fansi_0.4.0                 crayon_1.3.4               
-## [43] dplyr_0.7.7                 withr_2.1.2                
-## [45] grid_3.5.1                  gtable_0.2.0               
-## [47] scales_1.0.0                TabularManifest_0.1-16.9003
-## [49] cli_1.0.1                   stringi_1.2.4              
-## [51] fs_1.2.6                    remotes_2.0.0              
-## [53] testit_0.8                  testthat_2.0.1             
-## [55] tools_3.5.1                 bit64_0.9-7                
-## [57] OuhscMunge_0.1.9.9009       glue_1.3.0                 
-## [59] markdown_0.8                purrr_0.2.5                
-## [61] hms_0.4.2.9001              rsconnect_0.8.8            
-## [63] processx_3.2.0              pkgload_1.0.1              
-## [65] yaml_2.2.0                  colorspace_1.3-2           
-## [67] sessioninfo_1.1.0           memoise_1.1.0              
-## [69] knitr_1.20                  bindr_0.1.1                
-## [71] usethis_1.4.0
+##  [1] Rcpp_1.0.0            highr_0.7             plyr_1.8.4           
+##  [4] pillar_1.3.1          compiler_3.5.2        bindr_0.1.1          
+##  [7] tools_3.5.2           digest_0.6.18         packrat_0.5.0        
+## [10] bit_1.1-14            viridisLite_0.3.0     evaluate_0.12        
+## [13] gtable_0.2.0          RSQLite_2.1.1         memoise_1.1.0        
+## [16] tibble_2.0.1          checkmate_1.9.0       lattice_0.20-38      
+## [19] pkgconfig_2.0.2       rlang_0.3.1           DBI_1.0.0            
+## [22] cli_1.0.1             rstudioapi_0.9.0      yaml_2.2.0           
+## [25] xfun_0.4              stringr_1.3.1         knitr_1.21           
+## [28] withr_2.1.2           dplyr_0.7.8           hms_0.4.2.9001       
+## [31] bit64_0.9-7           grid_3.5.2            tidyselect_0.2.5     
+## [34] OuhscMunge_0.1.9.9009 glue_1.3.0            R6_2.3.0             
+## [37] fansi_0.4.0           rmarkdown_1.11        tidyr_0.8.2          
+## [40] readr_1.3.1           purrr_0.2.5           blob_1.1.1           
+## [43] htmltools_0.3.6       scales_1.0.0.9000     backports_1.1.3      
+## [46] rsconnect_0.8.13      assertthat_0.2.0      testit_0.9           
+## [49] colorspace_1.4-0      labeling_0.3          utf8_1.1.4           
+## [52] stringi_1.2.4         lazyeval_0.2.1        munsell_0.5.0        
+## [55] markdown_0.9          crayon_1.3.4          zoo_1.8-4
 ```
 
 ```r
@@ -229,6 +275,6 @@ Sys.time()
 ```
 
 ```
-## [1] "2018-10-22 08:46:45 CDT"
+## [1] "2019-01-19 17:43:32 CST"
 ```
 

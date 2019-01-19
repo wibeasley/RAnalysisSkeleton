@@ -1,12 +1,12 @@
-# If you decide to use these settings that eagerly excludes files, rename it to simply `.gitignore` (without the quotes) and place it in the root of the repository.
+# If you decide to use these settings that eagerly excludes files,
+#    rename it to simply `.gitignore` (without the backticks) and
+#    place it in the root of the repository.
 
 # ---- Potential PHI -----------------------------------------------
 # Anywhere
 *.zip
 *.Zip
 *.ZIP
-*.Rhistory
-*.Rproj.user
 
 # I'm afraid this might contain PHI if someone knew how to decode it.
 us.stackdump
@@ -19,7 +19,6 @@ us.stackdump
 *.RDS
 *.rds
 *.csv
-*.csv#
 *.mdb
 *.accdb
 *.sav
@@ -38,18 +37,23 @@ us.stackdump
 !spatial/census/ACS_11_5YR_B01003_metadata.csv
 !spatial/census/ACS_11_5YR_B01003_with_ann.csv
 
-!Recruitment/RecruitmentMetadata.xlsx
+!recruitment/recruitment-metadata.xlsx
 
 # RData exceptions
 !osdh-reports/c1-models-apc/results-bugs.RData
 !osdh-reports/c1-models-apc/results-jags.RData
 
+#
+# The material above is specific to RAnalysisSkeleton's default `eager.gitignore` file.
+# --------------------------------------------------------------------------------
+# The material below is a copy of RAnalysisSkeleton's default `.gitignore` file.
+#
 # ---- R and RStudio files -----------------------------------------------
-.Rhistory
-.Rapp.history
-.RData
 .Rproj.user
-.Rproj.user/
+.Rhistory
+.RData
+.Ruserdata
+.Rapp.history
 
 # Output files from R CMD build
 /*.tar.gz
@@ -57,9 +61,11 @@ us.stackdump
 # Output files from R CMD check
 /*.Rcheck/
 
-# produced vignettes
+# R package temporary files
+inst/doc
 vignettes/*.html
 vignettes/*.pdf
+vignettes/*.R
 
 # The devtools zip is downloaded when the package is updating itself.  If it's not deleted, there's no reason to commit it to the repository.
 devtools.zip
@@ -80,25 +86,61 @@ devtools.zip
 # Dataset Exceptions
 !utility/package-dependency-list.csv
 
-# Keep the README files in the unshared directories.  They provide documentation, and also force the directories to be created on other machines.
-# Depending on how you do it, you might need to add w/ the command line (eg, git add -f ./data-unshared/raw/README.md)
+# Keep the README files in the unshared directories.
+#   They provide documentation, and also force the directories to be created on other machines.
+#   Depending on how you do it, you might need to add w/ the command line
+#   eg, `git add -f ./data-unshared/raw/README.md`
 !README.md
 !data-unshared/contents.md
 !data-unshared/raw/README.md
 !data-unshared/derived/README.md
+!data/unshared/contents.md
+!data/unshared/raw/README.md
+!data/unshared/derived/README.md
 
 # ---- Caches -----------------------------------------------
 # Exclude caches in case they contain PHI
 cache/
-*/cache/
-*/*/cache/
 
-# knitr and R markdown default cache directories
-/*_cache/
-/cache/
+# knitr and RMarkdown default cache directories
+*_cache/
 
-# ---- Windows -----------------------------------------------
+# ---- Windows OS --------------------------------------------
 # Cached small image files
 Thumbs.db
+
 # Folder config file
 Desktop.ini
+
+# ---- Visual Studio Code (text editor) ----------------------
+.vscode/
+
+# ---- Locks ----------------------
+# Do not commit lock files.
+#   Programs like Microsoft Word create temporary files that don't contain info useful to the repo.
+
+~*.tmp
+~*.temp
+
+# Temporary files of Microsoft Office.
+~*.doc
+~*.docx
+~*.xlsx
+~*.pptx
+*.ldb
+*.laccdb
+
+# Temporary locks used by LibreOffice.
+*.odb.lck
+.~*.odf#
+.~*.odp#
+.~*.ods#
+.~*.odt#
+.~*.docx#
+
+# ---- Accidentally Added Code -------------------------------
+# The GitHub desktop client makes it easy to right-click a file and select 'ignore'.
+#   This will append the file name to the bottom of `.gitignore`.
+#   So the lines below should either be
+#     1. removed (because they were added unintentionally), or
+#     2. reorganized and moved above this chunk (so it won't be confused with files added unintentionally).

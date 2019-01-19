@@ -54,9 +54,19 @@ cache/
 /*_cache/
 /cache/
 
-# ---- Windows -----------------------------------------------
+# ---- Windows OS --------------------------------------------
 # Cached small image files
 Thumbs.db
 
 # Folder config file
 Desktop.ini
+
+# ---- Visual Studio Code (text editor) ----------------------
+.vscode/
+
+# ---- Accidentally Added Code -------------------------------
+# The GitHub desktop client makes it easy to right-click a file and select 'ignore'.
+#   DThis will append the file name to the bottom of `.gitignore`.
+#   So the lines below should either be
+#     1. removed (because they were added unintentionally), or
+#     2. reorganized and moved above this chunk (so it won't be confused with files added unintentionally).

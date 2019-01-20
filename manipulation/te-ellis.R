@@ -365,8 +365,8 @@ checkmate::assert_character(county_month_combo, pattern  ="^\\d{1,2} \\d{4}-\\d{
 # table(paste(ds$county_id, ds$month))[table(paste(ds$county_id, ds$month))>1]
 
 # ---- specify-columns-to-write ------------------------------------------------
-# dput(colnames(ds)) # Print colnames that `columns_to_write` should contain.
-# Use this array to adjust which variables are saved, and their position within the dataset.
+# Print colnames that `columns_to_write` should contain: dput(colnames(ds))
+#   Use this array to adjust which variables are saved, and their position within the dataset.
 columns_to_write <- c(
   "county_month_id", "county_id",
   "month", "fte", "fte_approximated",
@@ -427,7 +427,7 @@ if( file.exists(path_db) ) file.remove(path_db)
 
 # Open connection
 cnn <- DBI::dbConnect(drv=RSQLite::SQLite(), dbname=path_db)
-result <- DBI::dbSendQuery(cnn, "PRAGMA foreign_keys=ON;") #This needs to be activated each time a connection is made. #http://stackoverflow.com/questions/15301643/sqlite3-forgets-to-use-foreign-keys
+result <- DBI::dbSendQuery(cnn, "PRAGMA foreign_keys=ON;") # This needs to be activated each time a connection is made. #http://stackoverflow.com/questions/15301643/sqlite3-forgets-to-use-foreign-keys
 DBI::dbClearResult(result)
 DBI::dbListTables(cnn)
 
@@ -452,9 +452,42 @@ DBI::dbDisconnect(cnn)
 
 # # ---- upload-to-db ----------------------------------------------------------
 # If there's PHI, write to a central database server that authenticates users (like SQL Server).
+#   There are three options below, in descending order of our preference.
+
+# Option 1: this single function uploads to a SQL Server database.
+# OuhscMunge::upload_sqls_odbc(
+#   d             = ds_slim,
+#   schema_name   = "osdh",
+#   table_name    = "te",
+#   dsn_name      = "te-example", # Or config_value("dsn_te"),
+#   clear_table   = T,
+#   create_table  = F,
+#   convert_logical_to_integer = T
+# ) # 0.012 minutes
+
+# Option 2: use the DBI-compliant 'odbc' package.
 # (startTime <- Sys.time())
 # dbTable <- "Osdh.tblC1TEMonth"
-# channel <- RODBC::odbcConnect("te-example") #getSqlTypeInfo("Microsoft SQL Server") #;odbcGetInfo(channel)
+cnn <- DBI::dbConnect(drv=odbc::odbc(), dsn="te-example")
+# DBI::dbGetInfo(cnn)
+# table_id <- DBI::Id(schema="osdh", table="te")
+# table_id <- DBI::Id(table="te")                  # If the schema name is `dbo`.
+#
+# DBI::dbWriteTable(
+#   conn        = cnn,
+#   name        = table_id,
+#   value       = ds_slim,
+#   overwrite   = overwrite,
+#   append      = append
+# )
+# DBI::dbDisconnect(cnn)
+# (elapsedDuration <-  Sys.time() - startTime) #21.4032 secs 2015-10-31
+
+
+# Option 3: use the older (and slower and crash-prone) 'RODBC' package.
+# (startTime <- Sys.time())
+# dbTable <- "Osdh.tblC1TEMonth"
+# cnn <- DBI::("te-example") #getSqlTypeInfo("Microsoft SQL Server") #;odbcGetInfo(channel)
 #
 # columnInfo <- RODBC::sqlColumns(channel, dbTable)
 # varTypes <- as.character(columnInfo$TYPE_NAME)

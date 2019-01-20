@@ -35,10 +35,10 @@ opts_chunk$set(
   fig.path     = 'figure-png/'
 )
 
-echo_chunks    <- FALSE #Toggle for debugging.
-message_chunks <- FALSE #Toggle for debugging.
-# options(width=100) #So the output is 25% wider than the default.
-read_chunk("./analysis/report-1/report-1.R") #This allows knitr to call chunks tagged in the underlying *.R file.
+echo_chunks    <- FALSE # Toggle for debugging.
+message_chunks <- FALSE # Toggle for debugging.
+# options(width=100) # So the output is 25% wider than the default.
+read_chunk("./analysis/report-1/report-1.R") # This allows knitr to call chunks tagged in the underlying *.R file.
 ```
 
 <!-- Load 'sourced' R files.  Suppress the output when loading sources. -->
@@ -144,7 +144,7 @@ if( requireNamespace("devtools", quietly = TRUE) ) {
 </details>
 
 ```{r session-duration, echo=FALSE}
-report_render_duration_in_seconds <- round(as.numeric(difftime(Sys.time(), report_render_start_time, units="secs")))
+report_render_duration_in_seconds <- as.integer(difftime(Sys.time(), report_render_start_time, units="secs"))
 ```
 
 Report rendered by `r Sys.info()["user"]` at `r strftime(Sys.time(), "%Y-%m-%d, %H:%M %z")` in `r report_render_duration_in_seconds` seconds.

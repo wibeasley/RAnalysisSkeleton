@@ -1,5 +1,5 @@
 # ---- R and RStudio files -----------------------------------------------
-.Rproj.user
+.Rproj.user/
 .Rhistory
 .RData
 .Ruserdata
@@ -26,6 +26,12 @@ devtools.zip
 # Temporary files created by R markdown
 *.utf8.md
 *.knit.md
+
+# Example code in package build process
+*-Ex.R
+
+# Shiny token, see https://shiny.rstudio.com/articles/shinyapps.html
+rsconnect/
 
 # ---- Protected Information -----------------------------------------------
 # see cubuspl42's answer in http://stackoverflow.com/questions/2415873/exceptions-in-gitignore

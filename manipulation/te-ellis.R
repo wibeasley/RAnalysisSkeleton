@@ -25,13 +25,13 @@ requireNamespace("OuhscMunge"   ) # remotes::install_github(repo="OuhscBbmc/Ouhs
 
 # ---- declare-globals ---------------------------------------------------------
 # Constant values that won't change.
-# config                         <- config::get()
+config                         <- config::get()
 # path_out_unified               <- config$path_te_county_month
 # path_db                        <- config$path_te_database
 # Uncomment the lines above and delete the two below if values are stored in 'config.yml'.
 
 path_out_unified               <- "data-public/derived/county-month-te.csv"
-path_db                        <- "data-unshared/derived/te.sqlite3"
+path_db                        <- config$path_database
 counties_to_drop_from_rural    <- c("Central Office", "Tulsa", "Oklahoma") #Exclude these records from the rural dataset.
 default_day_of_month           <- 15L      # Summarize each month at its (rough) midpoint.
 possible_county_ids            <- 1:77     #There are 77 counties.
@@ -196,7 +196,7 @@ ds_month_tulsa
 
 # ---- groom-rural -------------------------------------------------------------
 # Groom the nurse-month dataset for the 75 rural counties.
-OuhscMunge::column_rename_headstart(ds_nurse_month_rural)
+# OuhscMunge::column_rename_headstart(ds_nurse_month_rural)
 ds_nurse_month_rural <-
   ds_nurse_month_rural %>%
   dplyr::select_(
@@ -414,21 +414,21 @@ sql_create <- c(
     	county_id                          INTEGER NOT NULL,
       month                              VARCHAR NOT NULL,         -- There's no date type in SQLite.  Make sure it's ISO8601: yyyy-mm-dd
       fte                                REAL    NOT NULL,
-      fte_approximated                   REAL    NOT NULL,
+      fte_approximated                   BIT     NOT NULL,
       month_missing                      INTEGER NOT NULL,         -- There's no bit/boolean type in SQLite
-      fte_rolling_median_11_month        INTEGER, --  NOT NULL
+      fte_rolling_median_11_month        INTEGER --, --  NOT NULL
 
-      FOREIGN KEY(county_id) REFERENCES county(county_id)
+      -- FOREIGN KEY(county_id) REFERENCES county(county_id)
     );
   "
 )
 # Remove old DB
-if( file.exists(path_db) ) file.remove(path_db)
+# if( file.exists(path_db) ) file.remove(path_db)
 
 # Open connection
 cnn <- DBI::dbConnect(drv=RSQLite::SQLite(), dbname=path_db)
-result <- DBI::dbSendQuery(cnn, "PRAGMA foreign_keys=ON;") # This needs to be activated each time a connection is made. #http://stackoverflow.com/questions/15301643/sqlite3-forgets-to-use-foreign-keys
-DBI::dbClearResult(result)
+# result <- DBI::dbSendQuery(cnn, "PRAGMA foreign_keys=ON;") #This needs to be activated each time a connection is made. #http://stackoverflow.com/questions/15301643/sqlite3-forgets-to-use-foreign-keys
+# DBI::dbClearResult(result)
 DBI::dbListTables(cnn)
 
 # Create tables
@@ -502,4 +502,3 @@ DBI::dbDisconnect(cnn)
 
 # ---- inspect, fig.width=10, fig.height=6, fig.path=figure_path -----------------------------------------------------------------
 # This last section is kinda cheating, and should belong in an 'analysis' file, not a 'manipulation' file.
-#   It's included here for the sake of demonstration.

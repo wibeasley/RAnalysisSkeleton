@@ -1,6 +1,6 @@
 ---
 title: Skeleton Report 1
-date: "Date: 2019-02-03"
+date: "Date: 2019-02-04"
 output:
   # radix::radix_article: # radix is a newer alternative that has some advantages over `html_document`.
   html_document:
@@ -67,13 +67,13 @@ Graphs
 Marginals
 ---------------------------------------------------------------------------
 
-![](figure-png/marginals-1.png)<!-- -->![](figure-png/marginals-2.png)<!-- -->![](figure-png/marginals-3.png)<!-- -->![](figure-png/marginals-4.png)<!-- -->
+<img src="figure-png/marginals-1.png" style="display: block; margin: auto;" /><img src="figure-png/marginals-2.png" style="display: block; margin: auto;" /><img src="figure-png/marginals-3.png" style="display: block; margin: auto;" /><img src="figure-png/marginals-4.png" style="display: block; margin: auto;" />
 
 
 Scatterplots
 ---------------------------------------------------------------------------
 
-![](figure-png/scatterplots-1.png)<!-- -->![](figure-png/scatterplots-2.png)<!-- -->![](figure-png/scatterplots-3.png)<!-- -->![](figure-png/scatterplots-4.png)<!-- -->![](figure-png/scatterplots-5.png)<!-- -->
+<img src="figure-png/scatterplots-1.png" style="display: block; margin: auto;" /><img src="figure-png/scatterplots-2.png" style="display: block; margin: auto;" /><img src="figure-png/scatterplots-3.png" style="display: block; margin: auto;" /><img src="figure-png/scatterplots-4.png" style="display: block; margin: auto;" /><img src="figure-png/scatterplots-5.png" style="display: block; margin: auto;" />
 
 
 Models
@@ -213,7 +213,7 @@ For the sake of documentation and reproducibility, the current report was render
  collate  en_US.UTF-8                 
  ctype    en_US.UTF-8                 
  tz       America/Chicago             
- date     2019-02-03                  
+ date     2019-02-04                  
 
 ─ Packages ──────────────────────────────────────────────────────────────
  package     * version    date       lib source                        
@@ -228,6 +228,7 @@ For the sake of documentation and reproducibility, the current report was render
  checkmate     1.9.1      2019-01-15 [1] CRAN (R 3.5.2)                
  cli           1.0.1      2018-09-25 [1] CRAN (R 3.5.1)                
  colorspace    1.4-0      2019-01-13 [1] CRAN (R 3.5.2)                
+ config        0.3        2018-03-27 [1] CRAN (R 3.5.1)                
  crayon        1.3.4      2017-09-16 [1] CRAN (R 3.5.1)                
  DBI           1.0.0      2018-05-02 [1] CRAN (R 3.5.1)                
  desc          1.2.0      2018-05-01 [1] CRAN (R 3.5.1)                
@@ -248,6 +249,7 @@ For the sake of documentation and reproducibility, the current report was render
  lattice       0.20-38    2018-11-04 [4] CRAN (R 3.5.1)                
  lazyeval      0.2.1      2017-10-29 [1] CRAN (R 3.5.1)                
  magrittr    * 1.5        2014-11-22 [1] CRAN (R 3.5.1)                
+ markdown      0.9        2018-12-07 [1] CRAN (R 3.5.1)                
  memoise       1.1.0      2017-04-21 [1] CRAN (R 3.5.1)                
  munsell       0.5.0      2018-06-12 [1] CRAN (R 3.5.1)                
  odbc          1.1.6      2018-06-09 [1] CRAN (R 3.5.1)                
@@ -298,4 +300,4 @@ For the sake of documentation and reproducibility, the current report was render
 
 
 
-Report rendered by wibeasley at 2019-02-03, 20:30 -0600 in 9 seconds.
+Report rendered by wibeasley at 2019-02-04, 00:07 -0600 in 5 seconds.

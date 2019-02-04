@@ -385,12 +385,12 @@ ds_slim
 rm(columns_to_write)
 
 # ---- save-to-disk ------------------------------------------------------------
-# If there's no PHI, a rectangular CSV is usually adequate, and it's portable to other machines and software.
+# If there's *NO* PHI, a rectangular CSV is usually adequate, and it's portable to other machines and software.
 readr::write_csv(ds_slim, path_out_unified)
 # readr::write_rds(ds_slim, path_out_unified, compress="gz") # Save as a compressed R-binary file if it's large or has a lot of factors.
 
 # ---- save-to-db --------------------------------------------------------------
-# If there's no PHI, a local database like SQLite fits a nice niche if
+# If there's *NO* PHI, a local database like SQLite fits a nice niche if
 #   * the data is relational and
 #   * later, only portions need to be queried/retrieved at a time (b/c everything won't need to be loaded into R's memory)
 
@@ -450,8 +450,9 @@ ds %>%
 # Close connection
 DBI::dbDisconnect(cnn)
 
-# # ---- upload-to-db ----------------------------------------------------------
-# If there's PHI, write to a central database server that authenticates users (like SQL Server).
+
+# # ---- save-to-db-alternatives -------------------------------------------------
+# If there *IS* PHI, write to a central database server that authenticates users (like SQL Server).
 #   There are three options below, in descending order of our preference.
 
 # Option 1: this single function uploads to a SQL Server database.
@@ -468,7 +469,7 @@ DBI::dbDisconnect(cnn)
 # Option 2: use the DBI-compliant 'odbc' package.
 # (startTime <- Sys.time())
 # dbTable <- "Osdh.tblC1TEMonth"
-cnn <- DBI::dbConnect(drv=odbc::odbc(), dsn="te-example")
+# cnn <- DBI::dbConnect(drv=odbc::odbc(), dsn="te-example")
 # DBI::dbGetInfo(cnn)
 # table_id <- DBI::Id(schema="osdh", table="te")
 # table_id <- DBI::Id(table="te")                  # If the schema name is `dbo`.
@@ -498,42 +499,3 @@ cnn <- DBI::dbConnect(drv=odbc::odbc(), dsn="te-example")
 # RODBC::odbcClose(channel)
 # rm(columnInfo, channel, columns_to_write, dbTable, varTypes)
 # (elapsedDuration <-  Sys.time() - startTime) #21.4032 secs 2015-10-31
-
-
-#Possibly consider writing to sqlite (with RSQLite) if there's no PHI, or a central database if there is PHI.
-
-# ---- inspect, fig.width=10, fig.height=6, fig.path=figure_path -----------------------------------------------------------------
-# This last section is kinda cheating, and should belong in an 'analysis' file, not a 'manipulation' file.
-#   It's included here for the sake of demonstration.
-
-library(ggplot2)
-
-# Graph each county-month
-ggplot(ds, aes(x=month, y=fte, group=factor(county_id), color=factor(county_id), shape=fte_approximated, ymin=0)) +
-  geom_point(position=position_jitter(height=.05, width=5), size=4, na.rm=T) +
-  # geom_text(aes(label=county_month_id)) +
-  geom_line(position=position_jitter(height=.1, width=5)) +
-  scale_shape_manual(values=c("TRUE"=21, "FALSE"=NA)) +
-  theme_light() +
-  guides(color = guide_legend(ncol=4, override.aes = list(size=3, alpha = 1))) +
-  guides(shape = guide_legend(ncol=2, override.aes = list(size=3, alpha = 1))) +
-  labs(title="FTE sum each month (by county)", y="Sum of FTE for County")
-
-# Graph each region-month
-ds_region <-
-  ds %>%
-  dplyr::group_by(region_id, month) %>%
-  dplyr::summarize(
-    fte              = sum(fte, na.rm=T),
-    fte_approximated = any(fte_approximated)
-  ) %>%
-  dplyr::ungroup()
-
-last_plot() %+%
-  ds_region +
-  aes(group=factor(region_id), color=factor(region_id)) +
-  labs(title="FTE sum each month (by region)", y="Sum of FTE for Region")
-
-# last_plot() +
-#   aes(y=fmla_hours) +
-#   labs(title="fmla_hours sum each month (by county)")

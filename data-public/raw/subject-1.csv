@@ -1,0 +1,21 @@
+subject_id,county_id,gender_id,race,ethnicity
+1001,51,2,Native Hawaiian or Other Pacific Islander,Hispanic or Latino
+1002,55,2,Unknown or Not Reported,Unknown/Not Reported Ethnicity
+1003,72,2,Black or African American,Not Hispanic or Latino
+1004,72,255,American Indian/Alaska Native,Hispanic or Latino
+1005,72,1,Unknown or Not Reported,Unknown/Not Reported Ethnicity
+1006,51,1,American Indian/Alaska Native,Unknown/Not Reported Ethnicity
+1007,51,255,White,Unknown/Not Reported Ethnicity
+1008,55,255,Unknown or Not Reported,Not Hispanic or Latino
+1009,51,1,More than One Race,Unknown/Not Reported Ethnicity
+1010,51,1,American Indian/Alaska Native,Not Hispanic or Latino
+1011,51,2,American Indian/Alaska Native,Not Hispanic or Latino
+1012,72,255,More than One Race,Unknown/Not Reported Ethnicity
+1013,51,2,Asian,Not Hispanic or Latino
+1014,51,1,Unknown or Not Reported,Not Hispanic or Latino
+1015,72,2,American Indian/Alaska Native,Not Hispanic or Latino
+1016,55,2,Asian,Hispanic or Latino
+1017,72,1,Native Hawaiian or Other Pacific Islander,Unknown/Not Reported Ethnicity
+1018,51,1,White,Not Hispanic or Latino
+1019,55,1,Asian,Unknown/Not Reported Ethnicity
+1020,55,2,More than One Race,Not Hispanic or Latino

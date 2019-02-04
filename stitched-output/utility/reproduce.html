@@ -235,6 +235,7 @@ ds_rail  &lt;- tibble::tribble(
   &quot;run_file_r&quot;      , &quot;manipulation/simulation/simulate-mlm-1.R&quot;,
 
   # First run the manipulation files to prepare the dataset(s).
+  &quot;run_file_r&quot;      , &quot;manipulation/mlm-1-ellis.R&quot;,
   &quot;run_file_r&quot;      , &quot;manipulation/te-ellis.R&quot;,
   &quot;run_file_r&quot;      , &quot;manipulation/car-ellis.R&quot;,
 
@@ -268,7 +269,7 @@ run_rmd &lt;- function( minion ) {
 (file_found &lt;- purrr::map_lgl(ds_rail$path, file.exists))
 </code></pre>
 
-<pre><code>## [1] TRUE TRUE TRUE TRUE TRUE
+<pre><code>## [1] TRUE TRUE TRUE TRUE TRUE TRUE
 </code></pre>
 
 <pre><code class="r">if( !all(file_found) ) {
@@ -280,7 +281,7 @@ run_rmd &lt;- function( minion ) {
 <pre><code class="r">message(&quot;Starting update of files at &quot;, Sys.time(), &quot;.&quot;)
 </code></pre>
 
-<pre><code>## Starting update of files at 2019-02-04 00:28:46.
+<pre><code>## Starting update of files at 2019-02-04 00:55:18.
 </code></pre>
 
 <pre><code class="r">elapsed_time &lt;- system.time({
@@ -292,7 +293,7 @@ run_rmd &lt;- function( minion ) {
 </code></pre>
 
 <pre><code>## 
-## Starting `simulate-mlm-1.R` at 2019-02-04 00:28:46.
+## Starting `simulate-mlm-1.R` at 2019-02-04 00:55:18.
 </code></pre>
 
 <pre><code>## Loading required namespace: readr
@@ -320,7 +321,14 @@ run_rmd &lt;- function( minion ) {
 </code></pre>
 
 <pre><code>## 
-## Starting `te-ellis.R` at 2019-02-04 00:28:48.
+## Starting `mlm-1-ellis.R` at 2019-02-04 00:55:19.
+</code></pre>
+
+<pre><code>## Completed `mlm-1-ellis.R`.
+</code></pre>
+
+<pre><code>## 
+## Starting `te-ellis.R` at 2019-02-04 00:55:20.
 </code></pre>
 
 <pre><code>## , &quot;home_county&quot;            = &quot;`HOME_COUNTY`&quot;
@@ -335,7 +343,7 @@ run_rmd &lt;- function( minion ) {
 </code></pre>
 
 <pre><code>## 
-## Starting `car-ellis.R` at 2019-02-04 00:28:49.
+## Starting `car-ellis.R` at 2019-02-04 00:55:20.
 </code></pre>
 
 <pre><code>## Parsed with column specification:
@@ -359,14 +367,14 @@ run_rmd &lt;- function( minion ) {
 </code></pre>
 
 <pre><code>## 
-## Starting `randomization-block-simple.R` at 2019-02-04 00:28:49.
+## Starting `randomization-block-simple.R` at 2019-02-04 00:55:21.
 </code></pre>
 
 <pre><code>## Completed `randomization-block-simple.R`.
 </code></pre>
 
 <pre><code>## 
-## Starting `car-report-1.Rmd` at 2019-02-04 00:28:49.
+## Starting `car-report-1.Rmd` at 2019-02-04 00:55:21.
 </code></pre>
 
 <pre><code>## 
@@ -571,7 +579,7 @@ run_rmd &lt;- function( minion ) {
 <pre><code>## output file: car-report-1.knit.md
 </code></pre>
 
-<pre><code>## /usr/lib/rstudio/bin/pandoc/pandoc +RTS -K512m -RTS car-report-1.utf8.md --to html4 --from markdown+autolink_bare_uris+ascii_identifiers+tex_math_single_backslash+smart --output car-report-1.html --email-obfuscation none --self-contained --standalone --section-divs --table-of-contents --toc-depth 3 --variable toc_float=1 --variable toc_selectors=h1,h2,h3 --variable toc_collapsed=1 --variable toc_smooth_scroll=1 --variable toc_print=1 --template /home/wibeasley/R/x86_64-pc-linux-gnu-library/3.5/rmarkdown/rmd/h/default.html --no-highlight --variable highlightjs=1 --number-sections --css ../common/styles.css --variable &#39;theme:bootstrap&#39; --include-in-header /tmp/RtmprOWzL5/rmarkdown-str730276e3d560.html --mathjax --variable &#39;mathjax-url:https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML&#39;
+<pre><code>## /usr/lib/rstudio/bin/pandoc/pandoc +RTS -K512m -RTS car-report-1.utf8.md --to html4 --from markdown+autolink_bare_uris+ascii_identifiers+tex_math_single_backslash+smart --output car-report-1.html --email-obfuscation none --self-contained --standalone --section-divs --table-of-contents --toc-depth 3 --variable toc_float=1 --variable toc_selectors=h1,h2,h3 --variable toc_collapsed=1 --variable toc_smooth_scroll=1 --variable toc_print=1 --template /home/wibeasley/R/x86_64-pc-linux-gnu-library/3.5/rmarkdown/rmd/h/default.html --no-highlight --variable highlightjs=1 --number-sections --css ../common/styles.css --variable &#39;theme:bootstrap&#39; --include-in-header /tmp/RtmpgBI8ED/rmarkdown-str7c2249e29bb9.html --mathjax --variable &#39;mathjax-url:https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML&#39;
 </code></pre>
 
 <pre><code>## 
@@ -584,14 +592,14 @@ run_rmd &lt;- function( minion ) {
 <pre><code class="r">message(&quot;Completed update of files at &quot;, Sys.time(), &quot;&quot;)
 </code></pre>
 
-<pre><code>## Completed update of files at 2019-02-04 00:28:59
+<pre><code>## Completed update of files at 2019-02-04 00:55:31
 </code></pre>
 
 <pre><code class="r">elapsed_time
 </code></pre>
 
 <pre><code>##    user  system elapsed 
-##   9.034   0.907  12.821
+##   9.640   0.809  13.500
 </code></pre>
 
 <p>The R session information (including the OS info, R version and all
@@ -651,7 +659,7 @@ packages used):</p>
 <pre><code class="r">Sys.time()
 </code></pre>
 
-<pre><code>## [1] &quot;2019-02-04 00:28:59 CST&quot;
+<pre><code>## [1] &quot;2019-02-04 00:55:32 CST&quot;
 </code></pre>
 
 </body>

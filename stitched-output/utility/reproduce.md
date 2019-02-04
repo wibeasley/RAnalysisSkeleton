@@ -44,6 +44,7 @@ ds_rail  <- tibble::tribble(
   "run_file_r"      , "manipulation/simulation/simulate-mlm-1.R",
 
   # First run the manipulation files to prepare the dataset(s).
+  "run_file_r"      , "manipulation/mlm-1-ellis.R",
   "run_file_r"      , "manipulation/te-ellis.R",
   "run_file_r"      , "manipulation/car-ellis.R",
 
@@ -78,7 +79,7 @@ run_rmd <- function( minion ) {
 ```
 
 ```
-## [1] TRUE TRUE TRUE TRUE TRUE
+## [1] TRUE TRUE TRUE TRUE TRUE TRUE
 ```
 
 ```r
@@ -95,7 +96,7 @@ message("Starting update of files at ", Sys.time(), ".")
 ```
 
 ```
-## Starting update of files at 2019-02-04 00:28:46.
+## Starting update of files at 2019-02-04 00:55:18.
 ```
 
 ```r
@@ -109,7 +110,7 @@ elapsed_time <- system.time({
 
 ```
 ## 
-## Starting `simulate-mlm-1.R` at 2019-02-04 00:28:46.
+## Starting `simulate-mlm-1.R` at 2019-02-04 00:55:18.
 ```
 
 ```
@@ -146,7 +147,16 @@ elapsed_time <- system.time({
 
 ```
 ## 
-## Starting `te-ellis.R` at 2019-02-04 00:28:48.
+## Starting `mlm-1-ellis.R` at 2019-02-04 00:55:19.
+```
+
+```
+## Completed `mlm-1-ellis.R`.
+```
+
+```
+## 
+## Starting `te-ellis.R` at 2019-02-04 00:55:20.
 ```
 
 ```
@@ -164,7 +174,7 @@ elapsed_time <- system.time({
 
 ```
 ## 
-## Starting `car-ellis.R` at 2019-02-04 00:28:49.
+## Starting `car-ellis.R` at 2019-02-04 00:55:20.
 ```
 
 ```
@@ -191,7 +201,7 @@ elapsed_time <- system.time({
 
 ```
 ## 
-## Starting `randomization-block-simple.R` at 2019-02-04 00:28:49.
+## Starting `randomization-block-simple.R` at 2019-02-04 00:55:21.
 ```
 
 ```
@@ -200,7 +210,7 @@ elapsed_time <- system.time({
 
 ```
 ## 
-## Starting `car-report-1.Rmd` at 2019-02-04 00:28:49.
+## Starting `car-report-1.Rmd` at 2019-02-04 00:55:21.
 ```
 
 ```
@@ -351,7 +361,7 @@ elapsed_time <- system.time({
 ```
 
 ```
-## /usr/lib/rstudio/bin/pandoc/pandoc +RTS -K512m -RTS car-report-1.utf8.md --to html4 --from markdown+autolink_bare_uris+ascii_identifiers+tex_math_single_backslash+smart --output car-report-1.html --email-obfuscation none --self-contained --standalone --section-divs --table-of-contents --toc-depth 3 --variable toc_float=1 --variable toc_selectors=h1,h2,h3 --variable toc_collapsed=1 --variable toc_smooth_scroll=1 --variable toc_print=1 --template /home/wibeasley/R/x86_64-pc-linux-gnu-library/3.5/rmarkdown/rmd/h/default.html --no-highlight --variable highlightjs=1 --number-sections --css ../common/styles.css --variable 'theme:bootstrap' --include-in-header /tmp/RtmprOWzL5/rmarkdown-str730276e3d560.html --mathjax --variable 'mathjax-url:https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML'
+## /usr/lib/rstudio/bin/pandoc/pandoc +RTS -K512m -RTS car-report-1.utf8.md --to html4 --from markdown+autolink_bare_uris+ascii_identifiers+tex_math_single_backslash+smart --output car-report-1.html --email-obfuscation none --self-contained --standalone --section-divs --table-of-contents --toc-depth 3 --variable toc_float=1 --variable toc_selectors=h1,h2,h3 --variable toc_collapsed=1 --variable toc_smooth_scroll=1 --variable toc_print=1 --template /home/wibeasley/R/x86_64-pc-linux-gnu-library/3.5/rmarkdown/rmd/h/default.html --no-highlight --variable highlightjs=1 --number-sections --css ../common/styles.css --variable 'theme:bootstrap' --include-in-header /tmp/RtmpgBI8ED/rmarkdown-str7c2249e29bb9.html --mathjax --variable 'mathjax-url:https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML'
 ```
 
 ```
@@ -368,7 +378,7 @@ message("Completed update of files at ", Sys.time(), "")
 ```
 
 ```
-## Completed update of files at 2019-02-04 00:28:59
+## Completed update of files at 2019-02-04 00:55:31
 ```
 
 ```r
@@ -377,7 +387,7 @@ elapsed_time
 
 ```
 ##    user  system elapsed 
-##   9.034   0.907  12.821
+##   9.640   0.809  13.500
 ```
 
 The R session information (including the OS info, R version and all
@@ -442,6 +452,6 @@ Sys.time()
 ```
 
 ```
-## [1] "2019-02-04 00:28:59 CST"
+## [1] "2019-02-04 00:55:32 CST"
 ```
 

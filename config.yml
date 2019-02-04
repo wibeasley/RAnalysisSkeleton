@@ -1,6 +1,24 @@
 default:
-    path_car_raw:             "data-public/raw/mtcar.csv"
-    path_car_derived:         "data-public/derived/motor-trend-car-test.rds"
+    # To be processed by Ellis lanes
+    path_subject_1_raw:       "data-public/raw/subject-1.csv"
+    path_mlm_1_raw:           "data-public/raw/mlm-1.csv"
 
-    path_te_county_month:     "data-public/derived/county-month-te.csv"
-    path_te_database:         "data-unshared/derived/te.sqlite3"
+    path_car_raw:             "data-public/raw/mtcar.csv"
+
+    # Central Database (produced by Ellis lanes).
+    path_database:            "data-public/derived/db.sqlite3"
+
+    # Derived Rectangles (produced by Ellis lanes).
+
+    # Analysis-ready datasets (produced by scribes & consumed by analyses).
+
+    path_county_derived:      "data-public/derived/county.rds"
+    path_county_year_derived: "data-public/derived/county-year.rds"
+    path_mlm_1_derived:       "data-public/derived/mlm-1.rds"
+
+    path_te_county:           "data-public/derived/te/te-county.rds"
+    path_te_county_month:     "data-public/derived/te/te-county-month.rds"
+
+    path_car_derived:         "data-public/derived/car.rds" # Actually produced by an Ellis
+
+    path_annotation:          "data-public/metadata/cqi-annotation.csv"

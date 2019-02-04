@@ -1,0 +1,62 @@
+Package: RAnalysisSkeleton
+Title: Displaying Health Data
+Description: Files and settings commonly used in analysis projects with R.
+Version: 0.0.1.9001
+Date: 2019-02-04
+Authors@R: c(person("Will", "Beasley", role = c("aut", "cre"), email =
+    "wibeasley@hotmail.com", comment = c(ORCID = "0000-0002-5613-5006")),
+    person("Andrey", "Koval", role = "aut"))
+URL: https://github.com/wibeasley/RAnalysisSkeleton
+BugReports: https://github.com/wibeasley/RAnalysisSkeleton/issues
+Depends:
+    R(>= 3.0.0)
+Imports:
+    broom,
+    checkmate  (>= 1.8.4),
+    codified (>= 0.2.0),
+    config,
+    DBI (>= 0.7.0),
+    dplyr (>= 0.5.0),
+    DT,
+    flexdashboard,
+    ggplot2,
+    httr (>= 1.3.0),
+    kableExtra,
+    knitr (>= 1.18.0),
+    lme4,
+    magrittr,
+    mgcv,
+    methods,
+    odbc (>= 1.1.1),
+    OuhscMunge (>= 0.1.9.9009),
+    RColorBrewer,
+    readr (>= 1.2.1),
+    rmarkdown,
+    sessioninfo,
+    TabularManifest,
+    tibble (>= 1.4.0),
+    yaml
+Suggests:
+    devtools (>= 1.13.0),
+    ggalluvial,
+    ggrepel,
+    plotly,
+    purrr,
+    RcppRoll,
+    remotes,
+    rlang,
+    RSQLite,
+    scales,
+    testit,
+    testthat (>= 0.9),
+    tidyr (>= 0.7.0),
+    zoo
+Remotes:
+  github::OuhscBbmc/OuhscMunge,
+  github::Melinae/TabularManifest
+License: GPL-3 + file LICENSE
+LazyData: TRUE
+VignetteBuilder: knitr
+Encoding: UTF-8
+RoxygenNote: 6.1.0
+Roxygen: list(markdown = TRUE)

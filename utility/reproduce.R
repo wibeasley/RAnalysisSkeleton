@@ -19,11 +19,15 @@ options(knitr.duplicate.label = "allow")
 ds_rail  <- tibble::tribble(
   ~fx               , ~path,
 
+  # Simulate observed data
+  "run_file_r"      , "manipulation/simulation/simulate-mlm-1.R",
+
   # First run the manipulation files to prepare the dataset(s).
-  "run_file_r"      , "./manipulation/te-ellis.R",
-  "run_file_r"      , "./manipulation/car-ellis.R",
-  # "run_ferry_sql" , "./manipulation/inserts-to-normalized-tables.sql"
-  "run_file_r"      , "./manipulation/randomization-block-simple.R",
+  "run_file_r"      , "manipulation/te-ellis.R",
+  "run_file_r"      , "manipulation/car-ellis.R",
+
+  # "run_ferry_sql" , "manipulation/inserts-to-normalized-tables.sql"
+  "run_file_r"      , "manipulation/randomization-block-simple.R",
 
   # Next render the analysis report(s):
   "run_rmd"       , "analysis/car-report-1/car-report-1.Rmd"

@@ -499,3 +499,7 @@ DBI::dbDisconnect(cnn)
 # RODBC::odbcClose(channel)
 # rm(columnInfo, channel, columns_to_write, dbTable, varTypes)
 # (elapsedDuration <-  Sys.time() - startTime) #21.4032 secs 2015-10-31
+
+# ---- inspect, fig.width=10, fig.height=6, fig.path=figure_path -----------------------------------------------------------------
+# This last section is kinda cheating, and should belong in an 'analysis' file, not a 'manipulation' file.
+#   It's included here for the sake of demonstration.

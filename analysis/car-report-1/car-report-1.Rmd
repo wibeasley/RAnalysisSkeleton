@@ -38,7 +38,7 @@ opts_chunk$set(
 echo_chunks    <- FALSE # Toggle for debugging.
 message_chunks <- FALSE # Toggle for debugging.
 # options(width=100) # So the output is 25% wider than the default.
-read_chunk("./analysis/report-1/report-1.R") # This allows knitr to call chunks tagged in the underlying *.R file.
+read_chunk("./analysis/car-report-1/car-report-1.R") # This allows knitr to call chunks tagged in the underlying *.R file.
 ```
 
 <!-- Load 'sourced' R files.  Suppress the output when loading sources. -->

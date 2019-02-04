@@ -23,8 +23,8 @@ requireNamespace("testit"                  ) # For asserting conditions meet exp
 # path_output             <- config$path_car_derived
 # Uncomment the lines above and delete the two below if values are stored in 'config.yml'.
 
-path_input  <- "./data-public/raw/mtcar.csv"
-path_output <- "./data-public/derived/motor-trend-car-test.rds"
+path_input  <- "data-public/raw/mtcar.csv"
+path_output <- "data-public/derived/car.rds"
 figure_path <- 'stitched-output/manipulation/car/'
 
 miles_per_gallon_threshold    <- 2.2 # I'm pretending that low values that are artifacts of the measurement equipment.

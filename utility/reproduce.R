@@ -26,7 +26,7 @@ ds_rail  <- tibble::tribble(
   "run_file_r"      , "./manipulation/randomization-block-simple.R",
 
   # Next render the analysis report(s):
-  "run_rmd"       , "analysis/report-1/report-1.Rmd"
+  "run_rmd"       , "analysis/car-report-1/car-report-1.Rmd"
 )
 
 run_file_r <- function( minion ) {

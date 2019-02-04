@@ -1,0 +1,199 @@
+---
+title: "Cognitive Longitudinal Outcomes by Program --PDSA Cycle 3"
+output:
+  flexdashboard::flex_dashboard:
+    social: [ "menu" ]
+    # orientation: rows
+    vertical_layout: fill
+    source_code: embed
+    theme: journal
+---
+
+<!-- Replace the flexdashboard entry above with this, to produce our conventional knitr report. -->
+<!-- html_document: -->
+<!--   keep_md: yes -->
+<!--   toc: yes -->
+<!--   toc_float: true -->
+<!--   number_sections: true -->
+
+
+<!--  Set the working directory to the repository's base directory; this assumes the report is nested inside of three directories.-->
+```{r, echo=F, message=F}
+# cat("Working directory: ", getwd())
+library(knitr)
+library(flexdashboard)
+opts_knit$set(root.dir='../../')  #Don't combine this call with any other chunk -especially one that uses file paths.
+```
+
+<!-- Set the report-wide options, and point to the external code file. -->
+```{r set-options, echo=F}
+# cat("Working directory: ", getwd())
+report_render_start_time <- Sys.time()
+opts_chunk$set(
+  results      = 'show',
+  comment      = NA,
+  tidy         = FALSE,
+  # dpi        = 400,
+  # out.width  = "650px", #This affects only the markdown, not the underlying png file.  The height will be scaled appropriately.
+  fig.width    = 6,
+  fig.height   = 6,
+  fig.path     = 'figure-dashboard-png/'
+)
+
+echo_chunks    <- FALSE #Toggle for debugging.
+message_chunks <- FALSE #Toggle for debugging.
+options(width=100) #So the output is 25% wider than the default.
+read_chunk("./analysis/dashboard-1/dashboard-1.R") #This allows knitr to call chunks tagged in the underlying *.R file.
+```
+
+<!-- Load 'sourced' R files.  Suppress the output when loading sources. -->
+```{r load-sources, echo=echo_chunks, message=message_chunks}
+```
+
+<!-- Load packages, or at least verify they're available on the local machine.  Suppress the output when loading packages. -->
+```{r load-packages, echo=echo_chunks, message=message_chunks}
+```
+
+<!-- Load any global functions and variables declared in the R file.  Suppress the output. -->
+```{r declare-globals, echo=echo_chunks, results='show', message=message_chunks}
+```
+
+<!-- Declare any global functions specific to a Rmd output.  Suppress the output. -->
+```{r rmd-specific, echo=echo_chunks, message=message_chunks}
+# Put presentation-specific code in here.  It doesn't call a chunk in the codebehind file.
+#   It should be rare (and used cautiously), but sometimes it makes sense to include code in Rmd
+#   that doesn't live in the codebehind R file.
+```
+
+<!-- Load the datasets.   -->
+```{r load-data, echo=echo_chunks, results='show', message=message_chunks}
+```
+
+<!-- Tweak the datasets.   -->
+```{r tweak-data, echo=echo_chunks, results='show', message=message_chunks}
+```
+
+Summary
+=============================================
+
+This dashboard helps facilitate the CQI analyses VIHA E.C.R. (early cognitive recline) project.
+
+## Overall {.tabset data-width=300}
+
+### Notes
+1. The current report covers `r scales::comma(nrow(ds))` total subject-event records for `r dplyr::n_distinct(ds$county)` unique counties (`r paste(sort(unique(ds$county)), collapse=", ")`).
+1. The year of collection ranges from `r min(ds$year, na.rm=T)` to  `r max(ds$year, na.rm=T)`.
+1. The selected county is `r county_name_focus` (id value `r county_id_focus`).
+
+## {.tabset}
+```{r headline-graph, echo=echo_chunks, results='asis', message=message_chunks}
+```
+
+Tables
+=============================================
+
+<!-- Numerical representation of the previous graphs.  Click the tabs below to cycle between the summaries.  Tables are searchable and sortable. -->
+
+## {.tabset}
+
+
+
+### Tables - County-Year
+```{r tables-county-year, echo=echo_chunks, message=message_chunks}
+```
+
+### Tables - County
+
+```{r tables-county, echo=echo_chunks, message=message_chunks}
+```
+
+
+### Tables - Annotation
+
+```{r tables-annotation, echo=echo_chunks, message=message_chunks}
+```
+
+
+Spaghetti
+=============================================
+
+<!-- A program's monthly values are plotted on top of the background of other programs in the model.  Each graph represents one outcome. -->
+
+## {.tabset}
+
+```{r spaghetti, echo=echo_chunks, message=message_chunks, results='asis', fig.height=10, fig.width=20}
+```
+
+
+Marginals
+=============================================
+
+## {.tabset}
+
+
+```{r marginals, echo=echo_chunks, message=message_chunks, results='asis'} 
+```
+
+Documentation
+=============================================
+
+## {.tabset}
+
+### Explanation -Current PDSA
+
+#### SMART Aim
+By implementing plans for self-care activities with established clients, primary caregivers will see a mean score reduction of at least 4 points on the Parenting Stress Scale after 4 months of self-care activities by 12-1-18.
+
+#### Measures 
+
+* **Outcome**: Parent Stress
+    * Pre- and Post- Parent Stress Scale score change
+    
+* **Process**: Completed Resiliency Plans
+    * *Numerator*: Count of clients who completed their designated self-care activity
+    * *Denominator*: Count of clients with a visist in a given week
+    
+* **Disruptor**: Cultural issues preventing participation, toxic stress, family catastrophe
+
+#### Spaghetti Notes
+
+* **To be added**:
+    * Post score plots
+    * Pre-post comparisons
+    * Splitting out new clients from old clients to see if differences are more or less prominent
+
+* **Mean PSS Scores - Pre**: 
+    * Each blue dot represents a single client's PSS score on the pre measure
+    * The orange dots (connected by the red line) represent the mean PSS score for all clients on a given week.
+    * Dot size is proportional to the number of clients who had a pre-PSS score.
+
+* **Stress Activity - Success**: 
+    * *Numerator*: Number of clients who indicated having completed their self-care activity
+    * *Denominator*: All clients who responded to the self-care question (Yes/No to self-care)
+    * *Dot size*: The dot size is proportional to the number of clients who responded to that question on a given week.
+
+#### Resources
+
+* [Current PDSA](https://docs.google.com/document/d/1IcwCCkr1EkoeBJpEKdF2v-E0gKI6wGacCv9oZU1CE7I/edit#)
+
+<!-- The dashboard documentation that's common to all reports. Unfortunately, the working directory is the Rmd directory, to the repo root. -->
+
+### Explanation -All CQI Dashboards
+
+```{r, child = "../common/dashboard/documentation-all-dashboards-1.Rmd"}
+```
+
+### Glossary
+
+```{r, child = "../common/dashboard/documentation-glossary-1.Rmd"}
+```
+
+### Tips
+
+```{r, child = "../common/dashboard/documentation-tips-1.Rmd"}
+```
+
+### Config
+
+```{r, child = "../common/dashboard/documentation-config-1.Rmd"}
+```

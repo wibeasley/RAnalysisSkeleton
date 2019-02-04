@@ -1,0 +1,7 @@
+
+* **CQI**: Continuous Quality Improvement.  A quality management process that encourages all health care team members to continuously ask the questions, "How are we doing?" and "Can we do it better?" (*source*: [HealthIT.gov](https://www.healthit.gov/sites/default/files/tools/nlc_continuousqualityimprovementprimer.pdf))
+* **model**: The conceptual plan for clients.  Models associated with MIECHV-3 are C1, PAT, and SafeCare (SC).
+* **program**: The the implementation of a *model* at an *agency*.
+* **site**: The location on an agency.
+* **visit, completed**: A record in the 'encounter' touchpoint that was successfully attended by the provider and client.
+* **visit, scheduled**: A record in the 'encounter' touchpoint regardless if it was completed.  (The dashboards formerly called this an "attempted visit", but we changed to "scheduled visit" to reduce confusion.  Many programs were already using the term "attempted visit" to describe no-shows or unsuccessful visits.)

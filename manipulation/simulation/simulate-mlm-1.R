@@ -184,9 +184,9 @@ ggplot(ds_long, aes(x=wave_id, y=value, color=subject_id)) + #, ymin=0
   theme_minimal() +
   theme(legend.position="none")
 
-last_plot() + aes(x=year)
-last_plot() + aes(x=date_at_visit)
-last_plot() + aes(x=age)
+last_plot() %+% aes(x=year)
+last_plot() %+% aes(x=date_at_visit)
+last_plot() %+% aes(x=age)
 
 ggplot(ds, aes(x=year, y=cog_1, color=factor(county_id), group=subject_id)) +
   geom_line() +

@@ -1,0 +1,31 @@
+
+```{r session-duration, echo=FALSE}
+report_render_duration_in_seconds <- round(as.numeric(difftime(Sys.time(), report_render_start_time, units="secs")))
+```
+
+Report rendered by `r Sys.info()["user"]` at `r strftime(Sys.time(), "%Y-%m-%d, %H:%M %z")` in `r report_render_duration_in_seconds` seconds.
+
+For the sake of documentation and reproducibility, the current report was rendered in the following environment.  Click the line below to expand.  But you'll probably regret it.
+
+
+
+<details>
+<summary>Environment <span class="glyphicon glyphicon-plus-sign"></span></summary>
+```{r session-info-2, echo=FALSE}
+devtools::session_info()$platform %>%
+tibble::enframe() %>%
+knitr::kable(format="html") %>%
+kableExtra::kable_styling(
+bootstrap_options = c("striped", "hover", "condensed", "responsive"),
+full_width = F,
+position = "left"
+)
+devtools::session_info()$packages %>%
+knitr::kable(format="html") %>%
+kableExtra::kable_styling(
+bootstrap_options = c("striped", "hover", "condensed", "responsive"),
+full_width = F,
+position = "left"
+)
+```
+</details>

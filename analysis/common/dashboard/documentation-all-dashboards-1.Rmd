@@ -1,0 +1,13 @@
+
+* Spaghetti
+    1. Each strand represents a single program's trajectory over time.
+    1. A separate plot represents each outcome, whose value is on the *y*-axis.
+    1. Thin faint straight vertical lines annotate program-specific events.
+    1. The thick faint curvy line represnts the summarized trajectory for the strands.
+
+* Tables
+    1. **Model**: Each row represents a single model.  monthly averages of the model(s).  Most of these cells are calculated by summing across all months (for a given program), then dividing by the number of months.
+    1. **Program**: Each row represents a single program.  Monthly averages of the program(s).  Most of these cells are calculated by summing across all months (across all programs in the model), then dividing by the number of months.
+    1. **Program-by-Month**: Each row represents one month for a given program.  Most cells are the sum of events for the month.
+    1. **Spaghetti Annotation**: Each row represents a notable event that may provide context to the spaghetti plots.  Each event appears as a faint vertical line at its date.
+    

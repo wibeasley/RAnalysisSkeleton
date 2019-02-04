@@ -35,8 +35,12 @@ ds_rail  <- tibble::tribble(
   "run_file_r"    , "manipulation/mlm-1-scribe.R",
   "run_file_r"    , "manipulation/te-scribe.R",
 
-  # Next render the analysis report(s):
-  "run_rmd"       , "analysis/car-report-1/car-report-1.Rmd"
+  # Reports
+  "run_rmd"       , "analysis/car-report-1/car-report-1.Rmd",
+  "run_rmd"       , "analysis/report-te-1/report-te-1.Rmd",
+
+  # Dashboards
+  "run_rmd"       , "analysis/dashboard-1/dashboard-1.Rmd"
 )
 
 run_file_r <- function( minion ) {

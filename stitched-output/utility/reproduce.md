@@ -45,8 +45,12 @@ ds_rail  <- tibble::tribble(
   "run_file_r"    , "manipulation/mlm-1-scribe.R",
   "run_file_r"    , "manipulation/te-scribe.R",
 
-  # Next render the analysis report(s):
-  "run_rmd"       , "analysis/car-report-1/car-report-1.Rmd"
+  # Reports
+  "run_rmd"       , "analysis/car-report-1/car-report-1.Rmd",
+  "run_rmd"       , "analysis/report-te-1/report-te-1.Rmd",
+
+  # Dashboards
+  "run_rmd"       , "analysis/dashboard-1/dashboard-1.Rmd"
 )
 
 run_file_r <- function( minion ) {
@@ -73,7 +77,7 @@ run_rmd <- function( minion ) {
 ```
 
 ```
-## [1] TRUE TRUE TRUE TRUE TRUE TRUE TRUE TRUE TRUE
+##  [1] TRUE TRUE TRUE TRUE TRUE TRUE TRUE TRUE TRUE TRUE TRUE
 ```
 
 ```r
@@ -90,7 +94,7 @@ message("Starting update of files at ", Sys.time(), ".")
 ```
 
 ```
-## Starting update of files at 2019-02-04 01:30:03.
+## Starting update of files at 2019-02-04 08:41:02.
 ```
 
 ```r
@@ -104,7 +108,7 @@ elapsed_time <- system.time({
 
 ```
 ## 
-## Starting `simulate-mlm-1.R` at 2019-02-04 01:30:03.
+## Starting `simulate-mlm-1.R` at 2019-02-04 08:41:03.
 ```
 
 ```
@@ -113,7 +117,7 @@ elapsed_time <- system.time({
 
 ```
 ## 
-## Starting `car-ellis.R` at 2019-02-04 01:30:03.
+## Starting `car-ellis.R` at 2019-02-04 08:41:03.
 ```
 
 ```
@@ -140,7 +144,7 @@ elapsed_time <- system.time({
 
 ```
 ## 
-## Starting `mlm-1-ellis.R` at 2019-02-04 01:30:03.
+## Starting `mlm-1-ellis.R` at 2019-02-04 08:41:03.
 ```
 
 ```
@@ -149,7 +153,7 @@ elapsed_time <- system.time({
 
 ```
 ## 
-## Starting `te-ellis.R` at 2019-02-04 01:30:03.
+## Starting `te-ellis.R` at 2019-02-04 08:41:03.
 ```
 
 ```
@@ -158,7 +162,7 @@ elapsed_time <- system.time({
 
 ```
 ## 
-## Starting `subject-1-ellis.R` at 2019-02-04 01:30:04.
+## Starting `subject-1-ellis.R` at 2019-02-04 08:41:04.
 ```
 
 ```
@@ -167,7 +171,7 @@ elapsed_time <- system.time({
 
 ```
 ## 
-## Starting `randomization-block-simple.R` at 2019-02-04 01:30:04.
+## Starting `randomization-block-simple.R` at 2019-02-04 08:41:04.
 ```
 
 ```
@@ -176,7 +180,7 @@ elapsed_time <- system.time({
 
 ```
 ## 
-## Starting `mlm-1-scribe.R` at 2019-02-04 01:30:04.
+## Starting `mlm-1-scribe.R` at 2019-02-04 08:41:04.
 ```
 
 ```
@@ -192,7 +196,7 @@ elapsed_time <- system.time({
 
 ```
 ## 
-## Starting `te-scribe.R` at 2019-02-04 01:30:04.
+## Starting `te-scribe.R` at 2019-02-04 08:41:04.
 ```
 
 ```
@@ -207,7 +211,7 @@ elapsed_time <- system.time({
 
 ```
 ## 
-## Starting `car-report-1.Rmd` at 2019-02-04 01:30:04.
+## Starting `car-report-1.Rmd` at 2019-02-04 08:41:04.
 ```
 
 ```
@@ -358,7 +362,7 @@ elapsed_time <- system.time({
 ```
 
 ```
-## /usr/lib/rstudio/bin/pandoc/pandoc +RTS -K512m -RTS car-report-1.utf8.md --to html4 --from markdown+autolink_bare_uris+ascii_identifiers+tex_math_single_backslash+smart --output car-report-1.html --email-obfuscation none --self-contained --standalone --section-divs --table-of-contents --toc-depth 3 --variable toc_float=1 --variable toc_selectors=h1,h2,h3 --variable toc_collapsed=1 --variable toc_smooth_scroll=1 --variable toc_print=1 --template /home/wibeasley/R/x86_64-pc-linux-gnu-library/3.5/rmarkdown/rmd/h/default.html --no-highlight --variable highlightjs=1 --number-sections --css ../common/styles.css --variable 'theme:bootstrap' --include-in-header /tmp/RtmpgBI8ED/rmarkdown-str7c221b54803e.html --mathjax --variable 'mathjax-url:https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML'
+## /usr/lib/rstudio/bin/pandoc/pandoc +RTS -K512m -RTS car-report-1.utf8.md --to html4 --from markdown+autolink_bare_uris+ascii_identifiers+tex_math_single_backslash+smart --output car-report-1.html --email-obfuscation none --self-contained --standalone --section-divs --table-of-contents --toc-depth 3 --variable toc_float=1 --variable toc_selectors=h1,h2,h3 --variable toc_collapsed=1 --variable toc_smooth_scroll=1 --variable toc_print=1 --template /home/wibeasley/R/x86_64-pc-linux-gnu-library/3.5/rmarkdown/rmd/h/default.html --no-highlight --variable highlightjs=1 --number-sections --css ../common/styles.css --variable 'theme:bootstrap' --include-in-header /tmp/RtmpgBI8ED/rmarkdown-str7c223cb8b71b.html --mathjax --variable 'mathjax-url:https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML'
 ```
 
 ```
@@ -370,13 +374,460 @@ elapsed_time <- system.time({
 ## /home/wibeasley/Documents/wibeasley/RAnalysisSkeleton/analysis/car-report-1/car-report-1.html
 ```
 
+```
+## 
+## Starting `report-te-1.Rmd` at 2019-02-04 08:41:15.
+```
+
+```
+## 
+## 
+## processing file: report-te-1.Rmd
+```
+
+```
+##   |                                                                         |                                                                 |   0%  |                                                                         |..                                                               |   3%
+##    inline R code fragments
+## 
+##   |                                                                         |....                                                             |   6%
+## label: unnamed-chunk-1-2 (with options) 
+## List of 2
+##  $ echo   : symbol F
+##  $ message: symbol F
+## 
+##   |                                                                         |......                                                           |  10%
+##   ordinary text without R code
+## 
+##   |                                                                         |........                                                         |  13%
+## label: set-options (with options) 
+## List of 1
+##  $ echo: symbol F
+## 
+##   |                                                                         |..........                                                       |  16%
+##   ordinary text without R code
+## 
+##   |                                                                         |.............                                                    |  19%
+## label: load-sources (with options) 
+## List of 2
+##  $ echo   : symbol echo_chunks
+##  $ message: symbol message_chunks
+## 
+##   |                                                                         |...............                                                  |  23%
+##   ordinary text without R code
+## 
+##   |                                                                         |.................                                                |  26%
+## label: load-packages (with options) 
+## List of 2
+##  $ echo   : symbol echo_chunks
+##  $ message: symbol message_chunks
+## 
+##   |                                                                         |...................                                              |  29%
+##   ordinary text without R code
+## 
+##   |                                                                         |.....................                                            |  32%
+## label: declare-globals (with options) 
+## List of 3
+##  $ echo   : symbol echo_chunks
+##  $ results: chr "show"
+##  $ message: symbol message_chunks
+## 
+##   |                                                                         |.......................                                          |  35%
+##   ordinary text without R code
+## 
+##   |                                                                         |.........................                                        |  39%
+## label: rmd-specific (with options) 
+## List of 2
+##  $ echo   : symbol echo_chunks
+##  $ message: symbol message_chunks
+## 
+##   |                                                                         |...........................                                      |  42%
+##   ordinary text without R code
+## 
+##   |                                                                         |.............................                                    |  45%
+## label: load-data (with options) 
+## List of 3
+##  $ echo   : symbol echo_chunks
+##  $ results: chr "show"
+##  $ message: symbol message_chunks
+## 
+##   |                                                                         |...............................                                  |  48%
+##   ordinary text without R code
+## 
+##   |                                                                         |..................................                               |  52%
+## label: tweak-data (with options) 
+## List of 3
+##  $ echo   : symbol echo_chunks
+##  $ results: chr "show"
+##  $ message: symbol message_chunks
+## 
+##   |                                                                         |....................................                             |  55%
+##    inline R code fragments
+## 
+##   |                                                                         |......................................                           |  58%
+## label: marginals-county (with options) 
+## List of 2
+##  $ echo   : symbol echo_chunks
+##  $ message: symbol message_chunks
+```
+
+```
+##   |                                                                         |........................................                         |  61%
+##   ordinary text without R code
+## 
+##   |                                                                         |..........................................                       |  65%
+## label: marginals-county-month (with options) 
+## List of 2
+##  $ echo   : symbol echo_chunks
+##  $ message: symbol message_chunks
+```
+
+```
+##   |                                                                         |............................................                     |  68%
+##   ordinary text without R code
+## 
+##   |                                                                         |..............................................                   |  71%
+## label: scatterplots (with options) 
+## List of 4
+##  $ echo      : symbol echo_chunks
+##  $ message   : symbol message_chunks
+##  $ fig.width : num 9
+##  $ fig.height: num 6
+```
+
+```
+##   |                                                                         |................................................                 |  74%
+##   ordinary text without R code
+## 
+##   |                                                                         |..................................................               |  77%
+## label: models (with options) 
+## List of 2
+##  $ echo   : symbol echo_chunks
+##  $ message: symbol message_chunks
+```
+
+```
+## refitting model(s) with ML (instead of REML)
+```
+
+```
+##   |                                                                         |....................................................             |  81%
+##   ordinary text without R code
+## 
+##   |                                                                         |.......................................................          |  84%
+## label: model-results-table (with options) 
+## List of 3
+##  $ echo   : symbol echo_chunks
+##  $ message: symbol message_chunks
+##  $ warning: logi TRUE
+## 
+##   |                                                                         |.........................................................        |  87%
+##    inline R code fragments
+## 
+##   |                                                                         |...........................................................      |  90%
+## label: session-info-3 (with options) 
+## List of 1
+##  $ echo: logi FALSE
+## 
+##   |                                                                         |.............................................................    |  94%
+##   ordinary text without R code
+## 
+##   |                                                                         |...............................................................  |  97%
+## label: session-duration (with options) 
+## List of 1
+##  $ echo: logi FALSE
+## 
+##   |                                                                         |.................................................................| 100%
+##    inline R code fragments
+```
+
+```
+## output file: report-te-1.knit.md
+```
+
+```
+## /usr/lib/rstudio/bin/pandoc/pandoc +RTS -K512m -RTS report-te-1.utf8.md --to html4 --from markdown+autolink_bare_uris+ascii_identifiers+tex_math_single_backslash+smart --output report-te-1.html --email-obfuscation none --self-contained --standalone --section-divs --table-of-contents --toc-depth 3 --variable toc_float=1 --variable toc_selectors=h1,h2,h3 --variable toc_collapsed=1 --variable toc_smooth_scroll=1 --variable toc_print=1 --template /home/wibeasley/R/x86_64-pc-linux-gnu-library/3.5/rmarkdown/rmd/h/default.html --no-highlight --variable highlightjs=1 --number-sections --css ../common/styles.css --variable 'theme:bootstrap' --include-in-header /tmp/RtmpgBI8ED/rmarkdown-str7c225086f0ef.html --mathjax --variable 'mathjax-url:https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML'
+```
+
+```
+## 
+## Output created: report-te-1.html
+```
+
+```
+## /home/wibeasley/Documents/wibeasley/RAnalysisSkeleton/analysis/report-te-1/report-te-1.html
+```
+
+```
+## 
+## Starting `dashboard-1.Rmd` at 2019-02-04 08:41:32.
+```
+
+```
+## 
+## 
+## processing file: dashboard-1.Rmd
+```
+
+```
+##   |                                                                         |                                                                 |   0%  |                                                                         |..                                                               |   3%
+##   ordinary text without R code
+## 
+##   |                                                                         |....                                                             |   6%
+## label: unnamed-chunk-1-2 (with options) 
+## List of 2
+##  $ echo   : symbol F
+##  $ message: symbol F
+## 
+##   |                                                                         |.....                                                            |   8%
+##   ordinary text without R code
+## 
+##   |                                                                         |.......                                                          |  11%
+## label: set-options (with options) 
+## List of 1
+##  $ echo: symbol F
+## 
+##   |                                                                         |.........                                                        |  14%
+##   ordinary text without R code
+## 
+##   |                                                                         |...........                                                      |  17%
+## label: load-sources (with options) 
+## List of 2
+##  $ echo   : symbol echo_chunks
+##  $ message: symbol message_chunks
+## 
+##   |                                                                         |.............                                                    |  19%
+##   ordinary text without R code
+## 
+##   |                                                                         |..............                                                   |  22%
+## label: load-packages (with options) 
+## List of 2
+##  $ echo   : symbol echo_chunks
+##  $ message: symbol message_chunks
+## 
+##   |                                                                         |................                                                 |  25%
+##   ordinary text without R code
+## 
+##   |                                                                         |..................                                               |  28%
+## label: declare-globals (with options) 
+## List of 3
+##  $ echo   : symbol echo_chunks
+##  $ results: chr "show"
+##  $ message: symbol message_chunks
+## 
+##   |                                                                         |....................                                             |  31%
+##   ordinary text without R code
+## 
+##   |                                                                         |......................                                           |  33%
+## label: rmd-specific (with options) 
+## List of 2
+##  $ echo   : symbol echo_chunks
+##  $ message: symbol message_chunks
+## 
+##   |                                                                         |.......................                                          |  36%
+##   ordinary text without R code
+## 
+##   |                                                                         |.........................                                        |  39%
+## label: load-data (with options) 
+## List of 3
+##  $ echo   : symbol echo_chunks
+##  $ results: chr "show"
+##  $ message: symbol message_chunks
+## 
+##   |                                                                         |...........................                                      |  42%
+##   ordinary text without R code
+## 
+##   |                                                                         |.............................                                    |  44%
+## label: tweak-data (with options) 
+## List of 3
+##  $ echo   : symbol echo_chunks
+##  $ results: chr "show"
+##  $ message: symbol message_chunks
+## 
+##   |                                                                         |...............................                                  |  47%
+##    inline R code fragments
+## 
+##   |                                                                         |................................                                 |  50%
+## label: headline-graph (with options) 
+## List of 3
+##  $ echo   : symbol echo_chunks
+##  $ results: chr "asis"
+##  $ message: symbol message_chunks
+```
+
+```
+##   |                                                                         |..................................                               |  53%
+##   ordinary text without R code
+## 
+##   |                                                                         |....................................                             |  56%
+## label: tables-county-year (with options) 
+## List of 2
+##  $ echo   : symbol echo_chunks
+##  $ message: symbol message_chunks
+## 
+##   |                                                                         |......................................                           |  58%
+##   ordinary text without R code
+## 
+##   |                                                                         |........................................                         |  61%
+## label: tables-county (with options) 
+## List of 2
+##  $ echo   : symbol echo_chunks
+##  $ message: symbol message_chunks
+## 
+##   |                                                                         |..........................................                       |  64%
+##   ordinary text without R code
+## 
+##   |                                                                         |...........................................                      |  67%
+## label: tables-annotation (with options) 
+## List of 2
+##  $ echo   : symbol echo_chunks
+##  $ message: symbol message_chunks
+## 
+##   |                                                                         |.............................................                    |  69%
+##   ordinary text without R code
+## 
+##   |                                                                         |...............................................                  |  72%
+## label: spaghetti (with options) 
+## List of 5
+##  $ echo      : symbol echo_chunks
+##  $ message   : symbol message_chunks
+##  $ results   : chr "asis"
+##  $ fig.height: num 10
+##  $ fig.width : num 20
+```
+
+```
+##   |                                                                         |.................................................                |  75%
+##   ordinary text without R code
+## 
+##   |                                                                         |...................................................              |  78%
+## label: marginals (with options) 
+## List of 3
+##  $ echo   : symbol echo_chunks
+##  $ message: symbol message_chunks
+##  $ results: chr "asis"
+## 
+##   |                                                                         |....................................................             |  81%
+##   ordinary text without R code
+## 
+##   |                                                                         |......................................................           |  83%
+## label: unnamed-chunk-3 (with options) 
+## List of 1
+##  $ child: chr "../common/dashboard/documentation-all-dashboards-1.Rmd"
+```
+
+```
+## 
+## 
+## processing file: ./../common/dashboard/documentation-all-dashboards-1.Rmd
+```
+
+```
+##   |                                                                                                  |                                                                                          |   0%  |                                                                                                  |..........................................................................................| 100%
+##   ordinary text without R code
+## 
+## 
+##   |                                                                         |........................................................         |  86%
+##   ordinary text without R code
+## 
+##   |                                                                         |..........................................................       |  89%
+## label: unnamed-chunk-4 (with options) 
+## List of 1
+##  $ child: chr "../common/dashboard/documentation-glossary-1.Rmd"
+```
+
+```
+## 
+## 
+## processing file: ./../common/dashboard/documentation-glossary-1.Rmd
+```
+
+```
+##   |                                                                                                  |                                                                                          |   0%  |                                                                                                  |..........................................................................................| 100%
+##   ordinary text without R code
+## 
+## 
+##   |                                                                         |............................................................     |  92%
+##   ordinary text without R code
+## 
+##   |                                                                         |.............................................................    |  94%
+## label: unnamed-chunk-5 (with options) 
+## List of 1
+##  $ child: chr "../common/dashboard/documentation-tips-1.Rmd"
+```
+
+```
+## 
+## 
+## processing file: ./../common/dashboard/documentation-tips-1.Rmd
+```
+
+```
+##   |                                                                                                  |                                                                                          |   0%  |                                                                                                  |..........................................................................................| 100%
+##   ordinary text without R code
+## 
+## 
+##   |                                                                         |...............................................................  |  97%
+##   ordinary text without R code
+## 
+##   |                                                                         |.................................................................| 100%
+## label: unnamed-chunk-6 (with options) 
+## List of 1
+##  $ child: chr "../common/dashboard/documentation-config-1.Rmd"
+```
+
+```
+## 
+## 
+## processing file: ./../common/dashboard/documentation-config-1.Rmd
+```
+
+```
+##   |                                                                                                  |                                                                                          |   0%  |                                                                                                  |..................                                                                        |  20%
+##   ordinary text without R code
+## 
+##   |                                                                                                  |....................................                                                      |  40%
+## label: session-duration (with options) 
+## List of 1
+##  $ echo: logi FALSE
+## 
+##   |                                                                                                  |......................................................                                    |  60%
+##    inline R code fragments
+## 
+##   |                                                                                                  |........................................................................                  |  80%
+## label: session-info-2 (with options) 
+## List of 1
+##  $ echo: logi FALSE
+## 
+##   |                                                                                                  |..........................................................................................| 100%
+##   ordinary text without R code
+```
+
+```
+## output file: dashboard-1.knit.md
+```
+
+```
+## /usr/lib/rstudio/bin/pandoc/pandoc +RTS -K512m -RTS dashboard-1.utf8.md --to html4 --from markdown+autolink_bare_uris+ascii_identifiers+tex_math_single_backslash --output dashboard-1.html --email-obfuscation none --self-contained --standalone --section-divs --template /home/wibeasley/R/x86_64-pc-linux-gnu-library/3.5/flexdashboard/rmarkdown/templates/flex_dashboard/resources/default.html --include-in-header /tmp/RtmpgBI8ED/rmarkdown-str7c2245962b23.html --variable 'theme:journal' --include-in-header /tmp/RtmpgBI8ED/rmarkdown-str7c22a60c046.html --mathjax --variable 'mathjax-url:https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML' --include-in-header /tmp/RtmpgBI8ED/file7c22179250aahtml --include-before-body /tmp/RtmpgBI8ED/file7c2233ed4e4f.html --include-after-body /tmp/RtmpgBI8ED/file7c2266100270.html --highlight-style pygments --include-before-body /tmp/RtmpgBI8ED/file7c2246e224ed.html --include-after-body /tmp/RtmpgBI8ED/file7c221d2746a4.html
+```
+
+```
+## 
+## Output created: dashboard-1.html
+```
+
+```
+## /home/wibeasley/Documents/wibeasley/RAnalysisSkeleton/analysis/dashboard-1/dashboard-1.html
+```
+
 ```r
 message("Completed update of files at ", Sys.time(), "")
 ```
 
 ```
-## Completed update of files at 2019-02-04 01:30:14
+## Completed update of files at 2019-02-04 08:41:53
 ```
+
+<img src="figure/reproduce-Rmdrun-1.png" title="plot of chunk run" alt="plot of chunk run" style="display: block; margin: auto;" />
 
 ```r
 elapsed_time
@@ -384,7 +835,7 @@ elapsed_time
 
 ```
 ##    user  system elapsed 
-##   7.408   1.084  11.451
+##  36.342   4.626  49.546
 ```
 
 The R session information (including the OS info, R version and all
@@ -416,33 +867,61 @@ sessionInfo()
 ## [1] stats     graphics  grDevices utils     datasets  methods   base     
 ## 
 ## other attached packages:
-## [1] knitr_1.21     ggplot2_3.1.0  bindrcpp_0.2.2 magrittr_1.5  
+## [1] plotly_4.8.0.9000     flexdashboard_0.5.1.1 lme4_1.1-19          
+## [4] Matrix_1.2-15         knitr_1.21            ggplot2_3.1.0        
+## [7] bindrcpp_0.2.2        magrittr_1.5         
 ## 
 ## loaded via a namespace (and not attached):
-##  [1] Rcpp_1.0.0            lubridate_1.7.4       lattice_0.20-38      
-##  [4] tidyr_0.8.2           prettyunits_1.0.2     ps_1.3.0             
-##  [7] zoo_1.8-4             utf8_1.1.4            assertthat_0.2.0     
-## [10] rprojroot_1.3-2       digest_0.6.18         packrat_0.5.0        
-## [13] R6_2.3.0              plyr_1.8.4            odbc_1.1.6           
-## [16] backports_1.1.3       RSQLite_2.1.1         evaluate_0.12        
-## [19] highr_0.7             pillar_1.3.1          rlang_0.3.1          
-## [22] lazyeval_0.2.1        callr_3.1.1           blob_1.1.1           
-## [25] checkmate_1.9.1       rmarkdown_1.11        config_0.3           
-## [28] desc_1.2.0            labeling_0.3          devtools_2.0.1       
-## [31] readr_1.3.1           stringr_1.3.1         bit_1.1-14           
-## [34] munsell_0.5.0         compiler_3.5.2        xfun_0.4             
-## [37] pkgconfig_2.0.2       pkgbuild_1.0.2        htmltools_0.3.6      
-## [40] tidyselect_0.2.5      tibble_2.0.1          RcppRoll_0.3.0       
-## [43] fansi_0.4.0           viridisLite_0.3.0     crayon_1.3.4         
-## [46] dplyr_0.7.8           withr_2.1.2           grid_3.5.2           
-## [49] gtable_0.2.0          DBI_1.0.0             scales_1.0.0.9000    
-## [52] cli_1.0.1             stringi_1.2.4         fs_1.2.6             
-## [55] remotes_2.0.2         testit_0.9            testthat_2.0.1       
-## [58] tools_3.5.2           bit64_0.9-7           OuhscMunge_0.1.9.9009
-## [61] glue_1.3.0            markdown_0.9          purrr_0.3.0          
-## [64] hms_0.4.2.9001        processx_3.2.1        pkgload_1.0.2        
-## [67] yaml_2.2.0            colorspace_1.4-0      sessioninfo_1.1.1    
-## [70] memoise_1.1.0         bindr_0.1.1           usethis_1.4.0
+##  [1] nlme_3.1-137                fs_1.2.6                   
+##  [3] usethis_1.4.0               lubridate_1.7.4            
+##  [5] devtools_2.0.1              bit64_0.9-7                
+##  [7] RColorBrewer_1.1-2          webshot_0.5.1              
+##  [9] httr_1.4.0                  rprojroot_1.3-2            
+## [11] tools_3.5.2                 backports_1.1.3            
+## [13] DT_0.5                      utf8_1.1.4                 
+## [15] R6_2.3.0                    DBI_1.0.0                  
+## [17] lazyeval_0.2.1              colorspace_1.4-0           
+## [19] withr_2.1.2                 tidyselect_0.2.5           
+## [21] prettyunits_1.0.2           processx_3.2.1             
+## [23] bit_1.1-14                  compiler_3.5.2             
+## [25] cli_1.0.1                   rvest_0.3.2                
+## [27] OuhscMunge_0.1.9.9009       Cairo_1.5-9                
+## [29] xml2_1.2.0                  desc_1.2.0                 
+## [31] labeling_0.3                scales_1.0.0.9000          
+## [33] checkmate_1.9.1             readr_1.3.1                
+## [35] callr_3.1.1                 odbc_1.1.6                 
+## [37] stringr_1.3.1               digest_0.6.18              
+## [39] minqa_1.2.4                 rmarkdown_1.11             
+## [41] pkgconfig_2.0.2             htmltools_0.3.6            
+## [43] sessioninfo_1.1.1           highr_0.7                  
+## [45] htmlwidgets_1.3             rlang_0.3.1                
+## [47] rstudioapi_0.9.0            RSQLite_2.1.1              
+## [49] shiny_1.2.0                 bindr_0.1.1                
+## [51] generics_0.0.2              zoo_1.8-4                  
+## [53] testit_0.9                  jsonlite_1.6               
+## [55] crosstalk_1.0.0             dplyr_0.7.8                
+## [57] config_0.3                  kableExtra_1.0.1           
+## [59] Rcpp_1.0.0                  munsell_0.5.0              
+## [61] fansi_0.4.0                 stringi_1.2.4              
+## [63] yaml_2.2.0                  MASS_7.3-51.1              
+## [65] pkgbuild_1.0.2              plyr_1.8.4                 
+## [67] grid_3.5.2                  blob_1.1.1                 
+## [69] promises_1.0.1              crayon_1.3.4               
+## [71] lattice_0.20-38             splines_3.5.2              
+## [73] hms_0.4.2.9001              ps_1.3.0                   
+## [75] pillar_1.3.1                markdown_0.9               
+## [77] pkgload_1.0.2               TabularManifest_0.1-16.9003
+## [79] glue_1.3.0                  packrat_0.5.0              
+## [81] evaluate_0.12               data.table_1.12.0          
+## [83] remotes_2.0.2               httpuv_1.4.5.1             
+## [85] nloptr_1.2.1                testthat_2.0.1             
+## [87] gtable_0.2.0                purrr_0.3.0                
+## [89] tidyr_0.8.2                 assertthat_0.2.0           
+## [91] xfun_0.4                    mime_0.6                   
+## [93] xtable_1.8-3                broom_0.5.1                
+## [95] later_0.7.5                 viridisLite_0.3.0          
+## [97] RcppRoll_0.3.0              tibble_2.0.1               
+## [99] memoise_1.1.0
 ```
 
 ```r
@@ -450,6 +929,6 @@ Sys.time()
 ```
 
 ```
-## [1] "2019-02-04 01:30:15 CST"
+## [1] "2019-02-04 08:41:54 CST"
 ```
 

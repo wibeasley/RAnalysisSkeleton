@@ -1,0 +1,160 @@
+---
+title: Time and Effort Report 1
+date: "Date: `r Sys.Date()`"
+output:
+  # radix::radix_article: # radix is a newer alternative that has some advantages over `html_document`.
+  html_document:
+    keep_md: yes
+    toc: 4
+    toc_float: true
+    number_sections: true
+    css: ../common/styles.css         # analysis/common/styles.css
+---
+
+This report covers the analyses used in the ZZZ project (Marcus Mark, PI).
+
+<!--  Set the working directory to the repository's base directory; this assumes the report is nested inside of two directories.-->
+```{r, echo=F, message=F}
+# cat("Working directory: ", getwd())
+library(knitr)
+opts_knit$set(root.dir='../../')  #Don't combine this call with any other chunk -especially one that uses file paths.
+```
+
+<!-- Set the report-wide options, and point to the external code file. -->
+```{r set-options, echo=F}
+# cat("Working directory: ", getwd())
+report_render_start_time <- Sys.time()
+opts_chunk$set(
+  results      = 'show',
+  comment      = NA,
+  tidy         = FALSE,
+  # dpi        = 400,
+  # out.width  = "650px", #This affects only the markdown, not the underlying png file.  The height will be scaled appropriately.
+  fig.width    = 4,
+  fig.height   = 4,
+  fig.path     = 'figure-png/'
+)
+
+echo_chunks    <- FALSE #Toggle for debugging.
+message_chunks <- FALSE #Toggle for debugging.
+# options(width=100) #So the output is 25% wider than the default.
+read_chunk("./analysis/report-te-1/report-te-1.R") #This allows knitr to call chunks tagged in the underlying *.R file.
+```
+
+<!-- Load 'sourced' R files.  Suppress the output when loading sources. -->
+```{r load-sources, echo=echo_chunks, message=message_chunks}
+```
+
+<!-- Load packages, or at least verify they're available on the local machine.  Suppress the output when loading packages. -->
+```{r load-packages, echo=echo_chunks, message=message_chunks}
+```
+
+<!-- Load any global functions and variables declared in the R file.  Suppress the output. -->
+```{r declare-globals, echo=echo_chunks, results='show', message=message_chunks}
+```
+
+<!-- Declare any global functions specific to a Rmd output.  Suppress the output. -->
+```{r rmd-specific, echo=echo_chunks, message=message_chunks}
+# Put presentation-specific code in here.  It doesn't call a chunk in the codebehind file.
+#   It should be rare (and used cautiously), but sometimes it makes sense to include code in Rmd
+#   that doesn't live in the codebehind R file.
+```
+
+<!-- Load the datasets.   -->
+```{r load-data, echo=echo_chunks, results='show', message=message_chunks}
+```
+
+<!-- Tweak the datasets.   -->
+```{r tweak-data, echo=echo_chunks, results='show', message=message_chunks}
+```
+
+Summary {.tabset .tabset-fade .tabset-pills}
+===========================================================================
+
+Notes
+---------------------------------------------------------------------------
+
+1. The current report covers `r nrow(ds_county_month)` county-months, with `r dplyr::n_distinct(ds_county_month$county)` unique values for `county_id`.
+1. The Seattle track's phluguerstometer was producing flaky negative values; it's measurements have been dropped.
+
+
+Unanswered Questions
+---------------------------------------------------------------------------
+
+1. What does `VS` stand for?  How was it measured?
+1. Where the cars at the Philly track measured with the same phluguerstometer and the Cleveland track?
+
+
+Answered Questions
+---------------------------------------------------------------------------
+
+1. The Seattle track's phluguerstometer was producing flaky negative values; it's measurements have been dropped.
+
+
+Graphs
+===========================================================================
+Especially for the histograms, don't feel like each graph should be profound.
+Boring sanity checks are useful,
+such as the histogram of county names,
+verifies there are ~77 different values (although they're mostly unreadable).
+
+
+Marginals County
+---------------------------------------------------------------------------
+
+```{r marginals-county, echo=echo_chunks, message=message_chunks}
+```
+
+Marginals County-Month
+---------------------------------------------------------------------------
+
+```{r marginals-county-month, echo=echo_chunks, message=message_chunks}
+```
+
+
+Scatterplots
+---------------------------------------------------------------------------
+
+```{r scatterplots, echo=echo_chunks, message=message_chunks, fig.width=9, fig.height=6}
+```
+
+
+Models
+===========================================================================
+
+Model Exploration
+---------------------------------------------------------------------------
+```{r models, echo=echo_chunks, message=message_chunks}
+```
+
+
+Final Model
+---------------------------------------------------------------------------
+
+```{r model-results-table, echo=echo_chunks, message=message_chunks, warning=TRUE}
+```
+
+In the MLM that includes time, the slope coefficent of `month` is `r summary(m3)$coefficients['month', 'Estimate']`.
+
+
+Session Information {#session-info}
+===========================================================================
+
+For the sake of documentation and reproducibility, the current report was rendered in the following environment.  Click the line below to expand.
+
+<details>
+  <summary>Environment <span class="glyphicon glyphicon-plus-sign"></span></summary>
+```{r session-info, echo=FALSE}
+if( requireNamespace("devtools", quietly = TRUE) ) {
+  devtools::session_info()
+} else {
+  sessionInfo()
+}
+```
+</details>
+
+```{r session-duration, echo=FALSE}
+report_render_duration_in_seconds <- round(as.numeric(difftime(Sys.time(), report_render_start_time, units="secs")))
+```
+
+Report rendered by `r Sys.info()["user"]` at `r strftime(Sys.time(), "%Y-%m-%d, %H:%M %z")` in `r report_render_duration_in_seconds` seconds.

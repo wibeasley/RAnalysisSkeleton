@@ -1,0 +1,9 @@
+
+* Spaghetti
+    1. A 'spaghetti plot'is a hybrid line graph and scatterplot.  The *x* axis represents time.  The lines connect the observations of the same program (or the same provider, depending on the graph).
+    1. Reveal which program is represented by hovering over a [spaghetti strand](#spaghetti)
+    1. Save an individual graph, hover near the top right and click on the camera icon titled, "Download plot as png".
+    1. Reset the zoom, hover near the top right and click the home icon.
+* Tables
+    1. Decode `program_code` to `program_name` using the "Program" table in the [Tables](#tables) tab.
+    1. Decode short annotation titles using the "Annotation" table in the [Tables](#tables) tab.

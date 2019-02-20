@@ -94,6 +94,8 @@ Desktop.ini
 .~*.ods#
 .~*.odt#
 .~*.docx#
+.~*.pptx#
+.~*.xlsx#
 
 # ---- Accidentally Added Code -------------------------------
 # The GitHub desktop client makes it easy to right-click a file and select 'ignore'.

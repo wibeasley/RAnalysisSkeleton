@@ -9,7 +9,7 @@ requireNamespace("dplyr")
 requireNamespace("RODBC")
 
 # ---- declare-globals ---------------------------------------------------------
-#This is called by the files that transfer WIC and OHCA datsets to SQL Server
+# This is called by the files that transfer WIC and OHCA datsets to SQL Server
 hash_and_salt_sha_256 <- function( x, min_length_inclusive, max_length_inclusive, required_mode, saltToAdd ) {
   stopifnot(mode(x)==required_mode)
   x <- ifelse(x==0, NA_integer_, x)
@@ -20,31 +20,31 @@ hash_and_salt_sha_256 <- function( x, min_length_inclusive, max_length_inclusive
 }
 salt <- round(runif(1, min=1000000, max=9999999))
 
-set.seed(6579) #Do this after the salt is created.  The seed is set so the fake csvs don't change on GitHub.
+set.seed(6579) # Do this after the salt is created.  The seed is set so the fake csvs don't change on GitHub.
 
 # ---- load-data ---------------------------------------------------------------
 # Retrieve URIs of CSV, and retrieve County lookup table
 channel <- RODBC::odbcConnect("zzzzChanelNamezzzz") #getSqlTypeInfo("Microsoft SQL Server") #odbcGetInfo(channel)
-path_oklahoma    <- RODBC::sqlQuery(channel, "EXEC Security.prcUri @UriName = 'C1TEOklahoma'", stringsAsFactors=FALSE)[1, 'Value']
-path_tulsa       <- RODBC::sqlQuery(channel, "EXEC Security.prcUri @UriName = 'C1TETulsa'", stringsAsFactors=FALSE)[1, 'Value']
-path_rural       <- RODBC::sqlQuery(channel, "EXEC Security.prcUri @UriName = 'C1TERural'", stringsAsFactors=FALSE)[1, 'Value']
-ds_county        <- RODBC::sqlFetch(channel, sqtable="Osdh.tblLUCounty", stringsAsFactors=FALSE)
+path_oklahoma     <- RODBC::sqlQuery(channel, "EXEC Security.prcUri @UriName = 'C1TEOklahoma'", stringsAsFactors=FALSE)[1, 'Value']
+path_tulsa        <- RODBC::sqlQuery(channel, "EXEC Security.prcUri @UriName = 'C1TETulsa'", stringsAsFactors=FALSE)[1, 'Value']
+path_rural        <- RODBC::sqlQuery(channel, "EXEC Security.prcUri @UriName = 'C1TERural'", stringsAsFactors=FALSE)[1, 'Value']
+ds_county         <- RODBC::sqlFetch(channel, sqtable="Osdh.tblLUCounty", stringsAsFactors=FALSE)
 RODBC::odbcClose(channel); rm(channel)
 
 # Read the CSVs
-ds_nurse_month_oklahoma <- readr::read_csv(path_oklahoma)
-ds_month_tulsa         <- readr::read_csv(path_tulsa)
-ds_nurse_month_rural    <- readr::read_csv(path_rural)
+ds_nurse_month_oklahoma   <- readr::read_csv(path_oklahoma)
+ds_month_tulsa            <- readr::read_csv(path_tulsa)
+ds_nurse_month_rural      <- readr::read_csv(path_rural)
 rm(path_oklahoma, path_tulsa, path_rural)
 
-ds_fake_name <- readr::read_csv("./utility/te-generation/fake-names.csv", col_names = F) #From http://listofrandomnames.com/
+ds_fake_name <- readr::read_csv("./utility/te-generation/fake-names.csv", col_names = F) # From http://listofrandomnames.com/
 
 # ---- tweak-data --------------------------------------------------------------
 ds_fake_name <- ds_fake_name %>%
   dplyr::rename(Name = X1) %>%
-  dplyr::group_by(Name) %>%          #Collapse any duplicated fake names
+  dplyr::group_by(Name) %>%          # Collapse any duplicated fake names
   dplyr::summarize()  %>%
-  dplyr::ungroup()  %>% #Always leave the dataset ungrouped, so later operations act as expected.
+  dplyr::ungroup()  %>% # Always leave the dataset ungrouped, so later operations act as expected.
   dplyr::mutate(ID = seq_len(n()))
 
 # ---- groom-oklahoma ----------------------------------------------------------
@@ -67,7 +67,7 @@ ds_nurse_month_oklahoma <- ds_nurse_month_oklahoma %>%
 # mean(is.na(ds_month_tulsa$FmlaSum)); table(ds_month_tulsa$FmlaSum)
 ds_month_tulsa <- ds_month_tulsa %>%
   dplyr::mutate(
-    FmlaSum      = round(ifelse(runif(n()) > .35, NA_real_, runif(n(), min=0, max=300)))
+    FmlaSum     = round(ifelse(runif(n()) > .35, NA_real_, runif(n(), min=0, max=300)))
   )
 
 # ---- groom-rural -------------------------------------------------------------
@@ -97,11 +97,11 @@ ds_nurse_month_rural <- ds_nurse_month_rural %>%
     , -MIECHV_ENDDATE
     , -TERMINATED_DATE
   ) %>%
-  dplyr::select(-NAME) %>%  #Drop the real name
+  dplyr::select(-NAME) %>%  # Drop the real name
   dplyr::left_join(ds_fake_name, by=c("EMPLOYEEID"="ID"))
 
 # ---- save-to-disk ------------------------------------------------------------
 readr::write_csv(ds_nurse_month_oklahoma, "data-public/raw/te/nurse-month-oklahoma.csv") # Replace column names with: Employee #,Year,Month,FTE,FMLA Hours,Training Hours,Name
-readr::write_csv(ds_month_tulsa,         "data-public/raw/te/month-tulsa.csv")
+readr::write_csv(ds_month_tulsa,          "data-public/raw/te/month-tulsa.csv")
 readr::write_csv(ds_nurse_month_rural,    "data-public/raw/te/nurse-month-rural.csv")
-readr::write_csv(ds_county,             "data-public/raw/te/county.csv")
+readr::write_csv(ds_county,               "data-public/raw/te/county.csv")

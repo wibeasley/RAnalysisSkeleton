@@ -2,7 +2,7 @@ rm(list=ls(all=TRUE)) #Clear the memory of variables from previous run. This is 
 
 
 # ---- load-sources ------------------------------------------------------------
-base::source(file="./analysis/common/display-1.R") #Load common graphing functions.
+base::source(file="analysis/common/display-1.R") #Load common graphing functions.
 
 # ---- load-packages -----------------------------------------------------------
 library(magrittr) #Pipes

@@ -3,7 +3,7 @@ rm(list=ls(all=TRUE)) #Clear the memory of variables from previous run. This is 
 # ---- load-sources ------------------------------------------------------------
 #Load any source files that contain/define functions, but that don't load any other types of variables
 #   into memory.  Avoid side effects and don't pollute the global environment.
-# source("./SomethingSomething.R")
+# source("SomethingSomething.R")
 
 # ---- load-packages -----------------------------------------------------------
 library(magrittr) #Pipes
@@ -20,7 +20,7 @@ options(show.signif.stars=F) #Turn off the annotations on p-values
 # path_input                  <- config$path_car_derived
 # Uncomment the lines above and delete the one below if value is stored in 'config.yml'.
 
-path_input <- "./data-public/derived/car.rds"
+path_input <- "data-public/derived/car.rds"
 
 # The two graphing functions are copied from https://github.com/Melinae/TabularManifest.
 histogram_discrete <- function(

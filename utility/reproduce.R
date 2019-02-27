@@ -1,4 +1,4 @@
-# knitr::stitch_rmd(script="./utility/reproduce.R", output="./stitched-output/utility/reproduce.md")
+# knitr::stitch_rmd(script="utility/reproduce.R", output="stitched-output/utility/reproduce.md")
 rm(list=ls(all=TRUE)) #Clear the memory of variables from previous run. This is not called by knitr, because it's above the first chunk.
 
 # ---- load-sources ------------------------------------------------------------
@@ -10,7 +10,7 @@ requireNamespace("purrr")
 requireNamespace("OuhscMunge") # remotes::install_github("OuhscBbmc/OuhscMunge")
 
 # ---- declare-globals ---------------------------------------------------------
-# config        <- config::get(file="data-public/metadata/config.yml")
+# config        <- config::get()
 
 # Allow multiple files below to have the same chunk name.
 #    If the `root.dir` option is properly managed in the Rmd files, no files will be overwritten.
@@ -21,6 +21,7 @@ ds_rail  <- tibble::tribble(
 
   # Simulate observed data
   "run_file_r"      , "manipulation/simulation/simulate-mlm-1.R",
+  # "run_file_r"      , "manipulation/simulation/simulate-te.R",
 
   # First run the manipulation files to prepare the dataset(s).
   "run_file_r"      , "manipulation/car-ellis.R",

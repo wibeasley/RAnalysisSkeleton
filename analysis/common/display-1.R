@@ -27,7 +27,7 @@ spaghetti_1 <- function(
   time_variable="month", facet_variable="model_name",
   width_variable="emphasis", alpha_variable="emphasis", loess_variable=facet_variable,
 
-  path_in_annotation = "./data-public/raw/programs/cqi-annotation-example.csv",
+  path_in_annotation = "data-public/raw/programs/cqi-annotation-example.csv",
 
   base_size=12,
   point_size=0L, y_min=0, y_max=NA,

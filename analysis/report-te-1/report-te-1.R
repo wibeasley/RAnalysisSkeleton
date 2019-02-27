@@ -3,7 +3,7 @@ rm(list=ls(all=TRUE)) #Clear the memory of variables from previous run. This is 
 # ---- load-sources ------------------------------------------------------------
 #Load any source files that contain/define functions, but that don't load any other types of variables
 #   into memory.  Avoid side effects and don't pollute the global environment.
-# source("./SomethingSomething.R")
+# source("something-something.R")
 
 # ---- load-packages -----------------------------------------------------------
 library(magrittr) # Pipes

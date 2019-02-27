@@ -1,4 +1,4 @@
-# knitr::stitch_rmd(script="./manipulation/te-ellis.R", output="./stitched-output/manipulation/te-ellis.md") # dir.create("./stitched-output/manipulation/", recursive=T)
+# knitr::stitch_rmd(script="manipulation/te-ellis.R", output="stitched-output/manipulation/te-ellis.md") # dir.create("stitched-output/manipulation/", recursive=T)
 # For a brief description of this file see the presentation at
 #   - slides: https://rawgit.com/wibeasley/RAnalysisSkeleton/master/documentation/time-and-effort-synthesis.html#/
 #   - code: https://github.com/wibeasley/RAnalysisSkeleton/blob/master/documentation/time-and-effort-synthesis.Rpres
@@ -39,10 +39,10 @@ threshold_mean_fte_t_fill_in   <- 10L      #Any county averaging over 10 hours c
 figure_path <- 'stitched-output/manipulation/te/'
 
 # URIs of CSV and County lookup table
-path_in_oklahoma  <- "./data-public/raw/te/nurse-month-oklahoma.csv"
-path_in_tulsa     <- "./data-public/raw/te/month-tulsa.csv"
-path_in_rural     <- "./data-public/raw/te/nurse-month-rural.csv"
-path_county       <- "./data-public/raw/te/county.csv"
+path_in_oklahoma  <- "data-public/raw/te/nurse-month-oklahoma.csv"
+path_in_tulsa     <- "data-public/raw/te/month-tulsa.csv"
+path_in_rural     <- "data-public/raw/te/nurse-month-rural.csv"
+path_county       <- "data-public/raw/te/county.csv"
 
 col_types_oklahoma <- readr::cols_only( # readr::spec_csv(path_in_oklahoma)
   `Employee..`          = readr::col_integer(),

@@ -10,10 +10,10 @@ requireNamespace("RODBC")
 
 # ---- declare-globals ---------------------------------------------------------
 #This is called by the files that transfer WIC and OHCA datsets to SQL Server
-hash_and_salt_sha_256 <- function( x, minLengthInclusive, maxLengthInclusive, requiredMode, saltToAdd ) {
-  stopifnot(mode(x)==requiredMode)
+hash_and_salt_sha_256 <- function( x, min_length_inclusive, max_length_inclusive, required_mode, saltToAdd ) {
+  stopifnot(mode(x)==required_mode)
   x <- ifelse(x==0, NA_integer_, x)
-  stopifnot(all(is.na(x) | (minLengthInclusive <= stringr::str_length(x) & stringr::str_length(x)<=maxLengthInclusive) ))
+  stopifnot(all(is.na(x) | (min_length_inclusive <= stringr::str_length(x) & stringr::str_length(x)<=max_length_inclusive) ))
   salted <- paste0(x, saltToAdd)
   hash <- digest::digest(object=salted, algo="sha256")
   return( ifelse(is.na(x), NA_character_, hash) )
@@ -25,17 +25,17 @@ set.seed(6579) #Do this after the salt is created.  The seed is set so the fake 
 # ---- load-data ---------------------------------------------------------------
 # Retrieve URIs of CSV, and retrieve County lookup table
 channel <- RODBC::odbcConnect("zzzzChanelNamezzzz") #getSqlTypeInfo("Microsoft SQL Server") #odbcGetInfo(channel)
-pathOklahoma    <- RODBC::sqlQuery(channel, "EXEC Security.prcUri @UriName = 'C1TEOklahoma'", stringsAsFactors=FALSE)[1, 'Value']
-pathTulsa       <- RODBC::sqlQuery(channel, "EXEC Security.prcUri @UriName = 'C1TETulsa'", stringsAsFactors=FALSE)[1, 'Value']
-pathRural       <- RODBC::sqlQuery(channel, "EXEC Security.prcUri @UriName = 'C1TERural'", stringsAsFactors=FALSE)[1, 'Value']
-dsCounty        <- RODBC::sqlFetch(channel, sqtable="Osdh.tblLUCounty", stringsAsFactors=FALSE)
+path_oklahoma    <- RODBC::sqlQuery(channel, "EXEC Security.prcUri @UriName = 'C1TEOklahoma'", stringsAsFactors=FALSE)[1, 'Value']
+path_tulsa       <- RODBC::sqlQuery(channel, "EXEC Security.prcUri @UriName = 'C1TETulsa'", stringsAsFactors=FALSE)[1, 'Value']
+path_rural       <- RODBC::sqlQuery(channel, "EXEC Security.prcUri @UriName = 'C1TERural'", stringsAsFactors=FALSE)[1, 'Value']
+ds_county        <- RODBC::sqlFetch(channel, sqtable="Osdh.tblLUCounty", stringsAsFactors=FALSE)
 RODBC::odbcClose(channel); rm(channel)
 
 # Read the CSVs
-dsNurseMonthOklahoma <- readr::read_csv(pathOklahoma)
-dsMonthTulsa         <- readr::read_csv(pathTulsa)
-dsNurseMonthRural    <- readr::read_csv(pathRural)
-rm(pathOklahoma, pathTulsa, pathRural)
+ds_nurse_month_oklahoma <- readr::read_csv(path_oklahoma)
+ds_month_tulsa         <- readr::read_csv(path_tulsa)
+ds_nurse_month_rural    <- readr::read_csv(path_rural)
+rm(path_oklahoma, path_tulsa, path_rural)
 
 ds_fake_name <- readr::read_csv("./utility/te-generation/fake-names.csv", col_names = F) #From http://listofrandomnames.com/
 
@@ -48,13 +48,13 @@ ds_fake_name <- ds_fake_name %>%
   dplyr::mutate(ID = seq_len(n()))
 
 # ---- groom-oklahoma ----------------------------------------------------------
-colnames(dsNurseMonthOklahoma) <- make.names(colnames(dsNurseMonthOklahoma)) #Sanitize illegal variable names.
-# mean(is.na(dsNurseMonthOklahoma$FMLA.Hours)); table(dsNurseMonthOklahoma$FMLA.Hours)
-# table(dsNurseMonthOklahoma$FTE)
-dsNurseMonthOklahoma <- dsNurseMonthOklahoma %>%
+colnames(ds_nurse_month_oklahoma) <- make.names(colnames(ds_nurse_month_oklahoma)) #Sanitize illegal variable names.
+# mean(is.na(ds_nurse_month_oklahoma$FMLA.Hours)); table(ds_nurse_month_oklahoma$FMLA.Hours)
+# table(ds_nurse_month_oklahoma$FTE)
+ds_nurse_month_oklahoma <- ds_nurse_month_oklahoma %>%
   dplyr::mutate(
     Employee..      = as.integer(as.factor(Employee..)),
-    #Name           = hash_and_salt_sha_256(Name, saltToAdd=salt, requiredMode="character", minLengthInclusive=1, maxLengthInclusive=100),
+    #Name           = hash_and_salt_sha_256(Name, saltToAdd=salt, required_mode="character", min_length_inclusive=1, max_length_inclusive=100),
     FTE             = sample(x=c(.5, .76, 1.0), size=n(), replace=T, prob=c(.07, .03, .9)) ,
     # Year            = Year - 1,
     FMLA.Hours      = round(ifelse(runif(n()) > .03, NA_real_, runif(n(), min=0, max=160))),
@@ -64,16 +64,16 @@ dsNurseMonthOklahoma <- dsNurseMonthOklahoma %>%
   dplyr::left_join(ds_fake_name, by=c("Employee.."="ID"))
 
 # ---- groom-tulsa -------------------------------------------------------------
-# mean(is.na(dsMonthTulsa$FmlaSum)); table(dsMonthTulsa$FmlaSum)
-dsMonthTulsa <- dsMonthTulsa %>%
+# mean(is.na(ds_month_tulsa$FmlaSum)); table(ds_month_tulsa$FmlaSum)
+ds_month_tulsa <- ds_month_tulsa %>%
   dplyr::mutate(
     FmlaSum      = round(ifelse(runif(n()) > .35, NA_real_, runif(n(), min=0, max=300)))
   )
 
 # ---- groom-rural -------------------------------------------------------------
-dsNurseMonthRural <- dsNurseMonthRural %>%
+ds_nurse_month_rural <- ds_nurse_month_rural %>%
   dplyr::mutate(
-    EMPLOYEEID  = as.integer(as.factor(NAME)) + max(dsNurseMonthOklahoma$Employee..),
+    EMPLOYEEID  = as.integer(as.factor(NAME)) + max(ds_nurse_month_oklahoma$Employee..),
     REGIONID    = as.integer(as.factor(LEAD_NURSE)),
     FTE         = paste0(sample(x=c(50, 76, 100), size=n(), replace=T, prob=c(.07, .03, .9)), " %")
   ) %>%
@@ -101,7 +101,7 @@ dsNurseMonthRural <- dsNurseMonthRural %>%
   dplyr::left_join(ds_fake_name, by=c("EMPLOYEEID"="ID"))
 
 # ---- save-to-disk ------------------------------------------------------------
-readr::write_csv(dsNurseMonthOklahoma, "data-public/raw/te/nurse-month-oklahoma.csv") # Replace column names with: Employee #,Year,Month,FTE,FMLA Hours,Training Hours,Name
-readr::write_csv(dsMonthTulsa,         "data-public/raw/te/month-tulsa.csv")
-readr::write_csv(dsNurseMonthRural,    "data-public/raw/te/nurse-month-rural.csv")
-readr::write_csv(dsCounty,             "data-public/raw/te/county.csv")
+readr::write_csv(ds_nurse_month_oklahoma, "data-public/raw/te/nurse-month-oklahoma.csv") # Replace column names with: Employee #,Year,Month,FTE,FMLA Hours,Training Hours,Name
+readr::write_csv(ds_month_tulsa,         "data-public/raw/te/month-tulsa.csv")
+readr::write_csv(ds_nurse_month_rural,    "data-public/raw/te/nurse-month-rural.csv")
+readr::write_csv(ds_county,             "data-public/raw/te/county.csv")

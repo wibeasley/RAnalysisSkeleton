@@ -6,10 +6,14 @@ rm(list=ls(all=TRUE))  #Clear the variables from previous runs.
 library(magrittr, quietly=TRUE)
 requireNamespace("readr")
 requireNamespace("dplyr")
-requireNamespace("RODBC")
+requireNamespace("DBI")
+requireNamespace("odbc")
 
 # ---- declare-globals ---------------------------------------------------------
 # This is called by the files that transfer WIC and OHCA datsets to SQL Server
+set.seed(6579) # Do this after the salt is created.  The seed is set so the fake csvs don't change on GitHub.
+salt <- round(runif(1, min=1000000, max=9999999))
+
 hash_and_salt_sha_256 <- function( x, min_length_inclusive, max_length_inclusive, required_mode, salt_to_add ) {
   stopifnot(mode(x)==required_mode)
   x <- ifelse(x==0, NA_integer_, x)
@@ -18,18 +22,15 @@ hash_and_salt_sha_256 <- function( x, min_length_inclusive, max_length_inclusive
   hash <- digest::digest(object=salted, algo="sha256")
   return( ifelse(is.na(x), NA_character_, hash) )
 }
-salt <- round(runif(1, min=1000000, max=9999999))
-
-set.seed(6579) # Do this after the salt is created.  The seed is set so the fake csvs don't change on GitHub.
 
 # ---- load-data ---------------------------------------------------------------
 # Retrieve URIs of CSV, and retrieve County lookup table
-channel <- RODBC::odbcConnect("zzzzChanelNamezzzz") #getSqlTypeInfo("Microsoft SQL Server") #odbcGetInfo(channel)
-path_oklahoma     <- RODBC::sqlQuery(channel, "EXEC Security.prcUri @UriName = 'C1TEOklahoma'", stringsAsFactors=FALSE)[1, 'Value']
-path_tulsa        <- RODBC::sqlQuery(channel, "EXEC Security.prcUri @UriName = 'C1TETulsa'", stringsAsFactors=FALSE)[1, 'Value']
-path_rural        <- RODBC::sqlQuery(channel, "EXEC Security.prcUri @UriName = 'C1TERural'", stringsAsFactors=FALSE)[1, 'Value']
-ds_county         <- RODBC::sqlFetch(channel, sqtable="Osdh.tblLUCounty", stringsAsFactors=FALSE)
-RODBC::odbcClose(channel); rm(channel)
+channel <- DBI::dbConnect(odbc::odbc(), "zzzzChanelNamezzzz") #getSqlTypeInfo("Microsoft SQL Server") #odbcGetInfo(channel)
+path_oklahoma     <- DBI::dbSendQuery(channel, "EXEC Security.prcUri @UriName = 'C1TEOklahoma'")[1, 'Value']
+path_tulsa        <- DBI::dbSendQuery(channel, "EXEC Security.prcUri @UriName = 'C1TETulsa'"   )[1, 'Value']
+path_rural        <- DBI::dbSendQuery(channel, "EXEC Security.prcUri @UriName = 'C1TERural'"   )[1, 'Value']
+ds_county         <- DBI::dbReadTable(channel, "Osdh.tblLUCounty")
+DBI::dbDisconnect(channel); rm(channel)
 
 # Read the CSVs
 ds_nurse_month_oklahoma   <- readr::read_csv(path_oklahoma)
@@ -37,26 +38,26 @@ ds_month_tulsa            <- readr::read_csv(path_tulsa)
 ds_nurse_month_rural      <- readr::read_csv(path_rural)
 rm(path_oklahoma, path_tulsa, path_rural)
 
-ds_fake_name <- readr::read_csv("./utility/te-generation/fake-names.csv", col_names = F) # From http://listofrandomnames.com/
+ds_fake_name <- readr::read_csv("utility/te-generation/fake-names.csv", col_names = F) # From http://listofrandomnames.com/
 
 # ---- tweak-data --------------------------------------------------------------
 ds_fake_name <- ds_fake_name %>%
   dplyr::rename(Name = X1) %>%
-  dplyr::group_by(Name) %>%          # Collapse any duplicated fake names
+  dplyr::group_by(Name) %>%          # Collapse any duplicated fake names; `dplyr::distinct()` would be more concise.
   dplyr::summarize()  %>%
   dplyr::ungroup()  %>% # Always leave the dataset ungrouped, so later operations act as expected.
-  dplyr::mutate(ID = seq_len(dplyr::n()))
+  tibble::rowid_to_column("ID")
 
 # ---- groom-oklahoma ----------------------------------------------------------
-colnames(ds_nurse_month_oklahoma) <- make.names(colnames(ds_nurse_month_oklahoma)) #Sanitize illegal variable names.
+colnames(ds_nurse_month_oklahoma) <- make.names(colnames(ds_nurse_month_oklahoma)) # Sanitize illegal variable names.
 # mean(is.na(ds_nurse_month_oklahoma$FMLA.Hours)); table(ds_nurse_month_oklahoma$FMLA.Hours)
 # table(ds_nurse_month_oklahoma$FTE)
 ds_nurse_month_oklahoma <- ds_nurse_month_oklahoma %>%
   dplyr::mutate(
     Employee..      = as.integer(as.factor(Employee..)),
-    #Name           = hash_and_salt_sha_256(Name, salt_to_add=salt, required_mode="character", min_length_inclusive=1, max_length_inclusive=100),
+    # Name          = hash_and_salt_sha_256(Name, salt_to_add=salt, required_mode="character", min_length_inclusive=1, max_length_inclusive=100),
     FTE             = sample(x=c(.5, .76, 1.0), size=dplyr::n(), replace=T, prob=c(.07, .03, .9)) ,
-    # Year            = Year - 1,
+    # Year          = Year - 1,
     FMLA.Hours      = round(ifelse(runif(dplyr::n()) > .03, NA_real_, runif(dplyr::n(), min=0, max=160))),
     Training.Hours  = round(ifelse(runif(dplyr::n()) > .2,  NA_real_, runif(dplyr::n(), min=0, max=60)))
   ) %>%

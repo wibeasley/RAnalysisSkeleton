@@ -14,15 +14,6 @@ requireNamespace("odbc")
 set.seed(6579) # Do this after the salt is created.  The seed is set so the fake csvs don't change on GitHub.
 salt <- round(runif(1, min=1000000, max=9999999))
 
-hash_and_salt_sha_256 <- function( x, min_length_inclusive, max_length_inclusive, required_mode, salt_to_add ) {
-  stopifnot(mode(x)==required_mode)
-  x <- ifelse(x==0, NA_integer_, x)
-  stopifnot(all(is.na(x) | (min_length_inclusive <= stringr::str_length(x) & stringr::str_length(x)<=max_length_inclusive) ))
-  salted <- paste0(x, salt_to_add)
-  hash <- digest::digest(object=salted, algo="sha256")
-  return( ifelse(is.na(x), NA_character_, hash) )
-}
-
 # ---- load-data ---------------------------------------------------------------
 # Retrieve URIs of CSV, and retrieve County lookup table
 channel <- DBI::dbConnect(odbc::odbc(), "zzzzChanelNamezzzz") #getSqlTypeInfo("Microsoft SQL Server") #odbcGetInfo(channel)
@@ -55,7 +46,7 @@ colnames(ds_nurse_month_oklahoma) <- make.names(colnames(ds_nurse_month_oklahoma
 ds_nurse_month_oklahoma <- ds_nurse_month_oklahoma %>%
   dplyr::mutate(
     Employee..      = as.integer(as.factor(Employee..)),
-    # Name          = hash_and_salt_sha_256(Name, salt_to_add=salt, required_mode="character", min_length_inclusive=1, max_length_inclusive=100),
+    # Name          = OuhscMunge::hash_and_salt_sha_256(Name, salt_to_add=salt, required_mode="character", min_length_inclusive=1, max_length_inclusive=100),
     FTE             = sample(x=c(.5, .76, 1.0), size=dplyr::n(), replace=T, prob=c(.07, .03, .9)) ,
     # Year          = Year - 1,
     FMLA.Hours      = round(ifelse(runif(dplyr::n()) > .03, NA_real_, runif(dplyr::n(), min=0, max=160))),

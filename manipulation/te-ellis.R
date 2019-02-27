@@ -283,8 +283,8 @@ ds <-
     ds_county, by="county_id"
   ) %>%
   dplyr::arrange(county_id, month) %>%
+  tibble::rowid_to_column("county_month_id") %>%  # Add the primary key
   dplyr::mutate(
-    county_month_id             = seq_len(n()), # Add the primary key
     fte                         = dplyr::coalesce(fte, 0),
     month_missing               = is.na(fte_approximated),
     fte_approximated            = month_missing & (month %in% months_rural_not_collected),

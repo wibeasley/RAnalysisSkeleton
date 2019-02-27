@@ -97,35 +97,35 @@ ds <-
     year            = wave_id + year_start - 1L,
     age             = wave_id + age_start  - 1L,
 
-    date_at_visit   = as.Date(ISOdate(year, 1, 1) + lubridate::days(sample(possible_date_offset, size=n(), replace=T)))
+    date_at_visit   = as.Date(ISOdate(year, 1, 1) + lubridate::days(sample(possible_date_offset, size=dplyr::n(), replace=T)))
   ) %>%
   dplyr::mutate( # Generate cognitive manifest variables (ie, from factor 1)
     cog_1           =
       (int_factor_1 * loadings_factor_1[1]) +
       slope_factor_1 * wave_id +
-      rnorm(n=n(), mean=0, sd=sigma_factor_1[1]),
+      rnorm(n=dplyr::n(), mean=0, sd=sigma_factor_1[1]),
     cog_2           =
       (int_factor_1 * loadings_factor_1[2]) +
       slope_factor_1 * wave_id +
-      rnorm(n=n(), mean=0, sd=sigma_factor_1[2]),
+      rnorm(n=dplyr::n(), mean=0, sd=sigma_factor_1[2]),
     cog_3           =
       (int_factor_1 * loadings_factor_1[3]) +
       slope_factor_1 * wave_id +
-      rnorm(n=n(), mean=0, sd=sigma_factor_1[3])
+      rnorm(n=dplyr::n(), mean=0, sd=sigma_factor_1[3])
   ) %>%
   dplyr::mutate( # Generate physical manifest variables (ie, from factor 2)
     phys_1           =
       (int_factor_2 * loadings_factor_2[1]) +
       slope_factor_2 * wave_id +
-      rnorm(n=n(), mean=0, sd=sigma_factor_2[1]),
+      rnorm(n=dplyr::n(), mean=0, sd=sigma_factor_2[1]),
     phys_2           =
       (int_factor_2 * loadings_factor_2[2]) +
       slope_factor_2 * wave_id +
-      rnorm(n=n(), mean=0, sd=sigma_factor_2[2]),
+      rnorm(n=dplyr::n(), mean=0, sd=sigma_factor_2[2]),
     phys_3           =
       (int_factor_2 * loadings_factor_2[3]) +
       slope_factor_2 * wave_id +
-      rnorm(n=n(), mean=0, sd=sigma_factor_2[3])
+      rnorm(n=dplyr::n(), mean=0, sd=sigma_factor_2[3])
   ) %>%
   dplyr::mutate( # Keep tha manifest variables positive (which will throw off the correlations)
     cog_1   = pmax(0, cog_1),

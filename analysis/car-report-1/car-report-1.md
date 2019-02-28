@@ -67,27 +67,7 @@ Graphs
 Marginals
 ---------------------------------------------------------------------------
 
-<img src="figure-png/marginals-1.png" style="display: block; margin: auto;" /><img src="figure-png/marginals-2.png" style="display: block; margin: auto;" />
-
-```
-Warning: count_() is deprecated. 
-Please use count() instead
-
-The 'programming' vignette or the tidyeval book can help you
-to program with count() : https://tidyeval.tidyverse.org
-This warning is displayed once per session.
-```
-
-```
-Warning: rename_() is deprecated. 
-Please use rename() instead
-
-The 'programming' vignette or the tidyeval book can help you
-to program with rename() : https://tidyeval.tidyverse.org
-This warning is displayed once per session.
-```
-
-<img src="figure-png/marginals-3.png" style="display: block; margin: auto;" /><img src="figure-png/marginals-4.png" style="display: block; margin: auto;" />
+<img src="figure-png/marginals-1.png" style="display: block; margin: auto;" /><img src="figure-png/marginals-2.png" style="display: block; margin: auto;" /><img src="figure-png/marginals-3.png" style="display: block; margin: auto;" /><img src="figure-png/marginals-4.png" style="display: block; margin: auto;" />
 
 
 Scatterplots
@@ -315,4 +295,4 @@ For the sake of documentation and reproducibility, the current report was render
 
 
 
-Report rendered by wibeasley at 2019-02-27, 20:43 -0600 in 7 seconds.
+Report rendered by wibeasley at 2019-02-27, 21:16 -0600 in 7 seconds.

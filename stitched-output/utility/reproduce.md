@@ -106,7 +106,7 @@ message("Starting update of files at ", Sys.time(), ".")
 ```
 
 ```
-## Starting update of files at 2019-02-27 20:42:57.
+## Starting update of files at 2019-02-27 21:16:27.
 ```
 
 ```r
@@ -120,7 +120,7 @@ elapsed_time <- system.time({
 
 ```
 ## 
-## Starting `simulate-mlm-1.R` at 2019-02-27 20:42:57.
+## Starting `simulate-mlm-1.R` at 2019-02-27 21:16:27.
 ```
 
 ```
@@ -157,7 +157,7 @@ elapsed_time <- system.time({
 
 ```
 ## 
-## Starting `car-ellis.R` at 2019-02-27 20:42:58.
+## Starting `car-ellis.R` at 2019-02-27 21:16:29.
 ```
 
 ```
@@ -184,7 +184,7 @@ elapsed_time <- system.time({
 
 ```
 ## 
-## Starting `mlm-1-ellis.R` at 2019-02-27 20:42:59.
+## Starting `mlm-1-ellis.R` at 2019-02-27 21:16:29.
 ```
 
 ```
@@ -193,7 +193,7 @@ elapsed_time <- system.time({
 
 ```
 ## 
-## Starting `te-ellis.R` at 2019-02-27 20:42:59.
+## Starting `te-ellis.R` at 2019-02-27 21:16:30.
 ```
 
 ```
@@ -202,7 +202,7 @@ elapsed_time <- system.time({
 
 ```
 ## 
-## Starting `subject-1-ellis.R` at 2019-02-27 20:43:00.
+## Starting `subject-1-ellis.R` at 2019-02-27 21:16:30.
 ```
 
 ```
@@ -211,7 +211,7 @@ elapsed_time <- system.time({
 
 ```
 ## 
-## Starting `randomization-block-simple.R` at 2019-02-27 20:43:00.
+## Starting `randomization-block-simple.R` at 2019-02-27 21:16:30.
 ```
 
 ```
@@ -220,7 +220,7 @@ elapsed_time <- system.time({
 
 ```
 ## 
-## Starting `mlm-1-scribe.R` at 2019-02-27 20:43:00.
+## Starting `mlm-1-scribe.R` at 2019-02-27 21:16:30.
 ```
 
 ```
@@ -244,7 +244,7 @@ elapsed_time <- system.time({
 
 ```
 ## 
-## Starting `te-scribe.R` at 2019-02-27 20:43:00.
+## Starting `te-scribe.R` at 2019-02-27 21:16:30.
 ```
 
 ```
@@ -259,7 +259,7 @@ elapsed_time <- system.time({
 
 ```
 ## 
-## Starting `car-report-1.Rmd` at 2019-02-27 20:43:00.
+## Starting `car-report-1.Rmd` at 2019-02-27 21:16:31.
 ```
 
 ```
@@ -410,7 +410,7 @@ elapsed_time <- system.time({
 ```
 
 ```
-## /usr/lib/rstudio/bin/pandoc/pandoc +RTS -K512m -RTS car-report-1.utf8.md --to html4 --from markdown+autolink_bare_uris+ascii_identifiers+tex_math_single_backslash+smart --output car-report-1.html --email-obfuscation none --self-contained --standalone --section-divs --table-of-contents --toc-depth 3 --variable toc_float=1 --variable toc_selectors=h1,h2,h3 --variable toc_collapsed=1 --variable toc_smooth_scroll=1 --variable toc_print=1 --template /home/wibeasley/R/x86_64-pc-linux-gnu-library/3.5/rmarkdown/rmd/h/default.html --no-highlight --variable highlightjs=1 --number-sections --css ../common/styles.css --variable 'theme:bootstrap' --include-in-header /tmp/RtmprfHwUI/rmarkdown-strdca65eb65e4.html --mathjax --variable 'mathjax-url:https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML'
+## /usr/lib/rstudio/bin/pandoc/pandoc +RTS -K512m -RTS car-report-1.utf8.md --to html4 --from markdown+autolink_bare_uris+ascii_identifiers+tex_math_single_backslash+smart --output car-report-1.html --email-obfuscation none --self-contained --standalone --section-divs --table-of-contents --toc-depth 3 --variable toc_float=1 --variable toc_selectors=h1,h2,h3 --variable toc_collapsed=1 --variable toc_smooth_scroll=1 --variable toc_print=1 --template /home/wibeasley/R/x86_64-pc-linux-gnu-library/3.5/rmarkdown/rmd/h/default.html --no-highlight --variable highlightjs=1 --number-sections --css ../common/styles.css --variable 'theme:bootstrap' --include-in-header /tmp/RtmpoKZT9P/rmarkdown-str1a5732b6c7ab.html --mathjax --variable 'mathjax-url:https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML'
 ```
 
 ```
@@ -424,7 +424,7 @@ elapsed_time <- system.time({
 
 ```
 ## 
-## Starting `report-te-1.Rmd` at 2019-02-27 20:43:11.
+## Starting `report-te-1.Rmd` at 2019-02-27 21:16:42.
 ```
 
 ```
@@ -599,7 +599,7 @@ elapsed_time <- system.time({
 ```
 
 ```
-## /usr/lib/rstudio/bin/pandoc/pandoc +RTS -K512m -RTS report-te-1.utf8.md --to html4 --from markdown+autolink_bare_uris+ascii_identifiers+tex_math_single_backslash+smart --output report-te-1.html --email-obfuscation none --self-contained --standalone --section-divs --table-of-contents --toc-depth 3 --variable toc_float=1 --variable toc_selectors=h1,h2,h3 --variable toc_collapsed=1 --variable toc_smooth_scroll=1 --variable toc_print=1 --template /home/wibeasley/R/x86_64-pc-linux-gnu-library/3.5/rmarkdown/rmd/h/default.html --no-highlight --variable highlightjs=1 --number-sections --css ../common/styles.css --variable 'theme:bootstrap' --include-in-header /tmp/RtmprfHwUI/rmarkdown-strdca670180fa.html --mathjax --variable 'mathjax-url:https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML'
+## /usr/lib/rstudio/bin/pandoc/pandoc +RTS -K512m -RTS report-te-1.utf8.md --to html4 --from markdown+autolink_bare_uris+ascii_identifiers+tex_math_single_backslash+smart --output report-te-1.html --email-obfuscation none --self-contained --standalone --section-divs --table-of-contents --toc-depth 3 --variable toc_float=1 --variable toc_selectors=h1,h2,h3 --variable toc_collapsed=1 --variable toc_smooth_scroll=1 --variable toc_print=1 --template /home/wibeasley/R/x86_64-pc-linux-gnu-library/3.5/rmarkdown/rmd/h/default.html --no-highlight --variable highlightjs=1 --number-sections --css ../common/styles.css --variable 'theme:bootstrap' --include-in-header /tmp/RtmpoKZT9P/rmarkdown-str1a577ffc67c6.html --mathjax --variable 'mathjax-url:https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML'
 ```
 
 ```
@@ -613,7 +613,7 @@ elapsed_time <- system.time({
 
 ```
 ## 
-## Starting `dashboard-1.Rmd` at 2019-02-27 20:43:32.
+## Starting `dashboard-1.Rmd` at 2019-02-27 21:17:00.
 ```
 
 ```
@@ -894,7 +894,7 @@ elapsed_time <- system.time({
 ```
 
 ```
-## /usr/lib/rstudio/bin/pandoc/pandoc +RTS -K512m -RTS dashboard-1.utf8.md --to html4 --from markdown+autolink_bare_uris+ascii_identifiers+tex_math_single_backslash --output dashboard-1.html --email-obfuscation none --self-contained --standalone --section-divs --template /home/wibeasley/R/x86_64-pc-linux-gnu-library/3.5/flexdashboard/rmarkdown/templates/flex_dashboard/resources/default.html --include-in-header /tmp/RtmprfHwUI/rmarkdown-strdca6f79f94d.html --variable 'theme:journal' --include-in-header /tmp/RtmprfHwUI/rmarkdown-strdca7d4c5c7d.html --mathjax --variable 'mathjax-url:https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML' --include-in-header /tmp/RtmprfHwUI/filedca2df0d32ahtml --include-before-body /tmp/RtmprfHwUI/filedca5ec79d12.html --include-after-body /tmp/RtmprfHwUI/filedca63a2a9b8.html --highlight-style pygments --include-before-body /tmp/RtmprfHwUI/filedca4efd0353.html --include-after-body /tmp/RtmprfHwUI/filedca70884f88.html
+## /usr/lib/rstudio/bin/pandoc/pandoc +RTS -K512m -RTS dashboard-1.utf8.md --to html4 --from markdown+autolink_bare_uris+ascii_identifiers+tex_math_single_backslash --output dashboard-1.html --email-obfuscation none --self-contained --standalone --section-divs --template /home/wibeasley/R/x86_64-pc-linux-gnu-library/3.5/flexdashboard/rmarkdown/templates/flex_dashboard/resources/default.html --include-in-header /tmp/RtmpoKZT9P/rmarkdown-str1a572b172c04.html --variable 'theme:journal' --include-in-header /tmp/RtmpoKZT9P/rmarkdown-str1a5732832f2.html --mathjax --variable 'mathjax-url:https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML' --include-in-header /tmp/RtmpoKZT9P/file1a576973be28html --include-before-body /tmp/RtmpoKZT9P/file1a578d4b98b.html --include-after-body /tmp/RtmpoKZT9P/file1a5721327b4f.html --highlight-style pygments --include-before-body /tmp/RtmpoKZT9P/file1a577bb53f26.html --include-after-body /tmp/RtmpoKZT9P/file1a573bbb0d84.html
 ```
 
 ```
@@ -913,7 +913,7 @@ message("Completed update of files at ", Sys.time(), "")
 ```
 
 ```
-## Completed update of files at 2019-02-27 20:43:51
+## Completed update of files at 2019-02-27 21:17:20
 ```
 
 ```r
@@ -922,7 +922,7 @@ elapsed_time
 
 ```
 ##    user  system elapsed 
-##  49.152   4.364  54.047
+##  40.791   3.799  52.903
 ```
 
 The R session information (including the OS info, R version and all
@@ -1014,6 +1014,6 @@ Sys.time()
 ```
 
 ```
-## [1] "2019-02-27 20:43:53 CST"
+## [1] "2019-02-27 21:17:23 CST"
 ```
 

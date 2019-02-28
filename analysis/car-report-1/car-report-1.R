@@ -45,13 +45,13 @@ histogram_discrete <- function(
 
   d_observed$iv <- base::ordered(d_observed[[variable_name]], levels=rev(levels(d_observed[[variable_name]])))
 
-  d_count <- dplyr::count_(d_observed, vars ="iv" )
+  d_count <- dplyr::count(d_observed, iv)
   # if( base::length(levels_to_exclude)>0 ) { }
   d_count <- d_count[!(d_count$iv %in% levels_to_exclude), ]
 
   d_summary <- d_count %>%
-    dplyr::rename_(
-      "count"    =  "n"
+    dplyr::rename(
+      count    =  n
     ) %>%
     dplyr::mutate(
       proportion = count / sum(count)

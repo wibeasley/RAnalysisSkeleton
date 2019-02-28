@@ -43,20 +43,20 @@ rm(path_input)
 # Populate the rename entries with OuhscMunge::column_rename_headstart(ds_county) # devtools::install_github("OuhscBbmc/OuhscMunge")
 ds <-
   ds %>%
-  dplyr::select_( # `dplyr::select()` implicitly drops the other columns not mentioned.
-    "model_name"                    = "model"
-    , "miles_per_gallon"            = "mpg"
-    , "cylinder_count"              = "cyl"
-    , "displacement_inches_cubed"   = "disp"
-    , "horsepower"                  = "hp"
-    , "rear_axle_ratio"             = "drat"
-    , "weight_pounds_per_1000"      = "wt"
-    , "quarter_mile_sec"            = "qsec"
-    , "engine_v_shape"              = "vs"
-    , "transmission_automatic"      = "am"
-    , "forward_gear_count"          = "gear"
-    , "carburetor_count"            = "carb"
-  ) %>%
+  dplyr::select(!!c(    # `dplyr::select()` drops columns not mentioned.
+    "model_name"                  = "model",
+    "miles_per_gallon"            = "mpg",
+    "cylinder_count"              = "cyl",
+    "displacement_inches_cubed"   = "disp",
+    "horsepower"                  = "hp",
+    "rear_axle_ratio"             = "drat",
+    "weight_pounds_per_1000"      = "wt",
+    "quarter_mile_sec"            = "qsec",
+    "engine_v_shape"              = "vs",
+    "transmission_automatic"      = "am",
+    "forward_gear_count"          = "gear",
+    "carburetor_count"            = "carb"
+  )) %>%
   dplyr::mutate(
     weight_pounds           = weight_pounds_per_1000 * 1000,     # Clear up confusion about units
 

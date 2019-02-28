@@ -69,7 +69,7 @@ columns_to_write <- c(
 ds_slim <-
   ds %>%
   # dplyr::slice(1:100) %>%
-  dplyr::select_(.dots=columns_to_write)
+  dplyr::select(!!columns_to_write)
 
 ds_slim
 

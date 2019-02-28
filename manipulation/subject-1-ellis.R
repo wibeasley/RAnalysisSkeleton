@@ -55,13 +55,13 @@ ds
 # OuhscMunge::column_rename_headstart(ds) #Spit out columns to help write call ato `dplyr::rename()`.
 ds <-
   ds %>%
-  dplyr::select_( #`select()` implicitly drops the other columns not mentioned.
-    "subject_id"
-    , "county_id"
-    , "gender_id"
-    , "race"
-    , "ethnicity"
-  ) %>%
+  dplyr::select(!!c( #`select()` implicitly drops the other columns not mentioned.
+    "subject_id",
+    "county_id",
+    "gender_id",
+    "race",
+    "ethnicity"
+  )) %>%
   dplyr::mutate(
 
   )  %>%

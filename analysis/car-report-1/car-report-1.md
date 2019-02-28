@@ -67,7 +67,27 @@ Graphs
 Marginals
 ---------------------------------------------------------------------------
 
-<img src="figure-png/marginals-1.png" style="display: block; margin: auto;" /><img src="figure-png/marginals-2.png" style="display: block; margin: auto;" /><img src="figure-png/marginals-3.png" style="display: block; margin: auto;" /><img src="figure-png/marginals-4.png" style="display: block; margin: auto;" />
+<img src="figure-png/marginals-1.png" style="display: block; margin: auto;" /><img src="figure-png/marginals-2.png" style="display: block; margin: auto;" />
+
+```
+Warning: count_() is deprecated. 
+Please use count() instead
+
+The 'programming' vignette or the tidyeval book can help you
+to program with count() : https://tidyeval.tidyverse.org
+This warning is displayed once per session.
+```
+
+```
+Warning: rename_() is deprecated. 
+Please use rename() instead
+
+The 'programming' vignette or the tidyeval book can help you
+to program with rename() : https://tidyeval.tidyverse.org
+This warning is displayed once per session.
+```
+
+<img src="figure-png/marginals-3.png" style="display: block; margin: auto;" /><img src="figure-png/marginals-4.png" style="display: block; margin: auto;" />
 
 
 Scatterplots
@@ -216,210 +236,75 @@ For the sake of documentation and reproducibility, the current report was render
  date     2019-02-27                  
 
 ─ Packages ──────────────────────────────────────────────────────────────
- package           * version     date       lib
- assertthat          0.2.0       2017-04-11 [1]
- backports           1.1.3       2018-12-14 [1]
- bit                 1.1-14      2018-05-29 [1]
- bit64               0.9-7       2017-05-08 [1]
- blob                1.1.1       2018-03-25 [1]
- broom               0.5.1       2018-12-05 [1]
- Cairo               1.5-9       2015-09-26 [1]
- callr               3.1.1       2018-12-21 [1]
- checkmate           1.9.1       2019-01-15 [1]
- cli                 1.0.1       2018-09-25 [1]
- colorspace          1.4-0       2019-01-13 [1]
- config              0.3         2018-03-27 [1]
- crayon              1.3.4       2017-09-16 [1]
- crosstalk           1.0.0       2016-12-21 [1]
- data.table          1.12.0      2019-01-13 [1]
- DBI                 1.0.0       2018-05-02 [1]
- desc                1.2.0       2018-05-01 [1]
- devtools            2.0.1       2018-10-26 [1]
- digest              0.6.18      2018-10-10 [1]
- dplyr               0.8.0.1     2019-02-15 [1]
- DT                  0.5         2018-11-05 [1]
- evaluate            0.13        2019-02-12 [1]
- fansi               0.4.0       2018-10-05 [1]
- flexdashboard     * 0.5.1.1     2018-06-29 [1]
- fs                  1.2.6       2018-08-23 [1]
- generics            0.0.2       2018-11-29 [1]
- ggplot2           * 3.1.0       2018-10-25 [1]
- glue                1.3.0       2018-07-17 [1]
- gtable              0.2.0       2016-02-26 [1]
- highr               0.7         2018-06-09 [1]
- hms                 0.4.2.9001  2018-08-18 [1]
- htmltools           0.3.6       2017-04-28 [1]
- htmlwidgets         1.3         2018-09-30 [1]
- httpuv              1.4.5.1     2018-12-18 [1]
- httr                1.4.0       2018-12-11 [1]
- jsonlite            1.6         2018-12-07 [1]
- kableExtra          1.0.1       2019-01-22 [1]
- knitr             * 1.21        2018-12-10 [1]
- labeling            0.3         2014-08-23 [1]
- later               0.8.0       2019-02-11 [1]
- lattice             0.20-38     2018-11-04 [4]
- lazyeval            0.2.1       2017-10-29 [1]
- lme4              * 1.1-20      2019-02-04 [1]
- lubridate           1.7.4       2018-04-11 [1]
- magrittr          * 1.5         2014-11-22 [1]
- MASS                7.3-51.1    2018-11-01 [4]
- Matrix            * 1.2-15      2018-11-01 [4]
- memoise             1.1.0       2017-04-21 [1]
- mime                0.6         2018-10-05 [1]
- minqa               1.2.4       2014-10-09 [1]
- munsell             0.5.0       2018-06-12 [1]
- nlme                3.1-137     2018-04-07 [4]
- nloptr              1.2.1       2018-10-03 [1]
- odbc                1.1.6       2018-06-09 [1]
- OuhscMunge          0.1.9.9010  2019-02-28 [1]
- packrat             0.5.0       2018-11-14 [1]
- pillar              1.3.1       2018-12-15 [1]
- pkgbuild            1.0.2       2018-10-16 [1]
- pkgconfig           2.0.2       2018-08-16 [1]
- pkgload             1.0.2       2018-10-29 [1]
- plotly            * 4.8.0.9000  2018-10-07 [1]
- plyr                1.8.4       2016-06-08 [1]
- prettyunits         1.0.2       2015-07-13 [1]
- processx            3.2.1       2018-12-05 [1]
- promises            1.0.1       2018-04-13 [1]
- ps                  1.3.0       2018-12-21 [1]
- purrr               0.3.0       2019-01-27 [1]
- R6                  2.4.0       2019-02-14 [1]
- RAnalysisSkeleton * 0.0.1.9001  2019-02-28 [1]
- RColorBrewer        1.1-2       2014-12-07 [1]
- Rcpp                1.0.0       2018-11-07 [1]
- RcppRoll            0.3.0       2018-06-05 [1]
- readr               1.3.1       2018-12-21 [1]
- remotes             2.0.2       2018-10-30 [1]
- rlang               0.3.1       2019-01-08 [1]
- rmarkdown           1.11        2018-12-08 [1]
- rprojroot           1.3-2       2018-01-03 [1]
- RSQLite             2.1.1       2018-05-06 [1]
- rstudioapi          0.9.0       2019-01-09 [1]
- rvest               0.3.2       2016-06-17 [1]
- scales              1.0.0.9000  2019-01-11 [1]
- sessioninfo         1.1.1       2018-11-05 [1]
- shiny               1.2.0       2018-11-02 [1]
- stringi             1.3.1       2019-02-13 [1]
- stringr             1.4.0       2019-02-10 [1]
- TabularManifest     0.1-16.9003 2019-01-31 [1]
- testit              0.9         2018-12-05 [1]
- testthat            2.0.1       2018-10-13 [1]
- tibble              2.0.1       2019-01-12 [1]
- tidyr               0.8.2       2018-10-28 [1]
- tidyselect          0.2.5       2018-10-11 [1]
- usethis             1.4.0       2018-08-14 [1]
- utf8                1.1.4       2018-05-24 [1]
- viridisLite         0.3.0       2018-02-01 [1]
- webshot             0.5.1       2018-09-28 [1]
- withr               2.1.2       2018-03-15 [1]
- xfun                0.5         2019-02-20 [1]
- xml2                1.2.0       2018-01-24 [1]
- xtable              1.8-3       2018-08-29 [1]
- yaml                2.2.0       2018-07-25 [1]
- zoo                 1.8-4       2018-09-19 [1]
- source                          
- CRAN (R 3.5.1)                  
- CRAN (R 3.5.2)                  
- CRAN (R 3.5.1)                  
- CRAN (R 3.5.1)                  
- CRAN (R 3.5.1)                  
- CRAN (R 3.5.1)                  
- CRAN (R 3.5.1)                  
- CRAN (R 3.5.2)                  
- CRAN (R 3.5.2)                  
- CRAN (R 3.5.1)                  
- CRAN (R 3.5.2)                  
- CRAN (R 3.5.1)                  
- CRAN (R 3.5.1)                  
- CRAN (R 3.5.1)                  
- CRAN (R 3.5.2)                  
- CRAN (R 3.5.1)                  
- CRAN (R 3.5.1)                  
- CRAN (R 3.5.1)                  
- CRAN (R 3.5.1)                  
- CRAN (R 3.5.2)                  
- CRAN (R 3.5.1)                  
- CRAN (R 3.5.2)                  
- CRAN (R 3.5.1)                  
- CRAN (R 3.5.1)                  
- CRAN (R 3.5.1)                  
- CRAN (R 3.5.1)                  
- CRAN (R 3.5.1)                  
- CRAN (R 3.5.1)                  
- CRAN (R 3.5.1)                  
- CRAN (R 3.5.1)                  
- Github (tidyverse/hms@979286f)  
- CRAN (R 3.5.1)                  
- CRAN (R 3.5.1)                  
- CRAN (R 3.5.2)                  
- CRAN (R 3.5.1)                  
- CRAN (R 3.5.1)                  
- CRAN (R 3.5.2)                  
- CRAN (R 3.5.1)                  
- CRAN (R 3.5.1)                  
- CRAN (R 3.5.2)                  
- CRAN (R 3.5.1)                  
- CRAN (R 3.5.1)                  
- CRAN (R 3.5.2)                  
- CRAN (R 3.5.1)                  
- CRAN (R 3.5.1)                  
- CRAN (R 3.5.1)                  
- CRAN (R 3.5.1)                  
- CRAN (R 3.5.1)                  
- CRAN (R 3.5.1)                  
- CRAN (R 3.5.1)                  
- CRAN (R 3.5.1)                  
- CRAN (R 3.5.0)                  
- CRAN (R 3.5.1)                  
- CRAN (R 3.5.1)                  
- local                           
- CRAN (R 3.5.1)                  
- CRAN (R 3.5.2)                  
- CRAN (R 3.5.1)                  
- CRAN (R 3.5.1)                  
- CRAN (R 3.5.1)                  
- Github (ropensci/plotly@f43699e)
- CRAN (R 3.5.1)                  
- CRAN (R 3.5.1)                  
- CRAN (R 3.5.1)                  
- CRAN (R 3.5.1)                  
- CRAN (R 3.5.2)                  
- CRAN (R 3.5.2)                  
- CRAN (R 3.5.2)                  
- local                           
- CRAN (R 3.5.1)                  
- CRAN (R 3.5.1)                  
- CRAN (R 3.5.1)                  
- CRAN (R 3.5.2)                  
- CRAN (R 3.5.1)                  
- CRAN (R 3.5.2)                  
- CRAN (R 3.5.1)                  
- CRAN (R 3.5.1)                  
- CRAN (R 3.5.1)                  
- CRAN (R 3.5.2)                  
- CRAN (R 3.5.1)                  
- local                           
- CRAN (R 3.5.1)                  
- CRAN (R 3.5.1)                  
- CRAN (R 3.5.2)                  
- CRAN (R 3.5.2)                  
- local                           
- CRAN (R 3.5.1)                  
- CRAN (R 3.5.1)                  
- CRAN (R 3.5.2)                  
- CRAN (R 3.5.1)                  
- CRAN (R 3.5.1)                  
- CRAN (R 3.5.1)                  
- CRAN (R 3.5.1)                  
- CRAN (R 3.5.1)                  
- CRAN (R 3.5.1)                  
- CRAN (R 3.5.1)                  
- CRAN (R 3.5.2)                  
- CRAN (R 3.5.1)                  
- CRAN (R 3.5.1)                  
- CRAN (R 3.5.1)                  
- CRAN (R 3.5.1)                  
+ package     * version    date       lib source                        
+ assertthat    0.2.0      2017-04-11 [1] CRAN (R 3.5.1)                
+ backports     1.1.3      2018-12-14 [1] CRAN (R 3.5.2)                
+ bit           1.1-14     2018-05-29 [1] CRAN (R 3.5.1)                
+ bit64         0.9-7      2017-05-08 [1] CRAN (R 3.5.1)                
+ blob          1.1.1      2018-03-25 [1] CRAN (R 3.5.1)                
+ callr         3.1.1      2018-12-21 [1] CRAN (R 3.5.2)                
+ checkmate     1.9.1      2019-01-15 [1] CRAN (R 3.5.2)                
+ cli           1.0.1      2018-09-25 [1] CRAN (R 3.5.1)                
+ colorspace    1.4-0      2019-01-13 [1] CRAN (R 3.5.2)                
+ config        0.3        2018-03-27 [1] CRAN (R 3.5.1)                
+ crayon        1.3.4      2017-09-16 [1] CRAN (R 3.5.1)                
+ DBI           1.0.0      2018-05-02 [1] CRAN (R 3.5.1)                
+ desc          1.2.0      2018-05-01 [1] CRAN (R 3.5.1)                
+ devtools      2.0.1      2018-10-26 [1] CRAN (R 3.5.1)                
+ digest        0.6.18     2018-10-10 [1] CRAN (R 3.5.1)                
+ dplyr         0.8.0.1    2019-02-15 [1] CRAN (R 3.5.2)                
+ evaluate      0.13       2019-02-12 [1] CRAN (R 3.5.2)                
+ fs            1.2.6      2018-08-23 [1] CRAN (R 3.5.1)                
+ ggplot2     * 3.1.0      2018-10-25 [1] CRAN (R 3.5.1)                
+ glue          1.3.0      2018-07-17 [1] CRAN (R 3.5.1)                
+ gtable        0.2.0      2016-02-26 [1] CRAN (R 3.5.1)                
+ highr         0.7        2018-06-09 [1] CRAN (R 3.5.1)                
+ hms           0.4.2.9001 2018-08-18 [1] Github (tidyverse/hms@979286f)
+ htmltools     0.3.6      2017-04-28 [1] CRAN (R 3.5.1)                
+ knitr       * 1.21       2018-12-10 [1] CRAN (R 3.5.1)                
+ labeling      0.3        2014-08-23 [1] CRAN (R 3.5.1)                
+ lattice       0.20-38    2018-11-04 [4] CRAN (R 3.5.1)                
+ lazyeval      0.2.1      2017-10-29 [1] CRAN (R 3.5.1)                
+ lubridate     1.7.4      2018-04-11 [1] CRAN (R 3.5.1)                
+ magrittr    * 1.5        2014-11-22 [1] CRAN (R 3.5.1)                
+ memoise       1.1.0      2017-04-21 [1] CRAN (R 3.5.1)                
+ munsell       0.5.0      2018-06-12 [1] CRAN (R 3.5.1)                
+ odbc          1.1.6      2018-06-09 [1] CRAN (R 3.5.1)                
+ OuhscMunge    0.1.9.9010 2019-02-28 [1] local                         
+ packrat       0.5.0      2018-11-14 [1] CRAN (R 3.5.1)                
+ pillar        1.3.1      2018-12-15 [1] CRAN (R 3.5.2)                
+ pkgbuild      1.0.2      2018-10-16 [1] CRAN (R 3.5.1)                
+ pkgconfig     2.0.2      2018-08-16 [1] CRAN (R 3.5.1)                
+ pkgload       1.0.2      2018-10-29 [1] CRAN (R 3.5.1)                
+ plyr          1.8.4      2016-06-08 [1] CRAN (R 3.5.1)                
+ prettyunits   1.0.2      2015-07-13 [1] CRAN (R 3.5.1)                
+ processx      3.2.1      2018-12-05 [1] CRAN (R 3.5.1)                
+ ps            1.3.0      2018-12-21 [1] CRAN (R 3.5.2)                
+ purrr         0.3.0      2019-01-27 [1] CRAN (R 3.5.2)                
+ R6            2.4.0      2019-02-14 [1] CRAN (R 3.5.2)                
+ Rcpp          1.0.0      2018-11-07 [1] CRAN (R 3.5.1)                
+ RcppRoll      0.3.0      2018-06-05 [1] CRAN (R 3.5.1)                
+ readr         1.3.1      2018-12-21 [1] CRAN (R 3.5.2)                
+ remotes       2.0.2      2018-10-30 [1] CRAN (R 3.5.1)                
+ rlang         0.3.1      2019-01-08 [1] CRAN (R 3.5.2)                
+ rmarkdown     1.11       2018-12-08 [1] CRAN (R 3.5.1)                
+ rprojroot     1.3-2      2018-01-03 [1] CRAN (R 3.5.1)                
+ RSQLite       2.1.1      2018-05-06 [1] CRAN (R 3.5.1)                
+ scales        1.0.0.9000 2019-01-11 [1] local                         
+ sessioninfo   1.1.1      2018-11-05 [1] CRAN (R 3.5.1)                
+ stringi       1.3.1      2019-02-13 [1] CRAN (R 3.5.2)                
+ stringr       1.4.0      2019-02-10 [1] CRAN (R 3.5.2)                
+ testit        0.9        2018-12-05 [1] CRAN (R 3.5.1)                
+ testthat      2.0.1      2018-10-13 [1] CRAN (R 3.5.1)                
+ tibble        2.0.1      2019-01-12 [1] CRAN (R 3.5.2)                
+ tidyr         0.8.2      2018-10-28 [1] CRAN (R 3.5.1)                
+ tidyselect    0.2.5      2018-10-11 [1] CRAN (R 3.5.1)                
+ usethis       1.4.0      2018-08-14 [1] CRAN (R 3.5.1)                
+ viridisLite   0.3.0      2018-02-01 [1] CRAN (R 3.5.1)                
+ withr         2.1.2      2018-03-15 [1] CRAN (R 3.5.1)                
+ xfun          0.5        2019-02-20 [1] CRAN (R 3.5.2)                
+ yaml          2.2.0      2018-07-25 [1] CRAN (R 3.5.1)                
+ zoo           1.8-4      2018-09-19 [1] CRAN (R 3.5.1)                
 
 [1] /home/wibeasley/R/x86_64-pc-linux-gnu-library/3.5
 [2] /usr/local/lib/R/site-library
@@ -430,4 +315,4 @@ For the sake of documentation and reproducibility, the current report was render
 
 
 
-Report rendered by wibeasley at 2019-02-27, 18:37 -0600 in 6 seconds.
+Report rendered by wibeasley at 2019-02-27, 20:43 -0600 in 7 seconds.

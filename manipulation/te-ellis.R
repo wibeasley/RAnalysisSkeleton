@@ -199,19 +199,13 @@ ds_month_tulsa
 ds_nurse_month_rural <-
   ds_nurse_month_rural %>%
   dplyr::select(!!c(    # `dplyr::select()` drops columns not mentioned.
-    "name_full"               = "Name",
     "county_name"             = "HOME_COUNTY",
-    "fte_percent"             = "FTE",
-    "month"                   = "PERIOD"
+    "month"                   = "PERIOD",
+    "name_full"               = "Name",
+    "fte_percent"             = "FTE"
     # "employee_id"           = "EMPLOYEEID"    # Not needed
     # "region_id              = "REGIONID"      # Not needed
   )) %>%
-  dplyr::select(
-    county_name,
-    month,
-    name_full,
-    fte_percent
-  ) %>% # dplyr::select(name_full, month, county_name, fte_percent) %>%
   dplyr::filter(!(county_name %in% counties_to_drop_from_rural)) %>%
   dplyr::mutate(
     month       = as.Date(paste0(month, "-", default_day_of_month), format="%m/%Y-%d"),

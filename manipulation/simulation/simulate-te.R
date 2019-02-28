@@ -32,7 +32,8 @@ rm(path_oklahoma, path_tulsa, path_rural)
 ds_fake_name <- readr::read_csv("utility/te-generation/fake-names.csv", col_names = F) # From http://listofrandomnames.com/
 
 # ---- tweak-data --------------------------------------------------------------
-ds_fake_name <- ds_fake_name %>%
+ds_fake_name <-
+  ds_fake_name %>%
   dplyr::rename(Name = X1) %>%
   dplyr::group_by(Name) %>%          # Collapse any duplicated fake names; `dplyr::distinct()` would be more concise.
   dplyr::summarize()  %>%
@@ -43,7 +44,8 @@ ds_fake_name <- ds_fake_name %>%
 colnames(ds_nurse_month_oklahoma) <- make.names(colnames(ds_nurse_month_oklahoma)) # Sanitize illegal variable names.
 # mean(is.na(ds_nurse_month_oklahoma$FMLA.Hours)); table(ds_nurse_month_oklahoma$FMLA.Hours)
 # table(ds_nurse_month_oklahoma$FTE)
-ds_nurse_month_oklahoma <- ds_nurse_month_oklahoma %>%
+ds_nurse_month_oklahoma <-
+  ds_nurse_month_oklahoma %>%
   dplyr::mutate(
     Employee..      = as.integer(as.factor(Employee..)),
     # Name          = OuhscMunge::hash_and_salt_sha_256(Name, salt_to_add=salt, required_mode="character", min_length_inclusive=1, max_length_inclusive=100),
@@ -57,13 +59,15 @@ ds_nurse_month_oklahoma <- ds_nurse_month_oklahoma %>%
 
 # ---- groom-tulsa -------------------------------------------------------------
 # mean(is.na(ds_month_tulsa$FmlaSum)); table(ds_month_tulsa$FmlaSum)
-ds_month_tulsa <- ds_month_tulsa %>%
+ds_month_tulsa <-
+  ds_month_tulsa %>%
   dplyr::mutate(
     FmlaSum     = round(ifelse(runif(dplyr::n()) > .35, NA_real_, runif(dplyr::n(), min=0, max=300)))
   )
 
 # ---- groom-rural -------------------------------------------------------------
-ds_nurse_month_rural <- ds_nurse_month_rural %>%
+ds_nurse_month_rural <-
+  ds_nurse_month_rural %>%
   dplyr::mutate(
     EMPLOYEEID  = as.integer(as.factor(NAME)) + max(ds_nurse_month_oklahoma$Employee..),
     REGIONID    = as.integer(as.factor(LEAD_NURSE)),

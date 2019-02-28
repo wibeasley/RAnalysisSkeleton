@@ -15,8 +15,19 @@ rm(list=ls(all=TRUE)) #Clear the memory of variables from previous run. This is 
 ```r
 library("magrittr")
 requireNamespace("purrr")
+```
+
+```
+## Loading required namespace: purrr
+```
+
+```r
 # requireNamespace("checkmate")
 requireNamespace("OuhscMunge") # remotes::install_github("OuhscBbmc/OuhscMunge")
+```
+
+```
+## Loading required namespace: OuhscMunge
 ```
 
 ```r
@@ -95,7 +106,7 @@ message("Starting update of files at ", Sys.time(), ".")
 ```
 
 ```
-## Starting update of files at 2019-02-27 18:37:21.
+## Starting update of files at 2019-02-27 20:42:57.
 ```
 
 ```r
@@ -109,7 +120,35 @@ elapsed_time <- system.time({
 
 ```
 ## 
-## Starting `simulate-mlm-1.R` at 2019-02-27 18:37:21.
+## Starting `simulate-mlm-1.R` at 2019-02-27 20:42:57.
+```
+
+```
+## Loading required namespace: readr
+```
+
+```
+## Loading required namespace: tidyr
+```
+
+```
+## Loading required namespace: dplyr
+```
+
+```
+## Loading required namespace: testit
+```
+
+```
+## Loading required namespace: checkmate
+```
+
+```
+## Loading required namespace: DBI
+```
+
+```
+## Loading required namespace: RSQLite
 ```
 
 ```
@@ -118,7 +157,7 @@ elapsed_time <- system.time({
 
 ```
 ## 
-## Starting `car-ellis.R` at 2019-02-27 18:37:21.
+## Starting `car-ellis.R` at 2019-02-27 20:42:58.
 ```
 
 ```
@@ -145,7 +184,7 @@ elapsed_time <- system.time({
 
 ```
 ## 
-## Starting `mlm-1-ellis.R` at 2019-02-27 18:37:21.
+## Starting `mlm-1-ellis.R` at 2019-02-27 20:42:59.
 ```
 
 ```
@@ -154,7 +193,7 @@ elapsed_time <- system.time({
 
 ```
 ## 
-## Starting `te-ellis.R` at 2019-02-27 18:37:22.
+## Starting `te-ellis.R` at 2019-02-27 20:42:59.
 ```
 
 ```
@@ -163,7 +202,7 @@ elapsed_time <- system.time({
 
 ```
 ## 
-## Starting `subject-1-ellis.R` at 2019-02-27 18:37:22.
+## Starting `subject-1-ellis.R` at 2019-02-27 20:43:00.
 ```
 
 ```
@@ -172,7 +211,7 @@ elapsed_time <- system.time({
 
 ```
 ## 
-## Starting `randomization-block-simple.R` at 2019-02-27 18:37:22.
+## Starting `randomization-block-simple.R` at 2019-02-27 20:43:00.
 ```
 
 ```
@@ -181,7 +220,15 @@ elapsed_time <- system.time({
 
 ```
 ## 
-## Starting `mlm-1-scribe.R` at 2019-02-27 18:37:22.
+## Starting `mlm-1-scribe.R` at 2019-02-27 20:43:00.
+```
+
+```
+## Loading required namespace: odbc
+```
+
+```
+## Loading required namespace: RcppRoll
 ```
 
 ```
@@ -197,7 +244,7 @@ elapsed_time <- system.time({
 
 ```
 ## 
-## Starting `te-scribe.R` at 2019-02-27 18:37:22.
+## Starting `te-scribe.R` at 2019-02-27 20:43:00.
 ```
 
 ```
@@ -212,7 +259,7 @@ elapsed_time <- system.time({
 
 ```
 ## 
-## Starting `car-report-1.Rmd` at 2019-02-27 18:37:22.
+## Starting `car-report-1.Rmd` at 2019-02-27 20:43:00.
 ```
 
 ```
@@ -363,7 +410,7 @@ elapsed_time <- system.time({
 ```
 
 ```
-## /usr/lib/rstudio/bin/pandoc/pandoc +RTS -K512m -RTS car-report-1.utf8.md --to html4 --from markdown+autolink_bare_uris+ascii_identifiers+tex_math_single_backslash+smart --output car-report-1.html --email-obfuscation none --self-contained --standalone --section-divs --table-of-contents --toc-depth 3 --variable toc_float=1 --variable toc_selectors=h1,h2,h3 --variable toc_collapsed=1 --variable toc_smooth_scroll=1 --variable toc_print=1 --template /home/wibeasley/R/x86_64-pc-linux-gnu-library/3.5/rmarkdown/rmd/h/default.html --no-highlight --variable highlightjs=1 --number-sections --css ../common/styles.css --variable 'theme:bootstrap' --include-in-header /tmp/RtmpNnBBAQ/rmarkdown-str69b824107620.html --mathjax --variable 'mathjax-url:https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML'
+## /usr/lib/rstudio/bin/pandoc/pandoc +RTS -K512m -RTS car-report-1.utf8.md --to html4 --from markdown+autolink_bare_uris+ascii_identifiers+tex_math_single_backslash+smart --output car-report-1.html --email-obfuscation none --self-contained --standalone --section-divs --table-of-contents --toc-depth 3 --variable toc_float=1 --variable toc_selectors=h1,h2,h3 --variable toc_collapsed=1 --variable toc_smooth_scroll=1 --variable toc_print=1 --template /home/wibeasley/R/x86_64-pc-linux-gnu-library/3.5/rmarkdown/rmd/h/default.html --no-highlight --variable highlightjs=1 --number-sections --css ../common/styles.css --variable 'theme:bootstrap' --include-in-header /tmp/RtmprfHwUI/rmarkdown-strdca65eb65e4.html --mathjax --variable 'mathjax-url:https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML'
 ```
 
 ```
@@ -377,7 +424,7 @@ elapsed_time <- system.time({
 
 ```
 ## 
-## Starting `report-te-1.Rmd` at 2019-02-27 18:37:32.
+## Starting `report-te-1.Rmd` at 2019-02-27 20:43:11.
 ```
 
 ```
@@ -421,7 +468,13 @@ elapsed_time <- system.time({
 ## List of 2
 ##  $ echo   : symbol echo_chunks
 ##  $ message: symbol message_chunks
-## 
+```
+
+```
+## Loading required package: Matrix
+```
+
+```
 ##   |                                                                         |...................                                              |  29%
 ##   ordinary text without R code
 ## 
@@ -546,7 +599,7 @@ elapsed_time <- system.time({
 ```
 
 ```
-## /usr/lib/rstudio/bin/pandoc/pandoc +RTS -K512m -RTS report-te-1.utf8.md --to html4 --from markdown+autolink_bare_uris+ascii_identifiers+tex_math_single_backslash+smart --output report-te-1.html --email-obfuscation none --self-contained --standalone --section-divs --table-of-contents --toc-depth 3 --variable toc_float=1 --variable toc_selectors=h1,h2,h3 --variable toc_collapsed=1 --variable toc_smooth_scroll=1 --variable toc_print=1 --template /home/wibeasley/R/x86_64-pc-linux-gnu-library/3.5/rmarkdown/rmd/h/default.html --no-highlight --variable highlightjs=1 --number-sections --css ../common/styles.css --variable 'theme:bootstrap' --include-in-header /tmp/RtmpNnBBAQ/rmarkdown-str69b8402a15be.html --mathjax --variable 'mathjax-url:https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML'
+## /usr/lib/rstudio/bin/pandoc/pandoc +RTS -K512m -RTS report-te-1.utf8.md --to html4 --from markdown+autolink_bare_uris+ascii_identifiers+tex_math_single_backslash+smart --output report-te-1.html --email-obfuscation none --self-contained --standalone --section-divs --table-of-contents --toc-depth 3 --variable toc_float=1 --variable toc_selectors=h1,h2,h3 --variable toc_collapsed=1 --variable toc_smooth_scroll=1 --variable toc_print=1 --template /home/wibeasley/R/x86_64-pc-linux-gnu-library/3.5/rmarkdown/rmd/h/default.html --no-highlight --variable highlightjs=1 --number-sections --css ../common/styles.css --variable 'theme:bootstrap' --include-in-header /tmp/RtmprfHwUI/rmarkdown-strdca670180fa.html --mathjax --variable 'mathjax-url:https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML'
 ```
 
 ```
@@ -560,7 +613,7 @@ elapsed_time <- system.time({
 
 ```
 ## 
-## Starting `dashboard-1.Rmd` at 2019-02-27 18:37:49.
+## Starting `dashboard-1.Rmd` at 2019-02-27 20:43:32.
 ```
 
 ```
@@ -604,7 +657,40 @@ elapsed_time <- system.time({
 ## List of 2
 ##  $ echo   : symbol echo_chunks
 ##  $ message: symbol message_chunks
+```
+
+```
 ## 
+## Attaching package: 'plotly'
+```
+
+```
+## The following object is masked from 'package:ggplot2':
+## 
+##     last_plot
+```
+
+```
+## The following object is masked from 'package:stats':
+## 
+##     filter
+```
+
+```
+## The following object is masked from 'package:graphics':
+## 
+##     layout
+```
+
+```
+## Loading required namespace: broom
+```
+
+```
+## Loading required namespace: kableExtra
+```
+
+```
 ##   |                                                                         |................                                                 |  25%
 ##   ordinary text without R code
 ## 
@@ -808,7 +894,7 @@ elapsed_time <- system.time({
 ```
 
 ```
-## /usr/lib/rstudio/bin/pandoc/pandoc +RTS -K512m -RTS dashboard-1.utf8.md --to html4 --from markdown+autolink_bare_uris+ascii_identifiers+tex_math_single_backslash --output dashboard-1.html --email-obfuscation none --self-contained --standalone --section-divs --template /home/wibeasley/R/x86_64-pc-linux-gnu-library/3.5/flexdashboard/rmarkdown/templates/flex_dashboard/resources/default.html --include-in-header /tmp/RtmpNnBBAQ/rmarkdown-str69b83c6d4038.html --variable 'theme:journal' --include-in-header /tmp/RtmpNnBBAQ/rmarkdown-str69b85c0960c.html --mathjax --variable 'mathjax-url:https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML' --include-in-header /tmp/RtmpNnBBAQ/file69b84d9ccc94html --include-before-body /tmp/RtmpNnBBAQ/file69b85e6633d9.html --include-after-body /tmp/RtmpNnBBAQ/file69b86bf87ff3.html --highlight-style pygments --include-before-body /tmp/RtmpNnBBAQ/file69b865c1b0c8.html --include-after-body /tmp/RtmpNnBBAQ/file69b85f867420.html
+## /usr/lib/rstudio/bin/pandoc/pandoc +RTS -K512m -RTS dashboard-1.utf8.md --to html4 --from markdown+autolink_bare_uris+ascii_identifiers+tex_math_single_backslash --output dashboard-1.html --email-obfuscation none --self-contained --standalone --section-divs --template /home/wibeasley/R/x86_64-pc-linux-gnu-library/3.5/flexdashboard/rmarkdown/templates/flex_dashboard/resources/default.html --include-in-header /tmp/RtmprfHwUI/rmarkdown-strdca6f79f94d.html --variable 'theme:journal' --include-in-header /tmp/RtmprfHwUI/rmarkdown-strdca7d4c5c7d.html --mathjax --variable 'mathjax-url:https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML' --include-in-header /tmp/RtmprfHwUI/filedca2df0d32ahtml --include-before-body /tmp/RtmprfHwUI/filedca5ec79d12.html --include-after-body /tmp/RtmprfHwUI/filedca63a2a9b8.html --highlight-style pygments --include-before-body /tmp/RtmprfHwUI/filedca4efd0353.html --include-after-body /tmp/RtmprfHwUI/filedca70884f88.html
 ```
 
 ```
@@ -827,7 +913,7 @@ message("Completed update of files at ", Sys.time(), "")
 ```
 
 ```
-## Completed update of files at 2019-02-27 18:38:06
+## Completed update of files at 2019-02-27 20:43:51
 ```
 
 ```r
@@ -836,7 +922,7 @@ elapsed_time
 
 ```
 ##    user  system elapsed 
-##  32.348   3.970  44.750
+##  49.152   4.364  54.047
 ```
 
 The R session information (including the OS info, R version and all
@@ -868,10 +954,9 @@ sessionInfo()
 ## [1] stats     graphics  grDevices utils     datasets  methods   base     
 ## 
 ## other attached packages:
-## [1] plotly_4.8.0.9000            flexdashboard_0.5.1.1       
-## [3] lme4_1.1-20                  Matrix_1.2-15               
-## [5] knitr_1.21                   ggplot2_3.1.0               
-## [7] RAnalysisSkeleton_0.0.1.9001 magrittr_1.5                
+## [1] plotly_4.8.0.9000     flexdashboard_0.5.1.1 lme4_1.1-20          
+## [4] Matrix_1.2-15         knitr_1.21            ggplot2_3.1.0        
+## [7] magrittr_1.5         
 ## 
 ## loaded via a namespace (and not attached):
 ##  [1] nlme_3.1-137                fs_1.2.6                   
@@ -880,49 +965,48 @@ sessionInfo()
 ##  [7] RColorBrewer_1.1-2          webshot_0.5.1              
 ##  [9] httr_1.4.0                  rprojroot_1.3-2            
 ## [11] tools_3.5.2                 backports_1.1.3            
-## [13] DT_0.5                      utf8_1.1.4                 
-## [15] R6_2.4.0                    DBI_1.0.0                  
-## [17] lazyeval_0.2.1              colorspace_1.4-0           
-## [19] withr_2.1.2                 tidyselect_0.2.5           
-## [21] prettyunits_1.0.2           processx_3.2.1             
-## [23] bit_1.1-14                  compiler_3.5.2             
-## [25] cli_1.0.1                   rvest_0.3.2                
-## [27] OuhscMunge_0.1.9.9010       Cairo_1.5-9                
-## [29] xml2_1.2.0                  desc_1.2.0                 
-## [31] labeling_0.3                scales_1.0.0.9000          
-## [33] checkmate_1.9.1             readr_1.3.1                
-## [35] callr_3.1.1                 odbc_1.1.6                 
-## [37] stringr_1.4.0               digest_0.6.18              
-## [39] minqa_1.2.4                 rmarkdown_1.11             
-## [41] pkgconfig_2.0.2             htmltools_0.3.6            
-## [43] sessioninfo_1.1.1           highr_0.7                  
-## [45] htmlwidgets_1.3             rlang_0.3.1                
-## [47] rstudioapi_0.9.0            RSQLite_2.1.1              
-## [49] shiny_1.2.0                 generics_0.0.2             
-## [51] zoo_1.8-4                   testit_0.9                 
-## [53] jsonlite_1.6                crosstalk_1.0.0            
-## [55] dplyr_0.8.0.1               config_0.3                 
-## [57] kableExtra_1.0.1            Rcpp_1.0.0                 
-## [59] munsell_0.5.0               fansi_0.4.0                
-## [61] stringi_1.3.1               yaml_2.2.0                 
-## [63] MASS_7.3-51.1               pkgbuild_1.0.2             
-## [65] plyr_1.8.4                  grid_3.5.2                 
-## [67] blob_1.1.1                  promises_1.0.1             
-## [69] crayon_1.3.4                lattice_0.20-38            
-## [71] splines_3.5.2               hms_0.4.2.9001             
-## [73] ps_1.3.0                    pillar_1.3.1               
-## [75] pkgload_1.0.2               TabularManifest_0.1-16.9003
-## [77] glue_1.3.0                  packrat_0.5.0              
-## [79] evaluate_0.13               data.table_1.12.0          
-## [81] remotes_2.0.2               httpuv_1.4.5.1             
-## [83] nloptr_1.2.1                testthat_2.0.1             
-## [85] gtable_0.2.0                purrr_0.3.0                
-## [87] tidyr_0.8.2                 assertthat_0.2.0           
-## [89] xfun_0.5                    mime_0.6                   
-## [91] xtable_1.8-3                broom_0.5.1                
-## [93] later_0.8.0                 viridisLite_0.3.0          
-## [95] RcppRoll_0.3.0              tibble_2.0.1               
-## [97] memoise_1.1.0
+## [13] DT_0.5                      R6_2.4.0                   
+## [15] DBI_1.0.0                   lazyeval_0.2.1             
+## [17] colorspace_1.4-0            withr_2.1.2                
+## [19] tidyselect_0.2.5            prettyunits_1.0.2          
+## [21] processx_3.2.1              bit_1.1-14                 
+## [23] compiler_3.5.2              cli_1.0.1                  
+## [25] rvest_0.3.2                 OuhscMunge_0.1.9.9010      
+## [27] Cairo_1.5-9                 xml2_1.2.0                 
+## [29] desc_1.2.0                  labeling_0.3               
+## [31] scales_1.0.0.9000           checkmate_1.9.1            
+## [33] readr_1.3.1                 callr_3.1.1                
+## [35] odbc_1.1.6                  stringr_1.4.0              
+## [37] digest_0.6.18               minqa_1.2.4                
+## [39] rmarkdown_1.11              pkgconfig_2.0.2            
+## [41] htmltools_0.3.6             sessioninfo_1.1.1          
+## [43] highr_0.7                   htmlwidgets_1.3            
+## [45] rlang_0.3.1                 rstudioapi_0.9.0           
+## [47] RSQLite_2.1.1               shiny_1.2.0                
+## [49] generics_0.0.2              zoo_1.8-4                  
+## [51] testit_0.9                  jsonlite_1.6               
+## [53] crosstalk_1.0.0             dplyr_0.8.0.1              
+## [55] config_0.3                  kableExtra_1.0.1           
+## [57] Rcpp_1.0.0                  munsell_0.5.0              
+## [59] stringi_1.3.1               yaml_2.2.0                 
+## [61] MASS_7.3-51.1               pkgbuild_1.0.2             
+## [63] plyr_1.8.4                  grid_3.5.2                 
+## [65] blob_1.1.1                  promises_1.0.1             
+## [67] crayon_1.3.4                lattice_0.20-38            
+## [69] splines_3.5.2               hms_0.4.2.9001             
+## [71] ps_1.3.0                    pillar_1.3.1               
+## [73] pkgload_1.0.2               TabularManifest_0.1-16.9003
+## [75] glue_1.3.0                  packrat_0.5.0              
+## [77] evaluate_0.13               data.table_1.12.0          
+## [79] remotes_2.0.2               httpuv_1.4.5.1             
+## [81] nloptr_1.2.1                testthat_2.0.1             
+## [83] gtable_0.2.0                purrr_0.3.0                
+## [85] tidyr_0.8.2                 assertthat_0.2.0           
+## [87] xfun_0.5                    mime_0.6                   
+## [89] xtable_1.8-3                broom_0.5.1                
+## [91] later_0.8.0                 viridisLite_0.3.0          
+## [93] RcppRoll_0.3.0              tibble_2.0.1               
+## [95] memoise_1.1.0
 ```
 
 ```r
@@ -930,6 +1014,6 @@ Sys.time()
 ```
 
 ```
-## [1] "2019-02-27 18:38:08 CST"
+## [1] "2019-02-27 20:43:53 CST"
 ```
 

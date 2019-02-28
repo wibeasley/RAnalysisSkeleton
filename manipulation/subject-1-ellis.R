@@ -134,7 +134,6 @@ sql_create %>%
 DBI::dbListTables(cnn)
 
 # Write to database
-
 DBI::dbWriteTable(cnn, name='subject',            value=ds_slim,        append=TRUE, row.names=FALSE)
 
 # Close connection

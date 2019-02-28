@@ -154,7 +154,7 @@ rm(columns_to_write)
 
 # ---- save-to-disk ------------------------------------------------------------
 # Save as a compress, binary R dataset.  It's no longer readable with a text editor, but it saves metadata (eg, factor information).
-readr::write_rds(ds_slim, path_output, compress="xz")
+readr::write_rds(ds_slim, path_output, compress="gz")
 
 # ---- inspect, fig.width=10, fig.height=6, fig.path=figure_path -----------------------------------------------------------------
 # This last section is kinda cheating, and should belong in an 'analysis' file, not a 'manipulation' file.

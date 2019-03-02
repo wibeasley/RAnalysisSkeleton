@@ -1,11 +1,14 @@
 package_name,on_cran,install,github_username,description
+broom,TRUE,TRUE,tidymodels,Convert statistical analysis objects from R into tidy format.
 car,TRUE,FALSE,,For it's `recode()` function.
 checkmate,TRUE,TRUE,,"Checks/asserts values."
 classInt,TRUE,TRUE,,Choosing univariate class intervals for mapping or other graphics purposes.
 colorspace,TRUE,TRUE,,Explicit control over the HCL color scheme.
-digest,TRUE,FALSE,,Creates SHA hashes for the recruiting database.
+DBI,TRUE,FALSE,,A database interface (DBI) definition for communication between R and RDBMSs.
+digest,TRUE,FALSE,,Creates SHA hashes to obfuscate PHI.
 dplyr,TRUE,TRUE,tidyverse,Next generation of plyr.
 evaluate,TRUE,FALSE,,A package that Hadley et al use a lot in their packages.  It helps when things are passed by reference.
+flexdashboard,TRUE,TRUE,rstudio,Easy interactive dashboards for R.
 foreign,TRUE,FALSE,,Reads data in other formats.
 ggplot2,TRUE,TRUE,,Graphing.
 ggthemes,TRUE,TRUE,,"Extra themes, scales and geoms for ggplot."
@@ -13,18 +16,32 @@ googleVis,TRUE,FALSE,,"JavaScript-based visualizations, like scrollable tables."
 ggmap,TRUE,FALSE,,"Maps & graphics, based on ggplot."
 grid,TRUE,TRUE,,foundation underneath ggplot2.
 gridExtra,TRUE,TRUE,,Additional functions for manipulating `grid` objects.
+kableExtra,TRUE,TRUE,,Construct Complex Table with knitr's kable function.
 knitr,TRUE,TRUE,,For reporting.
-lme4,TRUE,FALSE,,Multilevel models.
+lme4,TRUE,TRUE,,Multilevel models.
 lubridate,TRUE,TRUE,,Consistent/convenient function signatures for manipulating dates.
+magrittr,TRUE,TRUE,,Improve the readability of R code with the pipe.
+mgcv,TRUE,TRUE,,Mixed GAM Computation Vehicle with GCV/AIC/REML Smoothness Estimation.
 modeest,TRUE,TRUE,,Estimating the mode of unimodal distributions.
+odbc,TRUE,TRUE,,Connect to ODBC databases (using the DBI interface).
+OuhscMunge,FALSE,TRUE,OuhscBbmc,Data manipulation operations.
+plotly,TRUE,TRUE,ropensci,An interactive graphing library for R
 plyr,TRUE,FALSE,,Important for most of our data manipulation.
+purrr,TRUE,TRUE,,A functional programming toolkit for R.
 random,TRUE,FALSE,,Creates random numbers for salts.
+Rcpp,TRUE,TRUE,,Seamless R and C++ Integration.
+RcppRoll,TRUE,TRUE,,Fast rolling functions through Rcpp.
 RColorBrewer,TRUE,TRUE,,Explicit control over the Color Brewer colors.  See http://colorbrewer2.org/.
 readr,TRUE,TRUE,,Reads data files from disk.
+remotes,TRUE,TRUE,r-lib,Install R packages from GitHub, GitLab, Bitbucket, git, svn repositories, URLs.
 reshape2,TRUE,FALSE,,Data manipulation not covered in plyr.
+rlang,TRUE,TRUE,,Low-level API for programming with R .
 rmarkdown,TRUE,TRUE,rstudio,Needed for knitr and reports.
+RSQLite,TRUE,TRUE,rstudio,Interface for SQLite.
+scales,TRUE,TRUE,,Graphical scales.
 stringi,TRUE,FALSE,,Consistent/convenient function signatures for manipulating text.
 stringr,TRUE,FALSE,,Consistent/convenient function signatures for manipulating text.
+TabularManifest,FALSE,TRUE,Melinae,Perform EDA quicker using configure files.
 testit,TRUE,TRUE,,Has the useful `assert()` function.
 testthat,TRUE,TRUE,r-lib,Heavier testing framework that's good for package development.
 tidyr,TRUE,TRUE,,"Data manipulation; replaces much of reshape2; works w/ magrittr and dplyr well."

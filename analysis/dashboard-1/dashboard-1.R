@@ -13,7 +13,7 @@ requireNamespace("dplyr")
 requireNamespace("tidyr") #For converting wide to long
 requireNamespace("broom")
 requireNamespace("kableExtra")
-requireNamespace("TabularManifest") # devtools::install_github("Melinae/TabularManifest"
+requireNamespace("TabularManifest") # devtools::install_github("Melinae/TabularManifest")
 
 # ---- declare-globals ---------------------------------------------------------
 options(show.signif.stars=F) #Turn off the annotations on p-values

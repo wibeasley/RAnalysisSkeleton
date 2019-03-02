@@ -31,9 +31,9 @@ purrr,TRUE,TRUE,,A functional programming toolkit for R.
 random,TRUE,FALSE,,Creates random numbers for salts.
 Rcpp,TRUE,TRUE,,Seamless R and C++ Integration.
 RcppRoll,TRUE,TRUE,,Fast rolling functions through Rcpp.
-RColorBrewer,TRUE,TRUE,,Explicit control over the Color Brewer colors.  See http://colorbrewer2.org/.
+RColorBrewer,TRUE,TRUE,,"Explicit control over the Color Brewer colors.  See http://colorbrewer2.org/."
 readr,TRUE,TRUE,,Reads data files from disk.
-remotes,TRUE,TRUE,r-lib,Install R packages from GitHub, GitLab, Bitbucket, git, svn repositories, URLs.
+remotes,TRUE,TRUE,r-lib,"Install R packages from GitHub, GitLab, Bitbucket, git, svn repositories, URLs."
 reshape2,TRUE,FALSE,,Data manipulation not covered in plyr.
 rlang,TRUE,TRUE,,Low-level API for programming with R .
 rmarkdown,TRUE,TRUE,rstudio,Needed for knitr and reports.

@@ -17,10 +17,13 @@
 ^\.travis\.yml$
 ^appveyor\.yml$
 ^CONDUCT.md$
-^CONDUCT_OF_CONDUCT.md$
+^CODE_OF_CONDUCT.md$
+^CODE-OF-CONDUCT.md$
+^code-of-conduct.md$
 ^config.yml$
 ^cran-comments\.md$
 ^README.html$
+^license\.md$
 ^LICENSE\.md$
 ^README.html$
 ^shim_package\.sh$

@@ -453,7 +453,7 @@ DBI::dbDisconnect(cnn)
 #   d             = ds_slim,
 #   schema_name   = "osdh",
 #   table_name    = "te",
-#   dsn_name      = "te-example", # Or config_value("dsn_te"),
+#   dsn_name      = "te-example", # Or config$dsn_te,
 #   clear_table   = T,
 #   create_table  = F,
 #   convert_logical_to_integer = T

@@ -27,17 +27,25 @@ Almost no configuration is necessary because the computer already has R installe
     * `y` to 'Would you like to create a personal library ~/R/x86_64-redhat-linux-gnu-library/3.3'
     * `1` to select the '0-Cloud [https]' CRAN mirror
 
-1. Install a list of 50ish packages from [utility/package-dependency-list.csv](https://github.com/wibeasley/RAnalysisSkeleton/blob/master/utility/package-dependency-list.csv) in R.  Their (package) dependencies are also installed, which takes 15 minutes.
-    
-    ```R
-    install.packages(c("tibble", "dplyr", "readr"))                # Although these are included in the list below, this approach avoids the need for the `unixODBC-devel` rpm package.
-    source("utility/install-packages.R")
+1. Install a list of roughly 50 packages from [utility/package-dependency-list.csv](https://github.com/wibeasley/RAnalysisSkeleton/blob/master/utility/package-dependency-list.csv) in R.  Their (package) dependencies are also installed, which takes 15 minutes.
+
+    ```r
+    remotes::install_github("OuhscBbmc/OuhscMunge")
+    OuhscMunge::package_janitor_remote("utility/package-dependency-list.csv")
     ```
+    
+    For machines that we have full admin rights, the block above is replaced with `source("utility/install-packages.R")`.  But this approach installs [a longer list of R packages](https://github.com/OuhscBbmc/RedcapExamplesAndPatterns/blob/master/utility/package-dependency-list.csv), which may require additional linux packages.  If you need additional Linux packages installed, contact [OSCER support](http://www.ou.edu/oscer) at support@oscer.ou.edu.
     
 1. Three approaches to running all repo scripts with [`utility/reproduce.R`](https://github.com/wibeasley/RAnalysisSkeleton/blob/master/utility/reproduce.R).
 
     1. Running interactively in R.  This is encouraged only for testing small projects like this.
+        ```r
+        source("utility/reproduce.R")
+        ```
     
-    1. Running interactively with Rscript.  This is encouraged only for testing small projects like this.
+    1. Running interactively with Rscript in the bash shell.  This is encouraged only for testing small projects like this.
+        ```bash
+        Rscript utility/reproduce.R  # This is untested
+        ```
     
-    1. Rush with a bsub file
+    1. Run with a bsub file. --Henry, work your magic here.

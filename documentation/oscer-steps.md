@@ -10,13 +10,26 @@ Almost no configuration is necessary because the computer already has R installe
     cd RAnalysisSkeleton
     ```
 
-1. Install a single package.  Open R and install the [devtools](https://CRAN.R-project.org/package=devtools) package.  We'll do this in R (instead of bash), because it more easily establishes a local personal library.
+1. Check that you can open the desired version of R.  As of March 2019, there are five versions installed on schooner (ranging from 3.3.2 to 3.5.1).  (Thanks to Horst Severini.)
 
-    Open R with bash.
+    View the possible R versions with the bash command:
+    
+    ```bash
+    module avail R/
+    ```
+    
+    Set your *personal* default version to 3.5.1 in bash with
+    ```bash
+    module load R/3.5.1-intel-2016a
+    ```
+    
+    Open R with bash.  Make sure the version is correct (*e.g.*, 3.5.1 if you used the command above).
     ```bash
     R
     ```
     
+1. Install a single package.  Install the [devtools](https://CRAN.R-project.org/package=devtools) package.  We'll do this in R (instead of bash), because it more easily establishes a local personal library.
+ 
     Install package in R.  A lot needs to be compiled, so this take ~4 minutes
     ```R
     install.packages("devtools")

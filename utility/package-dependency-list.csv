@@ -9,7 +9,7 @@ DBI,FALSE,TRUE,,A database interface (DBI) definition for communication between 
 digest,FALSE,TRUE,,Creates SHA hashes to obfuscate PHI.
 dplyr,TRUE,TRUE,tidyverse,Next generation of plyr.
 evaluate,FALSE,TRUE,,A package that Hadley et al use a lot in their packages.  It helps when things are passed by reference.
-flexdashboard,TRUE,TRUE,rstudio,Easy interactive dashboards for R.
+flexdashboard,FALSE,TRUE,rstudio,Easy interactive dashboards for R.
 foreign,FALSE,TRUE,,Reads data in other formats.
 ggplot2,TRUE,TRUE,,Graphing.
 ggthemes,TRUE,TRUE,,"Extra themes, scales and geoms for ggplot."
@@ -22,11 +22,11 @@ knitr,TRUE,TRUE,,For reporting.
 lme4,TRUE,TRUE,,Multilevel models.
 lubridate,TRUE,TRUE,,Consistent/convenient function signatures for manipulating dates.
 magrittr,TRUE,TRUE,,Improve the readability of R code with the pipe.
-mgcv,TRUE,TRUE,,Mixed GAM Computation Vehicle with GCV/AIC/REML Smoothness Estimation.
+mgcv,FALSE,TRUE,,Mixed GAM Computation Vehicle with GCV/AIC/REML Smoothness Estimation.
 modeest,FALSE,TRUE,,Estimating the mode of unimodal distributions.
 odbc,FALSE,TRUE,,Connect to ODBC databases (using the DBI interface).
 OuhscMunge,TRUE,FALSE,OuhscBbmc,Data manipulation operations.
-plotly,TRUE,TRUE,ropensci,An interactive graphing library for R
+plotly,FALSE,TRUE,ropensci,An interactive graphing library for R
 plyr,FALSE,TRUE,,Important for most of our data manipulation.
 purrr,TRUE,TRUE,,A functional programming toolkit for R.
 random,FALSE,TRUE,,Creates random numbers for salts.

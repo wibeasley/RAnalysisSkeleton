@@ -30,5 +30,6 @@ Almost no configuration is necessary because the computer already has R installe
 1. Install a list of 50ish packages from [utility/package-dependency-list.csv](https://github.com/wibeasley/RAnalysisSkeleton/blob/master/utility/package-dependency-list.csv) in R.  Their (package) dependencies are also installed, which takes 15 minutes.
     
     ```R
+    install.packages(c("tibble", "dplyr"))                # Although these are included in the list below, this approach avoids the need for the `unixODBC-devel` rpm package.
     source("utility/install-packages.R")
     ```

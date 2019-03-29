@@ -3,6 +3,7 @@ broom,TRUE,TRUE,tidymodels,Convert statistical analysis objects from R into tidy
 car,FALSE,TRUE,,For it's `recode()` function.
 checkmate,TRUE,TRUE,,Checks/asserts values.
 classInt,TRUE,TRUE,,Choosing univariate class intervals for mapping or other graphics purposes.
+config,TRUE,TRUE,,Declare repo-wide values.
 colorspace,TRUE,TRUE,,Explicit control over the HCL color scheme.
 DBI,FALSE,TRUE,,A database interface (DBI) definition for communication between R and RDBMSs.
 digest,FALSE,TRUE,,Creates SHA hashes to obfuscate PHI.

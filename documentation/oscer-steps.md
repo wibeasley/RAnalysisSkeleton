@@ -15,7 +15,7 @@ Almost no configuration is necessary because the computer already has R installe
     cd RAnalysisSkeleton
     ```
 
-1. Check that you can open the desired version of R.  As of March 2019, there are five versions installed on schooner (ranging from 3.3.2 to 3.5.1).  (Thanks to Horst Severini.)
+1. Check that you can open the desired version of R.  As of March 2019, there are five versions installed on schooner (ranging from 3.3.2 to 3.5.1).  OSCER's R-specific documentation is at http://ou.edu/oscer/support/R_package.  (Thanks to Horst Severini.)
 
     View the possible R versions with the bash command:
     

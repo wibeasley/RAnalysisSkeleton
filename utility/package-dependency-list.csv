@@ -23,7 +23,7 @@ lubridate,TRUE,TRUE,,Consistent/convenient function signatures for manipulating 
 magrittr,TRUE,TRUE,,Improve the readability of R code with the pipe.
 mgcv,TRUE,TRUE,,Mixed GAM Computation Vehicle with GCV/AIC/REML Smoothness Estimation.
 modeest,FALSE,TRUE,,Estimating the mode of unimodal distributions.
-odbc,TRUE,TRUE,,Connect to ODBC databases (using the DBI interface).
+odbc,FALSE,TRUE,,Connect to ODBC databases (using the DBI interface).
 OuhscMunge,TRUE,FALSE,OuhscBbmc,Data manipulation operations.
 plotly,TRUE,TRUE,ropensci,An interactive graphing library for R
 plyr,FALSE,TRUE,,Important for most of our data manipulation.

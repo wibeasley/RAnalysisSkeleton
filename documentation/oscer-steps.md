@@ -13,10 +13,11 @@ This simple example is the bare minimum.
     1. Login to schooner.oscer.ou.edu: http://www.ou.edu/oscer/support/machine_access
     1. Find further account support info at: http://www.ou.edu/oscer/support/accounts/change_password
 
-1. [Clone the repo](https://help.github.com/en/articles/cloning-a-repository) when SSH'd into schooner.
+1. [Clone the repo](https://help.github.com/en/articles/cloning-a-repository) when SSH'd into schooner.  We'll use a simplified version that requires fewer package dependencies.
 
     ```bash
     git clone https://github.com/wibeasley/RAnalysisSkeleton.git
+    git checkout scug-oscer
     cd RAnalysisSkeleton
     ```
 

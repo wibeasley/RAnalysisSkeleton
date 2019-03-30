@@ -1,10 +1,10 @@
 package_name,install,on_cran,github_username,description
-broom,TRUE,TRUE,tidymodels,Convert statistical analysis objects from R into tidy format.
+broom,FALSE,TRUE,tidymodels,Convert statistical analysis objects from R into tidy format.
 car,FALSE,TRUE,,For it's `recode()` function.
 checkmate,TRUE,TRUE,,Checks/asserts values.
 classInt,TRUE,TRUE,,Choosing univariate class intervals for mapping or other graphics purposes.
 config,TRUE,TRUE,,Declare repo-wide values.
-colorspace,TRUE,TRUE,,Explicit control over the HCL color scheme.
+colorspace,FALSE,TRUE,,Explicit control over the HCL color scheme.
 DBI,FALSE,TRUE,,A database interface (DBI) definition for communication between R and RDBMSs.
 digest,FALSE,TRUE,,Creates SHA hashes to obfuscate PHI.
 dplyr,TRUE,TRUE,tidyverse,Next generation of plyr.
@@ -12,7 +12,7 @@ evaluate,FALSE,TRUE,,A package that Hadley et al use a lot in their packages.  I
 flexdashboard,FALSE,TRUE,rstudio,Easy interactive dashboards for R.
 foreign,FALSE,TRUE,,Reads data in other formats.
 ggplot2,TRUE,TRUE,,Graphing.
-ggthemes,TRUE,TRUE,,"Extra themes, scales and geoms for ggplot."
+ggthemes,FALSE,TRUE,,"Extra themes, scales and geoms for ggplot."
 googleVis,FALSE,TRUE,,"JavaScript-based visualizations, like scrollable tables."
 ggmap,FALSE,TRUE,,"Maps & graphics, based on ggplot."
 grid,TRUE,TRUE,,foundation underneath ggplot2.

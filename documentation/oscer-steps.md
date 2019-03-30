@@ -85,8 +85,14 @@ and multiple data files.
 1. Install a list of roughly 50 packages from [utility/package-dependency-list.csv](https://github.com/wibeasley/RAnalysisSkeleton/blob/master/utility/package-dependency-list.csv) in R.  Their 100+ (package) dependencies are also installed, which takes 120+ minutes.
 
     ```r
+    # These packages are included in the list, but we want to avoid their 'Suggests' dependencies.
+    install.packages(c("dplyr"), dependencies=NA)
+    
     remotes::install_github("OuhscBbmc/OuhscMunge", ref = "dev")
-    OuhscMunge::package_janitor_remote("utility/package-dependency-list.csv")
+    OuhscMunge::package_janitor_remote(
+      "utility/package-dependency-list.csv",
+      dependencies = NA                               # Avoid the 'Suggests' packages
+    )
     ```
 
     For machines that we have full admin rights, the previous two blocks are replaced with `source("utility/install-packages.R")`.  But this approach installs [a longer list of R packages](https://github.com/OuhscBbmc/RedcapExamplesAndPatterns/blob/master/utility/package-dependency-list.csv), which likely requires additional Linux packages.  If you need additional Linux packages installed, contact [OSCER support](http://www.ou.edu/oscer) at support@oscer.ou.edu.
@@ -98,7 +104,7 @@ Next Steps & General Advice
 
 1. Develop new code on your local machine, and transfer it to schooner.  We recommend GitHub for several reasons.  Updated code can be pulled into schooner with the bash command `git pull` (from the repo's root directory).
 
-1. Start small & increase complexity.
+1. Start small.  Gradually increase complexity.
 
 1. Managing lodes of code & output
     1. breaking up a large problem into several semi-independent components

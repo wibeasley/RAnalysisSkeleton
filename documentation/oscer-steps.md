@@ -62,7 +62,7 @@ This simple example is the bare minimum.
         1. Modify the batch file with `nano utility/super-computer/r-batch.sh` at least
             * email address
             * working directory
-        1. Submit the batch file with `sbatch utility/super-computer/r-batch.sh`.  (Hint, use the keyboard's up arrow.)
+        1. Submit the batch file with `sbatch utility/super-computer/r-batch-hello.sh`.  (Hint, use the keyboard's up arrow.)
 
 Multiple File Example
 ---------------------------
@@ -98,6 +98,7 @@ and multiple data files.
     For machines that we have full admin rights, the previous two blocks are replaced with `source("utility/install-packages.R")`.  But this approach installs [a longer list of R packages](https://github.com/OuhscBbmc/RedcapExamplesAndPatterns/blob/master/utility/package-dependency-list.csv), which likely requires additional Linux packages.  If you need additional Linux packages installed, contact [OSCER support](http://www.ou.edu/oscer) at support@oscer.ou.edu.
 
 1. Run "utility/reproduce.R" similarly as the Hello Word example above.
+    * For the html reports, pandoc should be loaded in the batch file with `module load Pandoc/2.5`.
 
 Next Steps & General Advice
 ---------------------------

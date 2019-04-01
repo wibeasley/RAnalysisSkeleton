@@ -1,3 +1,6 @@
+`utility/super-computer/` Directory
+=========
+
 The files in this directory support the April 2019 [SCUG](https://github.com/OuhscBbmc/StatisticalComputing) presentation.
 
 1. There are two files involved in a conventional operation.

@@ -1,0 +1,8 @@
+`utility/super-computer/output` Directory
+=========
+
+This contains the normal output of jobs run on the super computer.  See also the `utility/super-computer/error` directory.
+
+This directory should contain only datasets that DO NOT hold [PHI](https://www.hhs.gov/answers/hipaa/what-is-phi/index.html) (Protected Health Information), or any other sensitive information.  Files with PHI should **not** be stored in a GitHub repository, even a [private GitHub repository](https://help.github.com/articles/publicizing-or-hiding-your-private-contributions-on-your-profile/).  We recommend using an enterprise database (such as SQL Server, PostgreSQL, MySQL, or Oracle) to store the data, and read & write the information to/from the software right before and after it's used.  These databases typically secure the information at rest, and then require user authentication/authorization (to reduce the chance of sensitive information being accessed by those not approved by your [IRB](https://en.wikipedia.org/wiki/Institutional_review_board)). 
+
+If a database isn't feasible, consider storing the files in `data-unshared/`, whose contents are not committed to the repository; a line in the `.gitignore` file keeps the files uncommitted/unstaged.  However, there could be some information that is sensitive enough that it shouldn't even be stored locally without encryption (such as PHI).

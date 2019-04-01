@@ -3,10 +3,10 @@
 #SBATCH --partition=normal
 #SBATCH --ntasks=1
 #SBATCH --mem=1024
-#SBATCH --output=utility/super-computer/r-output.txt
-#SBATCH --error=utility/super-computer/r-error.txt
-#SBATCH --time=12:00:00
-#SBATCH --job-name=scug_hello_world
+#SBATCH --output=utility/super-computer/hello-output.txt
+#SBATCH --error=utility/super-computer/hello-error.txt
+#SBATCH --time=00:10:00
+#SBATCH --job-name=scug-hello
 #SBATCH --mail-user=youremailaddress@ouhsc.edu
 #SBATCH --mail-type=ALL
 #SBATCH --chdir=/home/yourusername/RAnalysisSkeleton

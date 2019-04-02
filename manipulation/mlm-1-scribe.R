@@ -9,7 +9,7 @@ rm(list=ls(all=TRUE)) #Clear the memory of variables from previous run. This is 
 # ---- load-packages -----------------------------------------------------------
 library(magrittr, quietly=TRUE)
 requireNamespace("DBI")
-requireNamespace("odbc")
+# requireNamespace("odbc")
 requireNamespace("dplyr")
 requireNamespace("testit")
 requireNamespace("lubridate")

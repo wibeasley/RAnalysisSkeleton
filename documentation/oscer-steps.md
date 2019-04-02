@@ -24,6 +24,7 @@ This simple example is the bare minimum.
     **The working directory must be set to `RAnalysisSkeleton`**.  If not, many steps below will fail.
     
     To access a private repo, or write to any repo, consider caching your personal access token:
+    
         * https://help.github.com/en/articles/which-remote-url-should-i-use
         * https://help.github.com/en/articles/caching-your-github-password-in-git
         * https://github.com/settings/tokens

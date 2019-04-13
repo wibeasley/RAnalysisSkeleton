@@ -70,7 +70,7 @@ Thumbs.db
 Desktop.ini
 
 # ---- OS X --------------------------------------------------
-DS_Store
+.DS_Store
 
 # ---- Visual Studio Code (text editor) ----------------------
 .vscode/

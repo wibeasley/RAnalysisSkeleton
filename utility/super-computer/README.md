@@ -13,7 +13,7 @@ The files in this directory support the April 2019 [SCUG](https://github.com/Ouh
     1. Modify the batch file with `nano utility/super-computer/r-batch-hello.sh` (or `r-batch-repo.sh`). 
         * email address
         * working directory
-    1. Submit the batch file with `sbatch utility/super-computer/rbatch-hello.sh` (or `r-batch-repo.sh`).  (Hint, use the keyboard's up arrow.)
+    1. Submit the batch file with `sbatch utility/super-computer/r-batch-hello.sh` (or `r-batch-repo.sh`).  (Hint, use the keyboard's up arrow.)
 
 1. This R file and shell file corresponds closely with OSCER's advice at http://ou.edu/oscer/support/R_package. The differences involve
     1. file naming.

@@ -10,12 +10,33 @@ requireNamespace("purrr")
 requireNamespace("OuhscMunge") # remotes::install_github("OuhscBbmc/OuhscMunge")
 
 # ---- declare-globals ---------------------------------------------------------
-# config        <- config::get()
-
 # Allow multiple files below to have the same chunk name.
 #    If the `root.dir` option is properly managed in the Rmd files, no files will be overwritten.
 options(knitr.duplicate.label = "allow")
 
+config        <- config::get()
+
+# open log
+if( interactive() ) {
+  sink_log <- FALSE
+} else {
+  message("Creating flow log file at ", config$path_log_flow)
+
+  if( !dir.exists(dirname(config$path_log_flow)) ) {
+    # Create a month-specific directory, so they're easier to find & compress later.
+    dir.create(dirname(config$path_log_flow), recursive=T)
+  }
+
+  file_log  <- file(
+    description   = config$path_log_flow,
+    open          = "wt"
+  )
+  sink(
+    file    = file_log,
+    type    = "message"
+  )
+  sink_log <- TRUE
+}
 ds_rail  <- tibble::tribble(
   ~fx               , ~path,
 
@@ -75,13 +96,29 @@ if( !all(file_found) ) {
 # ---- tweak-data --------------------------------------------------------------
 
 # ---- run ---------------------------------------------------------------------
-message("Starting update of files at ", Sys.time(), ".")
-elapsed_time <- system.time({
+message("Starting daily update of henry-intubate-1 at ", Sys.time(), ".")
+
+warn_level_initial <- as.integer(options("warn"))
+# options(warn=0)  # warnings are stored until the top–level function returns
+# options(warn=2)  # treat warnings as errors
+
+elapsed_duration <- system.time({
   purrr::invoke_map_lgl(
     ds_rail$fx,
-    ds_rail$path
+    ds_rail$path#,
+    # ds_rail$path_output
   )
 })
 
-message("Completed update of files at ", Sys.time(), "")
-elapsed_time
+message("Completed daily update of henry-intubate-1 at ", Sys.time(), "")
+elapsed_duration
+options(warn=warn_level_initial)  # Restore the whatever warning level you started with.
+
+# ---- close-log ---------------------------------------------------------------
+# close(file_log)
+if( sink_log ) {
+  sink(file = NULL, type = "message") # ends the last diversion (of the specified type).
+  message("Closing flow log file at ", gsub("/", "\\\\", config$path_log_flow))
+}
+
+# bash: Rscript flow.R

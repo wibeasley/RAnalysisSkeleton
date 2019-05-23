@@ -1,6 +1,6 @@
-# dir.create("stitched-output/utility")
+# dir.create("stitched-output")
 
 knitr::stitch_rmd(
-  script = "utility/reproduce.R", 
-  output = "stitched-output/utility/reproduce.md"
+  script = "flow.R",
+  output = "stitched-output/flow.md"
 )

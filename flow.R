@@ -1,4 +1,4 @@
-# knitr::stitch_rmd(script="utility/reproduce.R", output="stitched-output/utility/reproduce.md")
+# knitr::stitch_rmd(script="flow.R", output="stitched-output/flow.md")
 rm(list=ls(all=TRUE)) #Clear the memory of variables from previous run. This is not called by knitr, because it's above the first chunk.
 
 # ---- load-sources ------------------------------------------------------------
@@ -10,12 +10,33 @@ requireNamespace("purrr")
 requireNamespace("OuhscMunge") # remotes::install_github("OuhscBbmc/OuhscMunge")
 
 # ---- declare-globals ---------------------------------------------------------
-# config        <- config::get()
-
 # Allow multiple files below to have the same chunk name.
 #    If the `root.dir` option is properly managed in the Rmd files, no files will be overwritten.
 options(knitr.duplicate.label = "allow")
 
+config        <- config::get()
+
+# open log
+if( interactive() ) {
+  sink_log <- FALSE
+} else {
+  message("Creating flow log file at ", config$path_log_flow)
+
+  if( !dir.exists(dirname(config$path_log_flow)) ) {
+    # Create a month-specific directory, so they're easier to find & compress later.
+    dir.create(dirname(config$path_log_flow), recursive=T)
+  }
+
+  file_log  <- file(
+    description   = config$path_log_flow,
+    open          = "wt"
+  )
+  sink(
+    file    = file_log,
+    type    = "message"
+  )
+  sink_log <- TRUE
+}
 ds_rail  <- tibble::tribble(
   ~fx               , ~path,
 
@@ -38,10 +59,10 @@ ds_rail  <- tibble::tribble(
 
   # Reports
   "run_rmd"       , "analysis/car-report-1/car-report-1.Rmd",
-  "run_rmd"       , "analysis/report-te-1/report-te-1.Rmd",
+  "run_rmd"       , "analysis/report-te-1/report-te-1.Rmd"
 
   # Dashboards
-  "run_rmd"       , "analysis/dashboard-1/dashboard-1.Rmd"
+  #"run_rmd"       , "analysis/dashboard-1/dashboard-1.Rmd"
 )
 
 run_file_r <- function( minion ) {
@@ -75,13 +96,29 @@ if( !all(file_found) ) {
 # ---- tweak-data --------------------------------------------------------------
 
 # ---- run ---------------------------------------------------------------------
-message("Starting update of files at ", Sys.time(), ".")
-elapsed_time <- system.time({
+message("Starting daily update of henry-intubate-1 at ", Sys.time(), ".")
+
+warn_level_initial <- as.integer(options("warn"))
+# options(warn=0)  # warnings are stored until the top–level function returns
+# options(warn=2)  # treat warnings as errors
+
+elapsed_duration <- system.time({
   purrr::invoke_map_lgl(
     ds_rail$fx,
-    ds_rail$path
+    ds_rail$path#,
+    # ds_rail$path_output
   )
 })
 
-message("Completed update of files at ", Sys.time(), "")
-elapsed_time
+message("Completed daily update of henry-intubate-1 at ", Sys.time(), "")
+elapsed_duration
+options(warn=warn_level_initial)  # Restore the whatever warning level you started with.
+
+# ---- close-log ---------------------------------------------------------------
+# close(file_log)
+if( sink_log ) {
+  sink(file = NULL, type = "message") # ends the last diversion (of the specified type).
+  message("Closing flow log file at ", gsub("/", "\\\\", config$path_log_flow))
+}
+
+# bash: Rscript flow.R

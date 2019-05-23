@@ -2,6 +2,7 @@
 .Rproj.user/
 .Rhistory
 .RData
+.Rdata
 .Ruserdata
 .Rapp.history
 
@@ -67,6 +68,9 @@ Thumbs.db
 
 # Folder config file
 Desktop.ini
+
+# ---- OS X --------------------------------------------------
+.DS_Store
 
 # ---- Visual Studio Code (text editor) ----------------------
 .vscode/

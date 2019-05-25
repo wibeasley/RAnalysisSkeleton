@@ -96,7 +96,7 @@ if( !all(file_found) ) {
 # ---- tweak-data --------------------------------------------------------------
 
 # ---- run ---------------------------------------------------------------------
-message("Starting daily update of henry-intubate-1 at ", Sys.time(), ".")
+message("Starting daily update of RAnalysisSkeleton at ", Sys.time(), ".")
 
 warn_level_initial <- as.integer(options("warn"))
 # options(warn=0)  # warnings are stored until the top–level function returns
@@ -110,7 +110,7 @@ elapsed_duration <- system.time({
   )
 })
 
-message("Completed daily update of henry-intubate-1 at ", Sys.time(), "")
+message("Completed daily update of RAnalysisSkeleton at ", Sys.time(), "")
 elapsed_duration
 options(warn=warn_level_initial)  # Restore the whatever warning level you started with.
 

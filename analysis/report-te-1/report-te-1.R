@@ -1,4 +1,4 @@
-rm(list=ls(all=TRUE)) #Clear the memory of variables from previous run. This is not called by knitr, because it's above the first chunk.
+rm(list = ls(all.names = TRUE)) # Clear the memory of variables from previous run. This is not called by knitr, because it's above the first chunk.
 
 # ---- load-sources ------------------------------------------------------------
 #Load any source files that contain/define functions, but that don't load any other types of variables
@@ -13,7 +13,7 @@ requireNamespace("dplyr")
 # requireNamespace("RColorBrewer")
 # requireNamespace("scales") #For formating values in graphs
 # requireNamespace("mgcv) #For the Generalized Additive Model that smooths the longitudinal graphs.
-# requireNamespace("TabularManifest") # devtools::install_github("Melinae/TabularManifest")
+# requireNamespace("TabularManifest") # remotes::install_github("Melinae/TabularManifest")
 
 # ---- declare-globals ---------------------------------------------------------
 options(show.signif.stars=F) #Turn off the annotations on p-values

@@ -1,5 +1,5 @@
 # knitr::stitch_rmd(script="flow.R", output="stitched-output/flow.md")
-rm(list=ls(all=TRUE)) #Clear the memory of variables from previous run. This is not called by knitr, because it's above the first chunk.
+rm(list = ls(all.names = TRUE)) # Clear the memory of variables from previous run. This is not called by knitr, because it's above the first chunk.
 
 # ---- load-sources ------------------------------------------------------------
 
@@ -96,7 +96,7 @@ if( !all(file_found) ) {
 # ---- tweak-data --------------------------------------------------------------
 
 # ---- run ---------------------------------------------------------------------
-message("Starting daily update of henry-intubate-1 at ", Sys.time(), ".")
+message("Starting daily update of [[project name]] at ", Sys.time(), ".")
 
 warn_level_initial <- as.integer(options("warn"))
 # options(warn=0)  # warnings are stored until the top–level function returns
@@ -110,7 +110,7 @@ elapsed_duration <- system.time({
   )
 })
 
-message("Completed daily update of henry-intubate-1 at ", Sys.time(), "")
+message("Completed daily update of [[project name]] at ", Sys.time(), "")
 elapsed_duration
 options(warn=warn_level_initial)  # Restore the whatever warning level you started with.
 

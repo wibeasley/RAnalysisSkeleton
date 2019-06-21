@@ -1,6 +1,5 @@
 # knitr::stitch_rmd(script="manipulation/car-ellis.R", output="stitched-output/manipulation/car-ellis.md")
-# These first few lines run only when the file is run in RStudio, !!NOT when an Rmd/Rnw file calls it!!
-rm(list=ls(all=TRUE))  # Clear the variables from previous runs.
+rm(list = ls(all.names = TRUE)) # Clear the memory of variables from previous run. This is not called by knitr, because it's above the first chunk.
 
 # ---- load-sources ------------------------------------------------------------
 # Call `base::source()` on any repo file that defines functions needed below.  Ideally, no real operations are performed.
@@ -40,7 +39,7 @@ rm(path_input)
 # OuhscMunge::column_rename_headstart(ds) # Spit out columns to help populate arguments to `dplyr::rename()` or `dplyr::select()`.
 
 # Dataset description can be found at: http://stat.ethz.ch/R-manual/R-devel/library/datasets/html/mtcars.html
-# Populate the rename entries with OuhscMunge::column_rename_headstart(ds_county) # devtools::install_github("OuhscBbmc/OuhscMunge")
+# Populate the rename entries with OuhscMunge::column_rename_headstart(ds_county) # remotes::install_github("OuhscBbmc/OuhscMunge")
 ds <-
   ds %>%
   dplyr::select(!!c(    # `dplyr::select()` drops columns not mentioned.

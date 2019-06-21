@@ -1,5 +1,4 @@
-rm(list=ls(all=TRUE)) #Clear the memory of variables from previous run. This is not called by knitr, because it's above the first chunk.
-
+rm(list = ls(all.names = TRUE)) # Clear the memory of variables from previous run. This is not called by knitr, because it's above the first chunk.
 
 # ---- load-sources ------------------------------------------------------------
 base::source(file="analysis/common/display-1.R") #Load common graphing functions.
@@ -13,7 +12,7 @@ requireNamespace("dplyr")
 requireNamespace("tidyr") #For converting wide to long
 requireNamespace("broom")
 requireNamespace("kableExtra")
-requireNamespace("TabularManifest") # devtools::install_github("Melinae/TabularManifest")
+requireNamespace("TabularManifest") # remotes::install_github("Melinae/TabularManifest")
 
 # ---- declare-globals ---------------------------------------------------------
 options(show.signif.stars=F) #Turn off the annotations on p-values

@@ -2,7 +2,7 @@
 # For a brief description of this file see the presentation at
 #   - slides: https://rawgit.com/wibeasley/RAnalysisSkeleton/master/documentation/time-and-effort-synthesis.html#/
 #   - code: https://github.com/wibeasley/RAnalysisSkeleton/blob/master/documentation/time-and-effort-synthesis.Rpres
-rm(list=ls(all=TRUE))  #Clear the variables from previous runs.
+rm(list=ls(all.names=TRUE))  # Clear the variables from previous runs.
 
 # ---- load-sources ------------------------------------------------------------
 # Call `base::source()` on any repo file that defines functions needed below.  Ideally, no real operations are performed.
@@ -20,7 +20,8 @@ requireNamespace("testit"       ) # For asserting conditions meet expected patte
 requireNamespace("checkmate"    ) # For asserting conditions meet expected patterns/conditions. # remotes::install_github("mllg/checkmate")
 requireNamespace("DBI"          ) # Database-agnostic interface
 requireNamespace("RSQLite"      ) # Lightweight database for non-PHI data.
-# requireNamespace("RODBC"      ) # For communicating with SQL Server over a locally-configured DSN.  Uncomment if you use 'upload-to-db' chunk.
+# requireNamespace("odbc"         ) # For communicating with SQL Server over a locally-configured DSN.  Uncomment if you use 'upload-to-db' chunk.
+# requireNamespace("RODBC"        ) # For communicating with SQL Server over a locally-configured DSN.  Uncomment if you use 'upload-to-db' chunk.
 requireNamespace("OuhscMunge"   ) # remotes::install_github(repo="OuhscBbmc/OuhscMunge")
 
 # ---- declare-globals ---------------------------------------------------------
@@ -358,24 +359,23 @@ checkmate::assert_character(county_month_combo, pattern  ="^\\d{1,2} \\d{4}-\\d{
 # table(paste(ds$county_id, ds$month))[table(paste(ds$county_id, ds$month))>1]
 
 # ---- specify-columns-to-write ------------------------------------------------
-# Print colnames that `columns_to_write` should contain: dput(colnames(ds))
-#   Use this array to adjust which variables are saved, and their position within the dataset.
-columns_to_write <- c(
-  "county_month_id", "county_id",
-  "month", "fte", "fte_approximated",
-  "region_id"
-)
+# Print colnames that `dplyr::select()`  should contain below:
+#   cat(paste(colnames(ds), collapse=",\n"))
 
 # Define the subset of columns that will be needed in the analyses.
 #   The fewer columns that are exported, the fewer things that can break downstream.
 ds_slim <-
   ds %>%
   # dplyr::slice(1:100) %>%
-  dplyr::select(!!columns_to_write) %>%
+  dplyr::select(
+    blood_product_id,
+    account_number,
+    start_datetime,
+    product,
+    volume
+  ) %>%
   dplyr::mutate_if(is.logical, as.integer)       # Some databases & drivers need 0/1 instead of FALSE/TRUE.
 ds_slim
-
-rm(columns_to_write)
 
 # ---- save-to-disk ------------------------------------------------------------
 # If there's *NO* PHI, a rectangular CSV is usually adequate, and it's portable to other machines and software.

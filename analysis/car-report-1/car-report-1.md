@@ -237,6 +237,7 @@ For the sake of documentation and reproducibility, the current report was render
  DT                0.8         2019-08-07 [1]
  ellipsis          0.2.0.1     2019-07-02 [1]
  evaluate          0.14        2019-05-28 [1]
+ fansi             0.4.0       2018-10-05 [1]
  fs                1.3.1       2019-05-06 [1]
  ggplot2         * 3.2.1       2019-08-10 [1]
  glue              1.3.1       2019-03-12 [1]
@@ -253,6 +254,7 @@ For the sake of documentation and reproducibility, the current report was render
  lme4            * 1.1-21      2019-03-05 [1]
  lubridate         1.7.4       2018-04-11 [1]
  magrittr        * 1.5         2014-11-22 [1]
+ markdown          1.1         2019-08-07 [1]
  MASS              7.3-51.4    2019-04-26 [1]
  Matrix          * 1.2-17      2019-03-22 [1]
  memoise           1.1.0       2017-04-21 [1]
@@ -291,6 +293,7 @@ For the sake of documentation and reproducibility, the current report was render
  tidyr             1.0.0       2019-09-11 [1]
  tidyselect        0.2.5       2018-10-11 [1]
  usethis           1.5.1       2019-07-04 [1]
+ utf8              1.1.4       2018-05-24 [1]
  vctrs             0.2.0       2019-07-05 [1]
  viridisLite       0.3.0       2018-02-01 [1]
  withr             2.1.2       2018-03-15 [1]
@@ -320,12 +323,6 @@ For the sake of documentation and reproducibility, the current report was render
  CRAN (R 3.6.0)                          
  CRAN (R 3.6.0)                          
  CRAN (R 3.6.0)                          
- CRAN (R 3.6.1)                          
- CRAN (R 3.6.0)                          
- CRAN (R 3.6.0)                          
- CRAN (R 3.6.0)                          
- CRAN (R 3.6.1)                          
- CRAN (R 3.6.0)                          
  CRAN (R 3.6.0)                          
  CRAN (R 3.6.1)                          
  CRAN (R 3.6.0)                          
@@ -334,7 +331,15 @@ For the sake of documentation and reproducibility, the current report was render
  CRAN (R 3.6.1)                          
  CRAN (R 3.6.0)                          
  CRAN (R 3.6.0)                          
+ CRAN (R 3.6.1)                          
  CRAN (R 3.6.0)                          
+ CRAN (R 3.6.0)                          
+ CRAN (R 3.6.0)                          
+ CRAN (R 3.6.1)                          
+ CRAN (R 3.6.0)                          
+ CRAN (R 3.6.0)                          
+ CRAN (R 3.6.0)                          
+ CRAN (R 3.6.1)                          
  CRAN (R 3.6.0)                          
  CRAN (R 3.6.0)                          
  CRAN (R 3.6.0)                          
@@ -376,6 +381,7 @@ For the sake of documentation and reproducibility, the current report was render
  CRAN (R 3.6.0)                          
  CRAN (R 3.6.0)                          
  CRAN (R 3.6.0)                          
+ CRAN (R 3.6.0)                          
  CRAN (R 3.6.1)                          
  CRAN (R 3.6.0)                          
  CRAN (R 3.6.0)                          
@@ -390,4 +396,4 @@ For the sake of documentation and reproducibility, the current report was render
 
 
 
-Report rendered by wibeasley at 2019-09-15, 15:41 -0500 in 5 seconds.
+Report rendered by wibeasley at 2019-09-15, 15:58 -0500 in 5 seconds.

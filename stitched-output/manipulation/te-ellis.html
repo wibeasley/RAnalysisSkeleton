@@ -202,13 +202,13 @@ hr {
 
 <body>
 <p>This report was automatically generated with the R package <strong>knitr</strong>
-(version 1.21).</p>
+(version 1.24).</p>
 
-<pre><code class="r"># knitr::stitch_rmd(script=&quot;./manipulation/te-ellis.R&quot;, output=&quot;./stitched-output/manipulation/te-ellis.md&quot;) # dir.create(&quot;./stitched-output/manipulation/&quot;, recursive=T)
+<pre><code class="r"># knitr::stitch_rmd(script=&quot;manipulation/te-ellis.R&quot;, output=&quot;stitched-output/manipulation/te-ellis.md&quot;) # dir.create(&quot;stitched-output/manipulation/&quot;, recursive=T)
 # For a brief description of this file see the presentation at
 #   - slides: https://rawgit.com/wibeasley/RAnalysisSkeleton/master/documentation/time-and-effort-synthesis.html#/
 #   - code: https://github.com/wibeasley/RAnalysisSkeleton/blob/master/documentation/time-and-effort-synthesis.Rpres
-rm(list=ls(all=TRUE))  #Clear the variables from previous runs.
+rm(list = ls(all.names = TRUE)) # Clear the memory of variables from previous run. This is not called by knitr, because it&#39;s above the first chunk.
 </code></pre>
 
 <pre><code class="r"># Call `base::source()` on any repo file that defines functions needed below.  Ideally, no real operations are performed.
@@ -226,18 +226,19 @@ requireNamespace(&quot;testit&quot;       ) # For asserting conditions meet expe
 requireNamespace(&quot;checkmate&quot;    ) # For asserting conditions meet expected patterns/conditions. # remotes::install_github(&quot;mllg/checkmate&quot;)
 requireNamespace(&quot;DBI&quot;          ) # Database-agnostic interface
 requireNamespace(&quot;RSQLite&quot;      ) # Lightweight database for non-PHI data.
-# requireNamespace(&quot;RODBC&quot;      ) # For communicating with SQL Server over a locally-configured DSN.  Uncomment if you use &#39;upload-to-db&#39; chunk.
+# requireNamespace(&quot;odbc&quot;         ) # For communicating with SQL Server over a locally-configured DSN.  Uncomment if you use &#39;upload-to-db&#39; chunk.
+# requireNamespace(&quot;RODBC&quot;        ) # For communicating with SQL Server over a locally-configured DSN.  Uncomment if you use &#39;upload-to-db&#39; chunk.
 requireNamespace(&quot;OuhscMunge&quot;   ) # remotes::install_github(repo=&quot;OuhscBbmc/OuhscMunge&quot;)
 </code></pre>
 
 <pre><code class="r"># Constant values that won&#39;t change.
-# config                         &lt;- config::get()
+config                         &lt;- config::get()
 # path_out_unified               &lt;- config$path_te_county_month
 # path_db                        &lt;- config$path_te_database
 # Uncomment the lines above and delete the two below if values are stored in &#39;config.yml&#39;.
 
 path_out_unified               &lt;- &quot;data-public/derived/county-month-te.csv&quot;
-path_db                        &lt;- &quot;data-unshared/derived/te.sqlite3&quot;
+path_db                        &lt;- config$path_database
 counties_to_drop_from_rural    &lt;- c(&quot;Central Office&quot;, &quot;Tulsa&quot;, &quot;Oklahoma&quot;) #Exclude these records from the rural dataset.
 default_day_of_month           &lt;- 15L      # Summarize each month at its (rough) midpoint.
 possible_county_ids            &lt;- 1:77     #There are 77 counties.
@@ -245,10 +246,10 @@ threshold_mean_fte_t_fill_in   &lt;- 10L      #Any county averaging over 10 hour
 figure_path &lt;- &#39;stitched-output/manipulation/te/&#39;
 
 # URIs of CSV and County lookup table
-path_in_oklahoma  &lt;- &quot;./data-public/raw/te/nurse-month-oklahoma.csv&quot;
-path_in_tulsa     &lt;- &quot;./data-public/raw/te/month-tulsa.csv&quot;
-path_in_rural     &lt;- &quot;./data-public/raw/te/nurse-month-rural.csv&quot;
-path_county       &lt;- &quot;./data-public/raw/te/county.csv&quot;
+path_in_oklahoma  &lt;- &quot;data-public/raw/te/nurse-month-oklahoma.csv&quot;
+path_in_tulsa     &lt;- &quot;data-public/raw/te/month-tulsa.csv&quot;
+path_in_rural     &lt;- &quot;data-public/raw/te/nurse-month-rural.csv&quot;
+path_county       &lt;- &quot;data-public/raw/te/county.csv&quot;
 
 col_types_oklahoma &lt;- readr::cols_only( # readr::spec_csv(path_in_oklahoma)
   `Employee..`          = readr::col_integer(),
@@ -386,11 +387,11 @@ ds_nurse_month_oklahoma
 <pre><code class="r"># OuhscMunge::column_rename_headstart(ds_county) #Spit out columns to help write call ato `dplyr::rename()`.
 ds_county &lt;-
   ds_county %&gt;%
-  dplyr::select_( #`select()` implicitly drops the other columns not mentioned.
+  dplyr::select(!!c(    # `dplyr::select()` drops columns not mentioned.
     &quot;county_id&quot;     = &quot;CountyID&quot;,
     &quot;county_name&quot;   = &quot;CountyName&quot;,
     &quot;region_id&quot;     = &quot;C1LeadNurseRegion&quot;
-  )
+  ))
 </code></pre>
 
 <pre><code class="r"># Sanitize illegal variable names if desired: colnames(ds_nurse_month_oklahoma) &lt;- make.names(colnames(ds_nurse_month_oklahoma))
@@ -399,15 +400,14 @@ ds_county &lt;-
 # Groom the nurse-month dataset for Oklahoma County.
 ds_nurse_month_oklahoma &lt;-
   ds_nurse_month_oklahoma %&gt;%
-  dplyr::select_(
-    # &quot;employee_number&quot;           = &quot;`Employee..`&quot;          # Used to be &quot;Employee #&quot; before sanitizing. Drop b/c unnecessary.
-    # , &quot;employee_name&quot;           = &quot;`Name`&quot;
-    &quot;year&quot;                        = &quot;`Year`&quot;
-    , &quot;month&quot;                     = &quot;`Month`&quot;
-    , &quot;fte&quot;                       = &quot;`FTE`&quot;
-    , &quot;fmla_hours&quot;                = &quot;`FMLA.Hours`&quot;          # Used to be &quot;FMLA Hours&quot; before sanitizing.
-    , &quot;training_hours&quot;            = &quot;`Training.Hours`&quot;      # Used to be &quot;Training Hours&quot; before sanitizing.
-  ) %&gt;%
+  dplyr::select(!!c(    # `dplyr::select()` drops columns not mentioned.
+    # &quot;employee_number&quot;         = &quot;`Employee..`&quot;,         # Used to be &quot;Employee #&quot; before sanitizing. Drop b/c unnecessary.
+    &quot;year&quot;                      = &quot;Year&quot;,
+    &quot;month&quot;                     = &quot;Month&quot;,
+    &quot;fte&quot;                       = &quot;FTE&quot;,
+    &quot;fmla_hours&quot;                = &quot;FMLA.Hours&quot;,         # Used to be &quot;FMLA Hours&quot; before sanitizing.
+    &quot;training_hours&quot;            = &quot;Training.Hours&quot;      # Used to be &quot;Training Hours&quot; before sanitizing.
+  )) %&gt;%
   dplyr::mutate(
     county_id         = ds_county[ds_county$county_name==&quot;Oklahoma&quot;, ]$county_id,        # Dynamically determine county ID.
     month             = as.Date(ISOdate(year, month, default_day_of_month)),             # Combine fields for one date.
@@ -493,11 +493,11 @@ rm(ds_nurse_month_oklahoma) #Remove this dataset so it&#39;s not accidentally us
 # OuhscMunge::column_rename_headstart(ds_month_tulsa)
 ds_month_tulsa &lt;-
   ds_month_tulsa %&gt;%
-  dplyr::select_(
-    &quot;month&quot;             = &quot;`Month`&quot;
-    , &quot;fte&quot;             = &quot;`FteSum`&quot;
-    , &quot;fmla_sum&quot;        = &quot;`FmlaSum`&quot;
-  ) %&gt;%
+  dplyr::select(!!c(    # `dplyr::select()` drops columns not mentioned.
+    &quot;month&quot;             = &quot;Month&quot;,
+    &quot;fte&quot;               = &quot;FteSum&quot;,
+    &quot;fmla_sum&quot;          = &quot;FmlaSum&quot;
+  )) %&gt;%
   dplyr::mutate(
     county_id           = ds_county[ds_county$county_name==&quot;Tulsa&quot;, ]$county_id,  #Dynamically determine county ID
     #fmla_hours         = ifelse(!is.na(fmla_hours), fmla_hours, 0.0)
@@ -524,33 +524,17 @@ ds_month_tulsa
 </code></pre>
 
 <pre><code class="r"># Groom the nurse-month dataset for the 75 rural counties.
-OuhscMunge::column_rename_headstart(ds_nurse_month_rural)
-</code></pre>
-
-<pre><code>## , &quot;home_county&quot;            = &quot;`HOME_COUNTY`&quot;
-##  , &quot;fte&quot;                    = &quot;`FTE`&quot;
-##  , &quot;period&quot;                 = &quot;`PERIOD`&quot;
-##  , &quot;employeeid&quot;             = &quot;`EMPLOYEEID`&quot;
-##  , &quot;regionid&quot;               = &quot;`REGIONID`&quot;
-##  , &quot;name&quot;                   = &quot;`Name`&quot;
-</code></pre>
-
-<pre><code class="r">ds_nurse_month_rural &lt;-
+# OuhscMunge::column_rename_headstart(ds_nurse_month_rural)
+ds_nurse_month_rural &lt;-
   ds_nurse_month_rural %&gt;%
-  dplyr::select_(
-    &quot;name_full&quot;                 = &quot;`Name`&quot;
-    , &quot;county_name&quot;             = &quot;`HOME_COUNTY`&quot;
-    , &quot;fte_percent&quot;             = &quot;`FTE`&quot;
-    , &quot;month&quot;                   = &quot;`PERIOD`&quot;
-    # , &quot;employee_id&quot;           = &quot;`EMPLOYEEID`&quot;    # Not needed
-    # , &quot;region_id              = &quot;`REGIONID`&quot;      # Not needed
-  ) %&gt;%
-  dplyr::select(
-    county_name,
-    month,
-    name_full,
-    fte_percent
-  ) %&gt;% # dplyr::select(name_full, month, county_name, fte_percent) %&gt;%
+  dplyr::select(!!c(    # `dplyr::select()` drops columns not mentioned.
+    &quot;county_name&quot;             = &quot;HOME_COUNTY&quot;,
+    &quot;month&quot;                   = &quot;PERIOD&quot;,
+    &quot;name_full&quot;               = &quot;Name&quot;,
+    &quot;fte_percent&quot;             = &quot;FTE&quot;
+    # &quot;employee_id&quot;           = &quot;EMPLOYEEID&quot;    # Not needed
+    # &quot;region_id              = &quot;REGIONID&quot;      # Not needed
+  )) %&gt;%
   dplyr::filter(!(county_name %in% counties_to_drop_from_rural)) %&gt;%
   dplyr::mutate(
     month       = as.Date(paste0(month, &quot;-&quot;, default_day_of_month), format=&quot;%m/%Y-%d&quot;),
@@ -659,8 +643,8 @@ ds &lt;-
     ds_county, by=&quot;county_id&quot;
   ) %&gt;%
   dplyr::arrange(county_id, month) %&gt;%
+  tibble::rowid_to_column(&quot;county_month_id&quot;) %&gt;%  # Add the primary key
   dplyr::mutate(
-    county_month_id             = seq_len(n()), # Add the primary key
     fte                         = dplyr::coalesce(fte, 0),
     month_missing               = is.na(fte_approximated),
     fte_approximated            = month_missing &amp; (month %in% months_rural_not_collected),
@@ -675,19 +659,19 @@ ds
 </code></pre>
 
 <pre><code>## # A tibble: 3,080 x 10
-##    county_id month        fte fte_approximated county_name region_id
-##        &lt;int&gt; &lt;date&gt;     &lt;dbl&gt; &lt;lgl&gt;            &lt;chr&gt;           &lt;int&gt;
-##  1         1 2012-06-15   1   FALSE            Adair              11
-##  2         1 2012-07-15   0   TRUE             Adair              11
-##  3         1 2012-08-15   1   FALSE            Adair              11
-##  4         1 2012-09-15   0.5 FALSE            Adair              11
-##  5         1 2012-10-15   1   FALSE            Adair              11
-##  6         1 2012-11-15   0   TRUE             Adair              11
-##  7         1 2012-12-15   1   FALSE            Adair              11
-##  8         1 2013-01-15   1   FALSE            Adair              11
-##  9         1 2013-02-15   1   FALSE            Adair              11
-## 10         1 2013-03-15   0.5 FALSE            Adair              11
-## # … with 3,070 more rows, and 4 more variables: county_month_id &lt;int&gt;,
+##    county_month_id county_id month        fte fte_approximated county_name
+##              &lt;int&gt;     &lt;int&gt; &lt;date&gt;     &lt;dbl&gt; &lt;lgl&gt;            &lt;chr&gt;      
+##  1               1         1 2012-06-15   1   FALSE            Adair      
+##  2               2         1 2012-07-15   0   TRUE             Adair      
+##  3               3         1 2012-08-15   1   FALSE            Adair      
+##  4               4         1 2012-09-15   0.5 FALSE            Adair      
+##  5               5         1 2012-10-15   1   FALSE            Adair      
+##  6               6         1 2012-11-15   0   TRUE             Adair      
+##  7               7         1 2012-12-15   1   FALSE            Adair      
+##  8               8         1 2013-01-15   1   FALSE            Adair      
+##  9               9         1 2013-02-15   1   FALSE            Adair      
+## 10              10         1 2013-03-15   0.5 FALSE            Adair      
+## # … with 3,070 more rows, and 4 more variables: region_id &lt;int&gt;,
 ## #   month_missing &lt;lgl&gt;, fte_rolling_median_11_month &lt;dbl&gt;,
 ## #   county_any_missing &lt;lgl&gt;
 </code></pre>
@@ -723,19 +707,19 @@ ds
 </code></pre>
 
 <pre><code>## # A tibble: 3,080 x 10
-##    county_id month        fte fte_approximated county_name region_id
-##        &lt;int&gt; &lt;date&gt;     &lt;dbl&gt; &lt;lgl&gt;            &lt;chr&gt;           &lt;int&gt;
-##  1         1 2012-06-15   1   FALSE            Adair              11
-##  2         1 2012-07-15   1   TRUE             Adair              11
-##  3         1 2012-08-15   1   FALSE            Adair              11
-##  4         1 2012-09-15   0.5 FALSE            Adair              11
-##  5         1 2012-10-15   1   FALSE            Adair              11
-##  6         1 2012-11-15   1   TRUE             Adair              11
-##  7         1 2012-12-15   1   FALSE            Adair              11
-##  8         1 2013-01-15   1   FALSE            Adair              11
-##  9         1 2013-02-15   1   FALSE            Adair              11
-## 10         1 2013-03-15   0.5 FALSE            Adair              11
-## # … with 3,070 more rows, and 4 more variables: county_month_id &lt;int&gt;,
+##    county_month_id county_id month        fte fte_approximated county_name
+##              &lt;int&gt;     &lt;int&gt; &lt;date&gt;     &lt;dbl&gt; &lt;lgl&gt;            &lt;chr&gt;      
+##  1               1         1 2012-06-15   1   FALSE            Adair      
+##  2               2         1 2012-07-15   1   TRUE             Adair      
+##  3               3         1 2012-08-15   1   FALSE            Adair      
+##  4               4         1 2012-09-15   0.5 FALSE            Adair      
+##  5               5         1 2012-10-15   1   FALSE            Adair      
+##  6               6         1 2012-11-15   1   TRUE             Adair      
+##  7               7         1 2012-12-15   1   FALSE            Adair      
+##  8               8         1 2013-01-15   1   FALSE            Adair      
+##  9               9         1 2013-02-15   1   FALSE            Adair      
+## 10              10         1 2013-03-15   0.5 FALSE            Adair      
+## # … with 3,070 more rows, and 4 more variables: region_id &lt;int&gt;,
 ## #   month_missing &lt;lgl&gt;, fte_rolling_median_11_month &lt;dbl&gt;,
 ## #   county_any_missing &lt;lgl&gt;
 </code></pre>
@@ -779,19 +763,22 @@ checkmate::assert_character(county_month_combo, pattern  =&quot;^\\d{1,2} \\d{4}
 # table(paste(ds$county_id, ds$month))[table(paste(ds$county_id, ds$month))&gt;1]
 </code></pre>
 
-<pre><code class="r"># dput(colnames(ds)) # Print colnames that `columns_to_write` should contain.
-columns_to_write &lt;- c(
-  &quot;county_month_id&quot;, &quot;county_id&quot;,
-  &quot;month&quot;, &quot;fte&quot;, &quot;fte_approximated&quot;,
-  &quot;region_id&quot;
-)
+<pre><code class="r"># Print colnames that `dplyr::select()`  should contain below:
+#   cat(paste(colnames(ds), collapse=&quot;,\n&quot;))
 
 # Define the subset of columns that will be needed in the analyses.
 #   The fewer columns that are exported, the fewer things that can break downstream.
 ds_slim &lt;-
   ds %&gt;%
   # dplyr::slice(1:100) %&gt;%
-  dplyr::select(!!columns_to_write) %&gt;%
+  dplyr::select(
+    county_month_id,
+    county_id,
+    month,
+    fte,
+    fte_approximated,
+    region_id
+  ) %&gt;%
   dplyr::mutate_if(is.logical, as.integer)       # Some databases &amp; drivers need 0/1 instead of FALSE/TRUE.
 ds_slim
 </code></pre>
@@ -812,15 +799,12 @@ ds_slim
 ## # … with 3,070 more rows
 </code></pre>
 
-<pre><code class="r">rm(columns_to_write)
-</code></pre>
-
-<pre><code class="r"># If there&#39;s no PHI, a rectangular CSV is usually adequate, and it&#39;s portable to other machines and software.
+<pre><code class="r"># If there&#39;s *NO* PHI, a rectangular CSV is usually adequate, and it&#39;s portable to other machines and software.
 readr::write_csv(ds_slim, path_out_unified)
 # readr::write_rds(ds_slim, path_out_unified, compress=&quot;gz&quot;) # Save as a compressed R-binary file if it&#39;s large or has a lot of factors.
 </code></pre>
 
-<pre><code class="r"># If there&#39;s no PHI, a local database like SQLite fits a nice niche if
+<pre><code class="r"># If there&#39;s *NO* PHI, a local database like SQLite fits a nice niche if
 #   * the data is relational and
 #   * later, only portions need to be queried/retrieved at a time (b/c everything won&#39;t need to be loaded into R&#39;s memory)
 
@@ -844,29 +828,25 @@ sql_create &lt;- c(
         county_id                          INTEGER NOT NULL,
       month                              VARCHAR NOT NULL,         -- There&#39;s no date type in SQLite.  Make sure it&#39;s ISO8601: yyyy-mm-dd
       fte                                REAL    NOT NULL,
-      fte_approximated                   REAL    NOT NULL,
+      fte_approximated                   BIT     NOT NULL,
       month_missing                      INTEGER NOT NULL,         -- There&#39;s no bit/boolean type in SQLite
-      fte_rolling_median_11_month        INTEGER, --  NOT NULL
+      fte_rolling_median_11_month        INTEGER --, --  NOT NULL
 
-      FOREIGN KEY(county_id) REFERENCES county(county_id)
+      -- FOREIGN KEY(county_id) REFERENCES county(county_id)
     );
   &quot;
 )
 # Remove old DB
-if( file.exists(path_db) ) file.remove(path_db)
-</code></pre>
+# if( file.exists(path_db) ) file.remove(path_db)
 
-<pre><code>## [1] TRUE
-</code></pre>
-
-<pre><code class="r"># Open connection
+# Open connection
 cnn &lt;- DBI::dbConnect(drv=RSQLite::SQLite(), dbname=path_db)
-result &lt;- DBI::dbSendQuery(cnn, &quot;PRAGMA foreign_keys=ON;&quot;) #This needs to be activated each time a connection is made. #http://stackoverflow.com/questions/15301643/sqlite3-forgets-to-use-foreign-keys
-DBI::dbClearResult(result)
+# result &lt;- DBI::dbSendQuery(cnn, &quot;PRAGMA foreign_keys=ON;&quot;) #This needs to be activated each time a connection is made. #http://stackoverflow.com/questions/15301643/sqlite3-forgets-to-use-foreign-keys
+# DBI::dbClearResult(result)
 DBI::dbListTables(cnn)
 </code></pre>
 
-<pre><code>## character(0)
+<pre><code>## [1] &quot;county&quot;   &quot;mlm_1&quot;    &quot;subject&quot;  &quot;te_month&quot;
 </code></pre>
 
 <pre><code class="r"># Create tables
@@ -875,7 +855,7 @@ sql_create %&gt;%
 DBI::dbListTables(cnn)
 </code></pre>
 
-<pre><code>## [1] &quot;county&quot;   &quot;te_month&quot;
+<pre><code>## [1] &quot;county&quot;   &quot;mlm_1&quot;    &quot;subject&quot;  &quot;te_month&quot;
 </code></pre>
 
 <pre><code class="r"># Write to database
@@ -892,11 +872,45 @@ ds %&gt;%
 # Close connection
 DBI::dbDisconnect(cnn)
 
-# # ---- upload-to-db ----------------------------------------------------------
-# If there&#39;s PHI, write to a central database server that authenticates users (like SQL Server).
+
+# # ---- save-to-db-alternatives -------------------------------------------------
+# If there *IS* PHI, write to a central database server that authenticates users (like SQL Server).
+#   There are three options below, in descending order of our preference.
+
+# Option 1: this single function uploads to a SQL Server database.
+# OuhscMunge::upload_sqls_odbc(
+#   d             = ds_slim,
+#   schema_name   = &quot;osdh&quot;,
+#   table_name    = &quot;te&quot;,
+#   dsn_name      = &quot;te-example&quot;, # Or config$dsn_te,
+#   clear_table   = T,
+#   create_table  = F,
+#   convert_logical_to_integer = T
+# ) # 0.012 minutes
+
+# Option 2: use the DBI-compliant &#39;odbc&#39; package.
 # (startTime &lt;- Sys.time())
 # dbTable &lt;- &quot;Osdh.tblC1TEMonth&quot;
-# channel &lt;- RODBC::odbcConnect(&quot;te-example&quot;) #getSqlTypeInfo(&quot;Microsoft SQL Server&quot;) #;odbcGetInfo(channel)
+# cnn &lt;- DBI::dbConnect(drv=odbc::odbc(), dsn=&quot;te-example&quot;)
+# DBI::dbGetInfo(cnn)
+# table_id &lt;- DBI::Id(schema=&quot;osdh&quot;, table=&quot;te&quot;)
+# table_id &lt;- DBI::Id(table=&quot;te&quot;)                  # If the schema name is `dbo`.
+#
+# DBI::dbWriteTable(
+#   conn        = cnn,
+#   name        = table_id,
+#   value       = ds_slim,
+#   overwrite   = overwrite,
+#   append      = append
+# )
+# DBI::dbDisconnect(cnn)
+# (elapsedDuration &lt;-  Sys.time() - startTime) #21.4032 secs 2015-10-31
+
+
+# Option 3: use the older (and slower and crash-prone) &#39;RODBC&#39; package.
+# (startTime &lt;- Sys.time())
+# dbTable &lt;- &quot;Osdh.tblC1TEMonth&quot;
+# cnn &lt;- DBI::(&quot;te-example&quot;) #getSqlTypeInfo(&quot;Microsoft SQL Server&quot;) #;odbcGetInfo(channel)
 #
 # columnInfo &lt;- RODBC::sqlColumns(channel, dbTable)
 # varTypes &lt;- as.character(columnInfo$TYPE_NAME)
@@ -907,51 +921,9 @@ DBI::dbDisconnect(cnn)
 # RODBC::odbcClose(channel)
 # rm(columnInfo, channel, columns_to_write, dbTable, varTypes)
 # (elapsedDuration &lt;-  Sys.time() - startTime) #21.4032 secs 2015-10-31
-
-
-#Possibly consider writing to sqlite (with RSQLite) if there&#39;s no PHI, or a central database if there is PHI.
 </code></pre>
 
 <pre><code class="r"># This last section is kinda cheating, and should belong in an &#39;analysis&#39; file, not a &#39;manipulation&#39; file.
-#   It&#39;s included here for the sake of demonstration.
-
-library(ggplot2)
-
-# Graph each county-month
-ggplot(ds, aes(x=month, y=fte, group=factor(county_id), color=factor(county_id), shape=fte_approximated, ymin=0)) +
-  geom_point(position=position_jitter(height=.05, width=5), size=4, na.rm=T) +
-  # geom_text(aes(label=county_month_id)) +
-  geom_line(position=position_jitter(height=.1, width=5)) +
-  scale_shape_manual(values=c(&quot;TRUE&quot;=21, &quot;FALSE&quot;=NA)) +
-  theme_light() +
-  guides(color = guide_legend(ncol=4, override.aes = list(size=3, alpha = 1))) +
-  guides(shape = guide_legend(ncol=2, override.aes = list(size=3, alpha = 1))) +
-  labs(title=&quot;FTE sum each month (by county)&quot;, y=&quot;Sum of FTE for County&quot;)
-</code></pre>
-
-<p><img src="stitched-output/manipulation/te/inspect-1.png" title="plot of chunk inspect" alt="plot of chunk inspect" style="display: block; margin: auto;" /></p>
-
-<pre><code class="r"># Graph each region-month
-ds_region &lt;-
-  ds %&gt;%
-  dplyr::group_by(region_id, month) %&gt;%
-  dplyr::summarize(
-    fte              = sum(fte, na.rm=T),
-    fte_approximated = any(fte_approximated)
-  ) %&gt;%
-  dplyr::ungroup()
-
-last_plot() %+%
-  ds_region +
-  aes(group=factor(region_id), color=factor(region_id)) +
-  labs(title=&quot;FTE sum each month (by region)&quot;, y=&quot;Sum of FTE for Region&quot;)
-</code></pre>
-
-<p><img src="stitched-output/manipulation/te/inspect-2.png" title="plot of chunk inspect" alt="plot of chunk inspect" style="display: block; margin: auto;" /></p>
-
-<pre><code class="r"># last_plot() +
-#   aes(y=fmla_hours) +
-#   labs(title=&quot;fmla_hours sum each month (by county)&quot;)
 </code></pre>
 
 <p>The R session information (including the OS info, R version and all
@@ -960,12 +932,12 @@ packages used):</p>
 <pre><code class="r">sessionInfo()
 </code></pre>
 
-<pre><code>## R version 3.5.2 (2018-12-20)
+<pre><code>## R version 3.6.1 (2019-07-05)
 ## Platform: x86_64-pc-linux-gnu (64-bit)
-## Running under: Ubuntu 18.04.1 LTS
+## Running under: Ubuntu 18.04.3 LTS
 ## 
 ## Matrix products: default
-## BLAS: /usr/lib/x86_64-linux-gnu/blas/libblas.so.3.7.1
+## BLAS:   /usr/lib/x86_64-linux-gnu/blas/libblas.so.3.7.1
 ## LAPACK: /usr/lib/x86_64-linux-gnu/lapack/liblapack.so.3.7.1
 ## 
 ## locale:
@@ -980,32 +952,57 @@ packages used):</p>
 ## [1] stats     graphics  grDevices utils     datasets  methods   base     
 ## 
 ## other attached packages:
-## [1] ggplot2_3.1.0  bindrcpp_0.2.2 magrittr_1.5  
+## [1] lme4_1.1-21   Matrix_1.2-17 knitr_1.24    ggplot2_3.2.1 magrittr_1.5 
 ## 
 ## loaded via a namespace (and not attached):
-##  [1] Rcpp_1.0.0            highr_0.7             plyr_1.8.4           
-##  [4] pillar_1.3.1          compiler_3.5.2        bindr_0.1.1          
-##  [7] tools_3.5.2           digest_0.6.18         packrat_0.5.0        
-## [10] bit_1.1-14            evaluate_0.12         gtable_0.2.0         
-## [13] RSQLite_2.1.1         memoise_1.1.0         tibble_2.0.1         
-## [16] checkmate_1.9.0       lattice_0.20-38       pkgconfig_2.0.2      
-## [19] rlang_0.3.1           DBI_1.0.0             cli_1.0.1            
-## [22] rstudioapi_0.9.0      xfun_0.4              stringr_1.3.1        
-## [25] knitr_1.21            withr_2.1.2           dplyr_0.7.8          
-## [28] hms_0.4.2.9001        bit64_0.9-7           grid_3.5.2           
-## [31] tidyselect_0.2.5      OuhscMunge_0.1.9.9009 glue_1.3.0           
-## [34] R6_2.3.0              fansi_0.4.0           tidyr_0.8.2          
-## [37] readr_1.3.1           purrr_0.2.5           blob_1.1.1           
-## [40] scales_1.0.0.9000     backports_1.1.3       assertthat_0.2.0     
-## [43] testit_0.9            colorspace_1.4-0      labeling_0.3         
-## [46] utf8_1.1.4            stringi_1.2.4         lazyeval_0.2.1       
-## [49] munsell_0.5.0         crayon_1.3.4          zoo_1.8-4
+##  [1] pkgload_1.0.2               tidyr_1.0.0                
+##  [3] bit64_0.9-7                 viridisLite_0.3.0          
+##  [5] splines_3.6.1               OuhscMunge_0.1.9.9010      
+##  [7] assertthat_0.2.1            highr_0.8                  
+##  [9] blob_1.2.0                  yaml_2.2.0                 
+## [11] remotes_2.1.0               sessioninfo_1.1.1          
+## [13] pillar_1.4.2                RSQLite_2.1.2              
+## [15] backports_1.1.4             lattice_0.20-38            
+## [17] glue_1.3.1                  digest_0.6.20              
+## [19] checkmate_1.9.4             testit_0.9                 
+## [21] minqa_1.2.4                 colorspace_1.4-1           
+## [23] htmltools_0.3.6             pkgconfig_2.0.2            
+## [25] devtools_2.2.0              config_0.3                 
+## [27] purrr_0.3.2                 scales_1.0.0               
+## [29] processx_3.4.1              tibble_2.1.3               
+## [31] usethis_1.5.1               ellipsis_0.2.0.1           
+## [33] DT_0.8                      withr_2.1.2                
+## [35] lazyeval_0.2.2              cli_1.1.0                  
+## [37] crayon_1.3.4                memoise_1.1.0              
+## [39] evaluate_0.14               ps_1.3.0                   
+## [41] fansi_0.4.0                 fs_1.3.1                   
+## [43] TabularManifest_0.1-16.9003 nlme_3.1-141               
+## [45] MASS_7.3-51.4               pkgbuild_1.0.5             
+## [47] tools_3.6.1                 prettyunits_1.0.2          
+## [49] hms_0.5.1                   lifecycle_0.1.0            
+## [51] stringr_1.4.0               odbc_1.1.6                 
+## [53] munsell_0.5.0               callr_3.3.1                
+## [55] packrat_0.5.0               compiler_3.6.1             
+## [57] rlang_0.4.0                 nloptr_1.2.1               
+## [59] grid_3.6.1                  rstudioapi_0.10            
+## [61] htmlwidgets_1.3             labeling_0.3               
+## [63] rmarkdown_1.15              boot_1.3-23                
+## [65] testthat_2.2.1              gtable_0.3.0               
+## [67] DBI_1.0.0                   markdown_1.1               
+## [69] R6_2.4.0                    zoo_1.8-6                  
+## [71] lubridate_1.7.4             dplyr_0.8.3                
+## [73] utf8_1.1.4                  bit_1.1-14                 
+## [75] zeallot_0.1.0               rprojroot_1.3-2            
+## [77] readr_1.3.1                 desc_1.2.0                 
+## [79] stringi_1.4.3               Rcpp_1.0.2                 
+## [81] vctrs_0.2.0                 tidyselect_0.2.5           
+## [83] xfun_0.9
 </code></pre>
 
 <pre><code class="r">Sys.time()
 </code></pre>
 
-<pre><code>## [1] &quot;2019-01-19 17:25:38 CST&quot;
+<pre><code>## [1] &quot;2019-09-15 15:54:20 CDT&quot;
 </code></pre>
 
 </body>

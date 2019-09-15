@@ -1,6 +1,6 @@
 ---
 title: Time and Effort Report 1
-date: "Date: 2019-02-27"
+date: "Date: 2019-09-15"
 output:
   # radix::radix_article: # radix is a newer alternative that has some advantages over `html_document`.
   html_document:
@@ -254,171 +254,189 @@ For the sake of documentation and reproducibility, the current report was render
 ```
 ─ Session info ──────────────────────────────────────────────────────────
  setting  value                       
- version  R version 3.5.2 (2018-12-20)
- os       Ubuntu 18.04.2 LTS          
+ version  R version 3.6.1 (2019-07-05)
+ os       Ubuntu 18.04.3 LTS          
  system   x86_64, linux-gnu           
  ui       RStudio                     
  language (EN)                        
  collate  en_US.UTF-8                 
  ctype    en_US.UTF-8                 
  tz       America/Chicago             
- date     2019-02-27                  
+ date     2019-09-15                  
 
 ─ Packages ──────────────────────────────────────────────────────────────
  package         * version     date       lib
- assertthat        0.2.0       2017-04-11 [1]
- backports         1.1.3       2018-12-14 [1]
+ assertthat        0.2.1       2019-03-21 [1]
+ backports         1.1.4       2019-04-10 [1]
  bit               1.1-14      2018-05-29 [1]
  bit64             0.9-7       2017-05-08 [1]
- blob              1.1.1       2018-03-25 [1]
- callr             3.1.1       2018-12-21 [1]
- checkmate         1.9.1       2019-01-15 [1]
- cli               1.0.1       2018-09-25 [1]
- colorspace        1.4-0       2019-01-13 [1]
+ blob              1.2.0       2019-07-09 [1]
+ boot              1.3-23      2019-07-05 [1]
+ callr             3.3.1       2019-07-18 [1]
+ checkmate         1.9.4       2019-07-04 [1]
+ cli               1.1.0       2019-03-19 [1]
+ colorspace        1.4-1       2019-03-18 [1]
  config            0.3         2018-03-27 [1]
  crayon            1.3.4       2017-09-16 [1]
  DBI               1.0.0       2018-05-02 [1]
  desc              1.2.0       2018-05-01 [1]
- devtools          2.0.1       2018-10-26 [1]
- digest            0.6.18      2018-10-10 [1]
- dplyr             0.8.0.1     2019-02-15 [1]
- evaluate          0.13        2019-02-12 [1]
- fs                1.2.6       2018-08-23 [1]
- ggplot2         * 3.1.0       2018-10-25 [1]
- glue              1.3.0       2018-07-17 [1]
- gtable            0.2.0       2016-02-26 [1]
- highr             0.7         2018-06-09 [1]
- hms               0.4.2.9001  2018-08-18 [1]
+ devtools          2.2.0       2019-09-07 [1]
+ digest            0.6.20      2019-07-04 [1]
+ dplyr             0.8.3       2019-07-04 [1]
+ DT                0.8         2019-08-07 [1]
+ ellipsis          0.2.0.1     2019-07-02 [1]
+ evaluate          0.14        2019-05-28 [1]
+ fansi             0.4.0       2018-10-05 [1]
+ fs                1.3.1       2019-05-06 [1]
+ ggplot2         * 3.2.1       2019-08-10 [1]
+ glue              1.3.1       2019-03-12 [1]
+ gtable            0.3.0       2019-03-25 [1]
+ highr             0.8         2019-03-20 [1]
+ hms               0.5.1       2019-08-23 [1]
  htmltools         0.3.6       2017-04-28 [1]
- knitr           * 1.21        2018-12-10 [1]
+ htmlwidgets       1.3         2018-09-30 [1]
+ knitr           * 1.24        2019-08-08 [1]
  labeling          0.3         2014-08-23 [1]
- lattice           0.20-38     2018-11-04 [4]
- lazyeval          0.2.1       2017-10-29 [1]
- lme4            * 1.1-20      2019-02-04 [1]
+ lattice           0.20-38     2018-11-04 [1]
+ lazyeval          0.2.2       2019-03-15 [1]
+ lifecycle         0.1.0       2019-08-01 [1]
+ lme4            * 1.1-21      2019-03-05 [1]
  lubridate         1.7.4       2018-04-11 [1]
  magrittr        * 1.5         2014-11-22 [1]
- MASS              7.3-51.1    2018-11-01 [4]
- Matrix          * 1.2-15      2018-11-01 [4]
+ markdown          1.1         2019-08-07 [1]
+ MASS              7.3-51.4    2019-04-26 [1]
+ Matrix          * 1.2-17      2019-03-22 [1]
  memoise           1.1.0       2017-04-21 [1]
  minqa             1.2.4       2014-10-09 [1]
  munsell           0.5.0       2018-06-12 [1]
- nlme              3.1-137     2018-04-07 [4]
+ nlme              3.1-141     2019-08-01 [1]
  nloptr            1.2.1       2018-10-03 [1]
  odbc              1.1.6       2018-06-09 [1]
- OuhscMunge        0.1.9.9010  2019-02-28 [1]
+ OuhscMunge        0.1.9.9010  2019-05-02 [1]
  packrat           0.5.0       2018-11-14 [1]
- pillar            1.3.1       2018-12-15 [1]
- pkgbuild          1.0.2       2018-10-16 [1]
+ pillar            1.4.2       2019-06-29 [1]
+ pkgbuild          1.0.5       2019-08-26 [1]
  pkgconfig         2.0.2       2018-08-16 [1]
  pkgload           1.0.2       2018-10-29 [1]
- plyr              1.8.4       2016-06-08 [1]
  prettyunits       1.0.2       2015-07-13 [1]
- processx          3.2.1       2018-12-05 [1]
+ processx          3.4.1       2019-07-18 [1]
  ps                1.3.0       2018-12-21 [1]
- purrr             0.3.0       2019-01-27 [1]
+ purrr             0.3.2       2019-03-15 [1]
  R6                2.4.0       2019-02-14 [1]
- Rcpp              1.0.0       2018-11-07 [1]
- RcppRoll          0.3.0       2018-06-05 [1]
+ Rcpp              1.0.2       2019-07-25 [1]
  readr             1.3.1       2018-12-21 [1]
- remotes           2.0.2       2018-10-30 [1]
- rlang             0.3.1       2019-01-08 [1]
- rmarkdown         1.11        2018-12-08 [1]
+ remotes           2.1.0       2019-06-24 [1]
+ rlang             0.4.0       2019-06-25 [1]
+ rmarkdown         1.15        2019-08-21 [1]
  rprojroot         1.3-2       2018-01-03 [1]
- RSQLite           2.1.1       2018-05-06 [1]
- scales            1.0.0.9000  2019-01-11 [1]
+ RSQLite           2.1.2       2019-07-24 [1]
+ rstudioapi        0.10        2019-03-19 [1]
+ scales            1.0.0       2018-08-09 [1]
  sessioninfo       1.1.1       2018-11-05 [1]
- stringi           1.3.1       2019-02-13 [1]
+ stringi           1.4.3       2019-03-12 [1]
  stringr           1.4.0       2019-02-10 [1]
- TabularManifest   0.1-16.9003 2019-01-31 [1]
+ TabularManifest   0.1-16.9003 2019-05-02 [1]
  testit            0.9         2018-12-05 [1]
- testthat          2.0.1       2018-10-13 [1]
- tibble            2.0.1       2019-01-12 [1]
- tidyr             0.8.2       2018-10-28 [1]
+ testthat          2.2.1       2019-07-25 [1]
+ tibble            2.1.3       2019-06-06 [1]
+ tidyr             1.0.0       2019-09-11 [1]
  tidyselect        0.2.5       2018-10-11 [1]
- usethis           1.4.0       2018-08-14 [1]
+ usethis           1.5.1       2019-07-04 [1]
+ utf8              1.1.4       2018-05-24 [1]
+ vctrs             0.2.0       2019-07-05 [1]
  viridisLite       0.3.0       2018-02-01 [1]
  withr             2.1.2       2018-03-15 [1]
- xfun              0.5         2019-02-20 [1]
+ xfun              0.9         2019-08-21 [1]
  yaml              2.2.0       2018-07-25 [1]
- zoo               1.8-4       2018-09-19 [1]
- source                        
- CRAN (R 3.5.1)                
- CRAN (R 3.5.2)                
- CRAN (R 3.5.1)                
- CRAN (R 3.5.1)                
- CRAN (R 3.5.1)                
- CRAN (R 3.5.2)                
- CRAN (R 3.5.2)                
- CRAN (R 3.5.1)                
- CRAN (R 3.5.2)                
- CRAN (R 3.5.1)                
- CRAN (R 3.5.1)                
- CRAN (R 3.5.1)                
- CRAN (R 3.5.1)                
- CRAN (R 3.5.1)                
- CRAN (R 3.5.1)                
- CRAN (R 3.5.2)                
- CRAN (R 3.5.2)                
- CRAN (R 3.5.1)                
- CRAN (R 3.5.1)                
- CRAN (R 3.5.1)                
- CRAN (R 3.5.1)                
- CRAN (R 3.5.1)                
- Github (tidyverse/hms@979286f)
- CRAN (R 3.5.1)                
- CRAN (R 3.5.1)                
- CRAN (R 3.5.1)                
- CRAN (R 3.5.1)                
- CRAN (R 3.5.1)                
- CRAN (R 3.5.2)                
- CRAN (R 3.5.1)                
- CRAN (R 3.5.1)                
- CRAN (R 3.5.1)                
- CRAN (R 3.5.1)                
- CRAN (R 3.5.1)                
- CRAN (R 3.5.1)                
- CRAN (R 3.5.1)                
- CRAN (R 3.5.0)                
- CRAN (R 3.5.1)                
- CRAN (R 3.5.1)                
- local                         
- CRAN (R 3.5.1)                
- CRAN (R 3.5.2)                
- CRAN (R 3.5.1)                
- CRAN (R 3.5.1)                
- CRAN (R 3.5.1)                
- CRAN (R 3.5.1)                
- CRAN (R 3.5.1)                
- CRAN (R 3.5.1)                
- CRAN (R 3.5.2)                
- CRAN (R 3.5.2)                
- CRAN (R 3.5.2)                
- CRAN (R 3.5.1)                
- CRAN (R 3.5.1)                
- CRAN (R 3.5.2)                
- CRAN (R 3.5.1)                
- CRAN (R 3.5.2)                
- CRAN (R 3.5.1)                
- CRAN (R 3.5.1)                
- CRAN (R 3.5.1)                
- local                         
- CRAN (R 3.5.1)                
- CRAN (R 3.5.2)                
- CRAN (R 3.5.2)                
- local                         
- CRAN (R 3.5.1)                
- CRAN (R 3.5.1)                
- CRAN (R 3.5.2)                
- CRAN (R 3.5.1)                
- CRAN (R 3.5.1)                
- CRAN (R 3.5.1)                
- CRAN (R 3.5.1)                
- CRAN (R 3.5.1)                
- CRAN (R 3.5.2)                
- CRAN (R 3.5.1)                
- CRAN (R 3.5.1)                
+ zeallot           0.1.0       2018-01-28 [1]
+ zoo               1.8-6       2019-05-28 [1]
+ source                                  
+ CRAN (R 3.6.0)                          
+ CRAN (R 3.6.0)                          
+ CRAN (R 3.6.0)                          
+ CRAN (R 3.6.0)                          
+ CRAN (R 3.6.0)                          
+ CRAN (R 3.6.0)                          
+ CRAN (R 3.6.1)                          
+ CRAN (R 3.6.0)                          
+ CRAN (R 3.6.0)                          
+ CRAN (R 3.6.0)                          
+ CRAN (R 3.6.0)                          
+ CRAN (R 3.6.0)                          
+ CRAN (R 3.6.0)                          
+ CRAN (R 3.6.0)                          
+ CRAN (R 3.6.1)                          
+ CRAN (R 3.6.0)                          
+ CRAN (R 3.6.0)                          
+ CRAN (R 3.6.1)                          
+ CRAN (R 3.6.0)                          
+ CRAN (R 3.6.0)                          
+ CRAN (R 3.6.0)                          
+ CRAN (R 3.6.0)                          
+ CRAN (R 3.6.1)                          
+ CRAN (R 3.6.0)                          
+ CRAN (R 3.6.0)                          
+ CRAN (R 3.6.0)                          
+ CRAN (R 3.6.1)                          
+ CRAN (R 3.6.0)                          
+ CRAN (R 3.6.0)                          
+ CRAN (R 3.6.1)                          
+ CRAN (R 3.6.0)                          
+ CRAN (R 3.6.0)                          
+ CRAN (R 3.6.0)                          
+ CRAN (R 3.6.1)                          
+ CRAN (R 3.6.0)                          
+ CRAN (R 3.6.0)                          
+ CRAN (R 3.6.0)                          
+ CRAN (R 3.6.1)                          
+ CRAN (R 3.6.0)                          
+ CRAN (R 3.6.0)                          
+ CRAN (R 3.6.0)                          
+ CRAN (R 3.6.0)                          
+ CRAN (R 3.6.0)                          
+ CRAN (R 3.6.1)                          
+ CRAN (R 3.6.0)                          
+ CRAN (R 3.6.0)                          
+ Github (OuhscBbmc/OuhscMunge@9a0aab1)   
+ CRAN (R 3.6.0)                          
+ CRAN (R 3.6.0)                          
+ CRAN (R 3.6.1)                          
+ CRAN (R 3.6.0)                          
+ CRAN (R 3.6.0)                          
+ CRAN (R 3.6.0)                          
+ CRAN (R 3.6.1)                          
+ CRAN (R 3.6.0)                          
+ CRAN (R 3.6.0)                          
+ CRAN (R 3.6.0)                          
+ CRAN (R 3.6.1)                          
+ CRAN (R 3.6.0)                          
+ CRAN (R 3.6.0)                          
+ CRAN (R 3.6.0)                          
+ CRAN (R 3.6.1)                          
+ CRAN (R 3.6.0)                          
+ CRAN (R 3.6.1)                          
+ CRAN (R 3.6.0)                          
+ CRAN (R 3.6.0)                          
+ CRAN (R 3.6.0)                          
+ CRAN (R 3.6.0)                          
+ CRAN (R 3.6.0)                          
+ Github (Melinae/TabularManifest@4cbc21c)
+ CRAN (R 3.6.0)                          
+ CRAN (R 3.6.1)                          
+ CRAN (R 3.6.0)                          
+ CRAN (R 3.6.1)                          
+ CRAN (R 3.6.0)                          
+ CRAN (R 3.6.0)                          
+ CRAN (R 3.6.0)                          
+ CRAN (R 3.6.0)                          
+ CRAN (R 3.6.0)                          
+ CRAN (R 3.6.0)                          
+ CRAN (R 3.6.1)                          
+ CRAN (R 3.6.0)                          
+ CRAN (R 3.6.0)                          
+ CRAN (R 3.6.0)                          
 
-[1] /home/wibeasley/R/x86_64-pc-linux-gnu-library/3.5
+[1] /home/wibeasley/R/x86_64-pc-linux-gnu-library/3.6
 [2] /usr/local/lib/R/site-library
 [3] /usr/lib/R/site-library
 [4] /usr/lib/R/library
@@ -427,4 +445,4 @@ For the sake of documentation and reproducibility, the current report was render
 
 
 
-Report rendered by wibeasley at 2019-02-27, 21:16 -0600 in 15 seconds.
+Report rendered by wibeasley at 2019-09-15, 15:58 -0500 in 12 seconds.

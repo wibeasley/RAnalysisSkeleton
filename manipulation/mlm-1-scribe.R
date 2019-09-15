@@ -1,20 +1,22 @@
 # knitr::stitch_rmd(script="manipulation/mlm-scribe.R", output="stitched-output/manipulation/mlm-scribe.md")
-rm(list=ls(all=TRUE)) #Clear the memory of variables from previous run. This is not called by knitr, because it's above the first chunk.
-
+rm(list = ls(all.names = TRUE)) # Clear the memory of variables from previous run. This is not called by knitr, because it's above the first chunk.
 
 # ---- load-sources ------------------------------------------------------------
 # source("manipulation/osdh/ellis/common-ellis.R")
 # base::source(file="Dal/Osdh/Arch/benchmark-client-program-arch.R") #Load retrieve_benchmark_client_program
 
 # ---- load-packages -----------------------------------------------------------
-library(magrittr, quietly=TRUE)
+library(magrittr                , quietly=TRUE)
 requireNamespace("DBI")
-# requireNamespace("odbc")
-requireNamespace("dplyr")
-requireNamespace("testit")
-requireNamespace("lubridate")
-requireNamespace("RcppRoll")
-requireNamespace("OuhscMunge") # devtools::install_github(repo="OuhscBbmc/OuhscMunge")
+requireNamespace("odbc")
+requireNamespace("tibble")
+requireNamespace("readr"                      )  # remotes::install_github("tidyverse/readr")
+requireNamespace("dplyr"                      )
+requireNamespace("checkmate"                  )
+requireNamespace("testit"                     )
+requireNamespace("config"                     )
+requireNamespace("OuhscMunge"                 )   # remotes::install_github("OuhscBbmc/OuhscMunge")
+# requireNamespace("RcppRoll")
 
 # ---- declare-globals ---------------------------------------------------------
 # Constant values that won't change.
@@ -109,10 +111,12 @@ ds_county_year <-
 
 
 # ---- inspect -----------------------------------------------------------------
-cat(
+message(
+  "Row Count          : ", scales::comma(nrow(ds)), "\n",
   "Unique subjects    : ", scales::comma(dplyr::n_distinct(ds$subject_id)), "\n",
   "Unique waves       : ", scales::comma(dplyr::n_distinct(ds$wave_id       )), "\n",
   "Unique counties    : ", scales::comma(dplyr::n_distinct(ds$county_id       )), "\n",
+  "Unique years       : ", scales::comma(dplyr::n_distinct(ds$year    )), "\n",
   "Year range         : ", sprintf("%i ", range(ds$year)), "\n",
   # "Year range         : ", strftime(range(ds_program_month$month), "%Y-%m-%d  "), "\n",
   sep=""

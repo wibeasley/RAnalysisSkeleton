@@ -1,5 +1,4 @@
 rm(list = ls(all.names = TRUE)) # Clear the memory of variables from previous run. This is not called by knitr, because it's above the first chunk.
-
 # ---- load-sources ------------------------------------------------------------
 
 
@@ -28,7 +27,9 @@ checkmate::assert_integer(  ds$id                       , any.missing=F , lower=
 testit::assert("All IDs should be nonmissing and positive.", all(!is.na(id) & (ds$id>0)))
 
 # ---- specify-columns-to-upload -----------------------------------------------
-# dput(colnames(ds))
+# Print colnames that `dplyr::select()`  should contain below:
+#   cat(paste(colnames(ds), collapse=",\n"))
+
 
 # ---- save-to-db --------------------------------------------------------------
 

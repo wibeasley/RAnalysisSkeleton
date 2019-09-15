@@ -368,11 +368,12 @@ ds_slim <-
   ds %>%
   # dplyr::slice(1:100) %>%
   dplyr::select(
-    blood_product_id,
-    account_number,
-    start_datetime,
-    product,
-    volume
+    county_month_id,
+    county_id,
+    month,
+    fte,
+    fte_approximated,
+    region_id
   ) %>%
   dplyr::mutate_if(is.logical, as.integer)       # Some databases & drivers need 0/1 instead of FALSE/TRUE.
 ds_slim

@@ -12,11 +12,10 @@ requireNamespace("readr"        )
 requireNamespace("tidyr"        )
 requireNamespace("dplyr"        ) # Avoid attaching dplyr, b/c its function names conflict with a lot of packages (esp base, stats, and plyr).
 requireNamespace("rlang"        ) # Language constucts, like quosures
-requireNamespace("testit"       ) # For asserting conditions meet expected patterns/conditions.
 requireNamespace("checkmate"    ) # For asserting conditions meet expected patterns/conditions. # remotes::install_github("mllg/checkmate")
 requireNamespace("DBI"          ) # Database-agnostic interface
 requireNamespace("RSQLite"      ) # Lightweight database for non-PHI data.
-# requireNamespace("RODBC"      ) # For communicating with SQL Server over a locally-configured DSN.  Uncomment if you use 'upload-to-db' chunk.
+# requireNamespace("odbc"         ) # For communicating with SQL Server over a locally-configured DSN.  Uncomment if you use 'upload-to-db' chunk.
 requireNamespace("OuhscMunge"   ) # remotes::install_github(repo="OuhscBbmc/OuhscMunge")
 
 # ---- declare-globals ---------------------------------------------------------
@@ -61,7 +60,8 @@ ds <-
   dplyr::mutate(
 
   )  %>%
-  dplyr::arrange(subject_id)
+  dplyr::arrange(subject_id) # %>%
+  # tibble::rowid_to_column("subject_id") # Add a unique index if necessary
 
 # ---- verify-values -----------------------------------------------------------
 # OuhscMunge::verify_value_headstart(ds)
@@ -98,6 +98,17 @@ ds_slim
 
 
 # ---- save-to-db --------------------------------------------------------------
+# If a database already exists, this single function uploads to a SQL Server database.
+# OuhscMunge::upload_sqls_odbc(
+#   d             = ds_slim,
+#   schema_name   = "skeleton",         # Or config$schema_name
+#   table_name    = "subject",
+#   dsn_name      = "skeleton-example", # Or config$dsn_qqqqq
+#   clear_table   = T,
+#   create_table  = F
+# ) # 0.012 minutes
+
+
 # If there's no PHI, a local database like SQLite fits a nice niche if
 #   * the data is relational and
 #   * later, only portions need to be queried/retrieved at a time (b/c everything won't need to be loaded into R's memory)

@@ -9,7 +9,6 @@ rm(list = ls(all.names = TRUE)) # Clear the memory of variables from previous ru
 library(magrittr             , quietly=TRUE) #Pipes
 
 # Verify these packages are available on the machine, but their functions need to be qualified: http://r-pkgs.had.co.nz/namespace.html#search-path
-requireNamespace("ggplot2"                 )
 requireNamespace("readr"                   )
 requireNamespace("tidyr"                   )
 requireNamespace("dplyr"                   ) # Avoid attaching dplyr, b/c its function names conflict with a lot of packages (esp base, stats, and plyr).
@@ -115,41 +114,40 @@ checkmate::assert_numeric(  ds$weight_gear_z                , any.missing=F , lo
 checkmate::assert_logical(  ds$weight_gear_z_above_1        , any.missing=F                           )
 
 # ---- specify-columns-to-write ------------------------------------------------
-# Print colnames that `columns_to_write` should contain: dput(colnames(ds))
-#   Use this array to adjust which variables are saved, and their position within the dataset.
-columns_to_write <- c(
-  "car_id",
-  "model_name",
-  "miles_per_gallon",
-  "displacement_inches_cubed",
-  "cylinder_count",
-  "horsepower",
-  "quarter_mile_sec",
-  "forward_gear_count",
-  "carburetor_count",
-  "weight_gear_z",
-  "weight_gear_z_above_1"
-
-  # The variables below aren't currently included in the analyses.
-  # "rear_axle_ratio",
-  # "engine_v_shape",
-  # "transmission_automatic",
-  # "weight_pounds",
-  # "horsepower_log_10",
-  # "miles_per_gallon_artifact",
-  # "displacement_gear_z"
-)
+# Print colnames that `dplyr::select()`  should contain below:
+#   cat(paste(colnames(ds), collapse=",\n"))
 
 # Define the subset of columns that will be needed in the analyses.
 #   The fewer columns that are exported, the fewer things that can break downstream.
+#   The variables below aren't currently included in the analyses.
+#   * rear_axle_ratio,
+#   * engine_v_shape,
+#   * transmission_automatic,
+#   * weight_pounds,
+#   * horsepower_log_10,
+#   * miles_per_gallon_artifact,
+#   * displacement_gear_z
+
+
 ds_slim <-
   ds %>%
   # dplyr::slice(1:100) %>%
-  dplyr::select(!!columns_to_write) %>%
+  dplyr::select(
+    car_id,
+    model_name,
+    miles_per_gallon,
+    displacement_inches_cubed,
+    cylinder_count,
+    horsepower,
+    quarter_mile_sec,
+    forward_gear_count,
+    carburetor_count,
+    weight_gear_z,
+    weight_gear_z_above_1
+  ) %>%
   dplyr::mutate_if(is.logical, as.integer)       # Some databases & drivers need 0/1 instead of FALSE/TRUE.
 ds_slim
 
-rm(columns_to_write)
 
 # ---- save-to-disk ------------------------------------------------------------
 # Save as a compress, binary R dataset.  It's no longer readable with a text editor, but it saves metadata (eg, factor information).

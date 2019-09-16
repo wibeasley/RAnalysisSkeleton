@@ -1,6 +1,6 @@
 ---
 title: Time and Effort Report 1
-date: "Date: 2019-09-15"
+date: "Date: 2019-09-16"
 output:
   # radix::radix_article: # radix is a newer alternative that has some advantages over `html_document`.
   html_document:
@@ -262,7 +262,7 @@ For the sake of documentation and reproducibility, the current report was render
  collate  en_US.UTF-8                 
  ctype    en_US.UTF-8                 
  tz       America/Chicago             
- date     2019-09-15                  
+ date     2019-09-16                  
 
 ─ Packages ──────────────────────────────────────────────────────────────
  package         * version     date       lib
@@ -312,7 +312,7 @@ For the sake of documentation and reproducibility, the current report was render
  nlme              3.1-141     2019-08-01 [1]
  nloptr            1.2.1       2018-10-03 [1]
  odbc              1.1.6       2018-06-09 [1]
- OuhscMunge        0.1.9.9010  2019-05-02 [1]
+ OuhscMunge        0.1.9.9010  2019-09-16 [1]
  packrat           0.5.0       2018-11-14 [1]
  pillar            1.4.2       2019-06-29 [1]
  pkgbuild          1.0.5       2019-08-26 [1]
@@ -321,7 +321,7 @@ For the sake of documentation and reproducibility, the current report was render
  prettyunits       1.0.2       2015-07-13 [1]
  processx          3.4.1       2019-07-18 [1]
  ps                1.3.0       2018-12-21 [1]
- purrr             0.3.2       2019-03-15 [1]
+ purrr           * 0.3.2       2019-03-15 [1]
  R6                2.4.0       2019-02-14 [1]
  Rcpp              1.0.2       2019-07-25 [1]
  readr             1.3.1       2018-12-21 [1]
@@ -339,7 +339,7 @@ For the sake of documentation and reproducibility, the current report was render
  testit            0.9         2018-12-05 [1]
  testthat          2.2.1       2019-07-25 [1]
  tibble            2.1.3       2019-06-06 [1]
- tidyr             1.0.0       2019-09-11 [1]
+ tidyr           * 1.0.0       2019-09-11 [1]
  tidyselect        0.2.5       2018-10-11 [1]
  usethis           1.5.1       2019-07-04 [1]
  utf8              1.1.4       2018-05-24 [1]
@@ -397,7 +397,7 @@ For the sake of documentation and reproducibility, the current report was render
  CRAN (R 3.6.1)                          
  CRAN (R 3.6.0)                          
  CRAN (R 3.6.0)                          
- Github (OuhscBbmc/OuhscMunge@9a0aab1)   
+ local                                   
  CRAN (R 3.6.0)                          
  CRAN (R 3.6.0)                          
  CRAN (R 3.6.1)                          
@@ -445,4 +445,4 @@ For the sake of documentation and reproducibility, the current report was render
 
 
 
-Report rendered by wibeasley at 2019-09-15, 15:58 -0500 in 12 seconds.
+Report rendered by wibeasley at 2019-09-16, 11:30 -0500 in 12 seconds.

@@ -72,22 +72,24 @@ checkmate::assert_character(ds$race       , any.missing=F , pattern="^.{5,41}$" 
 checkmate::assert_character(ds$ethnicity  , any.missing=F , pattern="^.{18,30}$"   )
 
 # ---- specify-columns-to-upload -----------------------------------------------
-# dput(colnames(ds)) # Print colnames for line below.
-columns_to_write <- c(
-  "subject_id",
-  "county_id",
-  "gender_id",
-  "race",
-  "ethnicity"
-)
+# Print colnames that `dplyr::select()`  should contain below:
+#   cat(paste(colnames(ds), collapse=",\n"))
+
+# Define the subset of columns that will be needed in the analyses.
+#   The fewer columns that are exported, the fewer things that can break downstream.
+
 ds_slim <-
   ds %>%
   # dplyr::slice(1:100) %>%
-  dplyr::select(!!columns_to_write)
+  dplyr::select(
+    subject_id,
+    county_id,
+    gender_id,
+    race,
+    ethnicity
+  )
 
 ds_slim
-
-rm(columns_to_write)
 
 # ---- save-to-disk ------------------------------------------------------------
 # If there's no PHI, a rectangular CSV is usually adequate, and it's portable to other machines and software.

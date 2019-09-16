@@ -36,26 +36,26 @@ ds <- readr::read_csv(path_input)
 rm(path_input)
 
 # ---- tweak-data --------------------------------------------------------------
-# OuhscMunge::column_rename_headstart(ds) # Spit out columns to help populate arguments to `dplyr::rename()` or `dplyr::select()`.
+# OuhscMunge::column_rename_headstart(ds_county) # Help write `dplyr::select()` call.
 
 # Dataset description can be found at: http://stat.ethz.ch/R-manual/R-devel/library/datasets/html/mtcars.html
 # Populate the rename entries with OuhscMunge::column_rename_headstart(ds_county) # remotes::install_github("OuhscBbmc/OuhscMunge")
 ds <-
   ds %>%
-  dplyr::select(!!c(    # `dplyr::select()` drops columns not mentioned.
-    "model_name"                  = "model",
-    "miles_per_gallon"            = "mpg",
-    "cylinder_count"              = "cyl",
-    "displacement_inches_cubed"   = "disp",
-    "horsepower"                  = "hp",
-    "rear_axle_ratio"             = "drat",
-    "weight_pounds_per_1000"      = "wt",
-    "quarter_mile_sec"            = "qsec",
-    "engine_v_shape"              = "vs",
-    "transmission_automatic"      = "am",
-    "forward_gear_count"          = "gear",
-    "carburetor_count"            = "carb"
-  )) %>%
+  dplyr::select(    # `dplyr::select()` drops columns not included.
+    model_name                  = model,
+    miles_per_gallon            = mpg,
+    cylinder_count              = cyl,
+    displacement_inches_cubed   = disp,
+    horsepower                  = hp,
+    rear_axle_ratio             = drat,
+    weight_pounds_per_1000      = wt,
+    quarter_mile_sec            = qsec,
+    engine_v_shape              = vs,
+    transmission_automatic      = am,
+    forward_gear_count          = gear,
+    carburetor_count            = carb
+  ) %>%
   dplyr::mutate(
     weight_pounds           = weight_pounds_per_1000 * 1000,     # Clear up confusion about units
 

@@ -17,7 +17,7 @@ requireNamespace("checkmate")
 
 
 # ---- tweak-data --------------------------------------------------------------
-# OuhscMunge::column_rename_headstart(ds) # Spit out columns to help populate arguments to `dplyr::rename()` or `dplyr::select()`.
+# OuhscMunge::column_rename_headstart(ds_county) # Help write `dplyr::select()` call.
 
 
 # ---- verify-values -----------------------------------------------------------

@@ -61,25 +61,25 @@ rm(col_types)
 ds
 
 # ---- tweak-data --------------------------------------------------------------
-# OuhscMunge::column_rename_headstart(ds) #Spit out columns to help write call ato `dplyr::rename()`.
+# OuhscMunge::column_rename_headstart(ds) # Help write `dplyr::select()` call.
 ds <-
   ds %>%
-  dplyr::select(!!c( #`select()` implicitly drops the other columns not mentioned.
-    "subject_id",
-    "wave_id",
-    # "year",
-    "date_at_visit",
-    "age",
-    "county_id",
-    "int_factor_1",
-    "slope_factor_1",
-    "cog_1",
-    "cog_2",
-    "cog_3",
-    "phys_1",
-    "phys_2",
-    "phys_3"
-  )) %>%
+  dplyr::select(    # `dplyr::select()` drops columns not included.
+    subject_id,
+    wave_id,
+    # year,
+    date_at_visit,
+    age,
+    county_id,
+    int_factor_1,
+    slope_factor_1,
+    cog_1,
+    cog_2,
+    cog_3,
+    phys_1,
+    phys_2,
+    phys_3
+  ) %>%
   dplyr::mutate(
     subject_id  = factor(subject_id),
     year        = as.integer(lubridate::year(date_at_visit)),

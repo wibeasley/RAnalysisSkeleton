@@ -24,7 +24,7 @@ requireNamespace("OuhscMunge"   ) # remotes::install_github(repo="OuhscBbmc/Ouhs
 config                         <- config::get()
 path_db                        <- config$path_database
 
-figure_path <- 'stitched-output/manipulation/ellis/mlm-1-ellis/'
+figure_path <- 'stitched-output/manipulation/ellis/subject-1-ellis/'
 
 col_types <- readr::cols_only(
   subject_id          = readr::col_integer(),
@@ -48,16 +48,16 @@ rm(col_types)
 ds
 
 # ---- tweak-data --------------------------------------------------------------
-# OuhscMunge::column_rename_headstart(ds) #Spit out columns to help write call ato `dplyr::rename()`.
+# OuhscMunge::column_rename_headstart(ds) # Help write `dplyr::select()` call.
 ds <-
   ds %>%
-  dplyr::select(!!c( #`select()` implicitly drops the other columns not mentioned.
-    "subject_id",
-    "county_id",
-    "gender_id",
-    "race",
-    "ethnicity"
-  )) %>%
+  dplyr::select(    # `dplyr::select()` drops columns not included.
+    subject_id,
+    county_id,
+    gender_id,
+    race,
+    ethnicity
+  ) %>%
   dplyr::mutate(
 
   )  %>%

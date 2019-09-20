@@ -74,7 +74,7 @@ checkmate::assert_character(ds$ethnicity  , any.missing=F , pattern="^.{18,30}$"
 
 # ---- specify-columns-to-upload -----------------------------------------------
 # Print colnames that `dplyr::select()`  should contain below:
-#   cat(paste(colnames(ds), collapse=",\n"))
+#   cat(paste0("    ", colnames(ds), collapse=",\n"))
 
 # Define the subset of columns that will be needed in the analyses.
 #   The fewer columns that are exported, the fewer things that can break downstream.

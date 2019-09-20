@@ -362,7 +362,7 @@ checkmate::assert_character(county_month_combo, pattern  ="^\\d{1,2} \\d{4}-\\d{
 
 # ---- specify-columns-to-write ------------------------------------------------
 # Print colnames that `dplyr::select()`  should contain below:
-#   cat(paste(colnames(ds), collapse=",\n"))
+#   cat(paste0("    ", colnames(ds), collapse=",\n"))
 
 # Define the subset of columns that will be needed in the analyses.
 #   The fewer columns that are exported, the fewer things that can break downstream.

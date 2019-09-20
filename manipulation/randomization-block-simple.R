@@ -60,19 +60,23 @@ testit::assert("The block_id-condition combination should be unique.", all(!dupl
 
 
 # ---- specify-columns-to-upload -----------------------------------------------
-# dput(colnames(ds)) # Print colnames for line below.
-columns_to_write <- c(
-  "assignment_id", "block_id", "condition", "client_id",
-  "year_assigned", "month_assigned", "day_assigned"
-)
+# Print colnames that `dplyr::select()`  should contain below:
+#  cat(paste0("    ", colnames(ds), collapse=",\n"))
+
 ds_slim <-
   ds %>%
   # dplyr::slice(1:100) %>%
-  dplyr::select(!!columns_to_write)
+  dplyr::select(
+    assignment_id,
+    block_id,
+    condition,
+    client_id,
+    year_assigned,
+    month_assigned,
+    day_assigned
+  )
 
 ds_slim
-
-rm(columns_to_write)
 
 
 # # ---- upload-to-db ------------------------------------------------------------

@@ -156,24 +156,37 @@ checkmate::assert_numeric(  ds$phys_2          , any.missing=F , lower=2, upper=
 checkmate::assert_numeric(  ds$phys_3          , any.missing=F , lower=0, upper=3       )
 
 # ---- specify-columns-to-upload -----------------------------------------------
-# dput(colnames(ds)) # Print colnames for line below.
-columns_to_write <- c(
-  "subject_wave_id", "subject_id", "county_id",
-  "gender_id", "race", "ethnicity", "county",
-  "wave_id", "year","date_at_visit",
-  "age", "age_cut_4", "age_80_plus",
-  "int_factor_1", "slope_factor_1",
-  "cog_1", "cog_2", "cog_3",
-  "phys_1", "phys_2", "phys_3"
-)
+# Print colnames that `dplyr::select()`  should contain below:
+#   cat(paste0("    ", colnames(ds), collapse=",\n"))
+
 ds_slim <-
   ds %>%
-  dplyr::select(!!columns_to_write) %>%
+  dplyr::select(
+    subject_wave_id,
+    subject_id,
+    county_id,
+    gender_id,
+    race,
+    ethnicity,
+    county,
+    wave_id,
+    year,
+    date_at_visit,
+    age,
+    age_cut_4,
+    age_80_plus,
+    int_factor_1,
+    slope_factor_1,
+    cog_1,
+    cog_2,
+    cog_3,
+    phys_1,
+    phys_2,
+    phys_3
+  ) %>%
   # dplyr::slice(1:100) %>%
   dplyr::mutate_if(is.logical, as.integer)       # Some databases & drivers need 0/1 instead of FALSE/TRUE.
 ds_slim
-
-rm(columns_to_write)
 
 # ---- save-to-disk ------------------------------------------------------------
 readr::write_rds(ds_county        , config$path_county_derived          , compress="gz")

@@ -253,37 +253,37 @@ ds_rail  &lt;- tibble::tribble(
   ~fx               , ~path,
 
   # Simulate observed data
-  &quot;run_file_r&quot;      , &quot;manipulation/simulation/simulate-mlm-1.R&quot;,
-  # &quot;run_file_r&quot;      , &quot;manipulation/simulation/simulate-te.R&quot;,
+  &quot;run_r&quot;     , &quot;manipulation/simulation/simulate-mlm-1.R&quot;,
+  # &quot;run_r&quot;   , &quot;manipulation/simulation/simulate-te.R&quot;,
 
   # First run the manipulation files to prepare the dataset(s).
-  &quot;run_file_r&quot;      , &quot;manipulation/car-ellis.R&quot;,
-  &quot;run_file_r&quot;      , &quot;manipulation/mlm-1-ellis.R&quot;,
-  &quot;run_file_r&quot;      , &quot;manipulation/te-ellis.R&quot;,
-  &quot;run_file_r&quot;      , &quot;manipulation/subject-1-ellis.R&quot;,
+  &quot;run_r&quot;     , &quot;manipulation/car-ellis.R&quot;,
+  &quot;run_r&quot;     , &quot;manipulation/mlm-1-ellis.R&quot;,
+  &quot;run_r&quot;     , &quot;manipulation/te-ellis.R&quot;,
+  &quot;run_r&quot;     , &quot;manipulation/subject-1-ellis.R&quot;,
 
-  # &quot;run_ferry_sql&quot; , &quot;manipulation/inserts-to-normalized-tables.sql&quot;
-  &quot;run_file_r&quot;      , &quot;manipulation/randomization-block-simple.R&quot;,
+  # &quot;run_sql&quot; , &quot;manipulation/inserts-to-normalized-tables.sql&quot;
+  &quot;run_r&quot;     , &quot;manipulation/randomization-block-simple.R&quot;,
 
   # Scribes
-  &quot;run_file_r&quot;    , &quot;manipulation/mlm-1-scribe.R&quot;,
-  &quot;run_file_r&quot;    , &quot;manipulation/te-scribe.R&quot;,
+  &quot;run_r&quot;     , &quot;manipulation/mlm-1-scribe.R&quot;,
+  &quot;run_r&quot;     , &quot;manipulation/te-scribe.R&quot;,
 
   # Reports
-  &quot;run_rmd&quot;       , &quot;analysis/car-report-1/car-report-1.Rmd&quot;,
-  &quot;run_rmd&quot;       , &quot;analysis/report-te-1/report-te-1.Rmd&quot;
+  &quot;run_rmd&quot;   , &quot;analysis/car-report-1/car-report-1.Rmd&quot;,
+  &quot;run_rmd&quot;   , &quot;analysis/report-te-1/report-te-1.Rmd&quot;
 
   # Dashboards
-  #&quot;run_rmd&quot;       , &quot;analysis/dashboard-1/dashboard-1.Rmd&quot;
+  # &quot;run_rmd&quot; , &quot;analysis/dashboard-1/dashboard-1.Rmd&quot;
 )
 
-run_file_r &lt;- function( minion ) {
+run_r &lt;- function( minion ) {
   message(&quot;\nStarting `&quot;, basename(minion), &quot;` at &quot;, Sys.time(), &quot;.&quot;)
   base::source(minion, local=new.env())
   message(&quot;Completed `&quot;, basename(minion), &quot;`.&quot;)
   return( TRUE )
 }
-run_ferry_sql &lt;- function( minion ) {
+run_sql &lt;- function( minion ) {
   message(&quot;\nStarting `&quot;, basename(minion), &quot;` at &quot;, Sys.time(), &quot;.&quot;)
   OuhscMunge::execute_sql_file(minion, config$dsn_staging)
   message(&quot;Completed `&quot;, basename(minion), &quot;`.&quot;)
@@ -309,10 +309,10 @@ run_rmd &lt;- function( minion ) {
 }
 </code></pre>
 
-<pre><code class="r">message(&quot;Starting flow of `&quot;, basename(getwd()), &quot;` at &quot;, Sys.time(), &quot;.&quot;)
+<pre><code class="r">message(&quot;Starting flow of `&quot;, basename(base::getwd()), &quot;` at &quot;, Sys.time(), &quot;.&quot;)
 </code></pre>
 
-<pre><code>## Starting flow of `RAnalysisSkeleton` at 2019-09-20 16:18:57.
+<pre><code>## Starting flow of `RAnalysisSkeleton` at 2019-09-20 16:28:42.
 </code></pre>
 
 <pre><code class="r">warn_level_initial &lt;- as.integer(options(&quot;warn&quot;))
@@ -329,7 +329,7 @@ elapsed_duration &lt;- system.time({
 </code></pre>
 
 <pre><code>## 
-## Starting `simulate-mlm-1.R` at 2019-09-20 16:18:57.
+## Starting `simulate-mlm-1.R` at 2019-09-20 16:28:43.
 </code></pre>
 
 <pre><code>## Loading required namespace: readr
@@ -354,7 +354,7 @@ elapsed_duration &lt;- system.time({
 </code></pre>
 
 <pre><code>## 
-## Starting `car-ellis.R` at 2019-09-20 16:18:59.
+## Starting `car-ellis.R` at 2019-09-20 16:28:44.
 </code></pre>
 
 <pre><code>## Parsed with column specification:
@@ -378,35 +378,35 @@ elapsed_duration &lt;- system.time({
 </code></pre>
 
 <pre><code>## 
-## Starting `mlm-1-ellis.R` at 2019-09-20 16:18:59.
+## Starting `mlm-1-ellis.R` at 2019-09-20 16:28:44.
 </code></pre>
 
 <pre><code>## Completed `mlm-1-ellis.R`.
 </code></pre>
 
 <pre><code>## 
-## Starting `te-ellis.R` at 2019-09-20 16:18:59.
+## Starting `te-ellis.R` at 2019-09-20 16:28:44.
 </code></pre>
 
 <pre><code>## Completed `te-ellis.R`.
 </code></pre>
 
 <pre><code>## 
-## Starting `subject-1-ellis.R` at 2019-09-20 16:19:00.
+## Starting `subject-1-ellis.R` at 2019-09-20 16:28:45.
 </code></pre>
 
 <pre><code>## Completed `subject-1-ellis.R`.
 </code></pre>
 
 <pre><code>## 
-## Starting `randomization-block-simple.R` at 2019-09-20 16:19:00.
+## Starting `randomization-block-simple.R` at 2019-09-20 16:28:45.
 </code></pre>
 
 <pre><code>## Completed `randomization-block-simple.R`.
 </code></pre>
 
 <pre><code>## 
-## Starting `mlm-1-scribe.R` at 2019-09-20 16:19:00.
+## Starting `mlm-1-scribe.R` at 2019-09-20 16:28:45.
 </code></pre>
 
 <pre><code>## Loading required namespace: odbc
@@ -424,7 +424,7 @@ elapsed_duration &lt;- system.time({
 </code></pre>
 
 <pre><code>## 
-## Starting `te-scribe.R` at 2019-09-20 16:19:01.
+## Starting `te-scribe.R` at 2019-09-20 16:28:45.
 </code></pre>
 
 <pre><code>## Row Count          : 3,080
@@ -437,7 +437,7 @@ elapsed_duration &lt;- system.time({
 </code></pre>
 
 <pre><code>## 
-## Starting `car-report-1.Rmd` at 2019-09-20 16:19:01.
+## Starting `car-report-1.Rmd` at 2019-09-20 16:28:46.
 </code></pre>
 
 <pre><code>## 
@@ -642,7 +642,7 @@ elapsed_duration &lt;- system.time({
 <pre><code>## output file: car-report-1.knit.md
 </code></pre>
 
-<pre><code>## /usr/lib/rstudio/bin/pandoc/pandoc +RTS -K512m -RTS car-report-1.utf8.md --to html4 --from markdown+autolink_bare_uris+ascii_identifiers+tex_math_single_backslash+smart --output car-report-1.html --email-obfuscation none --self-contained --standalone --section-divs --table-of-contents --toc-depth 3 --variable toc_float=1 --variable toc_selectors=h1,h2,h3 --variable toc_collapsed=1 --variable toc_smooth_scroll=1 --variable toc_print=1 --template /home/wibeasley/R/x86_64-pc-linux-gnu-library/3.6/rmarkdown/rmd/h/default.html --no-highlight --variable highlightjs=1 --number-sections --css ../common/styles.css --variable &#39;theme:bootstrap&#39; --include-in-header /tmp/Rtmpp0xrWS/rmarkdown-str35f85fe36315.html --mathjax --variable &#39;mathjax-url:https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML&#39;
+<pre><code>## /usr/lib/rstudio/bin/pandoc/pandoc +RTS -K512m -RTS car-report-1.utf8.md --to html4 --from markdown+autolink_bare_uris+ascii_identifiers+tex_math_single_backslash+smart --output car-report-1.html --email-obfuscation none --self-contained --standalone --section-divs --table-of-contents --toc-depth 3 --variable toc_float=1 --variable toc_selectors=h1,h2,h3 --variable toc_collapsed=1 --variable toc_smooth_scroll=1 --variable toc_print=1 --template /home/wibeasley/R/x86_64-pc-linux-gnu-library/3.6/rmarkdown/rmd/h/default.html --no-highlight --variable highlightjs=1 --number-sections --css ../common/styles.css --variable &#39;theme:bootstrap&#39; --include-in-header /tmp/Rtmp5IZwKD/rmarkdown-str3a0b36a195c1.html --mathjax --variable &#39;mathjax-url:https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML&#39;
 </code></pre>
 
 <pre><code>## 
@@ -653,7 +653,7 @@ elapsed_duration &lt;- system.time({
 </code></pre>
 
 <pre><code>## 
-## Starting `report-te-1.Rmd` at 2019-09-20 16:19:12.
+## Starting `report-te-1.Rmd` at 2019-09-20 16:28:56.
 </code></pre>
 
 <pre><code>## 
@@ -881,7 +881,7 @@ elapsed_duration &lt;- system.time({
 <pre><code>## output file: report-te-1.knit.md
 </code></pre>
 
-<pre><code>## /usr/lib/rstudio/bin/pandoc/pandoc +RTS -K512m -RTS report-te-1.utf8.md --to html4 --from markdown+autolink_bare_uris+ascii_identifiers+tex_math_single_backslash+smart --output report-te-1.html --email-obfuscation none --self-contained --standalone --section-divs --table-of-contents --toc-depth 3 --variable toc_float=1 --variable toc_selectors=h1,h2,h3 --variable toc_collapsed=1 --variable toc_smooth_scroll=1 --variable toc_print=1 --template /home/wibeasley/R/x86_64-pc-linux-gnu-library/3.6/rmarkdown/rmd/h/default.html --no-highlight --variable highlightjs=1 --number-sections --css ../common/styles.css --variable &#39;theme:bootstrap&#39; --include-in-header /tmp/Rtmpp0xrWS/rmarkdown-str35f828a76f5d.html --mathjax --variable &#39;mathjax-url:https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML&#39;
+<pre><code>## /usr/lib/rstudio/bin/pandoc/pandoc +RTS -K512m -RTS report-te-1.utf8.md --to html4 --from markdown+autolink_bare_uris+ascii_identifiers+tex_math_single_backslash+smart --output report-te-1.html --email-obfuscation none --self-contained --standalone --section-divs --table-of-contents --toc-depth 3 --variable toc_float=1 --variable toc_selectors=h1,h2,h3 --variable toc_collapsed=1 --variable toc_smooth_scroll=1 --variable toc_print=1 --template /home/wibeasley/R/x86_64-pc-linux-gnu-library/3.6/rmarkdown/rmd/h/default.html --no-highlight --variable highlightjs=1 --number-sections --css ../common/styles.css --variable &#39;theme:bootstrap&#39; --include-in-header /tmp/Rtmp5IZwKD/rmarkdown-str3a0b3a5dc5f1.html --mathjax --variable &#39;mathjax-url:https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML&#39;
 </code></pre>
 
 <pre><code>## 
@@ -891,17 +891,17 @@ elapsed_duration &lt;- system.time({
 <pre><code>## /home/wibeasley/Documents/wibeasley/RAnalysisSkeleton/analysis/report-te-1/report-te-1.html
 </code></pre>
 
-<pre><code class="r">message(&quot;Completed flow of `&quot;, basename(getwd()), &quot;` at &quot;, Sys.time(), &quot;&quot;)
+<pre><code class="r">message(&quot;Completed flow of `&quot;, basename(base::getwd()), &quot;` at &quot;, Sys.time(), &quot;&quot;)
 </code></pre>
 
-<pre><code>## Completed flow of `RAnalysisSkeleton` at 2019-09-20 16:19:30
+<pre><code>## Completed flow of `RAnalysisSkeleton` at 2019-09-20 16:29:14
 </code></pre>
 
 <pre><code class="r">elapsed_duration
 </code></pre>
 
 <pre><code>##    user  system elapsed 
-##  33.393   2.790  32.825
+##  32.136   2.451  31.484
 </code></pre>
 
 <pre><code class="r">options(warn=warn_level_initial)  # Restore the whatever warning level you started with.
@@ -990,7 +990,7 @@ packages used):</p>
 <pre><code class="r">Sys.time()
 </code></pre>
 
-<pre><code>## [1] &quot;2019-09-20 16:19:30 PDT&quot;
+<pre><code>## [1] &quot;2019-09-20 16:29:14 PDT&quot;
 </code></pre>
 
 </body>

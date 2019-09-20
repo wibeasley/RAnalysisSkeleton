@@ -62,37 +62,37 @@ ds_rail  <- tibble::tribble(
   ~fx               , ~path,
 
   # Simulate observed data
-  "run_file_r"      , "manipulation/simulation/simulate-mlm-1.R",
-  # "run_file_r"      , "manipulation/simulation/simulate-te.R",
+  "run_r"     , "manipulation/simulation/simulate-mlm-1.R",
+  # "run_r"   , "manipulation/simulation/simulate-te.R",
 
   # First run the manipulation files to prepare the dataset(s).
-  "run_file_r"      , "manipulation/car-ellis.R",
-  "run_file_r"      , "manipulation/mlm-1-ellis.R",
-  "run_file_r"      , "manipulation/te-ellis.R",
-  "run_file_r"      , "manipulation/subject-1-ellis.R",
+  "run_r"     , "manipulation/car-ellis.R",
+  "run_r"     , "manipulation/mlm-1-ellis.R",
+  "run_r"     , "manipulation/te-ellis.R",
+  "run_r"     , "manipulation/subject-1-ellis.R",
 
-  # "run_ferry_sql" , "manipulation/inserts-to-normalized-tables.sql"
-  "run_file_r"      , "manipulation/randomization-block-simple.R",
+  # "run_sql" , "manipulation/inserts-to-normalized-tables.sql"
+  "run_r"     , "manipulation/randomization-block-simple.R",
 
   # Scribes
-  "run_file_r"    , "manipulation/mlm-1-scribe.R",
-  "run_file_r"    , "manipulation/te-scribe.R",
+  "run_r"     , "manipulation/mlm-1-scribe.R",
+  "run_r"     , "manipulation/te-scribe.R",
 
   # Reports
-  "run_rmd"       , "analysis/car-report-1/car-report-1.Rmd",
-  "run_rmd"       , "analysis/report-te-1/report-te-1.Rmd"
+  "run_rmd"   , "analysis/car-report-1/car-report-1.Rmd",
+  "run_rmd"   , "analysis/report-te-1/report-te-1.Rmd"
 
   # Dashboards
-  #"run_rmd"       , "analysis/dashboard-1/dashboard-1.Rmd"
+  # "run_rmd" , "analysis/dashboard-1/dashboard-1.Rmd"
 )
 
-run_file_r <- function( minion ) {
+run_r <- function( minion ) {
   message("\nStarting `", basename(minion), "` at ", Sys.time(), ".")
   base::source(minion, local=new.env())
   message("Completed `", basename(minion), "`.")
   return( TRUE )
 }
-run_ferry_sql <- function( minion ) {
+run_sql <- function( minion ) {
   message("\nStarting `", basename(minion), "` at ", Sys.time(), ".")
   OuhscMunge::execute_sql_file(minion, config$dsn_staging)
   message("Completed `", basename(minion), "`.")
@@ -123,11 +123,11 @@ if( !all(file_found) ) {
 
 
 ```r
-message("Starting flow of `", basename(getwd()), "` at ", Sys.time(), ".")
+message("Starting flow of `", basename(base::getwd()), "` at ", Sys.time(), ".")
 ```
 
 ```
-## Starting flow of `RAnalysisSkeleton` at 2019-09-20 16:18:57.
+## Starting flow of `RAnalysisSkeleton` at 2019-09-20 16:28:42.
 ```
 
 ```r
@@ -146,7 +146,7 @@ elapsed_duration <- system.time({
 
 ```
 ## 
-## Starting `simulate-mlm-1.R` at 2019-09-20 16:18:57.
+## Starting `simulate-mlm-1.R` at 2019-09-20 16:28:43.
 ```
 
 ```
@@ -179,7 +179,7 @@ elapsed_duration <- system.time({
 
 ```
 ## 
-## Starting `car-ellis.R` at 2019-09-20 16:18:59.
+## Starting `car-ellis.R` at 2019-09-20 16:28:44.
 ```
 
 ```
@@ -206,7 +206,7 @@ elapsed_duration <- system.time({
 
 ```
 ## 
-## Starting `mlm-1-ellis.R` at 2019-09-20 16:18:59.
+## Starting `mlm-1-ellis.R` at 2019-09-20 16:28:44.
 ```
 
 ```
@@ -215,7 +215,7 @@ elapsed_duration <- system.time({
 
 ```
 ## 
-## Starting `te-ellis.R` at 2019-09-20 16:18:59.
+## Starting `te-ellis.R` at 2019-09-20 16:28:44.
 ```
 
 ```
@@ -224,7 +224,7 @@ elapsed_duration <- system.time({
 
 ```
 ## 
-## Starting `subject-1-ellis.R` at 2019-09-20 16:19:00.
+## Starting `subject-1-ellis.R` at 2019-09-20 16:28:45.
 ```
 
 ```
@@ -233,7 +233,7 @@ elapsed_duration <- system.time({
 
 ```
 ## 
-## Starting `randomization-block-simple.R` at 2019-09-20 16:19:00.
+## Starting `randomization-block-simple.R` at 2019-09-20 16:28:45.
 ```
 
 ```
@@ -242,7 +242,7 @@ elapsed_duration <- system.time({
 
 ```
 ## 
-## Starting `mlm-1-scribe.R` at 2019-09-20 16:19:00.
+## Starting `mlm-1-scribe.R` at 2019-09-20 16:28:45.
 ```
 
 ```
@@ -264,7 +264,7 @@ elapsed_duration <- system.time({
 
 ```
 ## 
-## Starting `te-scribe.R` at 2019-09-20 16:19:01.
+## Starting `te-scribe.R` at 2019-09-20 16:28:45.
 ```
 
 ```
@@ -280,7 +280,7 @@ elapsed_duration <- system.time({
 
 ```
 ## 
-## Starting `car-report-1.Rmd` at 2019-09-20 16:19:01.
+## Starting `car-report-1.Rmd` at 2019-09-20 16:28:46.
 ```
 
 ```
@@ -431,7 +431,7 @@ elapsed_duration <- system.time({
 ```
 
 ```
-## /usr/lib/rstudio/bin/pandoc/pandoc +RTS -K512m -RTS car-report-1.utf8.md --to html4 --from markdown+autolink_bare_uris+ascii_identifiers+tex_math_single_backslash+smart --output car-report-1.html --email-obfuscation none --self-contained --standalone --section-divs --table-of-contents --toc-depth 3 --variable toc_float=1 --variable toc_selectors=h1,h2,h3 --variable toc_collapsed=1 --variable toc_smooth_scroll=1 --variable toc_print=1 --template /home/wibeasley/R/x86_64-pc-linux-gnu-library/3.6/rmarkdown/rmd/h/default.html --no-highlight --variable highlightjs=1 --number-sections --css ../common/styles.css --variable 'theme:bootstrap' --include-in-header /tmp/Rtmpp0xrWS/rmarkdown-str35f85fe36315.html --mathjax --variable 'mathjax-url:https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML'
+## /usr/lib/rstudio/bin/pandoc/pandoc +RTS -K512m -RTS car-report-1.utf8.md --to html4 --from markdown+autolink_bare_uris+ascii_identifiers+tex_math_single_backslash+smart --output car-report-1.html --email-obfuscation none --self-contained --standalone --section-divs --table-of-contents --toc-depth 3 --variable toc_float=1 --variable toc_selectors=h1,h2,h3 --variable toc_collapsed=1 --variable toc_smooth_scroll=1 --variable toc_print=1 --template /home/wibeasley/R/x86_64-pc-linux-gnu-library/3.6/rmarkdown/rmd/h/default.html --no-highlight --variable highlightjs=1 --number-sections --css ../common/styles.css --variable 'theme:bootstrap' --include-in-header /tmp/Rtmp5IZwKD/rmarkdown-str3a0b36a195c1.html --mathjax --variable 'mathjax-url:https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML'
 ```
 
 ```
@@ -445,7 +445,7 @@ elapsed_duration <- system.time({
 
 ```
 ## 
-## Starting `report-te-1.Rmd` at 2019-09-20 16:19:12.
+## Starting `report-te-1.Rmd` at 2019-09-20 16:28:56.
 ```
 
 ```
@@ -620,7 +620,7 @@ elapsed_duration <- system.time({
 ```
 
 ```
-## /usr/lib/rstudio/bin/pandoc/pandoc +RTS -K512m -RTS report-te-1.utf8.md --to html4 --from markdown+autolink_bare_uris+ascii_identifiers+tex_math_single_backslash+smart --output report-te-1.html --email-obfuscation none --self-contained --standalone --section-divs --table-of-contents --toc-depth 3 --variable toc_float=1 --variable toc_selectors=h1,h2,h3 --variable toc_collapsed=1 --variable toc_smooth_scroll=1 --variable toc_print=1 --template /home/wibeasley/R/x86_64-pc-linux-gnu-library/3.6/rmarkdown/rmd/h/default.html --no-highlight --variable highlightjs=1 --number-sections --css ../common/styles.css --variable 'theme:bootstrap' --include-in-header /tmp/Rtmpp0xrWS/rmarkdown-str35f828a76f5d.html --mathjax --variable 'mathjax-url:https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML'
+## /usr/lib/rstudio/bin/pandoc/pandoc +RTS -K512m -RTS report-te-1.utf8.md --to html4 --from markdown+autolink_bare_uris+ascii_identifiers+tex_math_single_backslash+smart --output report-te-1.html --email-obfuscation none --self-contained --standalone --section-divs --table-of-contents --toc-depth 3 --variable toc_float=1 --variable toc_selectors=h1,h2,h3 --variable toc_collapsed=1 --variable toc_smooth_scroll=1 --variable toc_print=1 --template /home/wibeasley/R/x86_64-pc-linux-gnu-library/3.6/rmarkdown/rmd/h/default.html --no-highlight --variable highlightjs=1 --number-sections --css ../common/styles.css --variable 'theme:bootstrap' --include-in-header /tmp/Rtmp5IZwKD/rmarkdown-str3a0b3a5dc5f1.html --mathjax --variable 'mathjax-url:https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML'
 ```
 
 ```
@@ -633,11 +633,11 @@ elapsed_duration <- system.time({
 ```
 
 ```r
-message("Completed flow of `", basename(getwd()), "` at ", Sys.time(), "")
+message("Completed flow of `", basename(base::getwd()), "` at ", Sys.time(), "")
 ```
 
 ```
-## Completed flow of `RAnalysisSkeleton` at 2019-09-20 16:19:30
+## Completed flow of `RAnalysisSkeleton` at 2019-09-20 16:29:14
 ```
 
 ```r
@@ -646,7 +646,7 @@ elapsed_duration
 
 ```
 ##    user  system elapsed 
-##  33.393   2.790  32.825
+##  32.136   2.451  31.484
 ```
 
 ```r
@@ -742,6 +742,6 @@ Sys.time()
 ```
 
 ```
-## [1] "2019-09-20 16:19:30 PDT"
+## [1] "2019-09-20 16:29:14 PDT"
 ```
 

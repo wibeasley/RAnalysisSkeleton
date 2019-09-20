@@ -203,7 +203,7 @@ For the sake of documentation and reproducibility, the current report was render
   <summary>Environment <span class="glyphicon glyphicon-plus-sign"></span></summary>
 
 ```
-─ Session info ─────────────────────────────────────────────────────────────
+─ Session info ──────────────────────────────────────────────────────────
  setting  value                       
  version  R version 3.6.1 (2019-07-05)
  os       Ubuntu 18.04.3 LTS          
@@ -215,7 +215,7 @@ For the sake of documentation and reproducibility, the current report was render
  tz       America/Los_Angeles         
  date     2019-09-20                  
 
-─ Packages ─────────────────────────────────────────────────────────────────
+─ Packages ──────────────────────────────────────────────────────────────
  package     * version    date       lib source                       
  assertthat    0.2.1      2019-03-21 [1] CRAN (R 3.6.0)               
  backports     1.1.4      2019-04-10 [1] CRAN (R 3.6.0)               
@@ -299,4 +299,4 @@ For the sake of documentation and reproducibility, the current report was render
 
 
 
-Report rendered by wibeasley at 2019-09-20, 16:19 -0700 in 7 seconds.
+Report rendered by wibeasley at 2019-09-20, 16:28 -0700 in 6 seconds.

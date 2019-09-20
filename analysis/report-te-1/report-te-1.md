@@ -71,18 +71,18 @@ verifies there are ~77 different values (although they're mostly unreadable).
 Marginals County
 ---------------------------------------------------------------------------
 
-![](figure-png/marginals-county-1.png)<!-- -->![](figure-png/marginals-county-2.png)<!-- -->![](figure-png/marginals-county-3.png)<!-- -->![](figure-png/marginals-county-4.png)<!-- -->![](figure-png/marginals-county-5.png)<!-- -->![](figure-png/marginals-county-6.png)<!-- -->![](figure-png/marginals-county-7.png)<!-- -->![](figure-png/marginals-county-8.png)<!-- -->![](figure-png/marginals-county-9.png)<!-- -->
+<img src="figure-png/marginals-county-1.png" style="display: block; margin: auto;" /><img src="figure-png/marginals-county-2.png" style="display: block; margin: auto;" /><img src="figure-png/marginals-county-3.png" style="display: block; margin: auto;" /><img src="figure-png/marginals-county-4.png" style="display: block; margin: auto;" /><img src="figure-png/marginals-county-5.png" style="display: block; margin: auto;" /><img src="figure-png/marginals-county-6.png" style="display: block; margin: auto;" /><img src="figure-png/marginals-county-7.png" style="display: block; margin: auto;" /><img src="figure-png/marginals-county-8.png" style="display: block; margin: auto;" /><img src="figure-png/marginals-county-9.png" style="display: block; margin: auto;" />
 
 Marginals County-Month
 ---------------------------------------------------------------------------
 
-![](figure-png/marginals-county-month-1.png)<!-- -->![](figure-png/marginals-county-month-2.png)<!-- -->![](figure-png/marginals-county-month-3.png)<!-- -->
+<img src="figure-png/marginals-county-month-1.png" style="display: block; margin: auto;" /><img src="figure-png/marginals-county-month-2.png" style="display: block; margin: auto;" /><img src="figure-png/marginals-county-month-3.png" style="display: block; margin: auto;" />
 
 
 Scatterplots
 ---------------------------------------------------------------------------
 
-![](figure-png/scatterplots-1.png)<!-- -->![](figure-png/scatterplots-2.png)<!-- -->
+<img src="figure-png/scatterplots-1.png" style="display: block; margin: auto;" /><img src="figure-png/scatterplots-2.png" style="display: block; margin: auto;" />
 
 ```
 $y
@@ -286,7 +286,6 @@ For the sake of documentation and reproducibility, the current report was render
  DT                0.8         2019-08-07 [1]
  ellipsis          0.2.0.1     2019-07-02 [1]
  evaluate          0.14        2019-05-28 [1]
- fansi             0.4.0       2018-10-05 [1]
  fs                1.3.1       2019-05-06 [1]
  ggplot2         * 3.2.1       2019-08-10 [1]
  glue              1.3.1       2019-03-12 [1]
@@ -329,7 +328,6 @@ For the sake of documentation and reproducibility, the current report was render
  rmarkdown         1.15        2019-08-21 [1]
  rprojroot         1.3-2       2018-01-03 [1]
  RSQLite           2.1.2       2019-07-24 [1]
- rstudioapi        0.10        2019-03-19 [1]
  scales            1.0.0       2018-08-09 [1]
  sessioninfo       1.1.1       2018-11-05 [1]
  stringi           1.4.3       2019-03-12 [1]
@@ -341,7 +339,6 @@ For the sake of documentation and reproducibility, the current report was render
  tidyr             1.0.0       2019-09-11 [1]
  tidyselect        0.2.5       2018-10-11 [1]
  usethis           1.5.1       2019-07-04 [1]
- utf8              1.1.4       2018-05-24 [1]
  vctrs             0.2.0       2019-07-05 [1]
  viridisLite       0.3.0       2018-02-01 [1]
  withr             2.1.2       2018-03-15 [1]
@@ -368,7 +365,6 @@ For the sake of documentation and reproducibility, the current report was render
  CRAN (R 3.6.0)                          
  CRAN (R 3.6.0)                          
  CRAN (R 3.6.1)                          
- CRAN (R 3.6.0)                          
  CRAN (R 3.6.0)                          
  CRAN (R 3.6.0)                          
  CRAN (R 3.6.0)                          
@@ -417,13 +413,11 @@ For the sake of documentation and reproducibility, the current report was render
  CRAN (R 3.6.0)                          
  CRAN (R 3.6.0)                          
  CRAN (R 3.6.0)                          
- CRAN (R 3.6.0)                          
  Github (Melinae/TabularManifest@4cbc21c)
  Github (yihui/testit@e77fb10)           
  CRAN (R 3.6.1)                          
  CRAN (R 3.6.0)                          
  CRAN (R 3.6.1)                          
- CRAN (R 3.6.0)                          
  CRAN (R 3.6.0)                          
  CRAN (R 3.6.0)                          
  CRAN (R 3.6.0)                          
@@ -443,4 +437,4 @@ For the sake of documentation and reproducibility, the current report was render
 
 
 
-Report rendered by wibeasley at 2019-09-20, 16:13 -0700 in 15 seconds.
+Report rendered by wibeasley at 2019-09-20, 16:19 -0700 in 14 seconds.

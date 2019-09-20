@@ -67,21 +67,13 @@ Graphs
 Marginals
 ---------------------------------------------------------------------------
 
-
-```
-Warning: `drop_na_()` is deprecated as of tidyr 1.0.0.
-Please use `drop_na()` instead.
-This warning is displayed once per session.
-Call `lifecycle::last_warnings()` to see where this warning was generated.
-```
-
-![](figure-png/marginals-1.png)<!-- -->![](figure-png/marginals-2.png)<!-- -->![](figure-png/marginals-3.png)<!-- -->![](figure-png/marginals-4.png)<!-- -->
+<img src="figure-png/marginals-1.png" style="display: block; margin: auto;" /><img src="figure-png/marginals-2.png" style="display: block; margin: auto;" /><img src="figure-png/marginals-3.png" style="display: block; margin: auto;" /><img src="figure-png/marginals-4.png" style="display: block; margin: auto;" />
 
 
 Scatterplots
 ---------------------------------------------------------------------------
 
-![](figure-png/scatterplots-1.png)<!-- -->![](figure-png/scatterplots-2.png)<!-- -->![](figure-png/scatterplots-3.png)<!-- -->![](figure-png/scatterplots-4.png)<!-- -->![](figure-png/scatterplots-5.png)<!-- -->
+<img src="figure-png/scatterplots-1.png" style="display: block; margin: auto;" /><img src="figure-png/scatterplots-2.png" style="display: block; margin: auto;" /><img src="figure-png/scatterplots-3.png" style="display: block; margin: auto;" /><img src="figure-png/scatterplots-4.png" style="display: block; margin: auto;" /><img src="figure-png/scatterplots-5.png" style="display: block; margin: auto;" />
 
 
 Models
@@ -211,7 +203,7 @@ For the sake of documentation and reproducibility, the current report was render
   <summary>Environment <span class="glyphicon glyphicon-plus-sign"></span></summary>
 
 ```
-─ Session info ──────────────────────────────────────────────────────────
+─ Session info ─────────────────────────────────────────────────────────────
  setting  value                       
  version  R version 3.6.1 (2019-07-05)
  os       Ubuntu 18.04.3 LTS          
@@ -223,7 +215,7 @@ For the sake of documentation and reproducibility, the current report was render
  tz       America/Los_Angeles         
  date     2019-09-20                  
 
-─ Packages ──────────────────────────────────────────────────────────────
+─ Packages ─────────────────────────────────────────────────────────────────
  package     * version    date       lib source                       
  assertthat    0.2.1      2019-03-21 [1] CRAN (R 3.6.0)               
  backports     1.1.4      2019-04-10 [1] CRAN (R 3.6.0)               
@@ -244,7 +236,6 @@ For the sake of documentation and reproducibility, the current report was render
  DT            0.8        2019-08-07 [1] CRAN (R 3.6.1)               
  ellipsis      0.2.0.1    2019-07-02 [1] CRAN (R 3.6.0)               
  evaluate      0.14       2019-05-28 [1] CRAN (R 3.6.0)               
- fansi         0.4.0      2018-10-05 [1] CRAN (R 3.6.0)               
  fs            1.3.1      2019-05-06 [1] CRAN (R 3.6.0)               
  ggplot2     * 3.2.1      2019-08-10 [1] CRAN (R 3.6.1)               
  glue          1.3.1      2019-03-12 [1] CRAN (R 3.6.0)               
@@ -281,7 +272,6 @@ For the sake of documentation and reproducibility, the current report was render
  rmarkdown     1.15       2019-08-21 [1] CRAN (R 3.6.1)               
  rprojroot     1.3-2      2018-01-03 [1] CRAN (R 3.6.0)               
  RSQLite       2.1.2      2019-07-24 [1] CRAN (R 3.6.1)               
- rstudioapi    0.10       2019-03-19 [1] CRAN (R 3.6.0)               
  scales        1.0.0      2018-08-09 [1] CRAN (R 3.6.0)               
  sessioninfo   1.1.1      2018-11-05 [1] CRAN (R 3.6.0)               
  stringi       1.4.3      2019-03-12 [1] CRAN (R 3.6.0)               
@@ -292,7 +282,6 @@ For the sake of documentation and reproducibility, the current report was render
  tidyr         1.0.0      2019-09-11 [1] CRAN (R 3.6.1)               
  tidyselect    0.2.5      2018-10-11 [1] CRAN (R 3.6.0)               
  usethis       1.5.1      2019-07-04 [1] CRAN (R 3.6.0)               
- utf8          1.1.4      2018-05-24 [1] CRAN (R 3.6.0)               
  vctrs         0.2.0      2019-07-05 [1] CRAN (R 3.6.0)               
  viridisLite   0.3.0      2018-02-01 [1] CRAN (R 3.6.0)               
  withr         2.1.2      2018-03-15 [1] CRAN (R 3.6.0)               
@@ -310,4 +299,4 @@ For the sake of documentation and reproducibility, the current report was render
 
 
 
-Report rendered by wibeasley at 2019-09-20, 16:13 -0700 in 7 seconds.
+Report rendered by wibeasley at 2019-09-20, 16:19 -0700 in 7 seconds.

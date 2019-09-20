@@ -25,6 +25,8 @@ path_db                        <- config$path_database
 
 figure_path <- 'stitched-output/manipulation/ellis/subject-1-ellis/'
 
+# Execute to specify the column types.  It might require some manual adjustment (eg doubles to integers).
+#   OuhscMunge::readr_spec_aligned(config$path_subject_1_raw)
 col_types <- readr::cols_only(
   subject_id          = readr::col_integer(),
   county_id           = readr::col_integer(),
@@ -35,7 +37,6 @@ col_types <- readr::cols_only(
 
 # ---- load-data ---------------------------------------------------------------
 # Read the CSVs
-# readr::spec_csv(config$path_subject_1_raw)
 ds <- readr::read_csv(config$path_subject_1_raw  , col_types=col_types)
 
 rm(col_types)

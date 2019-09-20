@@ -45,6 +45,8 @@ path_in_tulsa     <- "data-public/raw/te/month-tulsa.csv"
 path_in_rural     <- "data-public/raw/te/nurse-month-rural.csv"
 path_county       <- "data-public/raw/te/county.csv"
 
+# Execute to specify the column types.  It might require some manual adjustment (eg doubles to integers).
+# OuhscMunge::readr_spec_aligned(path_in_oklahoma)
 col_types_oklahoma <- readr::cols_only( # readr::spec_csv(path_in_oklahoma)
   `Employee..`          = readr::col_integer(),
   `Year`                = readr::col_integer(),

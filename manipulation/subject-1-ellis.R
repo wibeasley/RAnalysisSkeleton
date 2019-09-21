@@ -12,11 +12,10 @@ requireNamespace("readr"        )
 requireNamespace("tidyr"        )
 requireNamespace("dplyr"        ) # Avoid attaching dplyr, b/c its function names conflict with a lot of packages (esp base, stats, and plyr).
 requireNamespace("rlang"        ) # Language constucts, like quosures
-requireNamespace("testit"       ) # For asserting conditions meet expected patterns/conditions.
 requireNamespace("checkmate"    ) # For asserting conditions meet expected patterns/conditions. # remotes::install_github("mllg/checkmate")
 requireNamespace("DBI"          ) # Database-agnostic interface
 requireNamespace("RSQLite"      ) # Lightweight database for non-PHI data.
-# requireNamespace("RODBC"      ) # For communicating with SQL Server over a locally-configured DSN.  Uncomment if you use 'upload-to-db' chunk.
+# requireNamespace("odbc"         ) # For communicating with SQL Server over a locally-configured DSN.  Uncomment if you use 'upload-to-db' chunk.
 requireNamespace("OuhscMunge"   ) # remotes::install_github(repo="OuhscBbmc/OuhscMunge")
 
 # ---- declare-globals ---------------------------------------------------------
@@ -24,8 +23,10 @@ requireNamespace("OuhscMunge"   ) # remotes::install_github(repo="OuhscBbmc/Ouhs
 config                         <- config::get()
 path_db                        <- config$path_database
 
-figure_path <- 'stitched-output/manipulation/ellis/mlm-1-ellis/'
+figure_path <- 'stitched-output/manipulation/ellis/subject-1-ellis/'
 
+# Execute to specify the column types.  It might require some manual adjustment (eg doubles to integers).
+#   OuhscMunge::readr_spec_aligned(config$path_subject_1_raw)
 col_types <- readr::cols_only(
   subject_id          = readr::col_integer(),
   county_id           = readr::col_integer(),
@@ -36,7 +37,6 @@ col_types <- readr::cols_only(
 
 # ---- load-data ---------------------------------------------------------------
 # Read the CSVs
-# readr::spec_csv(config$path_subject_1_raw)
 ds <- readr::read_csv(config$path_subject_1_raw  , col_types=col_types)
 
 rm(col_types)
@@ -48,20 +48,21 @@ rm(col_types)
 ds
 
 # ---- tweak-data --------------------------------------------------------------
-# OuhscMunge::column_rename_headstart(ds) #Spit out columns to help write call ato `dplyr::rename()`.
+# OuhscMunge::column_rename_headstart(ds) # Help write `dplyr::select()` call.
 ds <-
   ds %>%
-  dplyr::select(!!c( #`select()` implicitly drops the other columns not mentioned.
-    "subject_id",
-    "county_id",
-    "gender_id",
-    "race",
-    "ethnicity"
-  )) %>%
+  dplyr::select(    # `dplyr::select()` drops columns not included.
+    subject_id,
+    county_id,
+    gender_id,
+    race,
+    ethnicity
+  ) %>%
   dplyr::mutate(
 
   )  %>%
-  dplyr::arrange(subject_id)
+  dplyr::arrange(subject_id) # %>%
+  # tibble::rowid_to_column("subject_id") # Add a unique index if necessary
 
 # ---- verify-values -----------------------------------------------------------
 # OuhscMunge::verify_value_headstart(ds)
@@ -72,22 +73,24 @@ checkmate::assert_character(ds$race       , any.missing=F , pattern="^.{5,41}$" 
 checkmate::assert_character(ds$ethnicity  , any.missing=F , pattern="^.{18,30}$"   )
 
 # ---- specify-columns-to-upload -----------------------------------------------
-# dput(colnames(ds)) # Print colnames for line below.
-columns_to_write <- c(
-  "subject_id",
-  "county_id",
-  "gender_id",
-  "race",
-  "ethnicity"
-)
+# Print colnames that `dplyr::select()`  should contain below:
+#   cat(paste0("    ", colnames(ds), collapse=",\n"))
+
+# Define the subset of columns that will be needed in the analyses.
+#   The fewer columns that are exported, the fewer things that can break downstream.
+
 ds_slim <-
   ds %>%
   # dplyr::slice(1:100) %>%
-  dplyr::select(!!columns_to_write)
+  dplyr::select(
+    subject_id,
+    county_id,
+    gender_id,
+    race,
+    ethnicity
+  )
 
 ds_slim
-
-rm(columns_to_write)
 
 # ---- save-to-disk ------------------------------------------------------------
 # If there's no PHI, a rectangular CSV is usually adequate, and it's portable to other machines and software.
@@ -96,6 +99,17 @@ rm(columns_to_write)
 
 
 # ---- save-to-db --------------------------------------------------------------
+# If a database already exists, this single function uploads to a SQL Server database.
+# OuhscMunge::upload_sqls_odbc(
+#   d             = ds_slim,
+#   schema_name   = "skeleton",         # Or config$schema_name
+#   table_name    = "subject",
+#   dsn_name      = "skeleton-example", # Or config$dsn_qqqqq
+#   clear_table   = T,
+#   create_table  = F
+# ) # 0.012 minutes
+
+
 # If there's no PHI, a local database like SQLite fits a nice niche if
 #   * the data is relational and
 #   * later, only portions need to be queried/retrieved at a time (b/c everything won't need to be loaded into R's memory)

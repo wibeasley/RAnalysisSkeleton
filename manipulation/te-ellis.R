@@ -45,6 +45,8 @@ path_in_tulsa     <- "data-public/raw/te/month-tulsa.csv"
 path_in_rural     <- "data-public/raw/te/nurse-month-rural.csv"
 path_county       <- "data-public/raw/te/county.csv"
 
+# Execute to specify the column types.  It might require some manual adjustment (eg doubles to integers).
+# OuhscMunge::readr_spec_aligned(path_in_oklahoma)
 col_types_oklahoma <- readr::cols_only( # readr::spec_csv(path_in_oklahoma)
   `Employee..`          = readr::col_integer(),
   `Year`                = readr::col_integer(),
@@ -106,14 +108,14 @@ ds_nurse_month_rural
 ds_county
 
 # ---- tweak-data --------------------------------------------------------------
-# OuhscMunge::column_rename_headstart(ds_county) #Spit out columns to help write call ato `dplyr::rename()`.
+# OuhscMunge::column_rename_headstart(ds_county) # Help write `dplyr::select()` call.
 ds_county <-
   ds_county %>%
-  dplyr::select(!!c(    # `dplyr::select()` drops columns not mentioned.
-    "county_id"     = "CountyID",
-    "county_name"   = "CountyName",
-    "region_id"     = "C1LeadNurseRegion"
-  ))
+  dplyr::select(    # `dplyr::select()` drops columns not included.
+    county_id     = CountyID,
+    county_name   = CountyName,
+    region_id     = C1LeadNurseRegion
+  )
 
 # ---- groom-oklahoma ----------------------------------------------------------
 # Sanitize illegal variable names if desired: colnames(ds_nurse_month_oklahoma) <- make.names(colnames(ds_nurse_month_oklahoma))
@@ -122,14 +124,14 @@ ds_county <-
 # Groom the nurse-month dataset for Oklahoma County.
 ds_nurse_month_oklahoma <-
   ds_nurse_month_oklahoma %>%
-  dplyr::select(!!c(    # `dplyr::select()` drops columns not mentioned.
-    # "employee_number"         = "`Employee..`",         # Used to be "Employee #" before sanitizing. Drop b/c unnecessary.
-    "year"                      = "Year",
-    "month"                     = "Month",
-    "fte"                       = "FTE",
-    "fmla_hours"                = "FMLA.Hours",         # Used to be "FMLA Hours" before sanitizing.
-    "training_hours"            = "Training.Hours"      # Used to be "Training Hours" before sanitizing.
-  )) %>%
+  dplyr::select(    # `dplyr::select()` drops columns not included.
+    # employee_number         = `Employee..`,       # Used to be Employee # before sanitizing. Drop b/c unnecessary.
+    year                      = Year,
+    month                     = Month,
+    fte                       = FTE,
+    fmla_hours                = FMLA.Hours,         # Used to be FMLA Hours before sanitizing.
+    training_hours            = Training.Hours      # Used to be Training Hours before sanitizing.
+  ) %>%
   dplyr::mutate(
     county_id         = ds_county[ds_county$county_name=="Oklahoma", ]$county_id,        # Dynamically determine county ID.
     month             = as.Date(ISOdate(year, month, default_day_of_month)),             # Combine fields for one date.
@@ -181,11 +183,11 @@ rm(ds_nurse_month_oklahoma) #Remove this dataset so it's not accidentally used b
 # OuhscMunge::column_rename_headstart(ds_month_tulsa)
 ds_month_tulsa <-
   ds_month_tulsa %>%
-  dplyr::select(!!c(    # `dplyr::select()` drops columns not mentioned.
-    "month"             = "Month",
-    "fte"               = "FteSum",
-    "fmla_sum"          = "FmlaSum"
-  )) %>%
+  dplyr::select(    # `dplyr::select()` drops columns not included.
+    month             = Month,
+    fte               = FteSum,
+    fmla_sum          = FmlaSum
+  ) %>%
   dplyr::mutate(
     county_id           = ds_county[ds_county$county_name=="Tulsa", ]$county_id,  #Dynamically determine county ID
     #fmla_hours         = ifelse(!is.na(fmla_hours), fmla_hours, 0.0)
@@ -199,14 +201,14 @@ ds_month_tulsa
 # OuhscMunge::column_rename_headstart(ds_nurse_month_rural)
 ds_nurse_month_rural <-
   ds_nurse_month_rural %>%
-  dplyr::select(!!c(    # `dplyr::select()` drops columns not mentioned.
-    "county_name"             = "HOME_COUNTY",
-    "month"                   = "PERIOD",
-    "name_full"               = "Name",
-    "fte_percent"             = "FTE"
-    # "employee_id"           = "EMPLOYEEID"    # Not needed
-    # "region_id              = "REGIONID"      # Not needed
-  )) %>%
+  dplyr::select(    # `dplyr::select()` drops columns not included.
+    county_name             = HOME_COUNTY,
+    month                   = PERIOD,
+    name_full               = Name,
+    fte_percent             = FTE
+    # employee_id           = EMPLOYEEID    # Not needed
+    # region_id             = REGIONID      # Not needed
+  ) %>%
   dplyr::filter(!(county_name %in% counties_to_drop_from_rural)) %>%
   dplyr::mutate(
     month       = as.Date(paste0(month, "-", default_day_of_month), format="%m/%Y-%d"),
@@ -360,7 +362,7 @@ checkmate::assert_character(county_month_combo, pattern  ="^\\d{1,2} \\d{4}-\\d{
 
 # ---- specify-columns-to-write ------------------------------------------------
 # Print colnames that `dplyr::select()`  should contain below:
-#   cat(paste(colnames(ds), collapse=",\n"))
+#   cat(paste0("    ", colnames(ds), collapse=",\n"))
 
 # Define the subset of columns that will be needed in the analyses.
 #   The fewer columns that are exported, the fewer things that can break downstream.

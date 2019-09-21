@@ -133,33 +133,36 @@ county_month_combo   <- paste(ds_county_month$county_id, ds_county_month$month)
 checkmate::assert_character(county_month_combo, pattern  ="^\\d{1,2} \\d{4}-\\d{2}-\\d{2}$"            , any.missing=F, unique=T)
 
 # ---- specify-columns-to-upload -----------------------------------------------
-# dput(colnames(ds_county_month)) # Print colnames for line below.
-columns_to_write_county_month <- c(
-  "county_id", "county", "month", "fte", "fte_approximated",
-  "month_missing", "fte_rolling_median_11_month"
-)
+# Print colnames that `dplyr::select()`  should contain below:
+#   cat(paste0("    ", colnames(ds_county_month), collapse=",\n"))
+#   cat(paste0("    ", colnames(ds_county), collapse=",\n"))
+
 ds_slim_county_month <-
   ds_county_month %>%
   # dplyr::slice(1:100) %>%
-  dplyr::select(!!columns_to_write_county_month)
+  dplyr::select(
+    county_id,
+    county,
+    month,
+    fte,
+    fte_approximated,
+    month_missing,
+    fte_rolling_median_11_month
+  )
 ds_slim_county_month
 
-rm(columns_to_write_county_month)
-
-# dput(colnames(ds_county)) # Print colnames for line below.
-columns_to_write_county <- c(
-  "county_id", "county", "fte",
-  "cog_1_count",
-  "cog_1", "cog_2", "cog_3",
-  "phys_1", "phys_2", "phys_3"
-)
 ds_slim_county <-
   ds_county %>%
   # dplyr::slice(1:100) %>%
-  dplyr::select(!!columns_to_write_county)
+  dplyr::select(
+    county_id,
+    county,
+    fte,
+    cog_1_count,
+    cog_1 , cog_2 , cog_3,
+    phys_1, phys_2, phys_3
+  )
 ds_slim_county
-
-rm(columns_to_write_county)
 
 # ---- save-to-disk ------------------------------------------------------------
 readr::write_rds(ds_slim_county        , config$path_te_county           , compress="gz")

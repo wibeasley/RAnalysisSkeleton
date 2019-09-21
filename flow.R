@@ -41,37 +41,37 @@ ds_rail  <- tibble::tribble(
   ~fx               , ~path,
 
   # Simulate observed data
-  "run_file_r"      , "manipulation/simulation/simulate-mlm-1.R",
-  # "run_file_r"      , "manipulation/simulation/simulate-te.R",
+  "run_r"     , "manipulation/simulation/simulate-mlm-1.R",
+  # "run_r"   , "manipulation/simulation/simulate-te.R",
 
   # First run the manipulation files to prepare the dataset(s).
-  "run_file_r"      , "manipulation/car-ellis.R",
-  "run_file_r"      , "manipulation/mlm-1-ellis.R",
-  "run_file_r"      , "manipulation/te-ellis.R",
-  "run_file_r"      , "manipulation/subject-1-ellis.R",
+  "run_r"     , "manipulation/car-ellis.R",
+  "run_r"     , "manipulation/mlm-1-ellis.R",
+  "run_r"     , "manipulation/te-ellis.R",
+  "run_r"     , "manipulation/subject-1-ellis.R",
 
-  # "run_ferry_sql" , "manipulation/inserts-to-normalized-tables.sql"
-  "run_file_r"      , "manipulation/randomization-block-simple.R",
+  # "run_sql" , "manipulation/inserts-to-normalized-tables.sql"
+  "run_r"     , "manipulation/randomization-block-simple.R",
 
   # Scribes
-  "run_file_r"    , "manipulation/mlm-1-scribe.R",
-  "run_file_r"    , "manipulation/te-scribe.R",
+  "run_r"     , "manipulation/mlm-1-scribe.R",
+  "run_r"     , "manipulation/te-scribe.R",
 
   # Reports
-  "run_rmd"       , "analysis/car-report-1/car-report-1.Rmd",
-  "run_rmd"       , "analysis/report-te-1/report-te-1.Rmd"
+  "run_rmd"   , "analysis/car-report-1/car-report-1.Rmd",
+  "run_rmd"   , "analysis/report-te-1/report-te-1.Rmd"
 
   # Dashboards
-  #"run_rmd"       , "analysis/dashboard-1/dashboard-1.Rmd"
+  # "run_rmd" , "analysis/dashboard-1/dashboard-1.Rmd"
 )
 
-run_file_r <- function( minion ) {
+run_r <- function( minion ) {
   message("\nStarting `", basename(minion), "` at ", Sys.time(), ".")
   base::source(minion, local=new.env())
   message("Completed `", basename(minion), "`.")
   return( TRUE )
 }
-run_ferry_sql <- function( minion ) {
+run_sql <- function( minion ) {
   message("\nStarting `", basename(minion), "` at ", Sys.time(), ".")
   OuhscMunge::execute_sql_file(minion, config$dsn_staging)
   message("Completed `", basename(minion), "`.")
@@ -96,7 +96,7 @@ if( !all(file_found) ) {
 # ---- tweak-data --------------------------------------------------------------
 
 # ---- run ---------------------------------------------------------------------
-message("Starting flow of `", basename(getwd()), "` at ", Sys.time(), ".")
+message("Starting flow of `", basename(base::getwd()), "` at ", Sys.time(), ".")
 
 warn_level_initial <- as.integer(options("warn"))
 # options(warn=0)  # warnings are stored until the top–level function returns
@@ -110,7 +110,7 @@ elapsed_duration <- system.time({
   )
 })
 
-message("Completed flow of `", basename(getwd()), "` at ", Sys.time(), "")
+message("Completed flow of `", basename(base::getwd()), "` at ", Sys.time(), "")
 elapsed_duration
 options(warn=warn_level_initial)  # Restore the whatever warning level you started with.
 

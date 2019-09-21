@@ -20,7 +20,6 @@ requireNamespace("testit"       ) # For asserting conditions meet expected patte
 requireNamespace("checkmate"    ) # For asserting conditions meet expected patterns/conditions. # remotes::install_github("mllg/checkmate")
 requireNamespace("DBI"          ) # Database-agnostic interface
 requireNamespace("RSQLite"      ) # Lightweight database for non-PHI data.
-# requireNamespace("RODBC"      ) # For communicating with SQL Server over a locally-configured DSN.  Uncomment if you use 'upload-to-db' chunk.
 requireNamespace("OuhscMunge"   ) # remotes::install_github(repo="OuhscBbmc/OuhscMunge")
 
 # ---- declare-globals ---------------------------------------------------------
@@ -30,6 +29,8 @@ path_db                        <- config$path_database
 
 figure_path <- 'stitched-output/manipulation/ellis/mlm-1-ellis/'
 
+# Execute to specify the column types.  It might require some manual adjustment (eg doubles to integers).
+#   OuhscMunge::readr_spec_aligned(config$path_mlm_1_raw)
 col_types <- readr::cols_only(
   subject_id          = readr::col_integer(),
   wave_id             = readr::col_integer(),
@@ -49,7 +50,6 @@ col_types <- readr::cols_only(
 
 # ---- load-data ---------------------------------------------------------------
 # Read the CSVs
-# readr::spec_csv(config$path_mlm_1)
 ds <- readr::read_csv(config$path_mlm_1_raw  , col_types=col_types)
 
 rm(col_types)
@@ -61,25 +61,25 @@ rm(col_types)
 ds
 
 # ---- tweak-data --------------------------------------------------------------
-# OuhscMunge::column_rename_headstart(ds) #Spit out columns to help write call ato `dplyr::rename()`.
+# OuhscMunge::column_rename_headstart(ds) # Help write `dplyr::select()` call.
 ds <-
   ds %>%
-  dplyr::select(!!c( #`select()` implicitly drops the other columns not mentioned.
-    "subject_id",
-    "wave_id",
-    # "year",
-    "date_at_visit",
-    "age",
-    "county_id",
-    "int_factor_1",
-    "slope_factor_1",
-    "cog_1",
-    "cog_2",
-    "cog_3",
-    "phys_1",
-    "phys_2",
-    "phys_3"
-  )) %>%
+  dplyr::select(    # `dplyr::select()` drops columns not included.
+    subject_id,
+    wave_id,
+    # year,
+    date_at_visit,
+    age,
+    county_id,
+    int_factor_1,
+    slope_factor_1,
+    cog_1,
+    cog_2,
+    cog_3,
+    phys_1,
+    phys_2,
+    phys_3
+  ) %>%
   dplyr::mutate(
     subject_id  = factor(subject_id),
     year        = as.integer(lubridate::year(date_at_visit)),

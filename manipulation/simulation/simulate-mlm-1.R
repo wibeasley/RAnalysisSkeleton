@@ -224,22 +224,22 @@ subject_wave_combo   <- paste(ds$subject_id, ds$wave_id)
 checkmate::assert_character(subject_wave_combo, pattern  ="^\\d{4} \\d{1,2}$"   , any.missing=F, unique=T)
 
 # ---- specify-columns-to-upload -----------------------------------------------
-# dput(colnames(ds)) # Print colnames for line below.
+# Print colnames that `dplyr::select()`  should contain below:
+#   cat(paste0("    ", colnames(ds), collapse=",\n"))
+#   cat(paste0("    ", colnames(ds_subject), collapse=",\n"))
 
 ds_slim <-
   ds %>%
   # dplyr::slice(1:100) %>%
   dplyr::select(
-    !!c(
-      "subject_id",
-      "wave_id",
-      # "year",
-      "date_at_visit",
-      "age", "county_id",
-      "int_factor_1", "slope_factor_1",
-      "cog_1", "cog_2", "cog_3",
-      "phys_1", "phys_2", "phys_3"
-    )
+    subject_id,
+    wave_id,
+    # year,
+    date_at_visit,
+    age, county_id,
+    int_factor_1, slope_factor_1,
+    cog_1 , cog_2 , cog_3,
+    phys_1, phys_2, phys_3
   )
 ds_slim
 
@@ -247,13 +247,11 @@ ds_slim_subject <-
   ds_subject %>%
   # dplyr::slice(1:100) %>%
   dplyr::select(
-    !!c(
-      "subject_id",
-      "county_id", # May intentionally exclude this from the outptu, to mimic what the ellis has to do sometimes.
-      "gender_id",
-      "race",
-      "ethnicity"
-    )
+    subject_id,
+    county_id, # May intentionally exclude this from the output, to mimic what the ellis has to do sometimes.
+    gender_id,
+    race,
+    ethnicity
   )
 ds_slim
 

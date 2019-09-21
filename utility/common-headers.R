@@ -6,7 +6,6 @@ rm(list = ls(all.names = TRUE)) # Clear the memory of variables from previous ru
 library("magrittr")
 requireNamespace("readr")
 requireNamespace("dplyr")
-requireNamespace("testit")
 requireNamespace("checkmate")
 
 
@@ -17,18 +16,16 @@ requireNamespace("checkmate")
 
 
 # ---- tweak-data --------------------------------------------------------------
-# OuhscMunge::column_rename_headstart(ds) # Spit out columns to help populate arguments to `dplyr::rename()` or `dplyr::select()`.
+# OuhscMunge::column_rename_headstart(ds_county) # Help write `dplyr::select()` call.
 
 
 # ---- verify-values -----------------------------------------------------------
 # OuhscMunge::verify_value_headstart(ds) # Run this to line to start the checkmate asserts.
 checkmate::assert_integer(  ds$id                       , any.missing=F , lower=   1, upper=  32  , unique=T)
 
-testit::assert("All IDs should be nonmissing and positive.", all(!is.na(id) & (ds$id>0)))
-
 # ---- specify-columns-to-upload -----------------------------------------------
 # Print colnames that `dplyr::select()`  should contain below:
-#   cat(paste(colnames(ds), collapse=",\n"))
+#   cat(paste0("    ", colnames(ds), collapse=",\n"))
 
 
 # ---- save-to-db --------------------------------------------------------------

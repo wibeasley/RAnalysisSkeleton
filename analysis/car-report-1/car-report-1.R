@@ -95,7 +95,7 @@ histogram_continuous <- function(
   if( !inherits(d_observed, "data.frame") )
     stop("`d_observed` should inherit from the data.frame class.")
 
-  d_observed <- tidyr::drop_na_(d_observed, variable_name)
+  d_observed <- tidyr::drop_na(d_observed, !! variable_name)
 
   ds_mid_points               <- base::data.frame(label=c("italic(X)[50]", "bar(italic(X))"), stringsAsFactors=FALSE)
   ds_mid_points$value         <- c(stats::median(d_observed[[variable_name]]), base::mean(d_observed[[variable_name]]))

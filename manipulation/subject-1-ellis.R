@@ -102,9 +102,9 @@ ds_slim
 # If a database already exists, this single function uploads to a SQL Server database.
 # OuhscMunge::upload_sqls_odbc(
 #   d             = ds_slim,
-#   schema_name   = "skeleton",         # Or config$schema_name
+#   schema_name   = "skeleton",         # Or config$schema_name,
 #   table_name    = "subject",
-#   dsn_name      = "skeleton-example", # Or config$dsn_qqqqq
+#   dsn_name      = "skeleton-example", # Or config$dsn_qqqqq,
 #   clear_table   = T,
 #   create_table  = F
 # ) # 0.012 minutes

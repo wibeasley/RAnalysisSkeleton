@@ -210,16 +210,9 @@ rm(list = ls(all.names = TRUE)) # Clear the memory of variables from previous ru
 
 <pre><code class="r">library(&quot;magrittr&quot;)
 requireNamespace(&quot;purrr&quot;)
-</code></pre>
-
-<pre><code>## Loading required namespace: purrr
-</code></pre>
-
-<pre><code class="r"># requireNamespace(&quot;checkmate&quot;)
+requireNamespace(&quot;rlang&quot;)
+# requireNamespace(&quot;checkmate&quot;)
 requireNamespace(&quot;OuhscMunge&quot;) # remotes::install_github(&quot;OuhscBbmc/OuhscMunge&quot;)
-</code></pre>
-
-<pre><code>## Loading required namespace: OuhscMunge
 </code></pre>
 
 <pre><code class="r"># Allow multiple files below to have the same chunk name.
@@ -256,24 +249,25 @@ ds_rail  &lt;- tibble::tribble(
   &quot;run_r&quot;     , &quot;manipulation/simulation/simulate-mlm-1.R&quot;,
   # &quot;run_r&quot;   , &quot;manipulation/simulation/simulate-te.R&quot;,
 
-  # First run the manipulation files to prepare the dataset(s).
+  # ETL (extract-transform-load) the data from the outside world.
   &quot;run_r&quot;     , &quot;manipulation/car-ellis.R&quot;,
   &quot;run_r&quot;     , &quot;manipulation/mlm-1-ellis.R&quot;,
   &quot;run_r&quot;     , &quot;manipulation/te-ellis.R&quot;,
   &quot;run_r&quot;     , &quot;manipulation/subject-1-ellis.R&quot;,
 
+  # Second-level manipulation on data inside the warehouse.
   # &quot;run_sql&quot; , &quot;manipulation/inserts-to-normalized-tables.sql&quot;
   &quot;run_r&quot;     , &quot;manipulation/randomization-block-simple.R&quot;,
 
-  # Scribes
+  # Scribes create analysis-ready rectangles.
   &quot;run_r&quot;     , &quot;manipulation/mlm-1-scribe.R&quot;,
   &quot;run_r&quot;     , &quot;manipulation/te-scribe.R&quot;,
 
-  # Reports
+  # Reports for human consumers.
   &quot;run_rmd&quot;   , &quot;analysis/car-report-1/car-report-1.Rmd&quot;,
   &quot;run_rmd&quot;   , &quot;analysis/report-te-1/report-te-1.Rmd&quot;
 
-  # Dashboards
+  # Dashboards for human consumers.
   # &quot;run_rmd&quot; , &quot;analysis/dashboard-1/dashboard-1.Rmd&quot;
 )
 
@@ -312,7 +306,7 @@ run_rmd &lt;- function( minion ) {
 <pre><code class="r">message(&quot;Starting flow of `&quot;, basename(base::getwd()), &quot;` at &quot;, Sys.time(), &quot;.&quot;)
 </code></pre>
 
-<pre><code>## Starting flow of `RAnalysisSkeleton` at 2019-10-29 13:35:41.
+<pre><code>## Starting flow of `RAnalysisSkeleton` at 2019-10-29 13:49:01.
 </code></pre>
 
 <pre><code class="r">warn_level_initial &lt;- as.integer(options(&quot;warn&quot;))
@@ -320,41 +314,23 @@ run_rmd &lt;- function( minion ) {
 # options(warn=2)  # treat warnings as errors
 
 elapsed_duration &lt;- system.time({
-  purrr::invoke_map_lgl(
+  purrr::map2_lgl(
     ds_rail$fx,
-    ds_rail$path#,
-    # ds_rail$path_output
+    ds_rail$path,
+    function(fn, args) rlang::exec(fn, !!!args)
   )
 })
 </code></pre>
 
 <pre><code>## 
-## Starting `simulate-mlm-1.R` at 2019-10-29 13:35:42.
-</code></pre>
-
-<pre><code>## Loading required namespace: readr
-</code></pre>
-
-<pre><code>## Loading required namespace: tidyr
-</code></pre>
-
-<pre><code>## Loading required namespace: testit
-</code></pre>
-
-<pre><code>## Loading required namespace: checkmate
-</code></pre>
-
-<pre><code>## Loading required namespace: DBI
-</code></pre>
-
-<pre><code>## Loading required namespace: RSQLite
+## Starting `simulate-mlm-1.R` at 2019-10-29 13:49:02.
 </code></pre>
 
 <pre><code>## Completed `simulate-mlm-1.R`.
 </code></pre>
 
 <pre><code>## 
-## Starting `car-ellis.R` at 2019-10-29 13:35:43.
+## Starting `car-ellis.R` at 2019-10-29 13:49:02.
 </code></pre>
 
 <pre><code>## Parsed with column specification:
@@ -378,38 +354,35 @@ elapsed_duration &lt;- system.time({
 </code></pre>
 
 <pre><code>## 
-## Starting `mlm-1-ellis.R` at 2019-10-29 13:35:43.
+## Starting `mlm-1-ellis.R` at 2019-10-29 13:49:02.
 </code></pre>
 
 <pre><code>## Completed `mlm-1-ellis.R`.
 </code></pre>
 
 <pre><code>## 
-## Starting `te-ellis.R` at 2019-10-29 13:35:43.
+## Starting `te-ellis.R` at 2019-10-29 13:49:02.
 </code></pre>
 
 <pre><code>## Completed `te-ellis.R`.
 </code></pre>
 
 <pre><code>## 
-## Starting `subject-1-ellis.R` at 2019-10-29 13:35:44.
+## Starting `subject-1-ellis.R` at 2019-10-29 13:49:02.
 </code></pre>
 
 <pre><code>## Completed `subject-1-ellis.R`.
 </code></pre>
 
 <pre><code>## 
-## Starting `randomization-block-simple.R` at 2019-10-29 13:35:44.
+## Starting `randomization-block-simple.R` at 2019-10-29 13:49:02.
 </code></pre>
 
 <pre><code>## Completed `randomization-block-simple.R`.
 </code></pre>
 
 <pre><code>## 
-## Starting `mlm-1-scribe.R` at 2019-10-29 13:35:44.
-</code></pre>
-
-<pre><code>## Loading required namespace: odbc
+## Starting `mlm-1-scribe.R` at 2019-10-29 13:49:02.
 </code></pre>
 
 <pre><code>## Row Count          : 200
@@ -424,7 +397,7 @@ elapsed_duration &lt;- system.time({
 </code></pre>
 
 <pre><code>## 
-## Starting `te-scribe.R` at 2019-10-29 13:35:44.
+## Starting `te-scribe.R` at 2019-10-29 13:49:03.
 </code></pre>
 
 <pre><code>## Row Count          : 3,080
@@ -437,7 +410,7 @@ elapsed_duration &lt;- system.time({
 </code></pre>
 
 <pre><code>## 
-## Starting `car-report-1.Rmd` at 2019-10-29 13:35:44.
+## Starting `car-report-1.Rmd` at 2019-10-29 13:49:03.
 </code></pre>
 
 <pre><code>## 
@@ -642,7 +615,7 @@ elapsed_duration &lt;- system.time({
 <pre><code>## output file: car-report-1.knit.md
 </code></pre>
 
-<pre><code>## &quot;C:/Program Files/RStudio/bin/pandoc/pandoc&quot; +RTS -K512m -RTS car-report-1.utf8.md --to html4 --from markdown+autolink_bare_uris+tex_math_single_backslash+smart --output car-report-1.html --email-obfuscation none --self-contained --standalone --section-divs --table-of-contents --toc-depth 3 --variable toc_float=1 --variable toc_selectors=h1,h2,h3 --variable toc_collapsed=1 --variable toc_smooth_scroll=1 --variable toc_print=1 --template &quot;D:\Projects\RLibraries\rmarkdown\rmd\h\default.html&quot; --no-highlight --variable highlightjs=1 --number-sections --css &quot;..\common\styles.css&quot; --variable &quot;theme:bootstrap&quot; --include-in-header &quot;C:\Users\Will\AppData\Local\Temp\Rtmp61vgw0\rmarkdown-str2154529c73ad.html&quot; --mathjax --variable &quot;mathjax-url:https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML&quot; --lua-filter &quot;D:/Projects/RLibraries/rmarkdown/rmd/lua/pagebreak.lua&quot; --lua-filter &quot;D:/Projects/RLibraries/rmarkdown/rmd/lua/latex-div.lua&quot;
+<pre><code>## &quot;C:/Program Files/RStudio/bin/pandoc/pandoc&quot; +RTS -K512m -RTS car-report-1.utf8.md --to html4 --from markdown+autolink_bare_uris+tex_math_single_backslash+smart --output car-report-1.html --email-obfuscation none --self-contained --standalone --section-divs --table-of-contents --toc-depth 3 --variable toc_float=1 --variable toc_selectors=h1,h2,h3 --variable toc_collapsed=1 --variable toc_smooth_scroll=1 --variable toc_print=1 --template &quot;D:\Projects\RLibraries\rmarkdown\rmd\h\default.html&quot; --no-highlight --variable highlightjs=1 --number-sections --css &quot;..\common\styles.css&quot; --variable &quot;theme:bootstrap&quot; --include-in-header &quot;C:\Users\Will\AppData\Local\Temp\Rtmp61vgw0\rmarkdown-str21549bc6255.html&quot; --mathjax --variable &quot;mathjax-url:https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML&quot; --lua-filter &quot;D:/Projects/RLibraries/rmarkdown/rmd/lua/pagebreak.lua&quot; --lua-filter &quot;D:/Projects/RLibraries/rmarkdown/rmd/lua/latex-div.lua&quot;
 </code></pre>
 
 <pre><code>## 
@@ -653,7 +626,7 @@ elapsed_duration &lt;- system.time({
 </code></pre>
 
 <pre><code>## 
-## Starting `report-te-1.Rmd` at 2019-10-29 13:35:56.
+## Starting `report-te-1.Rmd` at 2019-10-29 13:49:10.
 </code></pre>
 
 <pre><code>## 
@@ -713,12 +686,8 @@ elapsed_duration &lt;- system.time({
 ## List of 2
 ##  $ echo   : symbol echo_chunks
 ##  $ message: symbol message_chunks
-</code></pre>
-
-<pre><code>## Loading required package: Matrix
-</code></pre>
-
-<pre><code>## 
+## 
+## 
   |                                                                       
   |...................                                              |  29%
 ##   ordinary text without R code
@@ -881,7 +850,7 @@ elapsed_duration &lt;- system.time({
 <pre><code>## output file: report-te-1.knit.md
 </code></pre>
 
-<pre><code>## &quot;C:/Program Files/RStudio/bin/pandoc/pandoc&quot; +RTS -K512m -RTS report-te-1.utf8.md --to html4 --from markdown+autolink_bare_uris+tex_math_single_backslash+smart --output report-te-1.html --email-obfuscation none --self-contained --standalone --section-divs --table-of-contents --toc-depth 3 --variable toc_float=1 --variable toc_selectors=h1,h2,h3 --variable toc_collapsed=1 --variable toc_smooth_scroll=1 --variable toc_print=1 --template &quot;D:\Projects\RLibraries\rmarkdown\rmd\h\default.html&quot; --no-highlight --variable highlightjs=1 --number-sections --css &quot;..\common\styles.css&quot; --variable &quot;theme:bootstrap&quot; --include-in-header &quot;C:\Users\Will\AppData\Local\Temp\Rtmp61vgw0\rmarkdown-str215464527a0f.html&quot; --mathjax --variable &quot;mathjax-url:https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML&quot; --lua-filter &quot;D:/Projects/RLibraries/rmarkdown/rmd/lua/pagebreak.lua&quot; --lua-filter &quot;D:/Projects/RLibraries/rmarkdown/rmd/lua/latex-div.lua&quot;
+<pre><code>## &quot;C:/Program Files/RStudio/bin/pandoc/pandoc&quot; +RTS -K512m -RTS report-te-1.utf8.md --to html4 --from markdown+autolink_bare_uris+tex_math_single_backslash+smart --output report-te-1.html --email-obfuscation none --self-contained --standalone --section-divs --table-of-contents --toc-depth 3 --variable toc_float=1 --variable toc_selectors=h1,h2,h3 --variable toc_collapsed=1 --variable toc_smooth_scroll=1 --variable toc_print=1 --template &quot;D:\Projects\RLibraries\rmarkdown\rmd\h\default.html&quot; --no-highlight --variable highlightjs=1 --number-sections --css &quot;..\common\styles.css&quot; --variable &quot;theme:bootstrap&quot; --include-in-header &quot;C:\Users\Will\AppData\Local\Temp\Rtmp61vgw0\rmarkdown-str21547cf11781.html&quot; --mathjax --variable &quot;mathjax-url:https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML&quot; --lua-filter &quot;D:/Projects/RLibraries/rmarkdown/rmd/lua/pagebreak.lua&quot; --lua-filter &quot;D:/Projects/RLibraries/rmarkdown/rmd/lua/latex-div.lua&quot;
 </code></pre>
 
 <pre><code>## 
@@ -894,14 +863,14 @@ elapsed_duration &lt;- system.time({
 <pre><code class="r">message(&quot;Completed flow of `&quot;, basename(base::getwd()), &quot;` at &quot;, Sys.time(), &quot;&quot;)
 </code></pre>
 
-<pre><code>## Completed flow of `RAnalysisSkeleton` at 2019-10-29 13:36:09
+<pre><code>## Completed flow of `RAnalysisSkeleton` at 2019-10-29 13:49:21
 </code></pre>
 
 <pre><code class="r">elapsed_duration
 </code></pre>
 
 <pre><code>##    user  system elapsed 
-##   15.26    1.25   27.64
+##   11.36    0.77   19.62
 </code></pre>
 
 <pre><code class="r">options(warn=warn_level_initial)  # Restore the whatever warning level you started with.
@@ -976,17 +945,17 @@ packages used):</p>
 ## [63] vctrs_0.2.0                 boot_1.3-23                
 ## [65] tools_3.6.1                 bit64_0.9-7                
 ## [67] OuhscMunge_0.1.9.9010       glue_1.3.1                 
-## [69] purrr_0.3.3                 hms_0.5.1                  
-## [71] processx_3.4.1              pkgload_1.0.2              
-## [73] yaml_2.2.0                  colorspace_1.4-1           
-## [75] sessioninfo_1.1.1           memoise_1.1.0              
-## [77] usethis_1.5.1
+## [69] markdown_1.1                purrr_0.3.3                
+## [71] hms_0.5.1                   processx_3.4.1             
+## [73] pkgload_1.0.2               yaml_2.2.0                 
+## [75] colorspace_1.4-1            sessioninfo_1.1.1          
+## [77] memoise_1.1.0               usethis_1.5.1
 </code></pre>
 
 <pre><code class="r">Sys.time()
 </code></pre>
 
-<pre><code>## [1] &quot;2019-10-29 13:36:09 CDT&quot;
+<pre><code>## [1] &quot;2019-10-29 13:49:21 CDT&quot;
 </code></pre>
 
 </body>

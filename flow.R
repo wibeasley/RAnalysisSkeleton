@@ -6,6 +6,7 @@ rm(list = ls(all.names = TRUE)) # Clear the memory of variables from previous ru
 # ---- load-packages -----------------------------------------------------------
 library("magrittr")
 requireNamespace("purrr")
+requireNamespace("rlang")
 # requireNamespace("checkmate")
 requireNamespace("OuhscMunge") # remotes::install_github("OuhscBbmc/OuhscMunge")
 
@@ -44,24 +45,25 @@ ds_rail  <- tibble::tribble(
   "run_r"     , "manipulation/simulation/simulate-mlm-1.R",
   # "run_r"   , "manipulation/simulation/simulate-te.R",
 
-  # First run the manipulation files to prepare the dataset(s).
+  # ETL (extract-transform-load) the data from the outside world.
   "run_r"     , "manipulation/car-ellis.R",
   "run_r"     , "manipulation/mlm-1-ellis.R",
   "run_r"     , "manipulation/te-ellis.R",
   "run_r"     , "manipulation/subject-1-ellis.R",
 
+  # Second-level manipulation on data inside the warehouse.
   # "run_sql" , "manipulation/inserts-to-normalized-tables.sql"
   "run_r"     , "manipulation/randomization-block-simple.R",
 
-  # Scribes
+  # Scribes create analysis-ready rectangles.
   "run_r"     , "manipulation/mlm-1-scribe.R",
   "run_r"     , "manipulation/te-scribe.R",
 
-  # Reports
+  # Reports for human consumers.
   "run_rmd"   , "analysis/car-report-1/car-report-1.Rmd",
   "run_rmd"   , "analysis/report-te-1/report-te-1.Rmd"
 
-  # Dashboards
+  # Dashboards for human consumers.
   # "run_rmd" , "analysis/dashboard-1/dashboard-1.Rmd"
 )
 

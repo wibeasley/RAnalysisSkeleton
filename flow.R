@@ -103,10 +103,10 @@ warn_level_initial <- as.integer(options("warn"))
 # options(warn=2)  # treat warnings as errors
 
 elapsed_duration <- system.time({
-  purrr::invoke_map_lgl(
+  purrr::map2_lgl(
     ds_rail$fx,
-    ds_rail$path#,
-    # ds_rail$path_output
+    ds_rail$path,
+    function(fn, args) rlang::exec(fn, !!!args)
   )
 })
 

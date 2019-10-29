@@ -71,18 +71,18 @@ verifies there are ~77 different values (although they're mostly unreadable).
 Marginals County
 ---------------------------------------------------------------------------
 
-<img src="figure-png/marginals-county-1.png" style="display: block; margin: auto;" /><img src="figure-png/marginals-county-2.png" style="display: block; margin: auto;" /><img src="figure-png/marginals-county-3.png" style="display: block; margin: auto;" /><img src="figure-png/marginals-county-4.png" style="display: block; margin: auto;" /><img src="figure-png/marginals-county-5.png" style="display: block; margin: auto;" /><img src="figure-png/marginals-county-6.png" style="display: block; margin: auto;" /><img src="figure-png/marginals-county-7.png" style="display: block; margin: auto;" /><img src="figure-png/marginals-county-8.png" style="display: block; margin: auto;" /><img src="figure-png/marginals-county-9.png" style="display: block; margin: auto;" />
+![](figure-png/marginals-county-1.png)<!-- -->![](figure-png/marginals-county-2.png)<!-- -->![](figure-png/marginals-county-3.png)<!-- -->![](figure-png/marginals-county-4.png)<!-- -->![](figure-png/marginals-county-5.png)<!-- -->![](figure-png/marginals-county-6.png)<!-- -->![](figure-png/marginals-county-7.png)<!-- -->![](figure-png/marginals-county-8.png)<!-- -->![](figure-png/marginals-county-9.png)<!-- -->
 
 Marginals County-Month
 ---------------------------------------------------------------------------
 
-<img src="figure-png/marginals-county-month-1.png" style="display: block; margin: auto;" /><img src="figure-png/marginals-county-month-2.png" style="display: block; margin: auto;" /><img src="figure-png/marginals-county-month-3.png" style="display: block; margin: auto;" />
+![](figure-png/marginals-county-month-1.png)<!-- -->![](figure-png/marginals-county-month-2.png)<!-- -->![](figure-png/marginals-county-month-3.png)<!-- -->
 
 
 Scatterplots
 ---------------------------------------------------------------------------
 
-<img src="figure-png/scatterplots-1.png" style="display: block; margin: auto;" /><img src="figure-png/scatterplots-2.png" style="display: block; margin: auto;" />
+![](figure-png/scatterplots-1.png)<!-- -->![](figure-png/scatterplots-2.png)<!-- -->
 
 ```
 $y
@@ -300,6 +300,7 @@ For the sake of documentation and reproducibility, the current report was render
  lme4            * 1.1-21      2019-03-05 [1]
  lubridate         1.7.4       2018-04-11 [1]
  magrittr        * 1.5         2014-11-22 [1]
+ markdown          1.1         2019-08-07 [1]
  MASS              7.3-51.4    2019-03-31 [3]
  Matrix          * 1.2-17      2019-03-22 [1]
  memoise           1.1.0       2017-04-21 [1]
@@ -380,6 +381,7 @@ For the sake of documentation and reproducibility, the current report was render
  CRAN (R 3.6.0)                          
  CRAN (R 3.6.0)                          
  CRAN (R 3.6.1)                          
+ CRAN (R 3.6.1)                          
  CRAN (R 3.6.0)                          
  CRAN (R 3.6.0)                          
  CRAN (R 3.6.0)                          
@@ -432,4 +434,4 @@ For the sake of documentation and reproducibility, the current report was render
 
 
 
-Report rendered by Will at 2019-10-29, 13:36 -0500 in 10 seconds.
+Report rendered by Will at 2019-10-29, 13:38 -0500 in 9 seconds.

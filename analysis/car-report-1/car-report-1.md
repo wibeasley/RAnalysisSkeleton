@@ -1,6 +1,6 @@
 ---
 title: Skeleton Report 1
-date: "Date: 2019-09-20"
+date: "Date: 2019-10-29"
 output:
   # radix::radix_article: # radix is a newer alternative that has some advantages over `html_document`.
   html_document:
@@ -203,100 +203,97 @@ For the sake of documentation and reproducibility, the current report was render
   <summary>Environment <span class="glyphicon glyphicon-plus-sign"></span></summary>
 
 ```
-─ Session info ──────────────────────────────────────────────────────────
- setting  value                       
- version  R version 3.6.1 (2019-07-05)
- os       Ubuntu 18.04.3 LTS          
- system   x86_64, linux-gnu           
- ui       RStudio                     
- language (EN)                        
- collate  en_US.UTF-8                 
- ctype    en_US.UTF-8                 
- tz       America/Los_Angeles         
- date     2019-09-20                  
+- Session info ----------------------------------------------------------
+ setting  value                                      
+ version  R version 3.6.1 Patched (2019-08-12 r76979)
+ os       Windows >= 8 x64                           
+ system   x86_64, mingw32                            
+ ui       RStudio                                    
+ language (EN)                                       
+ collate  English_United States.1252                 
+ ctype    English_United States.1252                 
+ tz       America/Chicago                            
+ date     2019-10-29                                 
 
-─ Packages ──────────────────────────────────────────────────────────────
- package     * version    date       lib source                       
- assertthat    0.2.1      2019-03-21 [1] CRAN (R 3.6.0)               
- backports     1.1.4      2019-04-10 [1] CRAN (R 3.6.0)               
- bit           1.1-14     2018-05-29 [1] CRAN (R 3.6.0)               
- bit64         0.9-7      2017-05-08 [1] CRAN (R 3.6.0)               
- blob          1.2.0      2019-07-09 [1] CRAN (R 3.6.0)               
- callr         3.3.1      2019-07-18 [1] CRAN (R 3.6.1)               
- checkmate     1.9.4      2019-07-04 [1] CRAN (R 3.6.0)               
- cli           1.1.0      2019-03-19 [1] CRAN (R 3.6.0)               
- colorspace    1.4-1      2019-03-18 [1] CRAN (R 3.6.0)               
- config        0.3        2018-03-27 [1] CRAN (R 3.6.0)               
- crayon        1.3.4      2017-09-16 [1] CRAN (R 3.6.0)               
- DBI           1.0.0      2018-05-02 [1] CRAN (R 3.6.0)               
- desc          1.2.0      2018-05-01 [1] CRAN (R 3.6.0)               
- devtools      2.2.0      2019-09-07 [1] CRAN (R 3.6.1)               
- digest        0.6.20     2019-07-04 [1] CRAN (R 3.6.0)               
- dplyr         0.8.3      2019-07-04 [1] CRAN (R 3.6.0)               
- DT            0.8        2019-08-07 [1] CRAN (R 3.6.1)               
- ellipsis      0.2.0.1    2019-07-02 [1] CRAN (R 3.6.0)               
- evaluate      0.14       2019-05-28 [1] CRAN (R 3.6.0)               
- fs            1.3.1      2019-05-06 [1] CRAN (R 3.6.0)               
- ggplot2     * 3.2.1      2019-08-10 [1] CRAN (R 3.6.1)               
- glue          1.3.1      2019-03-12 [1] CRAN (R 3.6.0)               
- gtable        0.3.0      2019-03-25 [1] CRAN (R 3.6.0)               
- highr         0.8        2019-03-20 [1] CRAN (R 3.6.0)               
- hms           0.5.1      2019-08-23 [1] CRAN (R 3.6.1)               
- htmltools     0.3.6      2017-04-28 [1] CRAN (R 3.6.0)               
- htmlwidgets   1.3        2018-09-30 [1] CRAN (R 3.6.0)               
- knitr       * 1.24       2019-08-08 [1] CRAN (R 3.6.1)               
- labeling      0.3        2014-08-23 [1] CRAN (R 3.6.0)               
- lattice       0.20-38    2018-11-04 [1] CRAN (R 3.6.0)               
- lazyeval      0.2.2      2019-03-15 [1] CRAN (R 3.6.0)               
- lifecycle     0.1.0      2019-08-01 [1] CRAN (R 3.6.1)               
- lubridate     1.7.4      2018-04-11 [1] CRAN (R 3.6.0)               
- magrittr    * 1.5        2014-11-22 [1] CRAN (R 3.6.0)               
- memoise       1.1.0      2017-04-21 [1] CRAN (R 3.6.0)               
- munsell       0.5.0      2018-06-12 [1] CRAN (R 3.6.0)               
- odbc          1.1.6      2018-06-09 [1] CRAN (R 3.6.0)               
- OuhscMunge    0.1.9.9010 2019-09-20 [1] local                        
- packrat       0.5.0      2018-11-14 [1] CRAN (R 3.6.0)               
- pillar        1.4.2      2019-06-29 [1] CRAN (R 3.6.0)               
- pkgbuild      1.0.5      2019-08-26 [1] CRAN (R 3.6.1)               
- pkgconfig     2.0.2      2018-08-16 [1] CRAN (R 3.6.0)               
- pkgload       1.0.2      2018-10-29 [1] CRAN (R 3.6.0)               
- prettyunits   1.0.2      2015-07-13 [1] CRAN (R 3.6.0)               
- processx      3.4.1      2019-07-18 [1] CRAN (R 3.6.1)               
- ps            1.3.0      2018-12-21 [1] CRAN (R 3.6.0)               
- purrr         0.3.2      2019-03-15 [1] CRAN (R 3.6.0)               
- R6            2.4.0      2019-02-14 [1] CRAN (R 3.6.0)               
- Rcpp          1.0.2      2019-07-25 [1] CRAN (R 3.6.1)               
- readr         1.3.1      2018-12-21 [1] CRAN (R 3.6.0)               
- remotes       2.1.0      2019-06-24 [1] CRAN (R 3.6.0)               
- rlang         0.4.0      2019-06-25 [1] CRAN (R 3.6.0)               
- rmarkdown     1.15       2019-08-21 [1] CRAN (R 3.6.1)               
- rprojroot     1.3-2      2018-01-03 [1] CRAN (R 3.6.0)               
- RSQLite       2.1.2      2019-07-24 [1] CRAN (R 3.6.1)               
- scales        1.0.0      2018-08-09 [1] CRAN (R 3.6.0)               
- sessioninfo   1.1.1      2018-11-05 [1] CRAN (R 3.6.0)               
- stringi       1.4.3      2019-03-12 [1] CRAN (R 3.6.0)               
- stringr       1.4.0      2019-02-10 [1] CRAN (R 3.6.0)               
- testit        0.9.1      2019-09-17 [1] Github (yihui/testit@e77fb10)
- testthat      2.2.1      2019-07-25 [1] CRAN (R 3.6.1)               
- tibble        2.1.3      2019-06-06 [1] CRAN (R 3.6.0)               
- tidyr         1.0.0      2019-09-11 [1] CRAN (R 3.6.1)               
- tidyselect    0.2.5      2018-10-11 [1] CRAN (R 3.6.0)               
- usethis       1.5.1      2019-07-04 [1] CRAN (R 3.6.0)               
- vctrs         0.2.0      2019-07-05 [1] CRAN (R 3.6.0)               
- viridisLite   0.3.0      2018-02-01 [1] CRAN (R 3.6.0)               
- withr         2.1.2      2018-03-15 [1] CRAN (R 3.6.0)               
- xfun          0.9        2019-08-21 [1] CRAN (R 3.6.1)               
- yaml          2.2.0      2018-07-25 [1] CRAN (R 3.6.0)               
- zeallot       0.1.0      2018-01-28 [1] CRAN (R 3.6.0)               
- zoo           1.8-6      2019-05-28 [1] CRAN (R 3.6.0)               
+- Packages --------------------------------------------------------------
+ package     * version    date       lib source        
+ assertthat    0.2.1      2019-03-21 [1] CRAN (R 3.6.0)
+ backports     1.1.5      2019-10-02 [1] CRAN (R 3.6.1)
+ bit           1.1-14     2018-05-29 [1] CRAN (R 3.6.0)
+ bit64         0.9-7      2017-05-08 [1] CRAN (R 3.6.0)
+ blob          1.2.0      2019-07-09 [1] CRAN (R 3.6.1)
+ callr         3.3.2      2019-09-22 [1] CRAN (R 3.6.1)
+ checkmate     1.9.4      2019-07-04 [1] CRAN (R 3.6.1)
+ cli           1.1.0      2019-03-19 [1] CRAN (R 3.6.0)
+ colorspace    1.4-1      2019-03-18 [1] CRAN (R 3.6.0)
+ config        0.3        2018-03-27 [1] CRAN (R 3.6.0)
+ crayon        1.3.4      2017-09-16 [1] CRAN (R 3.6.0)
+ DBI           1.0.0      2018-05-02 [1] CRAN (R 3.6.0)
+ desc          1.2.0      2018-05-01 [1] CRAN (R 3.6.0)
+ devtools      2.2.1      2019-09-24 [1] CRAN (R 3.6.1)
+ digest        0.6.22     2019-10-21 [1] CRAN (R 3.6.1)
+ dplyr         0.8.3      2019-07-04 [1] CRAN (R 3.6.1)
+ ellipsis      0.3.0      2019-09-20 [1] CRAN (R 3.6.1)
+ evaluate      0.14       2019-05-28 [1] CRAN (R 3.6.0)
+ fs            1.3.1      2019-05-06 [1] CRAN (R 3.6.0)
+ ggplot2     * 3.2.1      2019-08-10 [1] CRAN (R 3.6.1)
+ glue          1.3.1      2019-03-12 [1] CRAN (R 3.6.0)
+ gtable        0.3.0      2019-03-25 [1] CRAN (R 3.6.0)
+ highr         0.8        2019-03-20 [1] CRAN (R 3.6.0)
+ hms           0.5.1      2019-08-23 [1] CRAN (R 3.6.1)
+ htmltools     0.4.0      2019-10-04 [1] CRAN (R 3.6.1)
+ knitr       * 1.25       2019-09-18 [1] CRAN (R 3.6.1)
+ labeling      0.3        2014-08-23 [1] CRAN (R 3.6.0)
+ lattice       0.20-38    2018-11-04 [3] CRAN (R 3.6.1)
+ lazyeval      0.2.2      2019-03-15 [1] CRAN (R 3.6.0)
+ lifecycle     0.1.0      2019-08-01 [1] CRAN (R 3.6.1)
+ lubridate     1.7.4      2018-04-11 [1] CRAN (R 3.6.0)
+ magrittr    * 1.5        2014-11-22 [1] CRAN (R 3.6.0)
+ memoise       1.1.0      2017-04-21 [1] CRAN (R 3.6.0)
+ munsell       0.5.0      2018-06-12 [1] CRAN (R 3.6.0)
+ odbc          1.1.6      2018-06-09 [1] CRAN (R 3.6.0)
+ OuhscMunge    0.1.9.9010 2019-03-29 [1] local         
+ packrat       0.5.0      2018-11-14 [1] CRAN (R 3.6.0)
+ pillar        1.4.2      2019-06-29 [1] CRAN (R 3.6.1)
+ pkgbuild      1.0.6      2019-10-09 [1] CRAN (R 3.6.1)
+ pkgconfig     2.0.3      2019-09-22 [1] CRAN (R 3.6.1)
+ pkgload       1.0.2      2018-10-29 [1] CRAN (R 3.6.0)
+ prettyunits   1.0.2      2015-07-13 [1] CRAN (R 3.6.0)
+ processx      3.4.1      2019-07-18 [1] CRAN (R 3.6.1)
+ ps            1.3.0      2018-12-21 [1] CRAN (R 3.6.0)
+ purrr         0.3.3      2019-10-18 [1] CRAN (R 3.6.1)
+ R6            2.4.0      2019-02-14 [1] CRAN (R 3.6.0)
+ Rcpp          1.0.2      2019-07-25 [1] CRAN (R 3.6.1)
+ readr         1.3.1      2018-12-21 [1] CRAN (R 3.6.0)
+ remotes       2.1.0      2019-06-24 [1] CRAN (R 3.6.1)
+ rlang         0.4.1      2019-10-24 [1] CRAN (R 3.6.1)
+ rmarkdown     1.16       2019-10-01 [1] CRAN (R 3.6.1)
+ rprojroot     1.3-2      2018-01-03 [1] CRAN (R 3.6.0)
+ RSQLite       2.1.2      2019-07-24 [1] CRAN (R 3.6.1)
+ scales        1.0.0      2018-08-09 [1] CRAN (R 3.6.0)
+ sessioninfo   1.1.1      2018-11-05 [1] CRAN (R 3.6.0)
+ stringi       1.4.3      2019-03-12 [1] CRAN (R 3.6.0)
+ stringr       1.4.0      2019-02-10 [1] CRAN (R 3.6.0)
+ testit        0.10       2019-10-01 [1] CRAN (R 3.6.1)
+ testthat      2.2.1      2019-07-25 [1] CRAN (R 3.6.1)
+ tibble        2.1.3      2019-06-06 [1] CRAN (R 3.6.0)
+ tidyr         1.0.0      2019-09-11 [1] CRAN (R 3.6.1)
+ tidyselect    0.2.5      2018-10-11 [1] CRAN (R 3.6.0)
+ usethis       1.5.1      2019-07-04 [1] CRAN (R 3.6.1)
+ vctrs         0.2.0      2019-07-05 [1] CRAN (R 3.6.1)
+ viridisLite   0.3.0      2018-02-01 [1] CRAN (R 3.6.0)
+ withr         2.1.2      2018-03-15 [1] CRAN (R 3.6.0)
+ xfun          0.10       2019-10-01 [1] CRAN (R 3.6.1)
+ yaml          2.2.0      2018-07-25 [1] CRAN (R 3.6.0)
+ zeallot       0.1.0      2018-01-28 [1] CRAN (R 3.6.0)
+ zoo           1.8-6      2019-05-28 [1] CRAN (R 3.6.0)
 
-[1] /home/wibeasley/R/x86_64-pc-linux-gnu-library/3.6
-[2] /usr/local/lib/R/site-library
-[3] /usr/lib/R/site-library
-[4] /usr/lib/R/library
+[1] D:/Projects/RLibraries
+[2] D:/Users/Will/Documents/R/win-library/3.6
+[3] C:/Program Files/R/R-3.6.1patched/library
 ```
 </details>
 
 
 
-Report rendered by wibeasley at 2019-09-20, 16:28 -0700 in 6 seconds.
+Report rendered by Will at 2019-10-29, 13:35 -0500 in 5 seconds.

@@ -67,7 +67,7 @@ DBI::dbListTables(cnn)
 ds <- DBI::dbGetQuery(cnn, sql_event) #This needs to be activated each time a connection is made. #http://stackoverflow.com/questions/15301643/sqlite3-forgets-to-use-foreign-keys
 DBI::dbDisconnect(cnn); rm(cnn, sql_event)
 
-checkmate::assert_data_frame(ds           , nrows = 200)
+checkmate::assert_data_frame(ds           , min.rows = 200)
 
 # ---- tweak-data --------------------------------------------------------------
 dim(ds)

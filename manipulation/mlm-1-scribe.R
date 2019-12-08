@@ -6,7 +6,7 @@ rm(list = ls(all.names = TRUE)) # Clear the memory of variables from previous ru
 # base::source(file="Dal/Osdh/Arch/benchmark-client-program-arch.R") #Load retrieve_benchmark_client_program
 
 # ---- load-packages -----------------------------------------------------------
-library(magrittr                , quietly=TRUE)
+import::from("magrittr", "%>%")
 requireNamespace("DBI")
 requireNamespace("odbc")
 requireNamespace("tibble")

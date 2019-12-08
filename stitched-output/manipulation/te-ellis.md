@@ -3,7 +3,7 @@
 
 
 This report was automatically generated with the R package **knitr**
-(version 1.24).
+(version 1.26).
 
 
 ```r
@@ -19,21 +19,70 @@ rm(list = ls(all.names = TRUE)) # Clear the memory of variables from previous ru
 ```
 
 ```r
-# Attach these package(s) so their functions don't need to be qualified: http://r-pkgs.had.co.nz/namespace.html#search-path
-library(magrittr            , quietly=TRUE)
+# Attach these packages so their functions don't need to be qualified: http://r-pkgs.had.co.nz/namespace.html#search-path
+# library("ggplot2")
+
+# Import only certain functions of a package into the search path.
+import::from("magrittr", "%>%")
 
 # Verify these packages are available on the machine, but their functions need to be qualified: http://r-pkgs.had.co.nz/namespace.html#search-path
 requireNamespace("readr"        )
+```
+
+```
+## Loading required namespace: readr
+```
+
+```r
 requireNamespace("tidyr"        )
+```
+
+```
+## Loading required namespace: tidyr
+```
+
+```r
 requireNamespace("dplyr"        ) # Avoid attaching dplyr, b/c its function names conflict with a lot of packages (esp base, stats, and plyr).
 requireNamespace("rlang"        ) # Language constucts, like quosures
 requireNamespace("testit"       ) # For asserting conditions meet expected patterns/conditions.
+```
+
+```
+## Loading required namespace: testit
+```
+
+```r
 requireNamespace("checkmate"    ) # For asserting conditions meet expected patterns/conditions. # remotes::install_github("mllg/checkmate")
+```
+
+```
+## Loading required namespace: checkmate
+```
+
+```r
 requireNamespace("DBI"          ) # Database-agnostic interface
+```
+
+```
+## Loading required namespace: DBI
+```
+
+```r
 requireNamespace("RSQLite"      ) # Lightweight database for non-PHI data.
+```
+
+```
+## Loading required namespace: RSQLite
+```
+
+```r
 # requireNamespace("odbc"         ) # For communicating with SQL Server over a locally-configured DSN.  Uncomment if you use 'upload-to-db' chunk.
 # requireNamespace("RODBC"        ) # For communicating with SQL Server over a locally-configured DSN.  Uncomment if you use 'upload-to-db' chunk.
 requireNamespace("OuhscMunge"   ) # remotes::install_github(repo="OuhscBbmc/OuhscMunge")
+```
+
+```
+## Loading required namespace: OuhscMunge
 ```
 
 ```r
@@ -57,6 +106,8 @@ path_in_tulsa     <- "data-public/raw/te/month-tulsa.csv"
 path_in_rural     <- "data-public/raw/te/nurse-month-rural.csv"
 path_county       <- "data-public/raw/te/county.csv"
 
+# Execute to specify the column types.  It might require some manual adjustment (eg doubles to integers).
+# OuhscMunge::readr_spec_aligned(path_in_oklahoma)
 col_types_oklahoma <- readr::cols_only( # readr::spec_csv(path_in_oklahoma)
   `Employee..`          = readr::col_integer(),
   `Year`                = readr::col_integer(),
@@ -181,32 +232,32 @@ ds_county
 
 ```
 ## # A tibble: 77 x 13
-##    CountyID CountyName GeoID FipsCode FundingC1 FundingOcap
-##       <int> <chr>      <int>    <int>     <int>       <int>
-##  1        1 Adair      40001        1         1           0
-##  2        2 Alfalfa    40003        3         0           0
-##  3        3 Atoka      40005        5         1           0
-##  4        4 Beaver     40007        7         0           0
-##  5        5 Beckham    40009        9         1           0
-##  6        6 Blaine     40011       11         1           0
-##  7        7 Bryan      40013       13         1           0
-##  8        8 Caddo      40015       15         1           0
-##  9        9 Canadian   40017       17         1           0
-## 10       10 Carter     40019       19         1           0
-## # … with 67 more rows, and 7 more variables: C1LeadNurseRegion <int>,
-## #   C1LeadNurseName <chr>, Urban <int>, LabelLongitude <dbl>,
-## #   LabelLatitude <dbl>, MiechvEvaluation <int>, MiechvFormula <int>
+##    CountyID CountyName GeoID FipsCode FundingC1 FundingOcap C1LeadNurseRegi…
+##       <int> <chr>      <int>    <int>     <int>       <int>            <int>
+##  1        1 Adair      40001        1         1           0               11
+##  2        2 Alfalfa    40003        3         0           0               15
+##  3        3 Atoka      40005        5         1           0                4
+##  4        4 Beaver     40007        7         0           0                2
+##  5        5 Beckham    40009        9         1           0               14
+##  6        6 Blaine     40011       11         1           0                1
+##  7        7 Bryan      40013       13         1           0                6
+##  8        8 Caddo      40015       15         1           0               17
+##  9        9 Canadian   40017       17         1           0               10
+## 10       10 Carter     40019       19         1           0               12
+## # … with 67 more rows, and 6 more variables: C1LeadNurseName <chr>,
+## #   Urban <int>, LabelLongitude <dbl>, LabelLatitude <dbl>,
+## #   MiechvEvaluation <int>, MiechvFormula <int>
 ```
 
 ```r
-# OuhscMunge::column_rename_headstart(ds_county) #Spit out columns to help write call ato `dplyr::rename()`.
+# OuhscMunge::column_rename_headstart(ds_county) # Help write `dplyr::select()` call.
 ds_county <-
   ds_county %>%
-  dplyr::select(!!c(    # `dplyr::select()` drops columns not mentioned.
-    "county_id"     = "CountyID",
-    "county_name"   = "CountyName",
-    "region_id"     = "C1LeadNurseRegion"
-  ))
+  dplyr::select(    # `dplyr::select()` drops columns not included.
+    county_id     = CountyID,
+    county_name   = CountyName,
+    region_id     = C1LeadNurseRegion
+  )
 ```
 
 ```r
@@ -216,14 +267,14 @@ ds_county <-
 # Groom the nurse-month dataset for Oklahoma County.
 ds_nurse_month_oklahoma <-
   ds_nurse_month_oklahoma %>%
-  dplyr::select(!!c(    # `dplyr::select()` drops columns not mentioned.
-    # "employee_number"         = "`Employee..`",         # Used to be "Employee #" before sanitizing. Drop b/c unnecessary.
-    "year"                      = "Year",
-    "month"                     = "Month",
-    "fte"                       = "FTE",
-    "fmla_hours"                = "FMLA.Hours",         # Used to be "FMLA Hours" before sanitizing.
-    "training_hours"            = "Training.Hours"      # Used to be "Training Hours" before sanitizing.
-  )) %>%
+  dplyr::select(    # `dplyr::select()` drops columns not included.
+    # employee_number         = `Employee..`,       # Used to be Employee # before sanitizing. Drop b/c unnecessary.
+    year                      = Year,
+    month                     = Month,
+    fte                       = FTE,
+    fmla_hours                = FMLA.Hours,         # Used to be FMLA Hours before sanitizing.
+    training_hours            = Training.Hours      # Used to be Training Hours before sanitizing.
+  ) %>%
   dplyr::mutate(
     county_id         = ds_county[ds_county$county_name=="Oklahoma", ]$county_id,        # Dynamically determine county ID.
     month             = as.Date(ISOdate(year, month, default_day_of_month)),             # Combine fields for one date.
@@ -314,11 +365,11 @@ rm(ds_nurse_month_oklahoma) #Remove this dataset so it's not accidentally used b
 # OuhscMunge::column_rename_headstart(ds_month_tulsa)
 ds_month_tulsa <-
   ds_month_tulsa %>%
-  dplyr::select(!!c(    # `dplyr::select()` drops columns not mentioned.
-    "month"             = "Month",
-    "fte"               = "FteSum",
-    "fmla_sum"          = "FmlaSum"
-  )) %>%
+  dplyr::select(    # `dplyr::select()` drops columns not included.
+    month             = Month,
+    fte               = FteSum,
+    fmla_sum          = FmlaSum
+  ) %>%
   dplyr::mutate(
     county_id           = ds_county[ds_county$county_name=="Tulsa", ]$county_id,  #Dynamically determine county ID
     #fmla_hours         = ifelse(!is.na(fmla_hours), fmla_hours, 0.0)
@@ -350,14 +401,14 @@ ds_month_tulsa
 # OuhscMunge::column_rename_headstart(ds_nurse_month_rural)
 ds_nurse_month_rural <-
   ds_nurse_month_rural %>%
-  dplyr::select(!!c(    # `dplyr::select()` drops columns not mentioned.
-    "county_name"             = "HOME_COUNTY",
-    "month"                   = "PERIOD",
-    "name_full"               = "Name",
-    "fte_percent"             = "FTE"
-    # "employee_id"           = "EMPLOYEEID"    # Not needed
-    # "region_id              = "REGIONID"      # Not needed
-  )) %>%
+  dplyr::select(    # `dplyr::select()` drops columns not included.
+    county_name             = HOME_COUNTY,
+    month                   = PERIOD,
+    name_full               = Name,
+    fte_percent             = FTE
+    # employee_id           = EMPLOYEEID    # Not needed
+    # region_id             = REGIONID      # Not needed
+  ) %>%
   dplyr::filter(!(county_name %in% counties_to_drop_from_rural)) %>%
   dplyr::mutate(
     month       = as.Date(paste0(month, "-", default_day_of_month), format="%m/%Y-%d"),
@@ -600,7 +651,7 @@ checkmate::assert_character(county_month_combo, pattern  ="^\\d{1,2} \\d{4}-\\d{
 
 ```r
 # Print colnames that `dplyr::select()`  should contain below:
-#   cat(paste(colnames(ds), collapse=",\n"))
+#   cat(paste0("    ", colnames(ds), collapse=",\n"))
 
 # Define the subset of columns that will be needed in the analyses.
 #   The fewer columns that are exported, the fewer things that can break downstream.
@@ -781,11 +832,11 @@ sessionInfo()
 ```
 ## R version 3.6.1 (2019-07-05)
 ## Platform: x86_64-pc-linux-gnu (64-bit)
-## Running under: Ubuntu 18.04.3 LTS
+## Running under: Ubuntu 19.10
 ## 
 ## Matrix products: default
-## BLAS:   /usr/lib/x86_64-linux-gnu/blas/libblas.so.3.7.1
-## LAPACK: /usr/lib/x86_64-linux-gnu/lapack/liblapack.so.3.7.1
+## BLAS:   /usr/lib/x86_64-linux-gnu/blas/libblas.so.3.8.0
+## LAPACK: /usr/lib/x86_64-linux-gnu/lapack/liblapack.so.3.8.0
 ## 
 ## locale:
 ##  [1] LC_CTYPE=en_US.UTF-8       LC_NUMERIC=C              
@@ -798,52 +849,23 @@ sessionInfo()
 ## attached base packages:
 ## [1] stats     graphics  grDevices utils     datasets  methods   base     
 ## 
-## other attached packages:
-## [1] lme4_1.1-21   Matrix_1.2-17 knitr_1.24    ggplot2_3.2.1 magrittr_1.5 
-## 
 ## loaded via a namespace (and not attached):
-##  [1] pkgload_1.0.2               tidyr_1.0.0                
-##  [3] bit64_0.9-7                 viridisLite_0.3.0          
-##  [5] splines_3.6.1               OuhscMunge_0.1.9.9010      
-##  [7] assertthat_0.2.1            highr_0.8                  
-##  [9] blob_1.2.0                  yaml_2.2.0                 
-## [11] remotes_2.1.0               sessioninfo_1.1.1          
-## [13] pillar_1.4.2                RSQLite_2.1.2              
-## [15] backports_1.1.4             lattice_0.20-38            
-## [17] glue_1.3.1                  digest_0.6.20              
-## [19] checkmate_1.9.4             testit_0.9                 
-## [21] minqa_1.2.4                 colorspace_1.4-1           
-## [23] htmltools_0.3.6             pkgconfig_2.0.2            
-## [25] devtools_2.2.0              config_0.3                 
-## [27] purrr_0.3.2                 scales_1.0.0               
-## [29] processx_3.4.1              tibble_2.1.3               
-## [31] usethis_1.5.1               ellipsis_0.2.0.1           
-## [33] DT_0.8                      withr_2.1.2                
-## [35] lazyeval_0.2.2              cli_1.1.0                  
-## [37] crayon_1.3.4                memoise_1.1.0              
-## [39] evaluate_0.14               ps_1.3.0                   
-## [41] fansi_0.4.0                 fs_1.3.1                   
-## [43] TabularManifest_0.1-16.9003 nlme_3.1-141               
-## [45] MASS_7.3-51.4               pkgbuild_1.0.5             
-## [47] tools_3.6.1                 prettyunits_1.0.2          
-## [49] hms_0.5.1                   lifecycle_0.1.0            
-## [51] stringr_1.4.0               odbc_1.1.6                 
-## [53] munsell_0.5.0               callr_3.3.1                
-## [55] packrat_0.5.0               compiler_3.6.1             
-## [57] rlang_0.4.0                 nloptr_1.2.1               
-## [59] grid_3.6.1                  rstudioapi_0.10            
-## [61] htmlwidgets_1.3             labeling_0.3               
-## [63] rmarkdown_1.15              boot_1.3-23                
-## [65] testthat_2.2.1              gtable_0.3.0               
-## [67] DBI_1.0.0                   markdown_1.1               
-## [69] R6_2.4.0                    zoo_1.8-6                  
-## [71] lubridate_1.7.4             dplyr_0.8.3                
-## [73] utf8_1.1.4                  bit_1.1-14                 
-## [75] zeallot_0.1.0               rprojroot_1.3-2            
-## [77] readr_1.3.1                 desc_1.2.0                 
-## [79] stringi_1.4.3               Rcpp_1.0.2                 
-## [81] vctrs_0.2.0                 tidyselect_0.2.5           
-## [83] xfun_0.9
+##  [1] Rcpp_1.0.3            pillar_1.4.2          compiler_3.6.1       
+##  [4] tools_3.6.1           zeallot_0.1.0         digest_0.6.23        
+##  [7] packrat_0.5.0         import_1.1.0          bit_1.1-14           
+## [10] lattice_0.20-38       evaluate_0.14         RSQLite_2.1.3        
+## [13] memoise_1.1.0         lifecycle_0.1.0       tibble_2.1.3         
+## [16] checkmate_2.0.0       pkgconfig_2.0.3       rlang_0.4.2          
+## [19] cli_1.1.0             DBI_1.0.0             yaml_2.2.0           
+## [22] xfun_0.11             dplyr_0.8.3           stringr_1.4.0        
+## [25] knitr_1.26            vctrs_0.2.0           hms_0.5.2            
+## [28] grid_3.6.1            bit64_0.9-7           tidyselect_0.2.5     
+## [31] glue_1.3.1            OuhscMunge_0.1.9.9010 R6_2.4.1             
+## [34] fansi_0.4.0           tidyr_1.0.0           readr_1.3.1          
+## [37] purrr_0.3.3           blob_1.2.0            magrittr_1.5         
+## [40] backports_1.1.5       assertthat_0.2.1      testit_0.11          
+## [43] config_0.3            utf8_1.1.4            stringi_1.4.3        
+## [46] crayon_1.3.4          zoo_1.8-6
 ```
 
 ```r
@@ -851,6 +873,6 @@ Sys.time()
 ```
 
 ```
-## [1] "2019-09-15 15:54:20 CDT"
+## [1] "2019-12-08 00:17:38 CST"
 ```
 

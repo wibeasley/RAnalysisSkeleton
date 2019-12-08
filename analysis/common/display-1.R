@@ -41,8 +41,6 @@ spaghetti_1 <- function(
 
 
   if( !is.null(group_variable) & nrow(d)>0L ) {
-    # library(rlang)
-    # # library(dplyr)
     # group_var <- rlang::quo(group_variable)
     # time_var  <- rlang::quo(time_variable)
     # # print(UQ(group_variable))
@@ -56,7 +54,6 @@ spaghetti_1 <- function(
     #
     #   ) %>%
     #   dplyr::ungroup()
-    # # browser()
 
     ds_label_left   <- d[d[[time_variable]]==min(d[[time_variable]], na.rm=T), ]
     ds_label_right  <- d[d[[time_variable]]==max(d[[time_variable]], na.rm=T), ]

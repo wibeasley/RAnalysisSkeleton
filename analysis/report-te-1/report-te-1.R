@@ -6,9 +6,9 @@ rm(list = ls(all.names = TRUE)) # Clear the memory of variables from previous ru
 # source("something-something.R")
 
 # ---- load-packages -----------------------------------------------------------
-library(magrittr) # Pipes
 library(ggplot2)  # For graphing
 library(lme4)     # For mlms
+import::from("magrittr", "%>%")
 requireNamespace("dplyr")
 # requireNamespace("RColorBrewer")
 # requireNamespace("scales") #For formating values in graphs

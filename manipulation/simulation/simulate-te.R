@@ -3,7 +3,8 @@ rm(list = ls(all.names = TRUE)) # Clear the memory of variables from previous ru
 # ---- load-sources ------------------------------------------------------------
 
 # ---- load-packages -----------------------------------------------------------
-library(magrittr, quietly=TRUE)
+import::from("magrittr", "%>%")
+
 requireNamespace("readr")
 requireNamespace("dplyr")
 requireNamespace("DBI")

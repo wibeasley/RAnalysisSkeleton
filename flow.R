@@ -47,6 +47,7 @@ ds_rail  <- tibble::tribble(
   # "run_r"   , "manipulation/simulation/simulate-te.R",
 
   # ETL (extract-transform-load) the data from the outside world.
+  "run_r"     , "manipulation/ss-county-ellis.R",
   "run_r"     , "manipulation/car-ellis.R",
   "run_r"     , "manipulation/mlm-1-ellis.R",
   "run_r"     , "manipulation/te-ellis.R",

@@ -5,6 +5,8 @@ default:
 
     path_car_raw:             "data-public/raw/mtcar.csv"
 
+    path_ss_county:           "data-public/metadata/ss-county.csv"
+
     # Central Database (produced by Ellis lanes).
     path_database:            "data-public/derived/db.sqlite3"
 

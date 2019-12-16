@@ -1,0 +1,5 @@
+county_id,county_name,category,timezone,desired,notes
+51,Theodore,North,"America/Chicago",TRUE,"The notes are mostly for data entry personnel's observations"
+55,Clifford,North,"America/Chicago",TRUE,"If there is additional data needed, create new columns"
+62,Samuel,South,"America/Chicago",FALSE,NA_character_
+72,Woodrow,South,"Europe/London",TRUE,NA_character_

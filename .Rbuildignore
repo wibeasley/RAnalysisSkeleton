@@ -22,6 +22,7 @@
 ^code-of-conduct.md$
 ^config.yml$
 ^cran-comments\.md$
+^flow.R$
 ^README.html$
 ^license\.md$
 ^LICENSE\.md$

@@ -1,6 +1,6 @@
 ---
 title: Skeleton Report 1
-date: "Date: 2019-12-08"
+date: "Date: 2019-12-16"
 output:
   # radix::radix_article: # radix is a newer alternative that has some advantages over `html_document`.
   html_document:
@@ -213,7 +213,7 @@ For the sake of documentation and reproducibility, the current report was render
  collate  en_US.UTF-8                 
  ctype    en_US.UTF-8                 
  tz       America/Chicago             
- date     2019-12-08                  
+ date     2019-12-16                  
 
 ─ Packages ───────────────────────────────────────────────────────────────
  package     * version    date       lib
@@ -222,9 +222,9 @@ For the sake of documentation and reproducibility, the current report was render
  bit           1.1-14     2018-05-29 [1]
  bit64         0.9-7      2017-05-08 [1]
  blob          1.2.0      2019-07-09 [1]
- callr         3.3.2      2019-09-22 [1]
+ callr         3.4.0      2019-12-09 [1]
  checkmate     2.0.0      2019-12-03 [1]
- cli           1.1.0      2019-03-19 [1]
+ cli           2.0.0      2019-12-09 [1]
  colorspace    1.4-1      2019-03-18 [1]
  config        0.3        2018-03-27 [1]
  crayon        1.3.4      2017-09-16 [1]
@@ -235,6 +235,7 @@ For the sake of documentation and reproducibility, the current report was render
  dplyr         0.8.3      2019-07-04 [1]
  ellipsis      0.3.0      2019-09-20 [1]
  evaluate      0.14       2019-05-28 [1]
+ fansi         0.4.0      2018-10-05 [1]
  farver        2.0.1      2019-11-13 [1]
  fs            1.3.1      2019-05-06 [1]
  ggplot2     * 3.2.1      2019-08-10 [1]
@@ -253,7 +254,7 @@ For the sake of documentation and reproducibility, the current report was render
  magrittr      1.5        2014-11-22 [1]
  memoise       1.1.0      2017-04-21 [1]
  munsell       0.5.0      2018-06-12 [1]
- odbc          1.2.0      2019-11-28 [1]
+ odbc          1.2.1      2019-12-05 [1]
  OuhscMunge    0.1.9.9010 2019-11-16 [1]
  packrat       0.5.0      2018-11-14 [1]
  pillar        1.4.2      2019-06-29 [1]
@@ -271,7 +272,7 @@ For the sake of documentation and reproducibility, the current report was render
  rlang         0.4.2      2019-11-23 [1]
  rmarkdown     1.18       2019-11-27 [1]
  rprojroot     1.3-2      2018-01-03 [1]
- RSQLite       2.1.3      2019-12-03 [1]
+ RSQLite       2.1.4      2019-12-04 [1]
  scales        1.1.0      2019-11-18 [1]
  sessioninfo   1.1.1      2018-11-05 [1]
  stringi       1.4.3      2019-03-12 [1]
@@ -297,6 +298,7 @@ For the sake of documentation and reproducibility, the current report was render
  CRAN (R 3.6.1)                       
  CRAN (R 3.6.1)                       
  local                                
+ CRAN (R 3.6.1)                       
  CRAN (R 3.6.1)                       
  CRAN (R 3.6.1)                       
  CRAN (R 3.6.1)                       
@@ -372,4 +374,4 @@ For the sake of documentation and reproducibility, the current report was render
 
 
 
-Report rendered by wibeasley at 2019-12-08, 00:14 -0600 in 7 seconds.
+Report rendered by wibeasley at 2019-12-16, 11:53 -0600 in 7 seconds.

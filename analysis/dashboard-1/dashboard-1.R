@@ -141,7 +141,6 @@ ds_annotation %>%
 
 
 # ---- spaghetti --------------------------------------------
-
 cat("\n\n### Cog 1<br/><b>County-Year</b>\n\n")
 
 ds_county_year %>%
@@ -192,34 +191,35 @@ ds_county_year %>%
   )
 
 
-
 cat("\n\n### Cog 2<br/><b>County-Year</b>\n\n")
-spaghetti_1(
-  d                   = ds_county_year,
-  response_variable   = "cog_1_mean",
-  time_variable       = "year",
-  color_variable      = "county",
-  group_variable      = "county",
-  facet_variable      = NULL,
-  palette             = palette_county_dark,
-  path_in_annotation  = path_in_annotation,
-  width               = c("focus"=2, "background"=1),
-  base_size           = 18
-)
+ds_county_year %>%
+  spaghetti_1(
+    d                   = .,
+    response_variable   = "cog_1_mean",
+    time_variable       = "year",
+    color_variable      = "county",
+    group_variable      = "county",
+    facet_variable      = NULL,
+    palette             = palette_county_dark,
+    path_in_annotation  = path_in_annotation,
+    width               = c("focus"=2, "background"=1),
+    base_size           = 18
+  )
 
 cat("\n\n### Cog 3<br/><b>County-Year</b>\n\n")
-spaghetti_1(
-  d                   = ds_county_year,
-  response_variable   = "cog_3_mean",
-  time_variable       = "year",
-  color_variable      = "county",
-  group_variable      = "county",
-  facet_variable      = NULL,
-  palette             = palette_county_dark,
-  path_in_annotation  = path_in_annotation,
-  width               = c("focus"=2, "background"=1),
-  base_size           = 18
-) %>%
+ds_county_year %>%
+  spaghetti_1(
+    d                   = ,
+    response_variable   = "cog_3_mean",
+    time_variable       = "year",
+    color_variable      = "county",
+    group_variable      = "county",
+    facet_variable      = NULL,
+    palette             = palette_county_dark,
+    path_in_annotation  = path_in_annotation,
+    width               = c("focus"=2, "background"=1),
+    base_size           = 14
+  ) %>%
   plotly::ggplotly() %>%
   plotly::hide_legend()
 

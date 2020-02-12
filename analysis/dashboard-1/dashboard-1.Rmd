@@ -22,7 +22,7 @@ output:
 # cat("Working directory: ", getwd())
 library(knitr)
 library(flexdashboard)
-opts_knit$set(root.dir='../../')  #Don't combine this call with any other chunk -especially one that uses file paths.
+opts_knit$set(root.dir = '../../')  #Don't combine this call with any other chunk -especially one that uses file paths.
 ```
 
 <!-- Set the report-wide options, and point to the external code file. -->
@@ -42,7 +42,7 @@ opts_chunk$set(
 
 echo_chunks    <- FALSE #Toggle for debugging.
 message_chunks <- FALSE #Toggle for debugging.
-options(width=100) #So the output is 25% wider than the default.
+options(width = 100) #So the output is 25% wider than the default.
 read_chunk("./analysis/dashboard-1/dashboard-1.R") #This allows knitr to call chunks tagged in the underlying *.R file.
 ```
 
@@ -73,30 +73,36 @@ read_chunk("./analysis/dashboard-1/dashboard-1.R") #This allows knitr to call ch
 ```{r tweak-data, echo=echo_chunks, results='show', message=message_chunks}
 ```
 
-Summary
+Headline
 =============================================
 
+<!-- The documentation page has two columns.  The test on the left, and the headline graph on the right. -->
 This dashboard helps facilitate the CQI analyses VIHA E.C.R. (early cognitive recline) project.
 
-## Overall {.tabset data-width=300}
+Overall {.tabset data-width=300}
+---------------------------------------------
 
+<!-- left column -->
 ### Notes
 1. The current report covers `r scales::comma(nrow(ds))` total subject-event records for `r dplyr::n_distinct(ds$county)` unique counties (`r paste(sort(unique(ds$county)), collapse=", ")`).
 1. The year of collection ranges from `r min(ds$year, na.rm=T)` to  `r max(ds$year, na.rm=T)`.
 1. The selected county is `r county_name_focus` (id value `r county_id_focus`).
 
-## {.tabset}
+{.tabset}
+---------------------------------------------
+
+<!-- unnamed right column -->
 ```{r headline-graph, echo=echo_chunks, results='asis', message=message_chunks}
 ```
 
 Tables
 =============================================
 
+<!-- The documentation page has a single column. -->
 <!-- Numerical representation of the previous graphs.  Click the tabs below to cycle between the summaries.  Tables are searchable and sortable. -->
 
-## {.tabset}
-
-
+{.tabset}
+---------------------------------------------
 
 ### Tables - County-Year
 ```{r tables-county-year, echo=echo_chunks, message=message_chunks}
@@ -117,9 +123,11 @@ Tables
 Spaghetti
 =============================================
 
-<!-- A program's monthly values are plotted on top of the background of other programs in the model.  Each graph represents one outcome. -->
+<!-- The documentation page has a single column. -->
+<!-- A program's monthly values are plotted on top of the background of other programs in the model.-->
 
-## {.tabset}
+{.tabset}
+---------------------------------------------
 
 ```{r spaghetti, echo=echo_chunks, message=message_chunks, results='asis', fig.height=10, fig.width=20}
 ```
@@ -127,22 +135,25 @@ Spaghetti
 
 Marginals
 =============================================
+<!-- The marginals page has a single column. -->
 
-## {.tabset}
-
+{.tabset}
+---------------------------------------------
 
 ```{r marginals, echo=echo_chunks, message=message_chunks, results='asis'} 
 ```
 
 Documentation
 =============================================
+<!-- The documentation page has a single column. -->
 
-## {.tabset}
+{.tabset}
+---------------------------------------------
 
 ### Explanation -Current PDSA
 
 #### SMART Aim
-By implementing plans for self-care activities with established clients, primary caregivers will see a mean score reduction of at least 4 points on the Parenting Stress Scale after 4 months of self-care activities by 12-1-18.
+By implementing plans for self-care activities with established clients, primary caregivers will see a mean score reduction of at least 4 points on the ECR after 4 months of self-care activities by Dec 1, 2018.
 
 #### Measures 
 
@@ -174,7 +185,7 @@ By implementing plans for self-care activities with established clients, primary
 
 #### Resources
 
-* [Current PDSA](https://docs.google.com/document/d/1IcwCCkr1EkoeBJpEKdF2v-E0gKI6wGacCv9oZU1CE7I/edit#)
+* [Current PDSA](https://docs.google.com/document/d/1IcwCCkr1EkoeBJpEKdF2v-E0gKI6wGacCv9oZU1CE7I/edit#) (This is accessible only to CQI participants.)
 
 <!-- The dashboard documentation that's common to all reports. Unfortunately, the working directory is the Rmd directory, to the repo root. -->
 

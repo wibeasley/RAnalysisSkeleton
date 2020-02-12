@@ -36,34 +36,48 @@ spaghetti_1 <- function(
   width=c("focus"=1, "background"=.25)
   # width=c("focus"=.25, "background"=.25)
 ) {
+  # browser()
+  # group_symbol      <- if (is.null(group_variable)) NULL else rlang::sym(group_variable)
+  group_symbol      <- ifelse(is.null(group_variable), NULL, rlang::sym(group_variable))
+  time_symbol       <- rlang::sym(time_variable)
+  response_symbol   <- rlang::sym(response_variable)
+  color_symbol      <- rlang::sym(color_variable)
+  width_symbol      <- rlang::sym(width_variable)
 
-  g <- ggplot(d, aes_string(x=time_variable, y=response_variable, color=color_variable, size=width_variable, yMin=y_min))
+  g <- ggplot(d, aes(x=!!time_symbol, y=!!response_symbol, color=!!color_symbol, size=!!width_symbol, yMin=y_min))
 
 
   if( !is.null(group_variable) & nrow(d)>0L ) {
     # group_var <- rlang::quo(group_variable)
-    # time_var  <- rlang::quo(time_variable)
-    # # print(UQ(group_variable))
-    # # print(UQ(time_variable))
     #
-    # d_label <- d %>%
-    #   dplyr::group_by(UQ(group_var)) %>%
-    #   dplyr::mutate(
-    #     is_terminal = (UQ(time_var) %in% range(UQ(time_var))),
-    #     label       = dplyr::if_else(is_terminal, UQ(group_var), NA_character_)
-    #
-    #   ) %>%
-    #   dplyr::ungroup()
+    d_label <- d %>%
+      dplyr::group_by(!!group_symbol) %>%
+      dplyr::arrange(!!time_symbol) %>%
+      dplyr::mutate(
+        is_first  = (dplyr::row_number() == 1L),
+        is_last   = (dplyr::row_number() == dplyr::n()),
+        # label       = dplyr::if_else(is_terminal, UQ(group_variable), NA_character_)
+      ) %>%
+      dplyr::filter(is_first | is_last) %>%
+      dplyr::select(
+        !!group_symbol,
+        !!time_symbol,
+        !!response_symbol,
+        !!color_symbol,
+        is_first,
+        is_last
+      ) %>%
+      dplyr::ungroup()
 
-    ds_label_left   <- d[d[[time_variable]]==min(d[[time_variable]], na.rm=T), ]
-    ds_label_right  <- d[d[[time_variable]]==max(d[[time_variable]], na.rm=T), ]
+    d_label_left   <- d_label[d_label$is_first, ]
+    d_label_right  <- d_label[d_label$is_last , ]
 
     g <- g +
-      geom_text(mapping=aes_string(label=group_variable), data=ds_label_left , size=3, hjust=1.2, na.rm=T) + #Left endpoint
-      geom_text(mapping=aes_string(label=group_variable), data=ds_label_right, size=3, hjust=-.2, na.rm=T) #Right endpoint
+      geom_text(mapping=aes(label=!!group_symbol), data=d_label_left , size=3, hjust=1.2, na.rm=T) + #Left endpoint
+      geom_text(mapping=aes(label=!!group_symbol), data=d_label_right, size=3, hjust=-.2, na.rm=T) #Right endpoint
 
       # geom_text(mapping=aes_string(label=group_variable), data=d_label , size=3, hjust=1.2, na.rm=T)
-
+    rm(d_label, d_label_left, d_label_right)
   }
 
   # g <- g + geom_hline(yintercept=c(median(d[[response_variable]], na.rm=T), mean(d[[response_variable]], na.rm=T)), color="gray70", linetype="F3")
@@ -71,7 +85,7 @@ spaghetti_1 <- function(
   # g <- g + annotate("text", x=max(d[[time_variable]], na.rm=T), y=Inf, label=sub_title, hjust=1, vjust=1)
 
   if( !is.null(loess_variable) ) {
-    g <- g + geom_smooth(aes_string(group=loess_variable), method="loess", color="gray80", size=4, alpha=.1, na.rm=T, se=F)
+    g <- g + geom_smooth(aes(group=!!rlang::sym(loess_variable)), method="loess", color="gray80", size=4, alpha=.1, na.rm=T, se=F)
   }
   if( !is.na(y_max) ) {
     g <- g + coord_cartesian(ylim=c(y_min, y_max))

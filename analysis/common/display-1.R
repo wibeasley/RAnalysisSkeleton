@@ -36,8 +36,6 @@ spaghetti_1 <- function(
   width=c("focus"=1, "background"=.25)
   # width=c("focus"=.25, "background"=.25)
 ) {
-  # browser()
-  # group_symbol      <- if (is.null(group_variable)) NULL else rlang::sym(group_variable)
   group_symbol      <- ifelse(is.null(group_variable), NULL, rlang::sym(group_variable))
   time_symbol       <- rlang::sym(time_variable)
   response_symbol   <- rlang::sym(response_variable)
@@ -48,15 +46,12 @@ spaghetti_1 <- function(
 
 
   if( !is.null(group_variable) & nrow(d)>0L ) {
-    # group_var <- rlang::quo(group_variable)
-    #
     d_label <- d %>%
       dplyr::group_by(!!group_symbol) %>%
       dplyr::arrange(!!time_symbol) %>%
       dplyr::mutate(
         is_first  = (dplyr::row_number() == 1L),
         is_last   = (dplyr::row_number() == dplyr::n()),
-        # label       = dplyr::if_else(is_terminal, UQ(group_variable), NA_character_)
       ) %>%
       dplyr::filter(is_first | is_last) %>%
       dplyr::select(

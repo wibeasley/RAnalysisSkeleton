@@ -1,11 +1,9 @@
 ---
-title: "Cognitive Longitudinal Outcomes by Program --PDSA Cycle 3"
+title: "Cognitive Longitudinal Outcomes --PDSA Cycle 3"
 output:
   flexdashboard::flex_dashboard:
-    social: [ "menu" ]
     # orientation: rows
     vertical_layout: fill
-    source_code: embed
     # css: ../common/style-cqi-cycle-4.css  
     # theme: cosmo
     theme: journal
@@ -122,7 +120,7 @@ Tables
 ```
 
 
-Spaghetti
+Graphs
 =============================================
 
 <!-- The documentation page has a single column. -->

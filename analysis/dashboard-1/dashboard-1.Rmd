@@ -6,9 +6,9 @@ output:
     # orientation: rows
     vertical_layout: fill
     source_code: embed
-    css: ../common/style-cqi-cycle-4.css  
+    # css: ../common/style-cqi-cycle-4.css  
     # theme: cosmo
-    # theme: journal
+    theme: journal
 ---
 
 <!-- Replace the flexdashboard entry above with this, to produce our conventional knitr report. -->

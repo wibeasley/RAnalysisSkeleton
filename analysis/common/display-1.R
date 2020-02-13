@@ -215,7 +215,7 @@ histogram_2 <- function(
     count           = histrv$counts
   ) %>%
   dplyr::mutate(
-    midpoint        = (boundary_left + boundary_right) / 2,
+    midpoint        = (boundary_right + boundary_left) / 2,
     width           = (boundary_right - boundary_left),
 
     boundary_left_pretty   = x_axis_format(boundary_left   ),

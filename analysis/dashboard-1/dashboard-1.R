@@ -314,13 +314,15 @@ histogram_2(
   d_observed    = ds,
   variable_name = "cog_2",
   bin_width     = 1,
+  rounded_digits= 1,
   main_title    = NULL,
   tab_title     = "\n\n### <b>Cog 2</b><br/>Collapsing Subject-Year\n\n"
 )
 histogram_2(
   d_observed    = ds,
   variable_name = "cog_3",
-  bin_width     = 1,
+  bin_width     = .2,
+  rounded_digits= 2,
   main_title    = NULL,
   tab_title     = "\n\n### <b>Cog 3</b><br/>Collapsing Subject-Year\n\n"
 )

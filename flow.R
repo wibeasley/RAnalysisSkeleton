@@ -9,6 +9,7 @@ import::from("magrittr", "%>%")
 requireNamespace("purrr")
 requireNamespace("rlang")
 # requireNamespace("checkmate")
+# requireNamespace("fs")
 requireNamespace("OuhscMunge") # remotes::install_github("OuhscBbmc/OuhscMunge")
 
 # ---- declare-globals ---------------------------------------------------------
@@ -82,10 +83,29 @@ run_sql <- function( minion ) {
   return( TRUE )
 }
 run_rmd <- function( minion ) {
+  message("Pandoc available: ", rmarkdown::pandoc_available())
+  message("Pandoc version: ", rmarkdown::pandoc_version())
+  
   message("\nStarting `", basename(minion), "` at ", Sys.time(), ".")
   path_out <- rmarkdown::render(minion, envir=new.env())
   Sys.sleep(3) # Sleep for three secs, to let pandoc finish
   message(path_out)
+  
+  # Uncomment to copy the undated version to a different location. 
+  # If saving to a remote drive, this works better than trying to save directly from `rmarkdown::render()`.
+  # To use this, you'll need a version of `run_rmd()` that's specialized for the specific rmd.
+  # fs::file_copy(path_out, config$path_out_remote, overwrite = TRUE) 
+
+  # Uncomment to save a dated version to a different location.
+  # path_out_archive <- strftime(Sys.Date(), config$path_report_screen_archive)
+  # if( !dir.exists(dirname(path_out_archive)) ) {
+  #   # Create a month-specific directory, so they're easier to find & compress later.
+  #   message("Creating subdirectory for archived eligibility reports: `", dirname(path_out_archive), "`.")
+  #   dir.create(dirname(path_out_archive), recursive=T)
+  # }
+  # archive_successful <- file.copy(path_out, path_out_archive, overwrite=TRUE)
+  # message("Archive success: ", archive_successful, " at `", path_out_archive, "`.")
+  
   return( TRUE )
 }
 

@@ -12,7 +12,6 @@ requireNamespace("tidyr")
 requireNamespace("dplyr") #Avoid attaching dplyr, b/c its function names conflict with a lot of packages (esp base, stats, and plyr).
 requireNamespace("testit") #For asserting conditions meet expected patterns.
 
-
 # ---- declare-globals ---------------------------------------------------------
 set.seed(94)                          # Set seed in care parts need to be modified later.
 block_count                   <- 50L  # Some arbitrarily large number
@@ -26,7 +25,6 @@ path_out                      <- "data-public/derived/randomized-block-simple.cs
 # ---- load-data ---------------------------------------------------------------
 
 # ---- tweak-data --------------------------------------------------------------
-
 
 # ---- assign ------------------------------------------------------------------
 ds <-

@@ -32,7 +32,7 @@ sql_event <-
       s.gender_id,
       s.race,
       s.ethnicity,
-      luc.county_name             AS county,
+      luc.county_name             as county,
       m.wave_id,
       m.year,
       m.date_at_visit,
@@ -47,9 +47,9 @@ sql_event <-
       m.phys_1,
       m.phys_2,
       m.phys_3
-    FROM mlm_1          AS m
-      LEFT JOIN subject AS s   ON   m.subject_id =   s.subject_id
-      LEFT JOIN county  AS luc ON   s.county_id  = luc.county_id
+    FROM mlm_1          as m
+      left join subject as s   on   m.subject_id =   s.subject_id
+      left join county  as luc on   s.county_id  = luc.county_id
     ORDER BY m.subject_id, m.wave_id
   "
 

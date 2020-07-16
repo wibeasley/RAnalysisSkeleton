@@ -15,7 +15,7 @@ import::from("magrittr", "%>%")
 requireNamespace("readr"        )
 requireNamespace("tidyr"        )
 requireNamespace("dplyr"        ) # Avoid attaching dplyr, b/c its function names conflict with a lot of packages (esp base, stats, and plyr).
-requireNamespace("rlang"        ) # Language constucts, like quosures
+requireNamespace("rlang"        ) # Language constructs, like quosures
 requireNamespace("testit"       ) # For asserting conditions meet expected patterns/conditions.
 requireNamespace("checkmate"    ) # For asserting conditions meet expected patterns/conditions. # remotes::install_github("mllg/checkmate")
 requireNamespace("DBI"          ) # Database-agnostic interface

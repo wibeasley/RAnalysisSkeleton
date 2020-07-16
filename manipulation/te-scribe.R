@@ -15,7 +15,7 @@ requireNamespace("dplyr"                      )
 requireNamespace("checkmate"                  )
 requireNamespace("testit"                     )
 requireNamespace("config"                     )
-requireNamespace("OuhscMunge"                 )   # remotes::install_github("OuhscBbmc/OuhscMunge")
+requireNamespace("OuhscMunge"                 )  # remotes::install_github("OuhscBbmc/OuhscMunge")
 
 # ---- declare-globals ---------------------------------------------------------
 # Constant values that won't change.
@@ -26,19 +26,19 @@ sql_county <-
   "
     SELECT
       t.county_id
-      ,luc.county_name      AS county
-      ,avg(t.fte)           AS fte
-  	  ,count(cog_1)         AS cog_1_count
-  	  ,avg(cog_1)           AS cog_1
-  	  ,avg(cog_2)           AS cog_2
-  	  ,avg(cog_3)           AS cog_3
-  	  ,avg(phys_1)          AS phys_1
-  	  ,avg(phys_2)          AS phys_2
-  	  ,avg(phys_3)          AS phys_3
-    FROM te_month AS t
-      LEFT JOIN county  AS luc ON   t.county_id  = luc.county_id
-  	  LEFT JOIN subject AS   s ON luc.county_id  =   s.county_id
-  	  LEFT JOIN mlm_1   AS   m ON   s.subject_id =   m.subject_id
+      ,luc.county_name      as county
+      ,avg(t.fte)           as fte
+      ,count(cog_1)         as cog_1_count
+      ,avg(cog_1)           as cog_1
+      ,avg(cog_2)           as cog_2
+      ,avg(cog_3)           as cog_3
+      ,avg(phys_1)          as phys_1
+      ,avg(phys_2)          as phys_2
+      ,avg(phys_3)          as phys_3
+    FROM te_month as t
+      left  join county  as luc on   t.county_id  = luc.county_id
+      left  join subject as   s on luc.county_id  =   s.county_id
+      left  join mlm_1   as   m on   s.subject_id =   m.subject_id
     GROUP BY t.county_id, luc.county_name
     ORDER BY t.county_id
   "
@@ -47,20 +47,20 @@ sql_county_month <-
   "
     SELECT
       t.county_id
-      ,luc.county_name      AS county
+      ,luc.county_name      as county
       ,t.month
       ,t.fte
       ,t.fte_approximated
       ,t.month_missing
       ,t.fte_rolling_median_11_month
-    FROM te_month AS t
-      LEFT JOIN county AS luc ON t.county_id = luc.county_id
+    FROM te_month as t
+      left  join county as luc on t.county_id = luc.county_id
     ORDER BY t.county_id, t.month
   "
 
 # ---- load-data ---------------------------------------------------------------
 # ds_lu_program   <- retrieve_program()
-cnn <- DBI::dbConnect(drv=RSQLite::SQLite(), dbname=path_db)
+cnn <- DBI::dbConnect(drv = RSQLite::SQLite(), dbname = path_db)
 # DBI::dbListTables(cnn)
 ds_county           <- DBI::dbGetQuery(cnn, sql_county)
 ds_county_month     <- DBI::dbGetQuery(cnn, sql_county_month)
@@ -82,7 +82,7 @@ ds_county_month <-
   dplyr::mutate(
     month                 = as.Date(month),
     fte_approximated      = as.logical(fte_approximated),
-    month_missing         = as.logical(month_missing)
+    month_missing         = as.logical(month_missing),
   )
 dim(ds_county_month)
 
@@ -109,9 +109,9 @@ ds_county_month %>%
 
 # ---- verify-values -----------------------------------------------------------
 # OuhscMunge::verify_value_headstart(ds_county)
-checkmate::assert_integer(  ds_county$county_id , any.missing=F , lower=1, upper=77   , unique=T)
-checkmate::assert_character(ds_county$county    , any.missing=F , pattern="^.{3,12}$" , unique=T)
-checkmate::assert_numeric(  ds_county$fte       , any.missing=F , lower=0, upper=22   )
+checkmate::assert_integer(  ds_county$county_id   , any.missing=F , lower=1, upper=77   , unique=T)
+checkmate::assert_character(ds_county$county      , any.missing=F , pattern="^.{3,12}$" , unique=T)
+checkmate::assert_numeric(  ds_county$fte         , any.missing=F , lower=0, upper=22   )
 checkmate::assert_numeric(  ds_county$cog_1       , any.missing=T , lower=4, upper=6    )
 checkmate::assert_numeric(  ds_county$cog_2       , any.missing=T , lower=5, upper=7    )
 checkmate::assert_numeric(  ds_county$cog_3       , any.missing=T , lower=6, upper=9    )
@@ -146,7 +146,7 @@ ds_slim_county_month <-
     fte,
     fte_approximated,
     month_missing,
-    fte_rolling_median_11_month
+    fte_rolling_median_11_month,
   )
 ds_slim_county_month
 
@@ -159,10 +159,10 @@ ds_slim_county <-
     fte,
     cog_1_count,
     cog_1 , cog_2 , cog_3,
-    phys_1, phys_2, phys_3
+    phys_1, phys_2, phys_3,
   )
 ds_slim_county
 
 # ---- save-to-disk ------------------------------------------------------------
-readr::write_rds(ds_slim_county        , config$path_te_county           , compress="gz")
-readr::write_rds(ds_slim_county_month  , config$path_te_county_month     , compress="gz")
+readr::write_rds(ds_slim_county        , config$path_te_county           , compress = "gz")
+readr::write_rds(ds_slim_county_month  , config$path_te_county_month     , compress = "gz")

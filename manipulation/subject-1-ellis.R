@@ -5,7 +5,6 @@ rm(list = ls(all.names = TRUE)) # Clear the memory of variables from previous ru
 
 # ---- load-packages -----------------------------------------------------------
 # Attach these packages so their functions don't need to be qualified: http://r-pkgs.had.co.nz/namespace.html#search-path
-# library("ggplot2")
 
 # Import only certain functions of a package into the search path.
 import::from("magrittr", "%>%")
@@ -14,7 +13,7 @@ import::from("magrittr", "%>%")
 requireNamespace("readr"        )
 requireNamespace("tidyr"        )
 requireNamespace("dplyr"        ) # Avoid attaching dplyr, b/c its function names conflict with a lot of packages (esp base, stats, and plyr).
-requireNamespace("rlang"        ) # Language constucts, like quosures
+requireNamespace("rlang"        ) # Language constructs, like quosures
 requireNamespace("checkmate"    ) # For asserting conditions meet expected patterns/conditions. # remotes::install_github("mllg/checkmate")
 requireNamespace("DBI"          ) # Database-agnostic interface
 requireNamespace("RSQLite"      ) # Lightweight database for non-PHI data.
@@ -33,7 +32,7 @@ figure_path <- 'stitched-output/manipulation/ellis/subject-1-ellis/'
 col_types <- readr::cols_only(
   subject_id          = readr::col_integer(),
   county_id           = readr::col_integer(),
-  gender_id           = readr::col_double(),
+  gender_id           = readr::col_integer(),
   race                = readr::col_character(),
   ethnicity           = readr::col_character()
 )
@@ -59,11 +58,10 @@ ds <-
     county_id,
     gender_id,
     race,
-    ethnicity
+    ethnicity,
   ) %>%
-  dplyr::mutate(
-
-  )  %>%
+  # dplyr::mutate(
+  # )  %>%
   dplyr::arrange(subject_id) # %>%
   # tibble::rowid_to_column("subject_id") # Add a unique index if necessary
 
@@ -90,7 +88,7 @@ ds_slim <-
     county_id,
     gender_id,
     race,
-    ethnicity
+    ethnicity,
   )
 
 ds_slim
@@ -119,15 +117,15 @@ ds_slim
 # cat(dput(colnames(ds)), sep = "\n")
 sql_create <- c(
   "
-    DROP TABLE IF EXISTS subject;
+    DROP TABLE if exists subject;
   ",
   "
     CREATE TABLE `subject` (
-      subject_id              INT NOT NULL PRIMARY KEY,
-      county_id               INT NOT NULL,
-      gender_id               FLOAT NOT NULL,
-      race                    FLOAT NOT NULL,
-      ethnicity               FLOAT NOT NULL
+      subject_id      int   primary key,
+      county_id       int   not null,
+      gender_id       float not null,
+      race            float not null,
+      ethnicity       float not null
     );
   "
 )
@@ -136,7 +134,7 @@ sql_create <- c(
 # if( file.exists(path_db) ) file.remove(path_db)
 
 # Open connection
-cnn <- DBI::dbConnect(drv=RSQLite::SQLite(), dbname=path_db)
+cnn <- DBI::dbConnect(drv = RSQLite::SQLite(), dbname = path_db)
 result <- DBI::dbSendQuery(cnn, "PRAGMA foreign_keys=ON;") #This needs to be activated each time a connection is made. #http://stackoverflow.com/questions/15301643/sqlite3-forgets-to-use-foreign-keys
 DBI::dbClearResult(result)
 DBI::dbListTables(cnn)

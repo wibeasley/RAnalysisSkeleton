@@ -9,7 +9,6 @@ rm(list = ls(all.names = TRUE)) # Clear the memory of variables from previous ru
 
 # ---- load-packages -----------------------------------------------------------
 # Attach these packages so their functions don't need to be qualified: http://r-pkgs.had.co.nz/namespace.html#search-path
-# library("ggplot2")
 
 # Import only certain functions of a package into the search path.
 import::from("magrittr", "%>%")
@@ -18,7 +17,7 @@ import::from("magrittr", "%>%")
 requireNamespace("readr"        )
 requireNamespace("tidyr"        )
 requireNamespace("dplyr"        ) # Avoid attaching dplyr, b/c its function names conflict with a lot of packages (esp base, stats, and plyr).
-requireNamespace("rlang"        ) # Language constucts, like quosures
+requireNamespace("rlang"        ) # Language constructs, like quosures
 requireNamespace("testit"       ) # For asserting conditions meet expected patterns/conditions.
 requireNamespace("checkmate"    ) # For asserting conditions meet expected patterns/conditions. # remotes::install_github("mllg/checkmate")
 requireNamespace("DBI"          ) # Database-agnostic interface
@@ -93,10 +92,10 @@ col_types_county <- readr::cols_only( # readr::spec_csv(path_county)
 
 # ---- load-data ---------------------------------------------------------------
 # Read the CSVs
-ds_nurse_month_oklahoma <- readr::read_csv(path_in_oklahoma   , col_types=col_types_oklahoma)
-ds_month_tulsa          <- readr::read_csv(path_in_tulsa      , col_types=col_types_tulsa)
-ds_nurse_month_rural    <- readr::read_csv(path_in_rural      , col_types=col_types_rural)
-ds_county               <- readr::read_csv(path_county        , col_types=col_types_county)
+ds_nurse_month_oklahoma <- readr::read_csv(path_in_oklahoma   , col_types = col_types_oklahoma)
+ds_month_tulsa          <- readr::read_csv(path_in_tulsa      , col_types = col_types_tulsa)
+ds_nurse_month_rural    <- readr::read_csv(path_in_rural      , col_types = col_types_rural)
+ds_county               <- readr::read_csv(path_county        , col_types = col_types_county)
 
 rm(path_in_oklahoma, path_in_tulsa, path_in_rural, path_county)
 rm(col_types_oklahoma, col_types_tulsa, col_types_rural, col_types_county)
@@ -117,7 +116,7 @@ ds_county <-
   dplyr::select(    # `dplyr::select()` drops columns not included.
     county_id     = CountyID,
     county_name   = CountyName,
-    region_id     = C1LeadNurseRegion
+    region_id     = C1LeadNurseRegion,
   )
 
 # ---- groom-oklahoma ----------------------------------------------------------
@@ -154,13 +153,13 @@ ds_month_oklahoma <-
   dplyr::summarize(                                      # Aggregate/summarize within sub-datasets
     fte                = sum(fte, na.rm=T),
     # fmla_hours       = sum(fmla_hours, na.rm=T)
-    fte_approximated   = FALSE                           # This variable helps the later union query.
+    fte_approximated   = FALSE,                          # This variable helps the later union query.
   ) %>%
   dplyr::ungroup()                                       # Unecessary b/c of `summarize()`, but I like the habit.
 ds_month_oklahoma
 
 # The SQL equivalent to the previous dplyr code.
-#   SELECT month, county_id, SUM(fte) as fte, 'FALSE' AS fte_approximated
+#   SELECT month, county_id, SUM(fte) as fte, 'FALSE' as fte_approximated
 #   FROM ds_nurse_month_oklahoma
 #   GROUP BY month, county_id
 
@@ -189,12 +188,12 @@ ds_month_tulsa <-
   dplyr::select(    # `dplyr::select()` drops columns not included.
     month             = Month,
     fte               = FteSum,
-    fmla_sum          = FmlaSum
+    fmla_sum          = FmlaSum,
   ) %>%
   dplyr::mutate(
-    county_id           = ds_county[ds_county$county_name=="Tulsa", ]$county_id,  #Dynamically determine county ID
+    county_id           = ds_county[ds_county$county_name=="Tulsa", ]$county_id,  # Dynamically determine county ID
     #fmla_hours         = ifelse(!is.na(fmla_hours), fmla_hours, 0.0)
-    fte_approximated    = FALSE
+    fte_approximated    = FALSE,
   )  %>%
   dplyr::select(county_id, month, fte, fte_approximated)
 ds_month_tulsa
@@ -215,14 +214,14 @@ ds_nurse_month_rural <-
   dplyr::filter(!(county_name %in% counties_to_drop_from_rural)) %>%
   dplyr::mutate(
     month       = as.Date(paste0(month, "-", default_day_of_month), format="%m/%Y-%d"),
-    fte_string  = gsub("^(\\d{1,3})\\s*%$", "\\1", fte_percent),                           # Extract digits before the '%' sign.
+    fte_string  = gsub("^(\\d{1,3})\\s*%$", "\\1", fte_percent),                            # Extract digits before the '%' sign.
     fte         = .01 * as.numeric(ifelse(nchar(fte_string)==0L, 0, fte_string)),
-    county_name = dplyr::recode(county_name, `Cimmarron`='Cimarron', `Leflore`='Le Flore') # Or consider `car::recode()`.
+    county_name = dplyr::recode(county_name, `Cimmarron`='Cimarron', `Leflore`='Le Flore'), # Or consider `car::recode()`.
   ) %>%
   dplyr::arrange(county_name, month, name_full) %>%
   dplyr::select(
     -fte_percent,
-    -fte_string
+    -fte_string,
   ) %>%
   dplyr::left_join(
     ds_county[, c("county_id", "county_name")], by="county_name"
@@ -238,8 +237,8 @@ ds_month_rural <-
   dplyr::group_by(county_id, month) %>%
   dplyr::summarize(
     fte                 = sum(fte, na.rm=TRUE),
-    # fmla_hours        = sum(fmla_hours, na.rm=TRUE)
-    fte_approximated    = FALSE
+    # fmla_hours        = sum(fmla_hours, na.rm=TRUE),
+    fte_approximated    = FALSE,
   ) %>%
   dplyr::ungroup()
 ds_month_rural
@@ -259,7 +258,7 @@ months_rural_not_collected <-
   ) %>%
   dplyr::group_by(month) %>%
   dplyr::summarize(
-    mean_na = mean(is.na(fte))
+    mean_na = mean(is.na(fte)),
   ) %>%
   dplyr::ungroup() %>%
   dplyr::filter(mean_na >= .9999) %>%
@@ -287,11 +286,11 @@ ds <-
     fte                         = dplyr::coalesce(fte, 0),
     month_missing               = is.na(fte_approximated),
     fte_approximated            = month_missing & (month %in% months_rural_not_collected),
-    fte_rolling_median_11_month = zoo::rollmedian(x=fte, 11, na.pad=T, align="right")
+    fte_rolling_median_11_month = zoo::rollmedian(x=fte, 11, na.pad=T, align="right"),
   ) %>%
-  dplyr::group_by(county_id) %>%               # Group by county.
+  dplyr::group_by(county_id) %>%                # Group by county.
   dplyr::mutate(
-    county_any_missing  = any(month_missing)     # Determine if a county is missing any month
+    county_any_missing  = any(month_missing),   # Determine if a county is missing any month
   ) %>%
   dplyr::ungroup()
 ds
@@ -378,7 +377,7 @@ ds_slim <-
     month,
     fte,
     fte_approximated,
-    region_id
+    region_id,
   ) %>%
   dplyr::mutate_if(is.logical, as.integer)       # Some databases & drivers need 0/1 instead of FALSE/TRUE.
 ds_slim
@@ -399,7 +398,7 @@ sql_create <- c(
   ",
   "
     CREATE TABLE `county` (
-    	county_id              INTEGER NOT NULL PRIMARY KEY,
+      county_id              INTEGER NOT NULL PRIMARY KEY,
       county_name            VARCHAR NOT NULL,
       region_id              INTEGER NOT NULL
     );
@@ -409,8 +408,8 @@ sql_create <- c(
   ",
   "
     CREATE TABLE `te_month` (
-    	county_month_id                    INTEGER NOT NULL PRIMARY KEY,
-    	county_id                          INTEGER NOT NULL,
+      county_month_id                    INTEGER NOT NULL PRIMARY KEY,
+      county_id                          INTEGER NOT NULL,
       month                              VARCHAR NOT NULL,         -- There's no date type in SQLite.  Make sure it's ISO8601: yyyy-mm-dd
       fte                                REAL    NOT NULL,
       fte_approximated                   BIT     NOT NULL,
@@ -441,7 +440,7 @@ ds %>%
   dplyr::mutate(
     month               = strftime(month, "%Y-%m-%d"),
     fte_approximated    = as.logical(fte_approximated),
-    month_missing       = as.logical(month_missing)
+    month_missing       = as.logical(month_missing),
   ) %>%
   dplyr::select(county_month_id, county_id, month, fte, fte_approximated, month_missing, fte_rolling_median_11_month) %>%
   DBI::dbWriteTable(value=., conn=cnn, name='te_month', append=TRUE, row.names=FALSE)

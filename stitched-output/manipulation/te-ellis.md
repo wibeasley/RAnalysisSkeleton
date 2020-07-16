@@ -338,7 +338,7 @@ ds_month_oklahoma
 
 ```r
 # The SQL equivalent to the previous dplyr code.
-#   SELECT month, county_id, SUM(fte) as fte, 'FALSE' AS fte_approximated
+#   SELECT month, county_id, SUM(fte) as fte, 'FALSE' as fte_approximated
 #   FROM ds_nurse_month_oklahoma
 #   GROUP BY month, county_id
 
@@ -704,7 +704,7 @@ sql_create <- c(
   ",
   "
     CREATE TABLE `county` (
-    	county_id              INTEGER NOT NULL PRIMARY KEY,
+      county_id              INTEGER NOT NULL PRIMARY KEY,
       county_name            VARCHAR NOT NULL,
       region_id              INTEGER NOT NULL
     );
@@ -714,8 +714,8 @@ sql_create <- c(
   ",
   "
     CREATE TABLE `te_month` (
-    	county_month_id                    INTEGER NOT NULL PRIMARY KEY,
-    	county_id                          INTEGER NOT NULL,
+      county_month_id                    INTEGER NOT NULL PRIMARY KEY,
+      county_id                          INTEGER NOT NULL,
       month                              VARCHAR NOT NULL,         -- There's no date type in SQLite.  Make sure it's ISO8601: yyyy-mm-dd
       fte                                REAL    NOT NULL,
       fte_approximated                   BIT     NOT NULL,

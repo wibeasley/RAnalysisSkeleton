@@ -81,13 +81,13 @@ ds <-
     cog_3,
     phys_1,
     phys_2,
-    phys_3
+    phys_3,
   ) %>%
   dplyr::mutate(
     subject_id  = factor(subject_id),
     year        = as.integer(lubridate::year(date_at_visit)),
     age_cut_4   = cut(age, breaks=c(50, 60, 70, 80, Inf), labels=c("50s", "60s", "70s", "80+"), include.lowest = T),
-    age_80_plus = (80L <= age)
+    age_80_plus = (80L <= age),
   )  %>%
   dplyr::arrange(subject_id, wave_id) %>%
   tibble::rowid_to_column("subject_wave_id")
@@ -100,7 +100,7 @@ ds_subject <-
     subject_id,
     county_id,
     year,
-    age
+    age,
   ) %>%
   dplyr::distinct(.keep_all = T) %>%
   dplyr::group_by(subject_id) %>%
@@ -155,33 +155,36 @@ which(!grepl("^\\d{1,3} \\d{1,2}$", subject_wave_combo))                  # Idea
 subject_wave_combo[!grepl("^\\d{1,3} \\d{1,2}$", subject_wave_combo)]     # Ideally this is an empty set (ie, `chracter(0)`)
 
 # ---- specify-columns-to-upload -----------------------------------------------
-# dput(colnames(ds)) # Print colnames for line below.
-columns_to_write_subject <- c(
-  "subject_id",
-  "county_id",
-  "county_id_count",
-  "year_min",
-  "year_max",
-  "age_min",
-  "age_max"
-)
-columns_to_write <- c(
-  "subject_wave_id", "subject_id",
-  "wave_id", "year", "date_at_visit",
-  "age", "age_cut_4", "age_80_plus",
-  #"county_id",
-  "int_factor_1", "slope_factor_1",
-  "cog_1", "cog_2", "cog_3",
-  "phys_1", "phys_2", "phys_3"
-)
+# Print colnames that `dplyr::select()`  should contain below:
+#   cat(paste0("    ", colnames(ds), collapse=",\n"))
+
+# Define the subset of columns that will be needed in the analyses.
+#   The fewer columns that are exported, the fewer things that can break downstream.
+
 ds_slim <-
   ds %>%
   # dplyr::slice(1:100) %>%
-  dplyr::select(!!columns_to_write)
+  dplyr::select(
+        subject_wave_id,
+    subject_id,
+    wave_id,
+    year,
+    date_at_visit,
+    age,
+    age_cut_4,
+    age_80_plus,
+    # county_id,
+    int_factor_1,
+    slope_factor_1,
+    cog_1,
+    cog_2,
+    cog_3,
+    phys_1,
+    phys_2,
+    phys_3,
+  )
 
 ds_slim
-
-rm(columns_to_write)
 
 # ---- save-to-disk ------------------------------------------------------------
 # If there's no PHI, a rectangular CSV is usually adequate, and it's portable to other machines and software.
@@ -203,34 +206,34 @@ sql_create <- c(
   ",
   # "
   #   CREATE TABLE `subject` (
-  #     subject_id              INT NOT NULL PRIMARY KEY,
-  #     county_id               INT NOT NULL,
-  #     county_id_count         INT NOT NULL,
-  #     year_min                FLOAT NOT NULL,
-  #     year_max                FLOAT NOT NULL,
-  #     age_min                 FLOAT NOT NULL,
-  #     age_max                 FLOAT NOT NULL
+  #     subject_id              int not null primary key,
+  #     county_id               int not null,
+  #     county_id_count         int not null,
+  #     year_min                float not null,
+  #     year_max                float not null,
+  #     age_min                 float not null,
+  #     age_max                 float not null
   #   );
   # ",
   "
     CREATE TABLE mlm_1 (
-      subject_wave_id         INT NOT NULL PRIMARY KEY,
-      subject_id              INT NOT NULL,
-      wave_id                 INT NOT NULL,
-      year                    INT NOT NULL,
-      date_at_visit           DATE NOT NULL,
-      age                     INT NOT NULL,
-      age_cut_4               VARCHAR(5) NOT NULL,
-      -- county_id               INT NOT NULL,
-      age_80_plus             BIT NOT NULL,
-      int_factor_1            FLOAT NOT NULL,
-      slope_factor_1          FLOAT NOT NULL,
-      cog_1                   FLOAT NOT NULL,
-      cog_2                   FLOAT NOT NULL,
-      cog_3                   FLOAT NOT NULL,
-      phys_1                  FLOAT NOT NULL,
-      phys_2                  FLOAT NOT NULL,
-      phys_3                  FLOAT NOT NULL
+      subject_wave_id         int        primary key,
+      subject_id              int        not null,
+      wave_id                 int        not null,
+      year                    int        not null,
+      date_at_visit           date       not null,
+      age                     int        not null,
+      age_cut_4               varchar(5) not null,
+      -- county_id            int        not null,
+      age_80_plus             bit        not null,
+      int_factor_1            float      not null,
+      slope_factor_1          float      not null,
+      cog_1                   float      not null,
+      cog_2                   float      not null,
+      cog_3                   float      not null,
+      phys_1                  float      not null,
+      phys_2                  float      not null,
+      phys_3                  float      not null
     )
   "
 )

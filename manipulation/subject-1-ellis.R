@@ -106,6 +106,7 @@ ds_slim
 #   schema_name   = "skeleton",         # Or config$schema_name,
 #   table_name    = "subject",
 #   dsn_name      = "skeleton-example", # Or config$dsn_qqqqq,
+#   timezone      = config$time_zone_local, # Uncomment if uploading non-UTC datetimes
 #   clear_table   = T,
 #   create_table  = F
 # ) # 0.012 minutes

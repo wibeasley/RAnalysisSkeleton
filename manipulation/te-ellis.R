@@ -459,6 +459,7 @@ DBI::dbDisconnect(cnn)
 #   schema_name   = "osdh",
 #   table_name    = "te",
 #   dsn_name      = "te-example", # Or config$dsn_te,
+#   timezone      = config$time_zone_local, # Uncomment if uploading non-UTC datetimes
 #   clear_table   = T,
 #   create_table  = F,
 #   convert_logical_to_integer = T

@@ -26,3 +26,5 @@ default:
     path_annotation:          "data-public/metadata/cqi-annotation.csv"
 
     path_log_flow:            !expr strftime(Sys.time(), "data-unshared/log/%Y/%Y-%m/flow-%Y-%m-%d--%H-%M-%S.log")
+
+    # time_zone_local:          "America/Chicago"          # Force time calculations to be local, in case remotely run from another timezone.  See ?base::Sys.timezone()

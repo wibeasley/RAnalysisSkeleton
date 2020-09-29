@@ -47,6 +47,8 @@ path_in_tulsa     <- "data-public/raw/te/month-tulsa.csv"
 path_in_rural     <- "data-public/raw/te/nurse-month-rural.csv"
 path_county       <- "data-public/raw/te/county.csv"
 
+columns_to_stack <- c("county_id", "month", "fte", "fte_approximated") # Explicit order of columns to stack.
+
 # Execute to specify the column types.  It might require some manual adjustment (eg doubles to integers).
 # OuhscMunge::readr_spec_aligned(path_in_oklahoma)
 col_types_oklahoma <- readr::cols_only( # readr::spec_csv(path_in_oklahoma)
@@ -141,7 +143,7 @@ ds_nurse_month_oklahoma <-
     training_hours    = dplyr::coalesce(training_hours, 0L)                              # Set missing values to zero.
     # training_hours  = dplyr::if_else(!is.na(training_hours), training_hours, 0L)       # Set missing values to zero.
   ) %>%
-  dplyr::select(      # Drop unecessary variables (ie, defensive programming)
+  dplyr::select(      # Drop unnecessary variables (ie, defensive programming)
     -year
   )
 ds_nurse_month_oklahoma
@@ -155,7 +157,8 @@ ds_month_oklahoma <-
     # fmla_hours       = sum(fmla_hours, na.rm=T)
     fte_approximated   = FALSE,                          # This variable helps the later union query.
   ) %>%
-  dplyr::ungroup()                                       # Unecessary b/c of `summarize()`, but I like the habit.
+  dplyr::ungroup() %>%                                   # Unnecessary b/c of `summarize()`, but I like the habit.
+  dplyr::select(!!columns_to_stack)                      # Ensure that all three datasets have the same columns and their order is consistent.
 ds_month_oklahoma
 
 # The SQL equivalent to the previous dplyr code.
@@ -194,8 +197,8 @@ ds_month_tulsa <-
     county_id           = ds_county[ds_county$county_name=="Tulsa", ]$county_id,  # Dynamically determine county ID
     #fmla_hours         = ifelse(!is.na(fmla_hours), fmla_hours, 0.0)
     fte_approximated    = FALSE,
-  )  %>%
-  dplyr::select(county_id, month, fte, fte_approximated)
+  ) %>%
+  dplyr::select(!!columns_to_stack)                      # Ensure that all three datasets have the same columns and their order is consistent.
 ds_month_tulsa
 
 # ---- groom-rural -------------------------------------------------------------
@@ -240,7 +243,8 @@ ds_month_rural <-
     # fmla_hours        = sum(fmla_hours, na.rm=TRUE),
     fte_approximated    = FALSE,
   ) %>%
-  dplyr::ungroup()
+  dplyr::ungroup() %>%
+  dplyr::select(!!columns_to_stack)                      # Ensure that all three datasets have the same columns and their order is consistent.
 ds_month_rural
 
 # Consider replacing a join with ds_possible with a call to tidyr::complete(), if you can guarantee each month shows up at least once.
@@ -272,8 +276,8 @@ rm(counties_to_drop_from_rural, default_day_of_month)
 # Stack the three datasets on top of each other.
 ds <-
   ds_month_oklahoma %>%
-  dplyr::union(ds_month_tulsa) %>%
-  dplyr::union(ds_month_rural) %>%
+  dplyr::union_all(ds_month_tulsa) %>%
+  dplyr::union_all(ds_month_rural) %>%
   dplyr::right_join(
     ds_possible, by=c("county_id", "month")
   ) %>%

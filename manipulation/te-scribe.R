@@ -119,7 +119,6 @@ checkmate::assert_numeric(  ds_county$phys_1      , any.missing=T , lower=2, upp
 checkmate::assert_numeric(  ds_county$phys_2      , any.missing=T , lower=3, upper=5    )
 checkmate::assert_numeric(  ds_county$phys_3      , any.missing=T , lower=1, upper=2    )
 
-
 checkmate::assert_integer(  ds_county_month$county_id                   , any.missing=F , lower=1, upper=77                                        )
 checkmate::assert_character(ds_county_month$county                      , any.missing=F , pattern="^.{3,12}$"                                      )
 checkmate::assert_date(     ds_county_month$month                       , any.missing=F , lower=as.Date("2012-06-15"), upper=as.Date("2015-09-15") )

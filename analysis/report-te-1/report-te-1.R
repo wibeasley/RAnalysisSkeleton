@@ -10,10 +10,10 @@ library(ggplot2)  # For graphing
 library(lme4)     # For mlms
 import::from("magrittr", "%>%")
 requireNamespace("dplyr")
+requireNamespace("TabularManifest") # remotes::install_github("Melinae/TabularManifest")
 # requireNamespace("RColorBrewer")
 # requireNamespace("scales") #For formating values in graphs
 # requireNamespace("mgcv) #For the Generalized Additive Model that smooths the longitudinal graphs.
-# requireNamespace("TabularManifest") # remotes::install_github("Melinae/TabularManifest")
 
 # ---- declare-globals ---------------------------------------------------------
 options(show.signif.stars=F) #Turn off the annotations on p-values

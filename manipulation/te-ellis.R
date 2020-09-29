@@ -195,7 +195,7 @@ ds_month_tulsa <-
   ) %>%
   dplyr::mutate(
     county_id           = ds_county[ds_county$county_name=="Tulsa", ]$county_id,  # Dynamically determine county ID
-    #fmla_hours         = ifelse(!is.na(fmla_hours), fmla_hours, 0.0)
+    # fmla_hours        = dplyr::if_else(!is.na(fmla_hours), fmla_hours, 0.0)
     fte_approximated    = FALSE,
   ) %>%
   dplyr::select(!!columns_to_stack)                      # Ensure that all three datasets have the same columns and their order is consistent.
@@ -218,7 +218,7 @@ ds_nurse_month_rural <-
   dplyr::mutate(
     month       = as.Date(paste0(month, "-", default_day_of_month), format="%m/%Y-%d"),
     fte_string  = gsub("^(\\d{1,3})\\s*%$", "\\1", fte_percent),                            # Extract digits before the '%' sign.
-    fte         = .01 * as.numeric(ifelse(nchar(fte_string)==0L, 0, fte_string)),
+    fte         = .01 * dplyr::if_else(nchar(fte_string)==0L, 0, as.numeric(fte_string)),
     county_name = dplyr::recode(county_name, `Cimmarron`='Cimarron', `Leflore`='Le Flore'), # Or consider `car::recode()`.
   ) %>%
   dplyr::arrange(county_name, month, name_full) %>%
@@ -227,7 +227,12 @@ ds_nurse_month_rural <-
     -fte_string,
   ) %>%
   dplyr::left_join(
-    ds_county[, c("county_id", "county_name")], by="county_name"
+    ds_county %>%
+      dplyr::select(
+        county_id,
+        county_name,
+      ),
+    by = "county_name"
   )
 ds_nurse_month_rural
 
@@ -299,7 +304,7 @@ ds <-
   dplyr::ungroup()
 ds
 
-#Loop through each county to determine which (if any) months need to be approximated.
+# Loop through each county to determine which (if any) months need to be approximated.
 #   The dataset is small enough that it's not worth vectorizing.
 for( id in sort(unique(ds$county_id)) ) {# for( id in 13 ) {}
   ds_county_approx <- dplyr::filter(ds, county_id==id)
@@ -318,7 +323,7 @@ for( id in sort(unique(ds$county_id)) ) {# for( id in 13 ) {}
     # This statement extrapolates missing FTE values, which occurs when the first/last few months are missing.
     if( mean(ds_county_approx$fte, na.rm=T) >= threshold_mean_fte_t_fill_in ) {
       ds_county_approx$fte_approximated <- (ds_county_approx$fte==0)
-      ds_county_approx$fte              <- ifelse(ds_county_approx$fte==0, ds_county_approx$fte_rolling_median_11_month, ds_county_approx$fte)
+      ds_county_approx$fte              <- dplyr::if_else(ds_county_approx$fte==0, ds_county_approx$fte_rolling_median_11_month, ds_county_approx$fte)
     }
 
     # Overwrite selected values in the real dataset
@@ -361,7 +366,7 @@ checkmate::assert_character(county_month_combo, pattern  ="^\\d{1,2} \\d{4}-\\d{
 # county_month_combo[!grepl("^\\d{1,2} \\d{4}-\\d{2}-\\d{2}$", county_month_combo)]     # Ideally this is an empty set (ie, `chracter(0)`)
 
 
-# Alternative ways to test & diagnose unique combintations.
+# Alternative ways to test & diagnose unique combinations.
 # testit::assert("The County-month combination should be unique.", all(!duplicated(paste(ds$county_id, ds$month))))
 # testit::assert("The Region-County-month combination should be unique.", all(!duplicated(paste(ds$region_id, ds$county_id, ds$month))))
 # table(paste(ds$county_id, ds$month))[table(paste(ds$county_id, ds$month))>1]

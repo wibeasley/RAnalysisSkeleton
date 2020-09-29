@@ -40,8 +40,10 @@ if( interactive() ) {
   )
   sink_log <- TRUE
 }
+
+# Typically, only `ds_rail` changes.  Everything else in this file is constant between projects.
 ds_rail  <- tibble::tribble(
-  ~fx               , ~path,
+  ~fx         , ~path,
 
   # Simulate observed data
   "run_r"     , "manipulation/simulation/simulate-mlm-1.R",
@@ -85,16 +87,16 @@ run_sql <- function( minion ) {
 run_rmd <- function( minion ) {
   message("Pandoc available: ", rmarkdown::pandoc_available())
   message("Pandoc version: ", rmarkdown::pandoc_version())
-  
+
   message("\nStarting `", basename(minion), "` at ", Sys.time(), ".")
   path_out <- rmarkdown::render(minion, envir=new.env())
   Sys.sleep(3) # Sleep for three secs, to let pandoc finish
   message(path_out)
-  
-  # Uncomment to copy the undated version to a different location. 
+
+  # Uncomment to copy the undated version to a different location.
   # If saving to a remote drive, this works better than trying to save directly from `rmarkdown::render()`.
   # To use this, you'll need a version of `run_rmd()` that's specialized for the specific rmd.
-  # fs::file_copy(path_out, config$path_out_remote, overwrite = TRUE) 
+  # fs::file_copy(path_out, config$path_out_remote, overwrite = TRUE)
 
   # Uncomment to save a dated version to a different location.
   # path_out_archive <- strftime(Sys.Date(), config$path_report_screen_archive)
@@ -105,7 +107,7 @@ run_rmd <- function( minion ) {
   # }
   # archive_successful <- file.copy(path_out, path_out_archive, overwrite=TRUE)
   # message("Archive success: ", archive_successful, " at `", path_out_archive, "`.")
-  
+
   return( TRUE )
 }
 

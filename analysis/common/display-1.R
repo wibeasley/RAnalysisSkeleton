@@ -36,7 +36,7 @@ spaghetti_1 <- function(
   width=c("focus"=1, "background"=.25)
   # width=c("focus"=.25, "background"=.25)
 ) {
-  group_symbol      <- ifelse(is.null(group_variable), NULL, rlang::sym(group_variable))
+  group_symbol      <- dplyr::if_else(is.null(group_variable), NULL, rlang::sym(group_variable))
   time_symbol       <- rlang::sym(time_variable)
   response_symbol   <- rlang::sym(response_variable)
   color_symbol      <- rlang::sym(color_variable)
@@ -200,7 +200,6 @@ histogram_2 <- function(
   } else  {
     histogram_breaks <- pretty(x, n=7)
   }
-  # browser()
 
   histrv <- hist(
     x       = x,

@@ -1,6 +1,6 @@
 ---
 title: Skeleton Report 1
-date: "Date: 2020-07-16"
+date: "Date: 2020-09-29"
 output:
   # radix::radix_article: # radix is a newer alternative that has some advantages over `html_document`.
   html_document:
@@ -203,179 +203,112 @@ For the sake of documentation and reproducibility, the current report was render
   <summary>Environment <span class="glyphicon glyphicon-plus-sign"></span></summary>
 
 ```
-- Session info ----------------------------------------------------
+- Session info -----------------------------------------------------------------------
  setting  value                                      
- version  R version 4.0.2 Patched (2020-06-23 r78741)
- os       Windows 10 x64                             
+ version  R version 4.0.2 Patched (2020-07-12 r78826)
+ os       Windows >= 8 x64                           
  system   x86_64, mingw32                            
  ui       RStudio                                    
  language (EN)                                       
  collate  English_United States.1252                 
  ctype    English_United States.1252                 
  tz       America/Chicago                            
- date     2020-07-16                                 
+ date     2020-09-29                                 
 
-- Packages --------------------------------------------------------
- package     * version    date       lib
- assertthat    0.2.1      2019-03-21 [1]
- backports     1.1.8      2020-06-17 [1]
- bit           1.1-15.2   2020-02-10 [1]
- bit64         0.9-7.1    2020-07-15 [1]
- blob          1.2.1      2020-01-20 [1]
- callr         3.4.3      2020-03-28 [1]
- checkmate     2.0.0      2020-02-06 [1]
- cli           2.0.2      2020-02-28 [1]
- colorspace    1.4-1      2019-03-18 [1]
- config        0.3        2018-03-27 [1]
- crayon        1.3.4      2017-09-16 [1]
- DBI           1.1.0      2019-12-15 [1]
- desc          1.2.0      2018-05-01 [1]
- devtools      2.3.0      2020-04-10 [1]
- digest        0.6.25     2020-02-23 [1]
- dplyr         1.0.0      2020-05-29 [1]
- ellipsis      0.3.1      2020-05-15 [1]
- evaluate      0.14       2019-05-28 [1]
- fansi         0.4.1      2020-01-08 [1]
- farver        2.0.3      2020-01-16 [1]
- fs            1.4.2      2020-06-30 [1]
- generics      0.0.2      2018-11-29 [1]
- ggplot2     * 3.3.2      2020-06-19 [1]
- glue          1.4.1      2020-05-13 [1]
- gtable        0.3.0      2019-03-25 [1]
- highr         0.8        2019-03-20 [1]
- hms           0.5.3      2020-01-08 [1]
- htmltools     0.5.0      2020-06-16 [1]
- import        1.1.0      2015-06-22 [1]
- knitr       * 1.29       2020-06-23 [1]
- labeling      0.3        2014-08-23 [1]
- lattice       0.20-41    2020-04-02 [2]
- lifecycle     0.2.0      2020-03-06 [1]
- lubridate     1.7.9      2020-06-08 [1]
- magrittr      1.5        2014-11-22 [1]
- Matrix        1.2-18     2019-11-27 [2]
- memoise       1.1.0      2017-04-21 [1]
- mgcv          1.8-31     2019-11-09 [2]
- munsell       0.5.0      2018-06-12 [1]
- nlme          3.1-148    2020-05-24 [2]
- odbc          1.2.3      2020-06-18 [1]
- OuhscMunge    0.1.9.9012 2020-04-28 [1]
- packrat       0.5.0      2018-11-14 [1]
- pillar        1.4.6      2020-07-10 [1]
- pkgbuild      1.1.0      2020-07-13 [1]
- pkgconfig     2.0.3      2019-09-22 [1]
- pkgload       1.1.0      2020-05-29 [1]
- prettyunits   1.1.1      2020-01-24 [1]
- processx      3.4.3      2020-07-05 [1]
- ps            1.3.3      2020-05-08 [1]
- purrr         0.3.4      2020-04-17 [1]
- R6            2.4.1      2019-11-12 [1]
- Rcpp          1.0.5      2020-07-06 [1]
- readr         1.3.1      2018-12-21 [1]
- remotes       2.1.1      2020-02-15 [1]
- rlang         0.4.7      2020-07-09 [1]
- rmarkdown     2.3        2020-06-18 [1]
- rprojroot     1.3-2      2018-01-03 [1]
- RSQLite       2.2.0      2020-01-07 [1]
- rstudioapi    0.11       2020-02-07 [1]
- scales        1.1.1      2020-05-11 [1]
- sessioninfo   1.1.1      2018-11-05 [1]
- stringi       1.4.6      2020-02-17 [1]
- stringr       1.4.0      2019-02-10 [1]
- testit        0.11       2019-11-12 [1]
- testthat      2.3.2      2020-03-02 [1]
- tibble        3.0.3      2020-07-10 [1]
- tidyr         1.1.0      2020-05-20 [1]
- tidyselect    1.1.0      2020-05-11 [1]
- usethis       1.6.1      2020-04-29 [1]
- vctrs         0.3.2      2020-07-15 [1]
- viridisLite   0.3.0      2018-02-01 [1]
- withr         2.2.0      2020-04-20 [1]
- xfun          0.15       2020-06-21 [1]
- yaml          2.2.1      2020-02-01 [1]
- zoo           1.8-8      2020-05-02 [1]
- source                               
- CRAN (R 4.0.0)                       
- CRAN (R 4.0.0)                       
- CRAN (R 4.0.0)                       
- CRAN (R 4.0.2)                       
- CRAN (R 4.0.0)                       
- CRAN (R 4.0.0)                       
- CRAN (R 4.0.0)                       
- CRAN (R 4.0.0)                       
- CRAN (R 4.0.0)                       
- CRAN (R 4.0.0)                       
- CRAN (R 4.0.0)                       
- CRAN (R 4.0.0)                       
- CRAN (R 4.0.0)                       
- CRAN (R 4.0.0)                       
- CRAN (R 4.0.0)                       
- CRAN (R 4.0.0)                       
- CRAN (R 4.0.0)                       
- CRAN (R 4.0.0)                       
- CRAN (R 4.0.0)                       
- CRAN (R 4.0.0)                       
- CRAN (R 4.0.2)                       
- CRAN (R 4.0.0)                       
- CRAN (R 4.0.2)                       
- CRAN (R 4.0.0)                       
- CRAN (R 4.0.0)                       
- CRAN (R 4.0.0)                       
- CRAN (R 4.0.0)                       
- CRAN (R 4.0.0)                       
- CRAN (R 4.0.0)                       
- CRAN (R 4.0.0)                       
- CRAN (R 4.0.0)                       
- CRAN (R 4.0.2)                       
- CRAN (R 4.0.0)                       
- CRAN (R 4.0.0)                       
- CRAN (R 4.0.0)                       
- CRAN (R 4.0.2)                       
- CRAN (R 4.0.0)                       
- CRAN (R 4.0.2)                       
- CRAN (R 4.0.0)                       
- CRAN (R 4.0.2)                       
- CRAN (R 4.0.0)                       
- Github (OuhscBbmc/OuhscMunge@8ad8f68)
- CRAN (R 4.0.0)                       
- CRAN (R 4.0.2)                       
- CRAN (R 4.0.2)                       
- CRAN (R 4.0.0)                       
- CRAN (R 4.0.0)                       
- CRAN (R 4.0.0)                       
- CRAN (R 4.0.2)                       
- CRAN (R 4.0.0)                       
- CRAN (R 4.0.0)                       
- CRAN (R 4.0.0)                       
- CRAN (R 4.0.2)                       
- CRAN (R 4.0.0)                       
- CRAN (R 4.0.0)                       
- CRAN (R 4.0.2)                       
- CRAN (R 4.0.0)                       
- CRAN (R 4.0.0)                       
- CRAN (R 4.0.0)                       
- CRAN (R 4.0.0)                       
- CRAN (R 4.0.0)                       
- CRAN (R 4.0.0)                       
- CRAN (R 4.0.0)                       
- CRAN (R 4.0.0)                       
- CRAN (R 4.0.0)                       
- CRAN (R 4.0.0)                       
- CRAN (R 4.0.2)                       
- CRAN (R 4.0.0)                       
- CRAN (R 4.0.0)                       
- CRAN (R 4.0.0)                       
- CRAN (R 4.0.2)                       
- CRAN (R 4.0.0)                       
- CRAN (R 4.0.0)                       
- CRAN (R 4.0.2)                       
- CRAN (R 4.0.0)                       
- CRAN (R 4.0.0)                       
+- Packages ---------------------------------------------------------------------------
+ package         * version     date       lib source                                  
+ assertthat        0.2.1       2019-03-21 [1] CRAN (R 4.0.0)                          
+ backports         1.1.10      2020-09-15 [1] CRAN (R 4.0.2)                          
+ bit               4.0.4       2020-08-04 [1] CRAN (R 4.0.2)                          
+ bit64             4.0.5       2020-08-30 [1] CRAN (R 4.0.2)                          
+ blob              1.2.1       2020-01-20 [1] CRAN (R 4.0.0)                          
+ boot              1.3-25      2020-04-26 [3] CRAN (R 4.0.2)                          
+ callr             3.4.4       2020-09-07 [1] CRAN (R 4.0.2)                          
+ checkmate         2.0.0       2020-02-06 [1] CRAN (R 4.0.0)                          
+ cli               2.0.2       2020-02-28 [1] CRAN (R 4.0.0)                          
+ colorspace        1.4-1       2019-03-18 [1] CRAN (R 4.0.0)                          
+ config            0.3         2018-03-27 [1] CRAN (R 4.0.0)                          
+ crayon            1.3.4       2017-09-16 [1] CRAN (R 4.0.0)                          
+ curl              4.3         2019-12-02 [1] CRAN (R 4.0.0)                          
+ DBI               1.1.0       2019-12-15 [1] CRAN (R 4.0.0)                          
+ desc              1.2.0       2018-05-01 [1] CRAN (R 4.0.0)                          
+ devtools          2.3.2       2020-09-18 [1] CRAN (R 4.0.2)                          
+ digest            0.6.25      2020-02-23 [1] CRAN (R 4.0.0)                          
+ dplyr             1.0.2       2020-08-18 [1] CRAN (R 4.0.2)                          
+ ellipsis          0.3.1       2020-05-15 [1] CRAN (R 4.0.0)                          
+ evaluate          0.14        2019-05-28 [1] CRAN (R 4.0.0)                          
+ fansi             0.4.1       2020-01-08 [1] CRAN (R 4.0.0)                          
+ farver            2.0.3       2020-01-16 [1] CRAN (R 4.0.0)                          
+ forcats           0.5.0       2020-03-01 [1] CRAN (R 4.0.0)                          
+ fs                1.5.0       2020-07-31 [1] CRAN (R 4.0.2)                          
+ generics          0.0.2       2018-11-29 [1] CRAN (R 4.0.0)                          
+ ggplot2         * 3.3.2       2020-06-19 [1] CRAN (R 4.0.2)                          
+ glue              1.4.2       2020-08-27 [1] CRAN (R 4.0.2)                          
+ gtable            0.3.0       2019-03-25 [1] CRAN (R 4.0.0)                          
+ highr             0.8         2019-03-20 [1] CRAN (R 4.0.0)                          
+ hms               0.5.3       2020-01-08 [1] CRAN (R 4.0.0)                          
+ htmltools         0.5.0       2020-06-16 [1] CRAN (R 4.0.0)                          
+ import            1.1.0       2015-06-22 [1] CRAN (R 4.0.0)                          
+ knitr           * 1.29        2020-06-23 [1] CRAN (R 4.0.0)                          
+ labeling          0.3         2014-08-23 [1] CRAN (R 4.0.0)                          
+ lattice           0.20-41     2020-04-02 [3] CRAN (R 4.0.2)                          
+ lifecycle         0.2.0       2020-03-06 [1] CRAN (R 4.0.0)                          
+ lme4            * 1.1-23      2020-04-07 [1] CRAN (R 4.0.0)                          
+ lubridate         1.7.9       2020-06-08 [1] CRAN (R 4.0.0)                          
+ magrittr          1.5         2014-11-22 [1] CRAN (R 4.0.0)                          
+ MASS              7.3-51.6    2020-04-26 [3] CRAN (R 4.0.2)                          
+ Matrix          * 1.2-18      2019-11-27 [3] CRAN (R 4.0.2)                          
+ memoise           1.1.0       2017-04-21 [1] CRAN (R 4.0.0)                          
+ mgcv              1.8-31      2019-11-09 [3] CRAN (R 4.0.2)                          
+ minqa             1.2.4       2014-10-09 [1] CRAN (R 4.0.0)                          
+ munsell           0.5.0       2018-06-12 [1] CRAN (R 4.0.0)                          
+ nlme              3.1-148     2020-05-24 [3] CRAN (R 4.0.2)                          
+ nloptr            1.2.2.2     2020-07-02 [1] CRAN (R 4.0.2)                          
+ odbc              1.2.3       2020-06-18 [1] CRAN (R 4.0.0)                          
+ OuhscMunge        0.1.9.9013  2020-08-25 [1] Github (OuhscBbmc/OuhscMunge@b8a3663)   
+ packrat           0.5.0       2018-11-14 [1] CRAN (R 4.0.0)                          
+ pillar            1.4.6       2020-07-10 [1] CRAN (R 4.0.2)                          
+ pkgbuild          1.1.0       2020-07-13 [1] CRAN (R 4.0.2)                          
+ pkgconfig         2.0.3       2019-09-22 [1] CRAN (R 4.0.0)                          
+ pkgload           1.1.0       2020-05-29 [1] CRAN (R 4.0.0)                          
+ prettyunits       1.1.1       2020-01-24 [1] CRAN (R 4.0.0)                          
+ processx          3.4.4       2020-09-03 [1] CRAN (R 4.0.2)                          
+ ps                1.3.4       2020-08-11 [1] CRAN (R 4.0.2)                          
+ purrr             0.3.4       2020-04-17 [1] CRAN (R 4.0.0)                          
+ R6                2.4.1       2019-11-12 [1] CRAN (R 4.0.0)                          
+ Rcpp              1.0.5       2020-07-06 [1] CRAN (R 4.0.2)                          
+ readr             1.3.1       2018-12-21 [1] CRAN (R 4.0.0)                          
+ remotes           2.2.0       2020-07-21 [1] CRAN (R 4.0.2)                          
+ rlang             0.4.7       2020-07-09 [1] CRAN (R 4.0.2)                          
+ rmarkdown         2.3         2020-06-18 [1] CRAN (R 4.0.0)                          
+ rprojroot         1.3-2       2018-01-03 [1] CRAN (R 4.0.0)                          
+ RSQLite           2.2.0       2020-01-07 [1] CRAN (R 4.0.0)                          
+ rstudioapi        0.11        2020-02-07 [1] CRAN (R 4.0.0)                          
+ scales            1.1.1       2020-05-11 [1] CRAN (R 4.0.0)                          
+ sessioninfo       1.1.1       2018-11-05 [1] CRAN (R 4.0.0)                          
+ statmod           1.4.34      2020-02-17 [1] CRAN (R 4.0.0)                          
+ stringi           1.4.6       2020-02-17 [1] CRAN (R 4.0.0)                          
+ stringr           1.4.0       2019-02-10 [1] CRAN (R 4.0.0)                          
+ TabularManifest   0.1-16.9003 2020-09-29 [1] Github (Melinae/TabularManifest@b966a2b)
+ testit            0.11.1      2020-08-05 [1] Github (yihui/testit@c1c19f8)           
+ testthat          2.3.2       2020-03-02 [1] CRAN (R 4.0.0)                          
+ tibble            3.0.3       2020-07-10 [1] CRAN (R 4.0.2)                          
+ tidyr             1.1.2       2020-08-27 [1] CRAN (R 4.0.2)                          
+ tidyselect        1.1.0       2020-05-11 [1] CRAN (R 4.0.0)                          
+ usethis           1.6.3       2020-09-17 [1] CRAN (R 4.0.2)                          
+ vctrs             0.3.4       2020-08-29 [1] CRAN (R 4.0.2)                          
+ viridisLite       0.3.0       2018-02-01 [1] CRAN (R 4.0.0)                          
+ withr             2.2.0       2020-04-20 [1] CRAN (R 4.0.0)                          
+ xfun              0.16        2020-07-24 [1] CRAN (R 4.0.2)                          
+ yaml              2.2.1       2020-02-01 [1] CRAN (R 4.0.0)                          
+ zoo               1.8-8       2020-05-02 [1] CRAN (R 4.0.0)                          
 
-[1] C:/Users/wbeasley/Documents/R/win-library/4.0
-[2] C:/Program Files/R/R-4.0.2patched/library
+[1] D:/Projects/RLibraries
+[2] D:/Users/Will/Documents/R/win-library/4.0
+[3] C:/Program Files/R/R-4.0.2patched/library
 ```
 </details>
 
 
 
-Report rendered by WBEASLEY at 2020-07-16, 00:13 -0500 in 6 seconds.
+Report rendered by Will at 2020-09-29, 17:54 -0500 in 5 seconds.

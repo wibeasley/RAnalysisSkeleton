@@ -1,5 +1,6 @@
 Time and Effort Dataset Synthesis
 ========================================================
+
 autosize: true
 OUHSC [Statistical Computing User Group](https://github.com/OuhscBbmc/StatisticalComputing)
 
@@ -11,6 +12,7 @@ Biomedical and Behavioral Methodology Core ([BBMC](http://ouhsc.edu/BBMC/))
 
 Goal
 ========================================================
+
 Combine three difference datasets that structurally and cosmetically differ.  The state data has three different sources, each managed by a different agency.
 
 | File | Description |
@@ -21,6 +23,7 @@ Combine three difference datasets that structurally and cosmetically differ.  Th
 
 Structural Differences
 ========================================================
+
 | | [Oklahoma](https://github.com/wibeasley/RAnalysisSkeleton/blob/master/data-public/raw/te/nurse-month-oklahoma.csv) | [Tulsa](https://github.com/wibeasley/RAnalysisSkeleton/blob/master/data-public/raw/te/month-tulsa.csv) | [Rural](https://github.com/wibeasley/RAnalysisSkeleton/blob/master/data-public/raw/te/nurse-month-rural.csv) | Approach |
 | :----: | :----: | :----: | :----: | :----: |
 | Structure | one row per month<br/> per nurse | one row per month<br/>(it's already aggregated) | one row per month<br/> per nurse | `dplyr`'s `group_by()`<br/>and `summarize()` |
@@ -30,9 +33,9 @@ Structural Differences
 | Legit Holes | n | n | Yes | enumerate all combos<br/>and fill z/ zeros |
 | Right Censored | Maybe | Maybe | n | group, sort, and<br/>`zoo::rollmedian()` |
 
-
 Cosmetic Differences
 ========================================================
+
 | | [Oklahoma](https://github.com/wibeasley/RAnalysisSkeleton/blob/master/data-public/raw/te/nurse-month-oklahoma.csv) | [Tulsa](https://github.com/wibeasley/RAnalysisSkeleton/blob/master/data-public/raw/te/month-tulsa.csv) | [Rural](https://github.com/wibeasley/RAnalysisSkeleton/blob/master/data-public/raw/te/nurse-month-rural.csv) | Approach |
 | :----: | :----: | :----: | :----: | :----: |
 | Date | `Year` & `Month`<br/>separate | `1/15/2009` | `06/2012` | `as.Date()` `format`<br/>parameter |
@@ -41,28 +44,32 @@ Cosmetic Differences
 | Misspelled Counties | -- | -- | Yes | `car::recode()`<br/>or `plyr::revalue()` |
 | Counties to Drop | n | n | Yes | blacklist |
 
-
 Demo
 ========================================================
+
 * [Code](https://github.com/wibeasley/RAnalysisSkeleton/blob/master/manipulation/te-ellis.R)
 * [Stitched Output](https://github.com/wibeasley/RAnalysisSkeleton/blob/master/manipulation/stitched-output/te-ellis.md)
 
 Stage 1 -Initial Stack
 ========================================================
+
 [![Alt text](images/te-stage-1-county.png)](images/te-stage-1-county.png)
 [![Alt text](images/te-stage-1-region.png)](images/te-stage-1-region.png)
 
 Stage 2 -filled in missing records
 ========================================================
+
 [![Alt text](images/te-stage-2-county.png)](images/te-stage-2-county.png)
 [![Alt text](images/te-stage-2-region.png)](images/te-stage-2-region.png)
 
 Stage 3 -interpolated missing months
 ========================================================
+
 [![Alt text](images/te-stage-3-county.png)](images/te-stage-3-county.png)
 [![Alt text](images/te-stage-3-region.png)](images/te-stage-3-region.png)
 
 Stage 4 -extrapolated right censored
 ========================================================
+
 [![Alt text](images/te-stage-4-county.png)](images/te-stage-4-county.png)
 [![Alt text](images/te-stage-4-region.png)](images/te-stage-4-region.png)

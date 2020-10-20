@@ -1,11 +1,15 @@
 {
     "cSpell.words": [
+        "BBMC",
         "codebooks",
         "csvs",
+        "dplyr",
         "ferpa",
+        "gsub",
         "hipaa",
         "knitr",
         "munge",
+        "plyr",
         "sqlite",
         "subfolders",
         "unstaged"

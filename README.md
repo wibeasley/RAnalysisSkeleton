@@ -14,7 +14,7 @@ The repo contains two pipelines that aim to be simple enough to understand, yet 
 Cars
 --------------------------
 
-The simplest example involves a csv that is lightly groomed and saved as an [rds]() file.  A knitr Rmd file analyzes the rds; the text, graphs, and tables are saved as a self-contained html.  The html file is veyr protable; it can be saved on a drive, emailed to a colleauge, or publically served on a website.
+The simplest example involves a csv that is lightly groomed and saved as an [rds]() file.  A knitr Rmd file analyzes the rds; the text, graphs, and tables are saved as a self-contained html.  The html file is very portable; it can be saved on a drive, emailed to a colleague, or publicly served on a website.
 
 <img src="documentation/images/flow-skeleton-car.png" alt="flow-skeleton-car" height="187" >
 

@@ -73,7 +73,7 @@ Desktop.ini
 .DS_Store
 
 # ---- Visual Studio Code (text editor) ----------------------
-.vscode/
+!.vscode/settings.json
 
 # ---- Locks ----------------------
 # Do not commit lock files.

@@ -22,12 +22,12 @@ This simple example is the bare minimum.
     ```
 
     **The working directory must be set to `RAnalysisSkeleton`**.  If not, many steps below will fail.
-    
+
     To access a private repo, or write to any repo, consider caching your personal access token:
-    
-        * https://help.github.com/en/articles/which-remote-url-should-i-use
-        * https://help.github.com/en/articles/caching-your-github-password-in-git
-        * https://github.com/settings/tokens
+
+    * https://help.github.com/en/articles/which-remote-url-should-i-use
+    * https://help.github.com/en/articles/caching-your-github-password-in-git
+    * https://github.com/settings/tokens
 
 1. Check that you can open the desired version of R.  As of March 2019, there are five versions installed on schooner (ranging from 3.3.2 to 3.5.1).  OSCER's R-specific documentation is http://ou.edu/oscer/support/R_package.  (Thanks to Horst Severini.)
 
@@ -38,43 +38,47 @@ This simple example is the bare minimum.
     ```
 
     Set your *session’s* default version to 3.5.1 in bash.  This command will need to be repeated for each SSH/terminal session and batch file.  (Batch files are covered below.)
+
     ```bash
     module load R/3.5.1-intel-2016a
     ```
 
     Open R with bash.  Make sure the version is correct (*e.g.*, 3.5.1 if you used the command above).
+
     ```bash
     R
     ```
+
 1. Three approaches to running all repo scripts with [`utility/super-computer/hello-world.R`](https://github.com/wibeasley/RAnalysisSkeleton/blob/master/utility/super-computer/hello-world.R).
 
     1. Running interactively in R.  This is encouraged only for installing packages, and initially testing small projects like this.
+
         ```r
         source("utility/super-computer/hello-world.R")
         ```
 
-    1. Running interactively with Rscript in the bash shell.  This is encouraged only for initially testing small projects like this.
+    2. Running interactively with Rscript in the bash shell.  This is encouraged only for initially testing small projects like this.
 
         ```r
         Rscript utility/super-computer/hello-world.R > utility/super-computer/output.txt
         ```
 
-    1. Run with a batch file. See also http://www.ou.edu/oscer/support/running_jobs_schooner
+    3. Run with a batch file. See also http://www.ou.edu/oscer/support/running_jobs_schooner
         --Henry, work your magic here.
 
         Live batch file: https://github.com/wibeasley/RAnalysisSkeleton/blob/master/utility/super-computer/r-batch.sh
 
         1. Make sure the working directory is `RAnalysisSkeleton` with `pwd`.
-        1. Modify the batch file with `nano utility/super-computer/r-batch.sh` at least
+        2. Modify the batch file with `nano utility/super-computer/r-batch.sh` at least
             * email address
             * working directory
-        1. Submit the batch file with `sbatch utility/super-computer/r-batch-hello.sh`.  (Hint, use the keyboard's up arrow.)
+        3. Submit the batch file with `sbatch utility/super-computer/r-batch-hello.sh`.  (Hint, use the keyboard's up arrow.)
 
 Multiple File Example
 ---------------------------
 
 More realistic scenarios require (a) installing R packages and sometimes Linux packages and (b) coordinating multiple R files
-and multiple data files.  
+and multiple data files.
 
 1. Install a single R package.  Install the [remotes](https://CRAN.R-project.org/package=remotes) package.  We'll do this in R (instead of bash), because it more easily establishes a local personal library.
 
@@ -93,7 +97,7 @@ and multiple data files.
     ```r
     # These packages are included in the list, but we want to avoid their 'Suggests' dependencies.
     install.packages(c("dplyr"), dependencies=NA)
-    
+
     remotes::install_github("OuhscBbmc/OuhscMunge", ref = "dev")
     OuhscMunge::package_janitor_remote(
       "utility/package-dependency-list.csv",

@@ -16,7 +16,7 @@ Combine three difference datasets that structurally and cosmetically differ.  Th
 | File | Description |
 | ---- | ----------- |
 | [`nurse-month-oklahoma.csv`](https://github.com/wibeasley/RAnalysisSkeleton/blob/master/data-public/raw/te/nurse-month-oklahoma.csv) | one row per nurse per month for Oklahoma County |
-| [`month-tulsa.csv`](https://github.com/wibeasley/RAnalysisSkeleton/blob/master/data-public/raw/te/month-tulsa.csv) | one row per month for Tulsa County (*i.e.* it's already aggregated) |
+| [`month-tulsa.csv`](https://github.com/wibeasley/RAnalysisSkeleton/blob/master/data-public/raw/te/month-tulsa.csv) | one row per month for Tulsa County (*i.e.*,it's already aggregated) |
 | [`nurse-month-rural.csv`](https://github.com/wibeasley/RAnalysisSkeleton/blob/master/data-public/raw/te/nurse-month-rural.csv) | one row per nurse per month for the other 75 counties |
 
 Structural Differences

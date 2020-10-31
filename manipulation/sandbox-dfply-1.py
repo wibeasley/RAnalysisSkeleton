@@ -7,13 +7,12 @@ import yaml   as y
 
 # ---- declare-globals ---------------------------------------------------------
 
-with open(r'config.yml') as file:
-    config = y.load(file.read().replace('!expr', ''), Loader = y.FullLoader)
+with open(r'config.yml', 'r') as f:
+    config = y.safe_load(f.read().replace('!expr', ''))
 
 # ---- load-data ---------------------------------------------------------------
 ds = pd.read_csv(config['default']['path_subject_1_raw'])
 # ds = pd.read_csv("data-public/raw/subject-1.csv")
-print(ds)
 
 # ---- tweak-data --------------------------------------------------------------
 ds = (
@@ -28,7 +27,4 @@ ds = (
     arrange(X.subject_id)
 )
 
-print(ds)
-
-
-
+print(ds.head(3))

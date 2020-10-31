@@ -55,7 +55,7 @@ ds_rail  <- tibble::tribble(
   "run_r"     , "manipulation/mlm-1-ellis.R",
   "run_r"     , "manipulation/te-ellis.R",
   "run_r"     , "manipulation/subject-1-ellis.R",
-  "run_python", "manipulation/sandbox-dfply-1.py",
+  "run_python", "manipulation/subject-2-ellis.py",
 
   # Second-level manipulation on data inside the warehouse.
   # "run_sql" , "manipulation/inserts-to-normalized-tables.sql"

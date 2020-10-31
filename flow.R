@@ -55,6 +55,7 @@ ds_rail  <- tibble::tribble(
   "run_r"     , "manipulation/mlm-1-ellis.R",
   "run_r"     , "manipulation/te-ellis.R",
   "run_r"     , "manipulation/subject-1-ellis.R",
+  "run_python", "manipulation/sandbox-dfply-1.py",
 
   # Second-level manipulation on data inside the warehouse.
   # "run_sql" , "manipulation/inserts-to-normalized-tables.sql"
@@ -108,6 +109,13 @@ run_rmd <- function( minion ) {
   # archive_successful <- file.copy(path_out, path_out_archive, overwrite=TRUE)
   # message("Archive success: ", archive_successful, " at `", path_out_archive, "`.")
 
+  return( TRUE )
+}
+run_python <- function( minion ) {
+  message("\nStarting `", basename(minion), "` at ", Sys.time(), ".")
+  reticulate::use_python(Sys.which("python3"))
+  reticulate::py_run_file(minion)
+  message("Completed `", basename(minion), "`.")
   return( TRUE )
 }
 

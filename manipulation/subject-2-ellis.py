@@ -1,3 +1,4 @@
+
 # ---- load-sources ------------------------------------------------------------
 
 # ---- load-packages -----------------------------------------------------------
@@ -9,10 +10,10 @@ import sqlite3
 # ---- declare-globals ---------------------------------------------------------
 
 with open(r'config.yml', 'r') as f:
-    cfg = y.safe_load(f.read().replace('!expr', ''))
+    cfg = y.safe_load(f.read().replace('!expr', ''))['default']
 
 # ---- load-data ---------------------------------------------------------------
-ds = pd.read_csv(cfg['default']['path_subject_1_raw'])
+ds = pd.read_csv(cfg['path_subject_1_raw'])
 # ds = pd.read_csv("data-public/raw/subject-1.csv")
 
 # ---- tweak-data --------------------------------------------------------------
@@ -31,7 +32,7 @@ ds = (
 print(ds.head(3))
 
 # ---- save-to-db --------------------------------------------------------------
-cnn = sqlite3.connect(cfg['default']['path_database'])
+cnn = sqlite3.connect(cfg['path_database'])
 cnn.execute(
     "\
         DROP TABLE if exists subject_py;\

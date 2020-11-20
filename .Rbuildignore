@@ -28,6 +28,7 @@
 ^LICENSE\.md$
 ^README.html$
 ^shim_package\.sh$
+^.vscode$
 ^wercker\.yml$
 
 

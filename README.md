@@ -43,4 +43,4 @@ Establishing a Workstation for Analysis
 
 1. Execute the entire pipeline of the repo by executing the [flow.R](flow.R) file.  Open it in RSutdio and click the 'Source' button near the top right of the screen.  The flow file then tells other files to run in the desired order.  Running this file creates the data objects --*i.e.*, the primary objective of this repo.  The objects include (a) intermediate data files, (b) analysis-ready datafiles, and (c) html reports that display the ultimate analyses.
    
-1. If you'd like to view the database created by this repo's pipeline, install a program that can visually explore a [SQLite](https://www.sqlite.org/) file.  One of many options is [DB Browser for SQLite](https://sqlitebrowser.org/).
+1. If you'd like to view the database created by this repo's pipeline, install a program that can visually explore a [SQLite](https://www.sqlite.org/) file.  Two of many options are [SQLiteStudio](https://sqlitestudio.pl/) and [DB Browser for SQLite](https://sqlitebrowser.org/).

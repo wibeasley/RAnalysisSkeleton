@@ -113,8 +113,8 @@ run_rmd <- function( minion ) {
 }
 run_python <- function( minion ) {
   message("\nStarting `", basename(minion), "` at ", Sys.time(), ".")
-  reticulate::use_python(Sys.which("python3"))
-  reticulate::source_python(minion)
+  # reticulate::use_python(Sys.which("python3"))
+  reticulate::source_python(minion, envir = NULL)
   message("Completed `", basename(minion), "`.")
   return( TRUE )
 }

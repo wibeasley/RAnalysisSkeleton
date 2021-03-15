@@ -1,6 +1,6 @@
 {
     "default": false,
-    "MD003": { "style": "setext_with_atx" },
+    "header-style": { "style": "setext_with_atx" }, 
     "no-inline-html": {
         "allowed_elements": [ "details", "br" ]
     }

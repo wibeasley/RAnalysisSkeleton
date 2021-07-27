@@ -94,12 +94,8 @@ run_rmd <- function( minion ) {
   Sys.sleep(3) # Sleep for three secs, to let pandoc finish
   message(path_out)
 
-  # Uncomment to copy the undated version to a different location.
-  # If saving to a remote drive, this works better than trying to save directly from `rmarkdown::render()`.
-  # To use this, you'll need a version of `run_rmd()` that's specialized for the specific rmd.
-  # fs::file_copy(path_out, config$path_out_remote, overwrite = TRUE)
-
   # Uncomment to save a dated version to a different location.
+  #   Do this before the undated version, in case someone left it open (& locked it)
   # path_out_archive <- strftime(Sys.Date(), config$path_report_screen_archive)
   # if( !dir.exists(dirname(path_out_archive)) ) {
   #   # Create a month-specific directory, so they're easier to find & compress later.
@@ -108,6 +104,11 @@ run_rmd <- function( minion ) {
   # }
   # archive_successful <- file.copy(path_out, path_out_archive, overwrite=TRUE)
   # message("Archive success: ", archive_successful, " at `", path_out_archive, "`.")
+  
+  # Uncomment to copy the undated version to a different location.
+  # If saving to a remote drive, this works better than trying to save directly from `rmarkdown::render()`.
+  # To use this, you'll need a version of `run_rmd()` that's specialized for the specific rmd.
+  # fs::file_copy(path_out, config$path_out_remote, overwrite = TRUE)
 
   return( TRUE )
 }

@@ -22,3 +22,4 @@ The files in this directory support the April 2019 [SCUG](https://github.com/Ouh
         * Both files are nested in the `utility/super-computer` directory (the root directory).
     1. a newer & explicit version of R.
         * The batch file specifies `module load R/3.5.1-intel-2016a` instead of just `module load R`.
+        * [Inspect](https://www.ou.edu/oscer/support/running_jobs_schooner#module_avail) the available modules with `module avail`.

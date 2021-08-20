@@ -2,7 +2,7 @@
 #
 #SBATCH --partition=normal
 #SBATCH --ntasks=1
-#SBATCH --mem=1024
+#SBATCH --mem=4G
 #SBATCH --output=utility/super-computer/output/repo.txt
 #SBATCH --error=utility/super-computer/error/repo.txt
 #SBATCH --time=00:10:00

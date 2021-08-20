@@ -12,5 +12,6 @@
 #SBATCH --chdir=/home/yourusername/RAnalysisSkeleton
 #
 #################################################
-module load R/3.5.1-intel-2016a
+module load R/4.0.2-foss-2020a
+
 Rscript utility/super-computer/hello-world.R > utility/super-computer/output/hello-direct.txt

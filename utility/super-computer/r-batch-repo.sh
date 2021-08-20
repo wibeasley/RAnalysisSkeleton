@@ -13,6 +13,6 @@
 #
 #################################################
 module load Pandoc/2.5
-module load R/3.5.1-intel-2016a
+module load R/4.0.2-foss-2020a
 
-Rscript utility/reproduce.R > utility/super-computer/output/repo-direct.txt
+Rscript utility/super-computer/repo.R > utility/super-computer/output/repo-direct.txt

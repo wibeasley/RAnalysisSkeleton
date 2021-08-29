@@ -7,9 +7,9 @@
 #SBATCH --error=utility/super-computer/error/hello.txt
 #SBATCH --time=00:10:00
 #SBATCH --job-name=scug-hello
-#SBATCH --mail-user=youremailaddress@ouhsc.edu
+#SBATCH --mail-user=whb4@ou.edu
 #SBATCH --mail-type=ALL
-#SBATCH --chdir=/home/yourusername/RAnalysisSkeleton
+#SBATCH --chdir=/home/wbeasley/RAnalysisSkeleton
 #
 #################################################
 module load R/4.0.2-foss-2020a

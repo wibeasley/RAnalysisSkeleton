@@ -126,6 +126,10 @@ sql_create <- c(
 # Remove old DB
 # if( file.exists(path_db) ) file.remove(path_db)
 
+# Create directory if necessary.
+if (fs::dir_exists(fs::path_dir(path_db)))
+  fs::dir_create(fs::path_dir(path_db))
+
 # Open connection
 cnn <- DBI::dbConnect(drv=RSQLite::SQLite(), dbname=path_db)
 result <- DBI::dbSendQuery(cnn, "PRAGMA foreign_keys=ON;") #This needs to be activated each time a connection is made. #http://stackoverflow.com/questions/15301643/sqlite3-forgets-to-use-foreign-keys

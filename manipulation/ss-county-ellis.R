@@ -7,7 +7,7 @@ rm(list = ls(all.names = TRUE)) # Clear the memory of variables from previous ru
 # Attach these packages so their functions don't need to be qualified: http://r-pkgs.had.co.nz/namespace.html#search-path
 
 # Import only certain functions of a package into the search path.
-import::from("magrittr", "%>%")
+# import::from("magrittr", "%>%")
 
 # Verify these packages are available on the machine, but their functions need to be qualified: http://r-pkgs.had.co.nz/namespace.html#search-path
 requireNamespace("readr"        )
@@ -45,19 +45,19 @@ rm(col_types)
 # ---- tweak-data --------------------------------------------------------------
 # OuhscMunge::column_rename_headstart(ds) # Help write `dplyr::select()` call.
 ds <-
-  ds %>%
+  ds |>
   dplyr::select(    # `dplyr::select()` drops columns not included.
     county_id,
     county_name,
     category,
     time_zone         = `timezone`,
     desired,
-  ) %>%
-  dplyr::filter(desired) %>%
+  ) |>
+  dplyr::filter(desired) |>
   dplyr::mutate(
 
-  ) # %>%
-  # dplyr::arrange(subject_id) # %>%
+  ) # |>
+  # dplyr::arrange(subject_id) # |>
   # tibble::rowid_to_column("subject_id") # Add a unique index if necessary
 
 # ---- verify-values -----------------------------------------------------------
@@ -76,8 +76,8 @@ checkmate::assert_logical(  ds$desired     , any.missing=F                      
 #   The fewer columns that are exported, the fewer things that can break downstream.
 
 ds_slim <-
-  ds %>%
-  # dplyr::slice(1:100) %>%
+  ds |>
+  # dplyr::slice(1:100) |>
   dplyr::select(
     county_id,
     county_name,
@@ -137,7 +137,7 @@ DBI::dbClearResult(result)
 DBI::dbListTables(cnn)
 
 # Create tables
-sql_create %>%
+sql_create |>
   purrr::walk(~DBI::dbExecute(cnn, .))
 DBI::dbListTables(cnn)
 

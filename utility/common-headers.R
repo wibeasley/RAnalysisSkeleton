@@ -3,7 +3,7 @@ rm(list = ls(all.names = TRUE)) # Clear the memory of variables from previous ru
 
 
 # ---- load-packages -----------------------------------------------------------
-import::from("magrittr", "%>%")
+# import::from("magrittr", "%>%")
 requireNamespace("readr")
 requireNamespace("dplyr")
 requireNamespace("checkmate")

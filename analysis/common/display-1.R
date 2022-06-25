@@ -46,14 +46,14 @@ spaghetti_1 <- function(
 
 
   if( !is.null(group_variable) & nrow(d)>0L ) {
-    d_label <- d %>%
-      dplyr::group_by(!!group_symbol) %>%
-      dplyr::arrange(!!time_symbol) %>%
+    d_label <- d |>
+      dplyr::group_by(!!group_symbol) |>
+      dplyr::arrange(!!time_symbol) |>
       dplyr::mutate(
         is_first  = (dplyr::row_number() == 1L),
         is_last   = (dplyr::row_number() == dplyr::n()),
-      ) %>%
-      dplyr::filter(is_first | is_last) %>%
+      ) |>
+      dplyr::filter(is_first | is_last) |>
       dplyr::select(
         !!group_symbol,
         !!time_symbol,
@@ -61,7 +61,7 @@ spaghetti_1 <- function(
         !!color_symbol,
         is_first,
         is_last
-      ) %>%
+      ) |>
       dplyr::ungroup()
 
     d_label_left   <- d_label[d_label$is_first, ]
@@ -212,7 +212,7 @@ histogram_2 <- function(
     boundary_left   = histrv$breaks[-length(histrv$breaks)],
     boundary_right  = histrv$breaks[-1],
     count           = histrv$counts
-  ) %>%
+  ) |>
   dplyr::mutate(
     midpoint        = (boundary_right + boundary_left) / 2,
     width           = (boundary_right - boundary_left),
@@ -248,13 +248,13 @@ histogram_2 <- function(
     cat(tab_title)
   }
 
-  plot_ly(ds_stoplight_bin,  alpha = 0.6) %>%
+  plot_ly(ds_stoplight_bin,  alpha = 0.6) |>
     add_bars(
       x=~midpoint, y=~count, width=~width, color=~category, text=~count, hovertext=~hover_text,
       hoverinfo = 'text',
       # marker = list(line = list(color = '#AAAAAA', width = 1.5)), colors = c("#FF99cc", "#0dbab1","#ffd400", "#ff1a1a" )
       marker = list(line = list(color = '#AAAAAA', width = 1.5)), colors = c("#EBEBEB")
-    ) %>%
+    ) |>
     layout(
       title   = paste0("\n", main_title),
       font    = title_graph_font,

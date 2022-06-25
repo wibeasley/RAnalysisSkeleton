@@ -43,7 +43,7 @@ rm(path_input)
 # Dataset description can be found at: http://stat.ethz.ch/R-manual/R-devel/library/datasets/html/mtcars.html
 # Populate the rename entries with OuhscMunge::column_rename_headstart(ds_county) # remotes::install_github("OuhscBbmc/OuhscMunge")
 ds <-
-  ds %>%
+  ds |>
   dplyr::select(    # `dplyr::select()` drops columns not included.
     model_name                  = model,
     miles_per_gallon            = mpg,
@@ -57,22 +57,22 @@ ds <-
     transmission_automatic      = am,
     forward_gear_count          = gear,
     carburetor_count            = carb,
-  ) %>%
+  ) |>
   dplyr::mutate(
     weight_pounds           = weight_pounds_per_1000 * 1000,     # Clear up confusion about units
 
     engine_v_shape          = as.logical(engine_v_shape),           # Convert to boolean
     transmission_automatic  = as.logical(transmission_automatic),   # Convert to boolean
     horsepower_log_10       = log10(horsepower),
-  ) %>%
+  ) |>
   dplyr::select(
     -weight_pounds_per_1000, # Remove old variable
-  ) %>%
+  ) |>
   tibble::rowid_to_column("car_id") # Add a unique identifier
 
 # ---- erase-artifacts ---------------------------------------------------------
 ds <-
-  ds %>%
+  ds |>
   dplyr::mutate(
     miles_per_gallon_artifact = (miles_per_gallon < miles_per_gallon_threshold),
     miles_per_gallon          = dplyr::if_else(miles_per_gallon_artifact, NA_real_, miles_per_gallon),
@@ -81,13 +81,13 @@ ds <-
 # ---- create-z-scores ---------------------------------------------------------
 # This creates z-scores WITHIN forward_gear_count levels
 ds <-
-  ds %>%
-  dplyr::group_by(forward_gear_count) %>%
+  ds |>
+  dplyr::group_by(forward_gear_count) |>
   dplyr::mutate(
     displacement_gear_z = base::scale(displacement_inches_cubed),
     weight_gear_z       = base::scale(weight_pounds),
-  ) %>%
-  dplyr::ungroup() %>%   # Always leave the dataset ungrouped, so later operations act as expected.
+  ) |>
+  dplyr::ungroup() |>   # Always leave the dataset ungrouped, so later operations act as expected.
   dplyr::mutate(
     # Create a boolean variable, indicating if the z scores is above a certain threshold.
     weight_gear_z_above_1 = (1 < weight_gear_z),
@@ -132,8 +132,8 @@ checkmate::assert_logical(  ds$weight_gear_z_above_1        , any.missing=F     
 
 
 ds_slim <-
-  ds %>%
-  # dplyr::slice(1:100) %>%
+  ds |>
+  # dplyr::slice(1:100) |>
   dplyr::select(
     car_id,
     model_name,
@@ -146,7 +146,7 @@ ds_slim <-
     carburetor_count,
     weight_gear_z,
     weight_gear_z_above_1,
-  ) %>%
+  ) |>
   dplyr::mutate_if(is.logical, as.integer)       # Some databases & drivers need 0/1 instead of FALSE/TRUE.
 ds_slim
 

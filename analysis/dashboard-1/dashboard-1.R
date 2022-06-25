@@ -37,8 +37,8 @@ ds_annotation       <- read.csv(path_in_annotation)
 
 # ---- tweak-data --------------------------------------------------------------
 ds <-
-  ds %>%
-  # dplyr::filter(county %in% desired_counties) %>%
+  ds |>
+  # dplyr::filter(county %in% desired_counties) |>
   dplyr::mutate(
     emphasis        = dplyr::if_else(county_id == county_id_focus, "focus", "background"),
     focus           = as.integer(county_id == county_id_focus),
@@ -46,13 +46,13 @@ ds <-
   )
 
 ds_county <-
-  ds_county %>%
-  tibble::as_tibble() %>%
+  ds_county |>
+  tibble::as_tibble() |>
   dplyr::mutate(
     cog       = cog_1_mean  + cog_2_mean  + cog_3_mean ,
     phys      = phys_1_mean + phys_2_mean + phys_3_mean,
     label     = sprintf("%s mean:\n%3.1f", county, cog)
-  ) %>%
+  ) |>
   dplyr::mutate(
     emphasis        = dplyr::if_else(county_id == county_id_focus, "focus", "background"),
     focus           = as.integer(county_id == county_id_focus),
@@ -60,8 +60,8 @@ ds_county <-
   )
 
 ds_county_year <-
-  ds_county_year %>%
-  tibble::as_tibble() %>%
+  ds_county_year |>
+  tibble::as_tibble() |>
   dplyr::mutate(
     emphasis        = dplyr::if_else(county_id == county_id_focus, "focus", "background"),
     focus           = as.integer(county_id == county_id_focus),
@@ -71,8 +71,8 @@ ds_county_year <-
   )
 
 county_name_focus   <-
-  ds_county %>%
-  dplyr::filter(county_id == county_id_focus) %>%
+  ds_county |>
+  dplyr::filter(county_id == county_id_focus) |>
   dplyr::pull(county)
 
 # ---- headline-graph ----------------------------------------------------------
@@ -89,17 +89,17 @@ ggplot(ds_county, aes(x=county, y=cog, label=label, color=county, fill=county)) 
   labs(title="Cognitive Outcome by County", x=NULL, y="Cognitive Mean")
 
 # ---- tables-county-year ----------------------------------------------------------
-ds_county_year %>%
-   dplyr::arrange(desc(year), county) %>%
+ds_county_year |>
+   dplyr::arrange(desc(year), county) |>
    dplyr::select(
      county, year, cog_1_mean, cog_2_mean, cog_3_mean, phys_1_mean, phys_2_mean, phys_3_mean
-   )%>%
+   ) |>
    DT::datatable(
      colnames=gsub("_", " ", colnames(.)),
      options = list(
        pageLength = 16
      )
-   ) %>%
+  ) |>
   DT::formatCurrency(
     columns  = c(
       "cog_1_mean", "cog_2_mean", "cog_3_mean",
@@ -110,17 +110,17 @@ ds_county_year %>%
   )
 
 # ---- tables-county ----------------------------------------------------------
-ds_county  %>%
-  dplyr::arrange(county) %>%
+ds_county |>
+  dplyr::arrange(county) |>
   dplyr::select(
     county, cog_1_mean, cog_2_mean, cog_3_mean, phys_1_mean, phys_2_mean, phys_3_mean
-  )%>%
+  ) |>
   DT::datatable(
     colnames=gsub("_", " ", colnames(.)),
     options = list(
       pageLength = 16
     )
-  ) %>%
+  ) |>
   DT::formatCurrency(
     columns  = c(
       "cog_1_mean", "cog_2_mean", "cog_3_mean",
@@ -131,7 +131,7 @@ ds_county  %>%
   )
 
 # ---- tables-annotation ----------------------------------------------------------
-ds_annotation %>%
+ds_annotation |>
   DT::datatable(
     colnames=gsub("_", " ", colnames(.)),
     options = list(
@@ -143,8 +143,8 @@ ds_annotation %>%
 # ---- spaghetti --------------------------------------------
 cat("\n\n### Cog 1<br/><b>County-Year</b>\n\n")
 
-ds_county_year %>%
-  dplyr::group_by(county) %>%
+ds_county_year |>
+  dplyr::group_by(county) |>
   plot_ly(
     x = ~year,
     y = ~cog_1_mean,
@@ -159,8 +159,8 @@ ds_county_year %>%
       "<br>For county %s during %4i,<br>the average Cog 1 score was %1.2f.",
       county, year, cog_1_mean
     )
-  ) %>%
-  # dplyr::ungroup() %>%
+  ) |>
+  # dplyr::ungroup() |>
   plotly::add_markers(
     size   = ~focus,
     # symbol   = ~emphasis,
@@ -173,9 +173,9 @@ ds_county_year %>%
       "<br>For %s county during %4i,<br>the average Cog 1 score was %1.2f.",
       county, year, cog_1_mean
     )
-  ) %>%
+  ) |>
   # add_trace(type = "scatter", mode = "markers+lines")
-  dplyr::ungroup() %>%
+  dplyr::ungroup() |>
   layout(
     # showlegend = FALSE,
     legend = list(orientation = 'h'),
@@ -192,7 +192,7 @@ ds_county_year %>%
 
 
 cat("\n\n### Cog 2<br/><b>County-Year</b>\n\n")
-ds_county_year %>%
+ds_county_year |>
   spaghetti_1(
     d                   = .,
     response_variable   = "cog_1_mean",
@@ -207,7 +207,7 @@ ds_county_year %>%
   )
 
 cat("\n\n### Cog 3<br/><b>County-Year</b>\n\n")
-ds_county_year %>%
+ds_county_year |>
   spaghetti_1(
     d                   = ,
     response_variable   = "cog_3_mean",
@@ -219,14 +219,14 @@ ds_county_year %>%
     path_in_annotation  = path_in_annotation,
     width               = c("focus"=2, "background"=1),
     base_size           = 14
-  ) %>%
-  plotly::ggplotly() %>%
+  ) |>
+  plotly::ggplotly() |>
   plotly::hide_legend()
 
 
 cat("\n\n### Cog 1<br/><b>Subject-Year</b>\n\n")
-ds %>%
-  dplyr::group_by(subject_id) %>%
+ds |>
+  dplyr::group_by(subject_id) |>
   plot_ly(
     x = ~year,
     y = ~cog_1,
@@ -241,8 +241,8 @@ ds %>%
       "<br>For subject %s during %4i<br>(in %s county),<br>the Cog 1 score was %1.2f.",
       subject_id, year, county, cog_1
     )
-  ) %>%
-  dplyr::ungroup() %>%
+  ) |>
+  dplyr::ungroup() |>
   layout(
     # showlegend = FALSE,
     legend = list(orientation = 'h'),
@@ -296,8 +296,8 @@ spaghetti_1(
   path_in_annotation  = path_in_annotation,
   width               = c("focus"=2, "background"=1),
   base_size           = 18
-) %>%
-  plotly::ggplotly() %>%
+) |>
+  plotly::ggplotly() |>
   plotly::hide_legend()
 
 

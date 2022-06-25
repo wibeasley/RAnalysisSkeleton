@@ -6,7 +6,7 @@ rm(list = ls(all.names = TRUE)) # Clear the memory of variables from previous ru
 # base::source(file="Dal/Osdh/Arch/benchmark-client-program-arch.R") #Load retrieve_benchmark_client_program
 
 # ---- load-packages -----------------------------------------------------------
-import::from("magrittr", "%>%")
+# import::from("magrittr", "%>%")
 requireNamespace("DBI")
 requireNamespace("odbc")
 requireNamespace("tibble")
@@ -72,8 +72,8 @@ checkmate::assert_data_frame(ds           , min.rows = 200)
 # ---- tweak-data --------------------------------------------------------------
 dim(ds)
 ds <-
-  ds %>%
-  tibble::as_tibble() %>%
+  ds |>
+  tibble::as_tibble() |>
   dplyr::mutate(
     # When reading from SQLite, there are some data types that need to be cast explicitly.  SQL Server and the 'odbc' package handles dates and bits/logicals naturally.
     age_80_plus         = as.logical(age_80_plus),
@@ -83,8 +83,8 @@ dim(ds)
 
 # ---- collapse-to-county ------------------------------------------------------
 ds_county <-
-  ds %>%
-  dplyr::group_by(county_id, county) %>%
+  ds |>
+  dplyr::group_by(county_id, county) |>
   dplyr::summarize(
     cog_1_mean      = mean(cog_1    , na.rm=T),
     cog_2_mean      = mean(cog_2    , na.rm=T),
@@ -92,13 +92,13 @@ ds_county <-
     phys_1_mean     = mean(phys_1   , na.rm=T),
     phys_2_mean     = mean(phys_2   , na.rm=T),
     phys_3_mean     = mean(phys_3   , na.rm=T)
-  ) %>%
+  ) |>
   dplyr::ungroup()
 
 # ---- collapse-to-county-year ------------------------------------------------------
 ds_county_year <-
-  ds %>%
-  dplyr::group_by(county_id, county, year) %>%
+  ds |>
+  dplyr::group_by(county_id, county, year) |>
   dplyr::summarize(
     cog_1_mean      = mean(cog_1    , na.rm=T),
     cog_2_mean      = mean(cog_2    , na.rm=T),
@@ -106,7 +106,7 @@ ds_county_year <-
     phys_1_mean     = mean(phys_1   , na.rm=T),
     phys_2_mean     = mean(phys_2   , na.rm=T),
     phys_3_mean     = mean(phys_3   , na.rm=T)
-  ) %>%
+  ) |>
   dplyr::ungroup()
 
 
@@ -121,18 +121,20 @@ message(
   # "Year range         : ", strftime(range(ds_program_month$month), "%Y-%m-%d  "), "\n",
   sep=""
 )
-ds %>%
-  dplyr::count(county_id) %>%
-  dplyr::mutate(n = scales::comma(n)) %>%
+ds |>
+  dplyr::count(county_id) |>
+  dplyr::mutate(n = scales::comma(n)) |>
   tidyr::spread(county_id, n)
 
-ds %>%
-  # dplyr::filter(visit_all_completed_count > 0L) %>%
-  # purrr::map(., ~mean(is.na(.)) ) %>%
-  purrr::map(., ~mean(is.na(.) | as.character(.)=="Unknown")) %>%
-  purrr::map(., ~round(., 3)) %>%
-  tibble::as_tibble() %>%
-  t()
+ds |>
+  dplyr::summarize(
+    dplyr::across(
+      .cols = tidyselect::everything(),
+      .fns  = ~round(mean(is.na(.) | as.character(.) == "Unknown"), 3)
+    )
+  ) |>
+  tidyr::pivot_longer(tidyselect::everything()) |>
+  print(n = 200)
 
 # ---- verify-values -----------------------------------------------------------
 # OuhscMunge::verify_value_headstart(ds)
@@ -160,7 +162,7 @@ checkmate::assert_numeric(  ds$phys_3          , any.missing=F , lower=0, upper=
 #   cat(paste0("    ", colnames(ds), collapse=",\n"))
 
 ds_slim <-
-  ds %>%
+  ds |>
   dplyr::select(
     subject_wave_id,
     subject_id,
@@ -183,8 +185,8 @@ ds_slim <-
     phys_1,
     phys_2,
     phys_3
-  ) %>%
-  # dplyr::slice(1:100) %>%
+  ) |>
+  # dplyr::slice(1:100) |>
   dplyr::mutate_if(is.logical, as.integer)       # Some databases & drivers need 0/1 instead of FALSE/TRUE.
 ds_slim
 

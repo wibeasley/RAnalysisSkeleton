@@ -8,7 +8,7 @@ rm(list = ls(all.names = TRUE)) # Clear the memory of variables from previous ru
 # ---- load-packages -----------------------------------------------------------
 library(ggplot2)  # For graphing
 library(lme4)     # For mlms
-import::from("magrittr", "%>%")
+# import::from("magrittr", "%>%")
 requireNamespace("dplyr")
 requireNamespace("TabularManifest") # remotes::install_github("Melinae/TabularManifest")
 # requireNamespace("RColorBrewer")
@@ -95,7 +95,7 @@ cat("Including the Month predictor in the MLM is significantly tighter.")
 anova(m2, m3)
 
 # ---- model-results-table  -----------------------------------------------
-summary(m3)$coef %>%
+summary(m3)$coef |>
   knitr::kable(
     digits      = 2,
     format      = "markdown"

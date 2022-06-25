@@ -7,7 +7,7 @@ rm(list = ls(all.names = TRUE)) # Clear the memory of variables from previous ru
 
 # ---- load-packages -----------------------------------------------------------
 library(ggplot2) #For graphing
-import::from("magrittr", "%>%")
+# import::from("magrittr", "%>%")
 requireNamespace("dplyr")
 # requireNamespace("RColorBrewer")
 # requireNamespace("scales") #For formating values in graphs
@@ -37,7 +37,7 @@ histogram_discrete <- function(
 
   # Ungroup, in case it comes in grouped.
   d_observed <-
-    d_observed %>%
+    d_observed |>
     dplyr::ungroup()
 
   if( !base::is.factor(d_observed[[variable_name]]) )
@@ -49,10 +49,10 @@ histogram_discrete <- function(
   # if( base::length(levels_to_exclude)>0 ) { }
   d_count <- d_count[!(d_count$iv %in% levels_to_exclude), ]
 
-  d_summary <- d_count %>%
+  d_summary <- d_count |>
     dplyr::rename(
       count    =  n
-    ) %>%
+    ) |>
     dplyr::mutate(
       proportion = count / sum(count)
     )
@@ -108,7 +108,7 @@ histogram_continuous <- function(
   }
 
   g <-
-    d_observed %>%
+    d_observed |>
     ggplot2::ggplot(ggplot2::aes_string(x=variable_name)) +
     ggplot2::geom_histogram(binwidth=bin_width, position=ggplot2::position_identity(), fill="gray70", color="gray90", alpha=.7) +
     ggplot2::geom_vline(xintercept=ds_mid_points$value, color="gray30") +
@@ -130,7 +130,7 @@ ds <- readr::read_rds(path_input) # 'ds' stands for 'datasets'
 
 # ---- tweak-data --------------------------------------------------------------
 ds <-
-  ds %>%
+  ds |>
   dplyr::mutate(
     # Create duplicates of variables as factors (not numbers), which can help with later graphs or analyses.
     #   Admittedly, the labels are a contrived example of a factor, but helps the demo later.
@@ -204,7 +204,7 @@ cat("The two predictor is significantly tighter.")
 anova(m1, m2)
 
 # ---- model-results-table  -----------------------------------------------
-summary(m2)$coef %>%
+summary(m2)$coef |>
   knitr::kable(
     digits      = 2,
     format      = "markdown"

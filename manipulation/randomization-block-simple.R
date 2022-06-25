@@ -4,7 +4,7 @@ rm(list = ls(all.names = TRUE)) # Clear the memory of variables from previous ru
 # Call `base::source()` on any repo file that defines functions needed below.  Ideally, no real operations are performed.
 
 # ---- load-packages -----------------------------------------------------------
-import::from("magrittr", "%>%")
+# import::from("magrittr", "%>%")
 
 requireNamespace("readr")
 requireNamespace("tibble")
@@ -21,7 +21,6 @@ assignment_possible_block     <- rep(assignment_possible, each=block_size)
 
 path_out                      <- "data-public/derived/randomized-block-simple.csv"
 
-
 # ---- load-data ---------------------------------------------------------------
 
 # ---- tweak-data --------------------------------------------------------------
@@ -34,15 +33,15 @@ ds <-
   )
 
 ds <-
-  ds %>%
-  dplyr::group_by(block_id) %>%
+  ds |>
+  dplyr::group_by(block_id) |>
   dplyr::mutate(
     condition           = sample(assignment_possible_block, replace=FALSE),
     client_id           = '-to be assigned-',
     year_assigned       = 2016L,
     month_assigned      = 9L,
     day_assigned        = '-enter today-'
-  ) %>%
+  ) |>
   dplyr::ungroup()
 
 
@@ -60,8 +59,8 @@ testit::assert("The block_id-condition combination should be unique.", all(!dupl
 #  cat(paste0("    ", colnames(ds), collapse=",\n"))
 
 ds_slim <-
-  ds %>%
-  # dplyr::slice(1:100) %>%
+  ds |>
+  # dplyr::slice(1:100) |>
   dplyr::select(
     assignment_id,
     block_id,

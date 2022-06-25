@@ -11,7 +11,7 @@ rm(list = ls(all.names = TRUE)) # Clear the memory of variables from previous ru
 # Attach these packages so their functions don't need to be qualified: http://r-pkgs.had.co.nz/namespace.html#search-path
 
 # Import only certain functions of a package into the search path.
-import::from("magrittr", "%>%")
+# import::from("magrittr", "%>%")
 
 # Verify these packages are available on the machine, but their functions need to be qualified: http://r-pkgs.had.co.nz/namespace.html#search-path
 requireNamespace("readr"        )
@@ -114,7 +114,7 @@ ds_county
 # ---- tweak-data --------------------------------------------------------------
 # OuhscMunge::column_rename_headstart(ds_county) # Help write `dplyr::select()` call.
 ds_county <-
-  ds_county %>%
+  ds_county |>
   dplyr::select(    # `dplyr::select()` drops columns not included.
     county_id     = CountyID,
     county_name   = CountyName,
@@ -127,7 +127,7 @@ ds_county <-
 
 # Groom the nurse-month dataset for Oklahoma County.
 ds_nurse_month_oklahoma <-
-  ds_nurse_month_oklahoma %>%
+  ds_nurse_month_oklahoma |>
   dplyr::select(    # `dplyr::select()` drops columns not included.
     # employee_number         = `Employee..`,       # Used to be Employee # before sanitizing. Drop b/c unnecessary.
     year                      = Year,
@@ -135,14 +135,14 @@ ds_nurse_month_oklahoma <-
     fte                       = FTE,
     fmla_hours                = FMLA.Hours,         # Used to be FMLA Hours before sanitizing.
     training_hours            = Training.Hours      # Used to be Training Hours before sanitizing.
-  ) %>%
+  ) |>
   dplyr::mutate(
     county_id         = ds_county[ds_county$county_name=="Oklahoma", ]$county_id,        # Dynamically determine county ID.
     month             = as.Date(ISOdate(year, month, default_day_of_month)),             # Combine fields for one date.
     # fmla_hours      = dplyr::if_else(!is.na(fmla_hours), fmla_hours, 0L),              # Set missing values to zero.
     training_hours    = dplyr::coalesce(training_hours, 0L)                              # Set missing values to zero.
     # training_hours  = dplyr::if_else(!is.na(training_hours), training_hours, 0L)       # Set missing values to zero.
-  ) %>%
+  ) |>
   dplyr::select(      # Drop unnecessary variables (ie, defensive programming)
     -year
   )
@@ -150,14 +150,14 @@ ds_nurse_month_oklahoma
 
 # Collapse across nurses to create one record per month for Oklahoma County.
 ds_month_oklahoma <-
-  ds_nurse_month_oklahoma %>%
-  dplyr::group_by(county_id, month) %>%                  # Split by County & month into sub-datasets
+  ds_nurse_month_oklahoma |>
+  dplyr::group_by(county_id, month) |>                  # Split by County & month into sub-datasets
   dplyr::summarize(                                      # Aggregate/summarize within sub-datasets
     fte                = sum(fte, na.rm=T),
     # fmla_hours       = sum(fmla_hours, na.rm=T)
     fte_approximated   = FALSE,                          # This variable helps the later union query.
-  ) %>%
-  dplyr::ungroup() %>%                                   # Unnecessary b/c of `summarize()`, but I like the habit.
+  ) |>
+  dplyr::ungroup() |>                                   # Unnecessary b/c of `summarize()`, but I like the habit.
   dplyr::select(!!columns_to_stack)                      # Ensure that all three datasets have the same columns and their order is consistent.
 ds_month_oklahoma
 
@@ -187,17 +187,17 @@ rm(ds_nurse_month_oklahoma) #Remove this dataset so it's not accidentally used b
 # Groom the nurse-month dataset for Tulsa County.
 # OuhscMunge::column_rename_headstart(ds_month_tulsa)
 ds_month_tulsa <-
-  ds_month_tulsa %>%
+  ds_month_tulsa |>
   dplyr::select(    # `dplyr::select()` drops columns not included.
     month             = Month,
     fte               = FteSum,
     fmla_sum          = FmlaSum,
-  ) %>%
+  ) |>
   dplyr::mutate(
     county_id           = ds_county[ds_county$county_name=="Tulsa", ]$county_id,  # Dynamically determine county ID
     # fmla_hours        = dplyr::if_else(!is.na(fmla_hours), fmla_hours, 0.0)
     fte_approximated    = FALSE,
-  ) %>%
+  ) |>
   dplyr::select(!!columns_to_stack)                      # Ensure that all three datasets have the same columns and their order is consistent.
 ds_month_tulsa
 
@@ -205,7 +205,7 @@ ds_month_tulsa
 # Groom the nurse-month dataset for the 75 rural counties.
 # OuhscMunge::column_rename_headstart(ds_nurse_month_rural)
 ds_nurse_month_rural <-
-  ds_nurse_month_rural %>%
+  ds_nurse_month_rural |>
   dplyr::select(    # `dplyr::select()` drops columns not included.
     county_name             = HOME_COUNTY,
     month                   = PERIOD,
@@ -213,21 +213,21 @@ ds_nurse_month_rural <-
     fte_percent             = FTE
     # employee_id           = EMPLOYEEID    # Not needed
     # region_id             = REGIONID      # Not needed
-  ) %>%
-  dplyr::filter(!(county_name %in% counties_to_drop_from_rural)) %>%
+  ) |>
+  dplyr::filter(!(county_name %in% counties_to_drop_from_rural)) |>
   dplyr::mutate(
     month       = as.Date(paste0(month, "-", default_day_of_month), format="%m/%Y-%d"),
     fte_string  = gsub("^(\\d{1,3})\\s*%$", "\\1", fte_percent),                            # Extract digits before the '%' sign.
     fte         = .01 * dplyr::if_else(nchar(fte_string)==0L, 0, as.numeric(fte_string)),
     county_name = dplyr::recode(county_name, `Cimmarron`='Cimarron', `Leflore`='Le Flore'), # Or consider `car::recode()`.
-  ) %>%
-  dplyr::arrange(county_name, month, name_full) %>%
+  ) |>
+  dplyr::arrange(county_name, month, name_full) |>
   dplyr::select(
     -fte_percent,
     -fte_string,
-  ) %>%
+  ) |>
   dplyr::left_join(
-    ds_county %>%
+    ds_county |>
       dplyr::select(
         county_id,
         county_name,
@@ -241,14 +241,14 @@ ds_nurse_month_rural
 
 # Collapse across nurses to create one record per month per county.
 ds_month_rural <-
-  ds_nurse_month_rural %>%
-  dplyr::group_by(county_id, month) %>%
+  ds_nurse_month_rural |>
+  dplyr::group_by(county_id, month) |>
   dplyr::summarize(
     fte                 = sum(fte, na.rm=TRUE),
     # fmla_hours        = sum(fmla_hours, na.rm=TRUE),
     fte_approximated    = FALSE,
-  ) %>%
-  dplyr::ungroup() %>%
+  ) |>
+  dplyr::ungroup() |>
   dplyr::select(!!columns_to_stack)                      # Ensure that all three datasets have the same columns and their order is consistent.
 ds_month_rural
 
@@ -261,16 +261,16 @@ ds_possible <-
 
 # Determine the months were we don't have any rural T&E data.
 months_rural_not_collected <-
-  ds_month_rural %>%
+  ds_month_rural |>
   dplyr::right_join(
     ds_possible, by=c("county_id", "month")
-  ) %>%
-  dplyr::group_by(month) %>%
+  ) |>
+  dplyr::group_by(month) |>
   dplyr::summarize(
     mean_na = mean(is.na(fte)),
-  ) %>%
-  dplyr::ungroup() %>%
-  dplyr::filter(mean_na >= .9999) %>%
+  ) |>
+  dplyr::ungroup() |>
+  dplyr::filter(mean_na >= .9999) |>
   dplyr::pull(month)
 months_rural_not_collected
 
@@ -280,27 +280,27 @@ rm(counties_to_drop_from_rural, default_day_of_month)
 # ---- union-all-counties -----------------------------------------------------
 # Stack the three datasets on top of each other.
 ds <-
-  ds_month_oklahoma %>%
-  dplyr::union_all(ds_month_tulsa) %>%
-  dplyr::union_all(ds_month_rural) %>%
+  ds_month_oklahoma |>
+  dplyr::union_all(ds_month_tulsa) |>
+  dplyr::union_all(ds_month_rural) |>
   dplyr::right_join(
     ds_possible, by=c("county_id", "month")
-  ) %>%
+  ) |>
   dplyr::left_join(
     ds_county, by="county_id"
-  ) %>%
-  dplyr::arrange(county_id, month) %>%
-  tibble::rowid_to_column("county_month_id") %>%  # Add the primary key
+  ) |>
+  dplyr::arrange(county_id, month) |>
+  tibble::rowid_to_column("county_month_id") |>  # Add the primary key
   dplyr::mutate(
     fte                         = dplyr::coalesce(fte, 0),
     month_missing               = is.na(fte_approximated),
     fte_approximated            = month_missing & (month %in% months_rural_not_collected),
     fte_rolling_median_11_month = zoo::rollmedian(x=fte, 11, na.pad=T, align="right"),
-  ) %>%
-  dplyr::group_by(county_id) %>%                # Group by county.
+  ) |>
+  dplyr::group_by(county_id) |>                # Group by county.
   dplyr::mutate(
     county_any_missing  = any(month_missing),   # Determine if a county is missing any month
-  ) %>%
+  ) |>
   dplyr::ungroup()
 ds
 
@@ -378,8 +378,8 @@ checkmate::assert_character(county_month_combo, pattern  ="^\\d{1,2} \\d{4}-\\d{
 # Define the subset of columns that will be needed in the analyses.
 #   The fewer columns that are exported, the fewer things that can break downstream.
 ds_slim <-
-  ds %>%
-  # dplyr::slice(1:100) %>%
+  ds |>
+  # dplyr::slice(1:100) |>
   dplyr::select(
     county_month_id,
     county_id,
@@ -387,7 +387,7 @@ ds_slim <-
     fte,
     fte_approximated,
     region_id,
-  ) %>%
+  ) |>
   dplyr::mutate_if(is.logical, as.integer)       # Some databases & drivers need 0/1 instead of FALSE/TRUE.
 ds_slim
 
@@ -443,20 +443,20 @@ cnn <- DBI::dbConnect(drv=RSQLite::SQLite(), dbname=path_db)
 DBI::dbListTables(cnn)
 
 # Create tables
-sql_create %>%
+sql_create |>
   purrr::walk(~DBI::dbExecute(cnn, .))
 DBI::dbListTables(cnn)
 
 # Write to database
 DBI::dbWriteTable(cnn, name='county',              value=ds_county,        append=TRUE, row.names=FALSE)
-ds %>%
+ds |>
   dplyr::mutate(
     month               = strftime(month, "%Y-%m-%d"),
     fte_approximated    = as.logical(fte_approximated),
     month_missing       = as.logical(month_missing),
-  ) %>%
-  dplyr::select(county_month_id, county_id, month, fte, fte_approximated, month_missing, fte_rolling_median_11_month) %>%
-  DBI::dbWriteTable(value=., conn=cnn, name='te_month', append=TRUE, row.names=FALSE)
+  ) |>
+  dplyr::select(county_month_id, county_id, month, fte, fte_approximated, month_missing, fte_rolling_median_11_month) |>
+  DBI::dbWriteTable(conn=cnn, name='te_month', append=TRUE, row.names=FALSE)
 
 # Close connection
 DBI::dbDisconnect(cnn)

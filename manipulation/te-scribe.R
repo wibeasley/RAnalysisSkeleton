@@ -6,7 +6,7 @@ rm(list = ls(all.names = TRUE)) # Clear the memory of variables from previous ru
 # base::source(file="dal/osdh/arch/benchmark-client-program-arch.R") #Load retrieve_benchmark_client_program
 
 # ---- load-packages -----------------------------------------------------------
-import::from("magrittr", "%>%")
+# import::from("magrittr", "%>%")
 requireNamespace("DBI")
 requireNamespace("odbc")
 requireNamespace("tibble")
@@ -72,13 +72,13 @@ checkmate::assert_data_frame(ds_county_month     , min.rows = 2 *77)
 # ---- tweak-data --------------------------------------------------------------
 dim(ds_county)
 ds_county <-
-  ds_county %>%
+  ds_county |>
   tibble::as_tibble()
 
 dim(ds_county_month)
 ds_county_month <-
-  ds_county_month %>%
-  tibble::as_tibble() %>%
+  ds_county_month |>
+  tibble::as_tibble() |>
   dplyr::mutate(
     month                 = as.Date(month),
     fte_approximated      = as.logical(fte_approximated),
@@ -94,18 +94,20 @@ message(
   "Month range        : ", strftime(range(ds_county_month$month), "%Y-%m-%d  "), "\n",
   sep = ""
 )
-ds_county_month %>%
-  dplyr::count(county_id) %>%
-  dplyr::mutate(n = scales::comma(n)) %>%
+ds_county_month |>
+  dplyr::count(county_id) |>
+  dplyr::mutate(n = scales::comma(n)) |>
   tidyr::spread(county_id, n)
 
-ds_county_month %>%
-  # dplyr::filter(visit_all_completed_count > 0L) %>%
-  # purrr::map(., ~mean(is.na(.)) ) %>%
-  purrr::map(., ~mean(is.na(.) | as.character(.)=="Unknown")) %>%
-  purrr::map(., ~round(., 3)) %>%
-  tibble::as_tibble() %>%
-  t()
+ds_county_month |>
+  dplyr::summarize(
+    dplyr::across(
+      .cols = tidyselect::everything(),
+      .fns  = ~round(mean(is.na(.) | as.character(.) == "Unknown"), 3)
+    )
+  ) |>
+  tidyr::pivot_longer(tidyselect::everything()) |>
+  print(n = 200)
 
 # ---- verify-values -----------------------------------------------------------
 # OuhscMunge::verify_value_headstart(ds_county)
@@ -136,8 +138,8 @@ checkmate::assert_character(county_month_combo, pattern  ="^\\d{1,2} \\d{4}-\\d{
 #   cat(paste0("    ", colnames(ds_county), collapse=",\n"))
 
 ds_slim_county_month <-
-  ds_county_month %>%
-  # dplyr::slice(1:100) %>%
+  ds_county_month |>
+  # dplyr::slice(1:100) |>
   dplyr::select(
     county_id,
     county,
@@ -150,8 +152,8 @@ ds_slim_county_month <-
 ds_slim_county_month
 
 ds_slim_county <-
-  ds_county %>%
-  # dplyr::slice(1:100) %>%
+  ds_county |>
+  # dplyr::slice(1:100) |>
   dplyr::select(
     county_id,
     county,

@@ -12,7 +12,7 @@ rm(list = ls(all.names = TRUE)) # Clear the memory of variables from previous ru
 # library("ggplot2")
 
 # Import only certain functions of a package into the search path.
-import::from("magrittr", "%>%")
+# import::from("magrittr", "%>%")
 
 # Verify these packages are available on the machine, but their functions need to be qualified: http://r-pkgs.had.co.nz/namespace.html#search-path
 requireNamespace("readr"        )
@@ -66,7 +66,7 @@ ds
 # ---- tweak-data --------------------------------------------------------------
 # OuhscMunge::column_rename_headstart(ds) # Help write `dplyr::select()` call.
 ds <-
-  ds %>%
+  ds |>
   dplyr::select(    # `dplyr::select()` drops columns not included.
     subject_id,
     wave_id,
@@ -82,28 +82,28 @@ ds <-
     phys_1,
     phys_2,
     phys_3,
-  ) %>%
+  ) |>
   dplyr::mutate(
     subject_id  = factor(subject_id),
     year        = as.integer(lubridate::year(date_at_visit)),
     age_cut_4   = cut(age, breaks=c(50, 60, 70, 80, Inf), labels=c("50s", "60s", "70s", "80+"), include.lowest = T),
     age_80_plus = (80L <= age),
-  )  %>%
-  dplyr::arrange(subject_id, wave_id) %>%
+  ) |>
+  dplyr::arrange(subject_id, wave_id) |>
   tibble::rowid_to_column("subject_wave_id")
 
 
 # ---- isolate-subject ---------------------------------------------------------
 ds_subject <-
-  ds %>%
+  ds |>
   dplyr::select(
     subject_id,
     county_id,
     year,
     age,
-  ) %>%
-  dplyr::distinct(.keep_all = T) %>%
-  dplyr::group_by(subject_id) %>%
+  ) |>
+  dplyr::distinct(.keep_all = T) |>
+  dplyr::group_by(subject_id) |>
   dplyr::summarize(
     county_id_count = dplyr::n_distinct(county_id),
     county_id       = OuhscMunge::first_nonmissing(county_id),
@@ -111,7 +111,7 @@ ds_subject <-
     year_max        = max(year, na.rm=T),
     age_min         = min(age, na.rm=T),
     age_max         = max(age, na.rm=T),
-  ) %>%
+  ) |>
   dplyr::ungroup()
 
 
@@ -162,8 +162,8 @@ subject_wave_combo[!grepl("^\\d{1,3} \\d{1,2}$", subject_wave_combo)]     # Idea
 #   The fewer columns that are exported, the fewer things that can break downstream.
 
 ds_slim <-
-  ds %>%
-  # dplyr::slice(1:100) %>%
+  ds |>
+  # dplyr::slice(1:100) |>
   dplyr::select(
         subject_wave_id,
     subject_id,
@@ -252,18 +252,20 @@ DBI::dbClearResult(result)
 DBI::dbListTables(cnn)
 
 # Create tables
-sql_create %>%
+sql_create |>
   purrr::walk(~DBI::dbExecute(cnn, .))
 DBI::dbListTables(cnn)
 
 # Write to database
-ds_slim %>%
-  # dplyr::mutate_if(is.logical, as.integer) %>%        # Some databases & drivers need 0/1 instead of FALSE/TRUE.
-  # dplyr::mutate_if(is.Date, as.character) %>%        # Some databases & drivers need 0/1 instead of FALSE/TRUE.
+ds_slim |>
+  # dplyr::mutate_if(is.logical, as.integer) |>        # Some databases & drivers need 0/1 instead of FALSE/TRUE.
+  # dplyr::mutate_if(is.Date, as.character) |>        # Some databases & drivers need 0/1 instead of FALSE/TRUE.
   dplyr::mutate(
     date_at_visit   = as.character(date_at_visit    )
-  ) %>%
-  DBI::dbWriteTable(cnn, name='mlm_1',              value=.,        append=TRUE, row.names=FALSE)
+  ) |>
+  {\(.)
+    DBI::dbWriteTable(cnn, name='mlm_1',              value=.,        append=TRUE, row.names=FALSE)
+  }()
 
 # DBI::dbWriteTable(cnn, name='subject',            value=ds_subject,        append=TRUE, row.names=FALSE)
 

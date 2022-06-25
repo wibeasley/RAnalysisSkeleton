@@ -9,7 +9,7 @@ rm(list = ls(all.names = TRUE)) # Clear the memory of variables from previous ru
 # library("ggplot2")
 
 # Import only certain functions of a package into the search path.
-import::from("magrittr", "%>%")
+# import::from("magrittr", "%>%")
 
 # Verify these packages are available on the machine, but their functions need to be qualified: http://r-pkgs.had.co.nz/namespace.html#search-path
 requireNamespace("readr"        )
@@ -79,7 +79,7 @@ ds_subject <-
     race            = sample(possible_race      , size=subject_count, replace=T),
     ethnicity       = sample(possible_ethnicity , size=subject_count, replace=T)
 
-  ) %>%
+  ) |>
   dplyr::mutate(
     int_factor_1    = int_county[county_index]   + rnorm(n=subject_count, mean=10.0, sd=2.0),
     slope_factor_1  = slope_county[county_index] + rnorm(n=subject_count, mean= 0.05, sd=0.04),
@@ -93,14 +93,14 @@ ds <-
   tidyr::crossing(
     subject_id      = ds_subject$subject_id,
     wave_id         = seq_len(wave_count)
-  ) %>%
-  dplyr::right_join(ds_subject, by="subject_id") %>%
+  ) |>
+  dplyr::right_join(ds_subject, by="subject_id") |>
   dplyr::mutate(
     year            = wave_id + year_start - 1L,
     age             = wave_id + age_start  - 1L,
 
     date_at_visit   = as.Date(ISOdate(year, 1, 1) + lubridate::days(sample(possible_date_offset, size=dplyr::n(), replace=T)))
-  ) %>%
+  ) |>
   dplyr::mutate( # Generate cognitive manifest variables (ie, from factor 1)
     cog_1           =
       (int_factor_1 * loadings_factor_1[1]) +
@@ -114,7 +114,7 @@ ds <-
       (int_factor_1 * loadings_factor_1[3]) +
       slope_factor_1 * wave_id +
       rnorm(n=dplyr::n(), mean=0, sd=sigma_factor_1[3])
-  ) %>%
+  ) |>
   dplyr::mutate( # Generate physical manifest variables (ie, from factor 2)
     phys_1           =
       (int_factor_2 * loadings_factor_2[1]) +
@@ -128,7 +128,7 @@ ds <-
       (int_factor_2 * loadings_factor_2[3]) +
       slope_factor_2 * wave_id +
       rnorm(n=dplyr::n(), mean=0, sd=sigma_factor_2[3])
-  ) %>%
+  ) |>
   dplyr::mutate( # Keep tha manifest variables positive (which will throw off the correlations)
     cog_1   = pmax(0, cog_1),
     cog_2   = pmax(0, cog_2),
@@ -136,7 +136,7 @@ ds <-
     phys_1  = pmax(0, phys_1),
     phys_2  = pmax(0, phys_2),
     phys_3  = pmax(0, phys_3)
-  ) %>%
+  ) |>
   dplyr::mutate( # Don't simulate unrealistically precise manfiest variables
     int_factor_1    = round(int_factor_1  , 3),
     slope_factor_1  = round(slope_factor_1, 3),
@@ -149,14 +149,14 @@ ds <-
     phys_1  = round(phys_1  , 1),
     phys_2  = round(phys_2  , 1),
     phys_3  = round(phys_3  , 1)
-  ) %>%
+  ) |>
   dplyr::select(-year_start)
 
 ds
 
 # ---- elongate --------------------------------------------------------------------
 ds_long <-
-  ds %>%
+  ds |>
   dplyr::select(
     subject_id,
     wave_id,
@@ -170,7 +170,7 @@ ds_long <-
     phys_1,
     phys_2,
     phys_3
-  ) %>%
+  ) |>
   tidyr::gather(
     key   = manifest,
     value = value, -subject_id, -wave_id, -year, -age, -county_id, -date_at_visit
@@ -232,8 +232,8 @@ checkmate::assert_character(subject_wave_combo, pattern  ="^\\d{4} \\d{1,2}$"   
 #   cat(paste0("    ", colnames(ds_subject), collapse=",\n"))
 
 ds_slim <-
-  ds %>%
-  # dplyr::slice(1:100) %>%
+  ds |>
+  # dplyr::slice(1:100) |>
   dplyr::select(
     subject_id,
     wave_id,
@@ -247,8 +247,8 @@ ds_slim <-
 ds_slim
 
 ds_slim_subject <-
-  ds_subject %>%
-  # dplyr::slice(1:100) %>%
+  ds_subject |>
+  # dplyr::slice(1:100) |>
   dplyr::select(
     subject_id,
     county_id, # May intentionally exclude this from the output, to mimic what the ellis has to do sometimes.

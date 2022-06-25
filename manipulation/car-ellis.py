@@ -38,23 +38,23 @@ ds = pd.read_csv(path_input)
 
 
 print(ds2)
-# %>%
+# |>
 #   dplyr::mutate(
 #     weight_pounds           = weight_pounds_per_1000 * 1000,     # Clear up confusion about units
 #
 #     engine_v_shape          = as.logical(engine_v_shape),           # Convert to boolean
 #     transmission_automatic  = as.logical(transmission_automatic),   # Convert to boolean
 #     horsepower_log_10       = log10(horsepower)
-#   ) %>%
+#   ) |>
 #   dplyr::select(
 #     -weight_pounds_per_1000 # Remove old variable
-#   ) %>%
+#   ) |>
 #   tibble::rowid_to_column("car_id") # Add a unique identifier
 #
 # # ---- erase-artifacts ---------------------------------------------------------
 # # I'm pretending there are low values that were artifacts of the measurement equipment.
 # ds <-
-#   ds %>%
+#   ds |>
 #   dplyr::mutate(
 #     miles_per_gallon_artifact = (miles_per_gallon < 2.2),
 #     miles_per_gallon          = dplyr::if_else(miles_per_gallon_artifact, NA_real_, miles_per_gallon)
@@ -63,13 +63,13 @@ print(ds2)
 # # ---- create-z-scores ---------------------------------------------------------
 # # This creates z-scores WITHIN forward_gear_count levels
 # ds <-
-#   ds %>%
-#   dplyr::group_by(forward_gear_count) %>%
+#   ds |>
+#   dplyr::group_by(forward_gear_count) |>
 #   dplyr::mutate(
 #     displacement_gear_z = as.numeric(base::scale(displacement_inches_cubed)),
 #     weight_gear_z       = as.numeric(base::scale(weight_pounds))
-#   ) %>%
-#   dplyr::ungroup() %>%   #Always leave the dataset ungrouped, so later operations act as expected.
+#   ) |>
+#   dplyr::ungroup() |>   #Always leave the dataset ungrouped, so later operations act as expected.
 #   dplyr::mutate(
 #     # Create a boolean variable, indicating if the z scores is above a certain threshold.
 #     weight_gear_z_above_1 = (1 < weight_gear_z)

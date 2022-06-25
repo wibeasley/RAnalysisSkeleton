@@ -53,7 +53,7 @@ Suggests:
 Remotes:
   github::OuhscBbmc/OuhscMunge,
   github::Melinae/TabularManifest
-License: GPL-3 + file LICENSE
+License: MIT + file LICENSE
 LazyData: TRUE
 VignetteBuilder: knitr
 Encoding: UTF-8

@@ -10,27 +10,28 @@
 ^.*\.Rproj$
 ^\.Rproj\.user$
 
-
 # Files used in many R-centric repos.
 ^_pkgdown\.yml$
 ^\.gitignore$
 ^\.travis\.yml$
 ^appveyor\.yml$
-^CONDUCT.md$
-^CODE_OF_CONDUCT.md$
-^CODE-OF-CONDUCT.md$
-^code-of-conduct.md$
-^config.yml$
+^CONDUCT\.md$
+^CODE_OF_CONDUCT\.md$
+^CODE-OF-CONDUCT\.md$
+^code-of-conduct\.md$
+^config\.yml$
 ^cran-comments\.md$
 ^flow.R$
-^README.html$
 ^license\.md$
 ^LICENSE\.md$
 ^README.html$
 ^shim_package\.sh$
-^.vscode$
 ^wercker\.yml$
 
+# Language-agnostic file
+^\.markdownlint\.json$
+^\.vscode$
+^README\.html$
 
 # Directories occasionally used in R-centric repos written by the BBMC.
 ^analysis$
@@ -49,6 +50,5 @@
 ^playgrounds$
 ^utility$
 
-
 # Files occasionally used in R-centric repos written by the BBMC.
-^documentation-peek.pdf$
+^documentation-peek\.pdf$

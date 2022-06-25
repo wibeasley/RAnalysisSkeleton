@@ -1,18 +1,17 @@
 Package: RAnalysisSkeleton
 Title: Displaying Health Data
 Description: Files and settings commonly used in analysis projects with R.
-Version: 0.0.1.9001
-Date: 2019-02-04
+Version: 1.0.0
 Authors@R: c(person("Will", "Beasley", role = c("aut", "cre"), email =
     "wibeasley@hotmail.com", comment = c(ORCID = "0000-0002-5613-5006")),
     person("Andrey", "Koval", role = "aut"))
 URL: https://github.com/wibeasley/RAnalysisSkeleton
 BugReports: https://github.com/wibeasley/RAnalysisSkeleton/issues
 Depends:
-    R(>= 3.0.0)
+    R(>= 4.1.0)
 Imports:
     broom,
-    checkmate  (>= 1.8.4),
+    checkmate (>= 1.8.4),
     codified (>= 0.2.0),
     config,
     DBI (>= 0.7.0),

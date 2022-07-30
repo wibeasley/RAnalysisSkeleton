@@ -5,6 +5,8 @@ This directory should contain only data files that describe structure of the pro
 
 Ideally datasets are stored as CSVs, so they are easily portable, accessible, and modifiable from any software.
 
+Please see the [Prototypical Repository](https://ouhscbbmc.github.io/data-science-practices-1/repo-prototype.html) chapter of [*Collaborative Data Science*](https://ouhscbbmc.github.io/data-science-practices-1).
+
 No PHI
 ---------
 

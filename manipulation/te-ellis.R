@@ -458,6 +458,9 @@ ds |>
   dplyr::select(county_month_id, county_id, month, fte, fte_approximated, month_missing, fte_rolling_median_11_month) |>
   DBI::dbWriteTable(conn=cnn, name='te_month', append=TRUE, row.names=FALSE)
 
+# Allow database to optimize its internal arrangement
+DBI::dbExecute(cnn, "VACUUM;")
+
 # Close connection
 DBI::dbDisconnect(cnn)
 

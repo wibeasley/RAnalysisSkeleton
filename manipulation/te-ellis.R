@@ -400,6 +400,7 @@ readr::write_csv(ds_slim, path_out_unified)
 # If there's *NO* PHI, a local database like SQLite fits a nice niche if
 #   * the data is relational and
 #   * later, only portions need to be queried/retrieved at a time (b/c everything won't need to be loaded into R's memory)
+# SQLite data types work differently than most databases: https://www.sqlite.org/datatype3.html#type_affinity
 
 sql_create <- c(
   "
@@ -407,9 +408,9 @@ sql_create <- c(
   ",
   "
     CREATE TABLE `county` (
-      county_id              INTEGER NOT NULL PRIMARY KEY,
-      county_name            VARCHAR NOT NULL,
-      region_id              INTEGER NOT NULL
+      county_id              int         not null primary key,
+      county_name            varchar(15) not null,
+      region_id              int         not null
     );
   ",
   "
@@ -417,13 +418,13 @@ sql_create <- c(
   ",
   "
     CREATE TABLE `te_month` (
-      county_month_id                    INTEGER NOT NULL PRIMARY KEY,
-      county_id                          INTEGER NOT NULL,
-      month                              VARCHAR NOT NULL,         -- There's no date type in SQLite.  Make sure it's ISO8601: yyyy-mm-dd
-      fte                                REAL    NOT NULL,
-      fte_approximated                   BIT     NOT NULL,
-      month_missing                      INTEGER NOT NULL,         -- There's no bit/boolean type in SQLite
-      fte_rolling_median_11_month        INTEGER --, --  NOT NULL
+      county_month_id                    integer     not null primary key,
+      county_id                          integer     not null,
+      month                              char(10)    not null,         -- there's no date type in sqlite.  make sure it's iso8601: yyyy-mm-dd
+      fte                                real        not null,
+      fte_approximated                   bit         not null,
+      month_missing                      int         not null,         -- there's no bit/boolean type in sqlite
+      fte_rolling_median_11_month        int     
 
       -- FOREIGN KEY(county_id) REFERENCES county(county_id)
     );

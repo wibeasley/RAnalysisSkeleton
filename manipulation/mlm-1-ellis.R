@@ -196,6 +196,7 @@ ds_slim
 # If there's no PHI, a local database like SQLite fits a nice niche if
 #   * the data is relational and
 #   * later, only portions need to be queried/retrieved at a time (b/c everything won't need to be loaded into R's memory)
+# SQLite data types work differently than most databases: https://www.sqlite.org/datatype3.html#type_affinity
 # cat(dput(colnames(ds)), sep = "\n")
 sql_create <- c(
   # "
@@ -209,15 +210,15 @@ sql_create <- c(
   #     subject_id              int not null primary key,
   #     county_id               int not null,
   #     county_id_count         int not null,
-  #     year_min                float not null,
-  #     year_max                float not null,
-  #     age_min                 float not null,
-  #     age_max                 float not null
+  #     year_min                real not null,
+  #     year_max                real not null,
+  #     age_min                 real not null,
+  #     age_max                 real not null
   #   );
   # ",
   "
     CREATE TABLE mlm_1 (
-      subject_wave_id         int        primary key,
+      subject_wave_id         int        not null primary key,
       subject_id              int        not null,
       wave_id                 int        not null,
       year                    int        not null,
@@ -226,14 +227,14 @@ sql_create <- c(
       age_cut_4               varchar(5) not null,
       -- county_id            int        not null,
       age_80_plus             bit        not null,
-      int_factor_1            float      not null,
-      slope_factor_1          float      not null,
-      cog_1                   float      not null,
-      cog_2                   float      not null,
-      cog_3                   float      not null,
-      phys_1                  float      not null,
-      phys_2                  float      not null,
-      phys_3                  float      not null
+      int_factor_1            real       not null,
+      slope_factor_1          real       not null,
+      cog_1                   real       not null,
+      cog_2                   real       not null,
+      cog_3                   real       not null,
+      phys_1                  real       not null,
+      phys_2                  real       not null,
+      phys_3                  real       not null
     )
   "
 )

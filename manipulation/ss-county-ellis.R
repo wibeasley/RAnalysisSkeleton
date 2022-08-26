@@ -108,6 +108,7 @@ ds_slim <-
 # If there's no PHI, a local database like SQLite fits a nice niche if
 #   * the data is relational and
 #   * later, only portions need to be queried/retrieved at a time (b/c everything won't need to be loaded into R's memory)
+# SQLite data types work differently than most databases: https://www.sqlite.org/datatype3.html#type_affinity
 # cat(dput(colnames(ds)), sep = "\n")
 sql_create <- c(
   "

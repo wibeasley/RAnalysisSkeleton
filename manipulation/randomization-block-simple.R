@@ -73,23 +73,6 @@ ds_slim <-
 
 ds_slim
 
-
-# # ---- upload-to-db ------------------------------------------------------------
-# (startTime <- Sys.time())
-# dbTable <- "Osdh.tblC1TEMonth"
-# channel <- RODBC::odbcConnect("te-example") #getSqlTypeInfo("Microsoft SQL Server") #;odbcGetInfo(channel)
-#
-# columnInfo <- RODBC::sqlColumns(channel, dbTable)
-# varTypes <- as.character(columnInfo$TYPE_NAME)
-# names(varTypes) <- as.character(columnInfo$COLUMN_NAME)  #varTypes
-#
-# RODBC::sqlClear(channel, dbTable)
-# RODBC::sqlSave(channel, ds_slim, dbTable, append=TRUE, rownames=FALSE, fast=TRUE, varTypes=varTypes)
-# RODBC::odbcClose(channel)
-# rm(columnInfo, channel, columns_to_write, dbTable, varTypes)
-# (elapsedDuration <-  Sys.time() - startTime) #21.4032 secs 2015-10-31
-
-
 # ---- save-to-disk ------------------------------------------------------------
 readr::write_csv(ds, path_out)
 

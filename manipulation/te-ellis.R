@@ -23,7 +23,6 @@ requireNamespace("checkmate"    ) # For asserting conditions meet expected patte
 requireNamespace("DBI"          ) # Database-agnostic interface
 requireNamespace("RSQLite"      ) # Lightweight database for non-PHI data.
 # requireNamespace("odbc"         ) # For communicating with SQL Server over a locally-configured DSN.  Uncomment if you use 'upload-to-db' chunk.
-# requireNamespace("RODBC"        ) # For communicating with SQL Server over a locally-configured DSN.  Uncomment if you use 'upload-to-db' chunk.
 requireNamespace("OuhscMunge"   ) # remotes::install_github(repo="OuhscBbmc/OuhscMunge")
 
 # ---- declare-globals ---------------------------------------------------------
@@ -498,22 +497,6 @@ DBI::dbDisconnect(cnn)
 #   append      = append
 # )
 # DBI::dbDisconnect(cnn)
-# (elapsedDuration <-  Sys.time() - startTime) #21.4032 secs 2015-10-31
-
-
-# Option 3: use the older (and slower and crash-prone) 'RODBC' package.
-# (startTime <- Sys.time())
-# dbTable <- "Osdh.tblC1TEMonth"
-# cnn <- DBI::("te-example") #getSqlTypeInfo("Microsoft SQL Server") #;odbcGetInfo(channel)
-#
-# columnInfo <- RODBC::sqlColumns(channel, dbTable)
-# varTypes <- as.character(columnInfo$TYPE_NAME)
-# names(varTypes) <- as.character(columnInfo$COLUMN_NAME)  #varTypes
-#
-# RODBC::sqlClear(channel, dbTable)
-# RODBC::sqlSave(channel, ds_slim, dbTable, append=TRUE, rownames=FALSE, fast=TRUE, varTypes=varTypes)
-# RODBC::odbcClose(channel)
-# rm(columnInfo, channel, columns_to_write, dbTable, varTypes)
 # (elapsedDuration <-  Sys.time() - startTime) #21.4032 secs 2015-10-31
 
 # ---- inspect, fig.width=10, fig.height=6, fig.path=figure_path -----------------------------------------------------------------

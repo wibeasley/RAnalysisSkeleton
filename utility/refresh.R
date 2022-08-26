@@ -1,10 +1,11 @@
 rm(list=ls(all.names=TRUE))
-deviceType <- ifelse(R.version$os=="linux-gnu", "X11", "windows")
-options(device = deviceType) #https://support.rstudio.org/help/discussions/problems/80-error-in-function-only-one-rstudio-graphics-device-is-permitted
+device_type <- ifelse(R.version$os == "linux-gnu", "X11", "windows")
+options(device = device_type) #https://support.rstudio.org/help/discussions/problems/80-error-in-function-only-one-rstudio-graphics-device-is-permitted
 
 spelling::spell_check_package()
 # spelling::update_wordlist()
 lintr::lint_package()
+lintr::lint_dir(".")
 lintr::lint_dir("manipulation/")
 
 urlchecker::url_check(); urlchecker::url_update()

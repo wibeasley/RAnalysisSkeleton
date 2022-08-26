@@ -5,16 +5,16 @@
 # If anyone encounters a package that should be on there, please add it to `./utility/package-dependency-list.csv`
 
 #Clear memory from previous runs.
-base::rm(list=base::ls(all=TRUE))
+base::rm(list = base::ls(all = TRUE))
 
 path_csv <- "utility/package-dependency-list.csv"
 
-if( !file.exists(path_csv)) {
+if (!file.exists(path_csv)) {
   base::stop("The path `", path_csv, "` was not found.  Make sure the working directory is set to the root of the repository.")
 }
 
-if( !base::requireNamespace("devtools") ) {
-  utils::install.packages("devtools", repos="https://cran.rstudio.com")
+if (!base::requireNamespace("devtools")) {
+  utils::install.packages("devtools", repos = "https://cran.rstudio.com")
 }
 
 devtools::install_github("OuhscBbmc/OuhscMunge")

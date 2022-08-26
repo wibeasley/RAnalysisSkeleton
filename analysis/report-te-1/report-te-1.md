@@ -275,19 +275,17 @@ For the sake of documentation and reproducibility, the current report was render
    bit64               4.0.5       2020-08-30 [1] CRAN (R 4.2.0)
    blob                1.2.3       2022-04-10 [1] CRAN (R 4.2.0)
    boot                1.3-28      2021-05-03 [3] CRAN (R 4.2.1)
-   brio                1.1.3       2021-11-30 [1] CRAN (R 4.2.0)
    bslib               0.4.0       2022-07-16 [1] CRAN (R 4.2.1)
    cachem              1.0.6       2021-08-19 [1] CRAN (R 4.2.0)
    callr               3.7.2       2022-08-22 [1] CRAN (R 4.2.1)
    checkmate           2.1.0       2022-04-21 [1] CRAN (R 4.2.0)
    cli                 3.3.0       2022-04-25 [1] CRAN (R 4.2.0)
-   clisymbols          1.2.0       2017-05-21 [1] CRAN (R 4.2.0)
+   codetools           0.2-18      2020-11-04 [3] CRAN (R 4.2.1)
    colorspace          2.0-3       2022-02-21 [1] CRAN (R 4.2.0)
    config              0.3.1       2020-12-17 [1] CRAN (R 4.2.0)
-   covr                3.5.1       2020-09-16 [1] CRAN (R 4.2.0)
    crayon              1.5.1       2022-03-26 [1] CRAN (R 4.2.0)
-   curl                4.3.2       2021-06-23 [1] CRAN (R 4.1.0)
    cyclocomp           1.1.0       2016-09-10 [1] CRAN (R 4.2.0)
+   data.table          1.14.2      2021-09-27 [1] CRAN (R 4.2.0)
    DBI                 1.1.3       2022-06-18 [1] CRAN (R 4.2.0)
    desc                1.4.1       2022-03-06 [1] CRAN (R 4.2.0)
    devtools            2.4.4       2022-07-20 [1] CRAN (R 4.2.1)
@@ -298,12 +296,12 @@ For the sake of documentation and reproducibility, the current report was render
    fansi               1.0.3       2022-03-24 [1] CRAN (R 4.1.3)
    farver              2.1.1       2022-07-06 [1] CRAN (R 4.2.1)
    fastmap             1.1.0       2021-01-25 [1] CRAN (R 4.1.0)
+   flexdashboard       0.6.0       2022-08-05 [1] CRAN (R 4.2.1)
    forcats             0.5.2       2022-08-19 [1] CRAN (R 4.2.1)
    fs                  1.5.2       2021-12-08 [1] CRAN (R 4.1.2)
    generics            0.1.3       2022-07-05 [1] CRAN (R 4.2.1)
    ggplot2           * 3.3.6       2022-05-03 [1] CRAN (R 4.2.0)
    glue                1.6.2       2022-02-24 [1] CRAN (R 4.1.2)
-   goodpractice        1.0.3       2022-07-13 [1] CRAN (R 4.2.1)
    gtable              0.3.0       2019-03-25 [1] CRAN (R 4.2.0)
    highr               0.9         2021-04-16 [1] CRAN (R 4.2.0)
    hms                 1.1.2       2022-08-19 [1] CRAN (R 4.2.1)
@@ -314,6 +312,7 @@ For the sake of documentation and reproducibility, the current report was render
    import              1.3.0       2022-05-23 [1] CRAN (R 4.2.0)
    jquerylib           0.1.4       2021-04-26 [1] CRAN (R 4.2.0)
    jsonlite            1.8.0       2022-02-22 [1] CRAN (R 4.1.2)
+   kableExtra          1.3.4       2021-02-20 [1] CRAN (R 4.2.0)
    knitr             * 1.39        2022-04-26 [1] CRAN (R 4.2.0)
    labeling            0.4.2       2020-10-20 [1] CRAN (R 4.2.0)
    later               1.3.0       2021-08-18 [1] CRAN (R 4.2.0)
@@ -339,10 +338,9 @@ For the sake of documentation and reproducibility, the current report was render
    pillar              1.8.1       2022-08-19 [1] CRAN (R 4.2.1)
    pkgbuild            1.3.1       2021-12-20 [1] CRAN (R 4.2.0)
    pkgconfig           2.0.3       2019-09-22 [1] CRAN (R 4.2.0)
-   pkgdown             2.0.6       2022-07-16 [1] CRAN (R 4.2.1)
    pkgload             1.3.0       2022-06-27 [1] CRAN (R 4.2.1)
+   plotly              4.10.0      2021-10-09 [1] CRAN (R 4.2.0)
    png                 0.1-7       2013-12-03 [1] CRAN (R 4.2.0)
-   praise              1.0.0       2015-08-11 [1] CRAN (R 4.2.0)
    prettyunits         1.1.1       2020-01-24 [1] CRAN (R 4.2.0)
    processx            3.7.0       2022-07-07 [1] CRAN (R 4.2.1)
    profvis             0.3.7       2020-11-02 [1] CRAN (R 4.2.0)
@@ -350,8 +348,7 @@ For the sake of documentation and reproducibility, the current report was render
    ps                  1.7.1       2022-06-18 [1] CRAN (R 4.2.0)
    purrr               0.3.4       2020-04-17 [1] CRAN (R 4.1.0)
    R6                  2.5.1       2021-08-19 [1] CRAN (R 4.2.0)
-   RAnalysisSkeleton   1.0.0       2022-06-25 [1] local
-   rcmdcheck           1.4.0       2021-09-27 [1] CRAN (R 4.2.0)
+   RAnalysisSkeleton * 1.0.0       2022-08-26 [1] local
    Rcpp                1.0.9       2022-07-08 [1] CRAN (R 4.2.1)
    readr               2.1.2       2022-01-30 [1] CRAN (R 4.2.0)
    remotes             2.4.2       2021-11-30 [1] CRAN (R 4.2.0)
@@ -361,17 +358,18 @@ For the sake of documentation and reproducibility, the current report was render
    rmarkdown           2.15        2022-08-16 [1] CRAN (R 4.2.1)
    rprojroot           2.0.3       2022-04-02 [1] CRAN (R 4.2.0)
    RSQLite           * 2.2.16      2022-08-17 [1] CRAN (R 4.2.1)
- V rstudioapi          0.13        2022-08-22 [1] CRAN (R 4.2.1) (on disk 0.14)
+   rstudioapi          0.14        2022-08-22 [1] CRAN (R 4.2.1)
+   rvest               1.0.3       2022-08-19 [1] CRAN (R 4.2.1)
    sass                0.4.2       2022-07-16 [1] CRAN (R 4.2.1)
    scales              1.2.1       2022-08-20 [1] CRAN (R 4.2.1)
    sessioninfo         1.2.2       2021-12-06 [1] CRAN (R 4.2.0)
    shiny               1.7.2       2022-07-19 [1] CRAN (R 4.2.1)
-   spelling            2.2         2020-10-18 [1] CRAN (R 4.2.0)
    stringi             1.7.8       2022-07-11 [1] CRAN (R 4.2.1)
    stringr             1.4.1       2022-08-20 [1] CRAN (R 4.2.1)
+   svglite             2.1.0       2022-02-03 [1] CRAN (R 4.2.0)
+   systemfonts         1.0.4       2022-02-11 [1] CRAN (R 4.2.0)
    TabularManifest     0.1-16.9003 2022-05-04 [1] Github (Melinae/TabularManifest@b966a2b)
    testit              0.13        2021-04-14 [1] CRAN (R 4.2.0)
-   testthat            3.1.4       2022-04-26 [1] CRAN (R 4.1.3)
    tibble              3.1.8       2022-07-22 [1] CRAN (R 4.2.1)
    tidyr               1.2.0       2022-02-01 [1] CRAN (R 4.2.0)
    tidyselect          1.1.2       2022-02-21 [1] CRAN (R 4.2.0)
@@ -382,12 +380,11 @@ For the sake of documentation and reproducibility, the current report was render
    vctrs               0.4.1       2022-04-13 [1] CRAN (R 4.1.3)
    viridisLite         0.4.1       2022-08-22 [1] CRAN (R 4.2.1)
    vroom               1.5.7       2021-11-30 [1] CRAN (R 4.2.0)
-   whoami              1.3.0       2019-03-19 [1] CRAN (R 4.2.0)
+   webshot             0.5.3       2022-04-14 [1] CRAN (R 4.2.0)
    withr               2.5.0       2022-03-03 [1] CRAN (R 4.2.0)
    xfun                0.32        2022-08-10 [1] CRAN (R 4.2.1)
    xml2                1.3.3       2021-11-30 [1] CRAN (R 4.2.0)
    xmlparsedata        1.0.5       2021-03-06 [1] CRAN (R 4.2.0)
-   xopen               1.0.0       2018-09-17 [1] CRAN (R 4.2.0)
    xtable              1.8-4       2019-04-21 [1] CRAN (R 4.2.0)
    yaml                2.3.5       2022-02-21 [1] CRAN (R 4.2.0)
    zoo                 1.8-10      2022-04-15 [1] CRAN (R 4.2.0)
@@ -396,7 +393,6 @@ For the sake of documentation and reproducibility, the current report was render
  [2] C:/Users/Will/AppData/Local/R/win-library/4.2
  [3] C:/Program Files/R/R-4.2.1patched/library
 
- V -- Loaded and on-disk version mismatch.
  D -- DLL MD5 mismatch, broken installation.
 
 --------------------------------------------------------------------------------------------
@@ -405,4 +401,4 @@ For the sake of documentation and reproducibility, the current report was render
 
 
 
-Report rendered by Will at 2022-08-26, 12:57 -0500 in 8 seconds.
+Report rendered by Will at 2022-08-26, 13:18 -0500 in 8 seconds.

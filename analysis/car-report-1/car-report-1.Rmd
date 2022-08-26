@@ -17,7 +17,7 @@ This report covers the analyses used in the ZZZ project (Marcus Mark, PI).
 ```{r, echo=F, message=F}
 # cat("Working directory: ", getwd())
 library(knitr)
-opts_knit$set(root.dir='../../')  #Don't combine this call with any other chunk -especially one that uses file paths.
+opts_knit$set(root.dir = "../../")  #Don't combine this call with any other chunk -especially one that uses file paths.
 ```
 
 <!-- Set the report-wide options, and point to the external code file. -->
@@ -25,14 +25,14 @@ opts_knit$set(root.dir='../../')  #Don't combine this call with any other chunk 
 # cat("Working directory: ", getwd())
 report_render_start_time <- Sys.time()
 opts_chunk$set(
-  results      = 'show',
+  results      = "show",
   comment      = NA,
   tidy         = FALSE,
   # dpi        = 400,
   # out.width  = "650px", #This affects only the markdown, not the underlying png file.  The height will be scaled appropriately.
   fig.width    = 4,
   fig.height   = 4,
-  fig.path     = 'figure-png/'
+  fig.path     = "figure-png/"
 )
 
 echo_chunks    <- FALSE # Toggle for debugging.
@@ -135,7 +135,7 @@ For the sake of documentation and reproducibility, the current report was render
 <details>
   <summary>Environment <span class="glyphicon glyphicon-plus-sign"></span></summary>
 ```{r session-info, echo=FALSE}
-if( requireNamespace("devtools", quietly = TRUE) ) {
+if (requireNamespace("devtools", quietly = TRUE)) {
   devtools::session_info()
 } else {
   sessionInfo()

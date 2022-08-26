@@ -16,7 +16,7 @@ requireNamespace("TabularManifest") # remotes::install_github("Melinae/TabularMa
 # requireNamespace("mgcv) #For the Generalized Additive Model that smooths the longitudinal graphs.
 
 # ---- declare-globals ---------------------------------------------------------
-options(show.signif.stars=F) #Turn off the annotations on p-values
+options(show.signif.stars = FALSE) #Turn off the annotations on p-values
 config                      <- config::get()
 
 # ---- load-data ---------------------------------------------------------------
@@ -56,7 +56,7 @@ TabularManifest::histogram_discrete(d_observed=ds_county_month, variable_name="f
 
 # Graph each county-month
 ggplot(ds_county_month, aes(x=month, y=fte, group=factor(county_id), color=factor(county_id), shape=fte_approximated, ymin=0)) +
-  geom_point(position=position_jitter(height=.05, width=5), size=4, na.rm=T) +
+  geom_point(position=position_jitter(height=.05, width=5), size=4, na.rm = TRUE) +
   # geom_text(aes(label=county_month_id)) +
   geom_line(position=position_jitter(height=.1, width=5)) +
   scale_shape_manual(values=c("TRUE"=21, "FALSE"=NA)) +

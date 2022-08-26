@@ -15,17 +15,17 @@ devtools::session_info()$platform |>
   knitr::kable(format = "html") |>
   kableExtra::kable_styling(
     bootstrap_options = c("striped", "hover", "condensed", "responsive"),
-    full_width        = F,
+    full_width        = FALSE,
     position          = "left"
   )
 devtools::session_info()$packages |>
-  tibble::as_tibble() |> 
+  tibble::as_tibble() |>
   dplyr::select(
     -path,
     -loadedpath,
     -library,
     -md5ok,
-  ) |> 
+  ) |>
   knitr::kable(format = "html") |>
   kableExtra::kable_styling(
     bootstrap_options = c("striped", "hover", "condensed", "responsive"),

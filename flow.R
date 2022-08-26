@@ -20,14 +20,14 @@ options(knitr.duplicate.label = "allow")
 config        <- config::get()
 
 # open log
-if( interactive() ) {
+if (interactive()) {
   sink_log <- FALSE
 } else {
   message("Creating flow log file at ", config$path_log_flow)
 
-  if( !dir.exists(dirname(config$path_log_flow)) ) {
+  if (!dir.exists(dirname(config$path_log_flow))) {
     # Create a month-specific directory, so they're easier to find & compress later.
-    dir.create(dirname(config$path_log_flow), recursive=T)
+    dir.create(dirname(config$path_log_flow), recursive = TRUE)
   }
 
   file_log  <- file(
@@ -73,19 +73,19 @@ ds_rail  <- tibble::tribble(
   # "run_rmd" , "analysis/dashboard-1/dashboard-1.Rmd"
 )
 
-run_r <- function( minion ) {
+run_r <- function(minion) {
   message("\nStarting `", basename(minion), "` at ", Sys.time(), ".")
   base::source(minion, local=new.env())
   message("Completed `", basename(minion), "`.")
   return( TRUE )
 }
-run_sql <- function( minion ) {
+run_sql <- function(minion) {
   message("\nStarting `", basename(minion), "` at ", Sys.time(), ".")
   OuhscMunge::execute_sql_file(minion, config$dsn_staging)
   message("Completed `", basename(minion), "`.")
   return( TRUE )
 }
-run_rmd <- function( minion ) {
+run_rmd <- function(minion) {
   message("Pandoc available: ", rmarkdown::pandoc_available())
   message("Pandoc version: ", rmarkdown::pandoc_version())
 
@@ -104,15 +104,15 @@ run_rmd <- function( minion ) {
   # }
   # archive_successful <- file.copy(path_out, path_out_archive, overwrite=TRUE)
   # message("Archive success: ", archive_successful, " at `", path_out_archive, "`.")
-  
+
   # Uncomment to copy the undated version to a different location.
   # If saving to a remote drive, this works better than trying to save directly from `rmarkdown::render()`.
   # To use this, you'll need a version of `run_rmd()` that's specialized for the specific rmd.
   # fs::file_copy(path_out, config$path_out_remote, overwrite = TRUE)
 
-  return( TRUE )
+  return(TRUE)
 }
-run_python <- function( minion ) {
+run_python <- function(minion) {
   message("\nStarting `", basename(minion), "` at ", Sys.time(), ".")
   # reticulate::use_python(Sys.which("python3"))
   reticulate::source_python(minion)
@@ -122,7 +122,7 @@ run_python <- function( minion ) {
 }
 
 (file_found <- purrr::map_lgl(ds_rail$path, file.exists))
-if( !all(file_found) ) {
+if (!all(file_found)) {
   warning("--Missing files-- \n", paste0(ds_rail$path[!file_found], collapse="\n"))
   stop("All source files to be run should exist.")
 }
@@ -152,7 +152,7 @@ options(warn=warn_level_initial)  # Restore the whatever warning level you start
 
 # ---- close-log ---------------------------------------------------------------
 # close(file_log)
-if( sink_log ) {
+if (sink_log) {
   sink(file = NULL, type = "message") # ends the last diversion (of the specified type).
   message("Closing flow log file at ", gsub("/", "\\\\", config$path_log_flow))
 }

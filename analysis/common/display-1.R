@@ -45,7 +45,7 @@ spaghetti_1 <- function(
   g <- ggplot(d, aes(x=!!time_symbol, y=!!response_symbol, color=!!color_symbol, size=!!width_symbol, yMin=y_min))
 
 
-  if( !is.null(group_variable) & nrow(d)>0L ) {
+  if (!is.null(group_variable) && 0L < nrow(d)) {
     d_label <- d |>
       dplyr::group_by(!!group_symbol) |>
       dplyr::arrange(!!time_symbol) |>
@@ -53,7 +53,7 @@ spaghetti_1 <- function(
         is_first  = (dplyr::row_number() == 1L),
         is_last   = (dplyr::row_number() == dplyr::n()),
       ) |>
-      dplyr::filter(is_first | is_last) |>
+      dplyr::filter(.data$is_first | .data$is_last) |>
       dplyr::select(
         !!group_symbol,
         !!time_symbol,
@@ -68,8 +68,8 @@ spaghetti_1 <- function(
     d_label_right  <- d_label[d_label$is_last , ]
 
     g <- g +
-      geom_text(mapping=aes(label=!!group_symbol), data=d_label_left , size=3, hjust=1.2, na.rm=T) + #Left endpoint
-      geom_text(mapping=aes(label=!!group_symbol), data=d_label_right, size=3, hjust=-.2, na.rm=T) #Right endpoint
+      geom_text(mapping=aes(label=!!group_symbol), data=d_label_left , size=3, hjust=1.2, na.rm=TRUE) + # Left  endpoint
+      geom_text(mapping=aes(label=!!group_symbol), data=d_label_right, size=3, hjust=-.2, na.rm=TRUE)   # Right endpoint
 
       # geom_text(mapping=aes_string(label=group_variable), data=d_label , size=3, hjust=1.2, na.rm=T)
     rm(d_label, d_label_left, d_label_right)
@@ -79,10 +79,10 @@ spaghetti_1 <- function(
   # g <- g + geom_smooth(aes_string(group=facet_variable), method="loess", color="gray30", na.rm=TRUE)
   # g <- g + annotate("text", x=max(d[[time_variable]], na.rm=T), y=Inf, label=sub_title, hjust=1, vjust=1)
 
-  if( !is.null(loess_variable) ) {
-    g <- g + geom_smooth(aes(group=!!rlang::sym(loess_variable)), method="loess", color="gray80", size=4, alpha=.1, na.rm=T, se=F)
+  if (!is.null(loess_variable)) {
+    g <- g + geom_smooth(aes(group=!!rlang::sym(loess_variable)), method="loess", color="gray80", size=4, alpha=.1, na.rm=TRUE, se=FALSE)
   }
-  if( !is.na(y_max) ) {
+  if (!is.na(y_max)) {
     g <- g + coord_cartesian(ylim=c(y_min, y_max))
   }
 
@@ -91,21 +91,21 @@ spaghetti_1 <- function(
     scale_y_continuous(labels=y_label_format) +
     scale_alpha_manual(values=c("focus"=1, "background"=.5))
     # scale_alpha_manual(values=c("focus"=.5, "background"=.5))
-  if( !is.null(path_in_annotation) ) {
+  if (!is.null(path_in_annotation)) {
     d_annotation <- readr::read_csv(path_in_annotation, col_types=col_types_annotation(), comment="#")
 
     g <- g + geom_vline(data=d_annotation, aes(xintercept=as.numeric(date)), size=.25, color="gray45") +
       geom_text(data=d_annotation, aes(x=date, y=-Inf, label=title), angle=90, vjust=0, hjust=0, size=3, color="gray45")
   }
 
-  if( !is.null(width) )
+  if (!is.null(width))
     g <- g + scale_size_manual(values=width)
 
-  if( !is.null(palette) )
+  if (!is.null(palette))
     g <- g + scale_color_manual(values=palette) #+ scale_fill_manual(values=palette)
 
 
-  if( !is.null(facet_variable) )
+  if (!is.null(facet_variable))
     g <- g + facet_wrap(facet_variable,  scales="free_y")
 
   g <- g +
@@ -124,12 +124,12 @@ create_palette <- function( spaghetti_id, rainbow_start=30, rainbow_end=300, rai
   strand_name   <- sort(unique(spaghetti_id))
   strand_count  <- length(strand_name)
 
-  if( strand_count == 2L ) {
+  if (strand_count == 2L) {
     # palette_strand    <- c("#fd8450", "#b177fc") # http://colrd.com/image-dna/36377/
     palette_strand    <- c("#057871", "#9c8a4a") # http://colrd.com/image-dna/24034/
 
-  } else if( strand_count <= 9L ) {
-    palette_strand    <- RColorBrewer::brewer.pal(strand_count,"Set1")
+  } else if (strand_count <= 9L) {
+    palette_strand    <- RColorBrewer::brewer.pal(strand_count, "Set1")
   } else {
     # stop("Only 12 providers are currently supported by this palette-generating function.")
     # palette_strand    <- rainbow(strand_count)
@@ -146,7 +146,7 @@ histogram_2 <- function(
   variable_name,
   bin_width               = NULL,
   main_title              = base::gsub("_", " ", variable_name, perl=TRUE),
-  sub_title               = NULL,
+  # sub_title               = NULL,
   # caption                 = paste0("each bin is ", scales::comma(bin_width), " units wide"),
   tab_title               = paste0("\n\n### ", base::gsub("_", " ", variable_name, perl=TRUE), "\n\n"),
   x_title                 = variable_name,
@@ -159,7 +159,7 @@ histogram_2 <- function(
   font_base_size          = 12
 ) {
 
-  if( !inherits(d_observed, "data.frame") )
+  if (!inherits(d_observed, "data.frame"))
     stop("`d_observed` should inherit from the data.frame class.")
 
 
@@ -168,9 +168,9 @@ histogram_2 <- function(
   # comma format example: https://stackoverflow.com/questions/43436009/change-comma-and-thousand-separator-in-tick-labels
 
   x_axis_format_string <- deparse(x_axis_format)
-  if( identical(x_axis_format_string, deparse(scales::comma_format())) ) {
+  if (identical(x_axis_format_string, deparse(scales::comma_format()))) {
     tickformat <- paste0(",.", rounded_digits, "f")
-  } else if( identical(x_axis_format_string, deparse(scales::percent_format())) ) {
+  } else if (identical(x_axis_format_string, deparse(scales::percent_format()))) {
     tickformat <- ",.0%"
   } else {
     tickformat <- paste0(".", rounded_digits, "f")
@@ -181,21 +181,21 @@ histogram_2 <- function(
   x               <- x[!is.na(x)]
   non_empty       <- (nrow(d_observed) >= 1L)
 
-  if( non_empty ) {
+  if (non_empty) {
   } else {
     main_title <- paste0("Empty: ", main_title)
     caption    <- "The variable contains only missing values.\nThere is nothing to graph."
   }
 
-  if( !is.null(x_limits) & !is.null(bin_width) ) {
+  if (!is.null(x_limits) && !is.null(bin_width)) {
     histogram_breaks <- pretty(x_limits, n = diff(range(x_limits)) / bin_width)
-  } else if( 1L<=length(x) & !is.null(bin_width) ) {
+  } else if ( 1L<=length(x) && !is.null(bin_width)) {
     histogram_breaks <- pretty(x, n = diff(range(x)) / bin_width)
-  } else if( 1L<=length(x) & !is.null(x_limits) ) {
+  } else if ( 1L<=length(x) && !is.null(x_limits)) {
     histogram_breaks <- pretty(c(x, x_limits), n=7)
-  } else if( length(x)==0L & !is.null(x_limits) ) {
+  } else if ( length(x)==0L && !is.null(x_limits)) {
     histogram_breaks <- x_limits
-  } else if( length(x)==0L ) {
+  } else if ( length(x)==0L) {
     histogram_breaks <- c(0, 1)
   } else  {
     histogram_breaks <- pretty(x, n=7)
@@ -214,13 +214,13 @@ histogram_2 <- function(
     count           = histrv$counts
   ) |>
   dplyr::mutate(
-    midpoint        = (boundary_right + boundary_left) / 2,
-    width           = (boundary_right - boundary_left),
+    midpoint        = (.data$boundary_right + .data$boundary_left) / 2,
+    width           = (.data$boundary_right - .data$boundary_left),
 
-    boundary_left_pretty   = x_axis_format(boundary_left   ),
-    boundary_right_pretty  = x_axis_format(boundary_right  ),
-    midpoint_pretty        = x_axis_format(midpoint        ),
-    width_pretty           = x_axis_format(width           ),
+    boundary_left_pretty   = x_axis_format(.data$boundary_left   ),
+    boundary_right_pretty  = x_axis_format(.data$boundary_right  ),
+    midpoint_pretty        = x_axis_format(.data$midpoint        ),
+    width_pretty           = x_axis_format(.data$width           ),
 
     #category        = cut(boundary_left, breaks=c(-Inf, .3, 1.4, 3, Inf), labels = c("Good", "Ok", "Bad", "Jesum")),
     category        = cut(boundary_left, breaks=c(-Inf, Inf), labels = c("")),
@@ -244,16 +244,16 @@ histogram_2 <- function(
   )
 
 
-  if( !is.null(tab_title) ) {
+  if (!is.null(tab_title)) {
     cat(tab_title)
   }
 
   plot_ly(ds_stoplight_bin,  alpha = 0.6) |>
     add_bars(
       x=~midpoint, y=~count, width=~width, color=~category, text=~count, hovertext=~hover_text,
-      hoverinfo = 'text',
-      # marker = list(line = list(color = '#AAAAAA', width = 1.5)), colors = c("#FF99cc", "#0dbab1","#ffd400", "#ff1a1a" )
-      marker = list(line = list(color = '#AAAAAA', width = 1.5)), colors = c("#EBEBEB")
+      hoverinfo = "text",
+      # marker = list(line = list(color = "#AAAAAA", width = 1.5)), colors = c("#FF99cc", "#0dbab1","#ffd400", "#ff1a1a" )
+      marker = list(line = list(color = "#AAAAAA", width = 1.5)), colors = c("#EBEBEB")
     ) |>
     layout(
       title   = paste0("\n", main_title),

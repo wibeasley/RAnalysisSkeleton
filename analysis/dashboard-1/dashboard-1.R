@@ -15,7 +15,7 @@ requireNamespace("kableExtra")
 requireNamespace("TabularManifest") # remotes::install_github("Melinae/TabularManifest")
 
 # ---- declare-globals ---------------------------------------------------------
-options(show.signif.stars=F) #Turn off the annotations on p-values
+options(show.signif.stars = FALSE) #Turn off the annotations on p-values
 config                         <- config::get()
 
 # desired_models            <- "PAT"
@@ -148,7 +148,7 @@ ds_county_year |>
   plot_ly(
     x = ~year,
     y = ~cog_1_mean,
-    type = 'scatter',
+    type = "scatter",
     mode = "lines",
     color = ~county,
     colors = palette_county_dark,
@@ -168,7 +168,7 @@ ds_county_year |>
     marker = list(size = rep(c(100), each=15), symbol=rep("circle-open", each=15)),
     # marker = list(size = rep(c(100), each=15), marker=rep("circle-open", each=15)),
     # sizes  = c(40, 20),
-    showlegend = F,
+    showlegend = FALSE,
     text = ~sprintf(
       "<br>For %s county during %4i,<br>the average Cog 1 score was %1.2f.",
       county, year, cog_1_mean
@@ -178,7 +178,7 @@ ds_county_year |>
   dplyr::ungroup() |>
   layout(
     # showlegend = FALSE,
-    legend = list(orientation = 'h'),
+    legend = list(orientation = "h"),
     xaxis = list(title=NA),
     yaxis = list(
       title = "Cog 1",
@@ -230,7 +230,7 @@ ds |>
   plot_ly(
     x = ~year,
     y = ~cog_1,
-    type = 'scatter',
+    type = "scatter",
     mode = "lines",
     color = ~county,
     colors = palette_county_dark,
@@ -245,7 +245,7 @@ ds |>
   dplyr::ungroup() |>
   layout(
     # showlegend = FALSE,
-    legend = list(orientation = 'h'),
+    legend = list(orientation = "h"),
     xaxis = list(title=NA),
     yaxis = list(
       title = "Cog 1",

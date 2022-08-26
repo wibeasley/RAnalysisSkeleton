@@ -15,7 +15,7 @@ requireNamespace("dplyr")
 # requireNamespace("TabularManifest") # remotes::install_github("Melinae/TabularManifest")
 
 # ---- declare-globals ---------------------------------------------------------
-options(show.signif.stars=F) #Turn off the annotations on p-values
+options(show.signif.stars = FALSE) #Turn off the annotations on p-values
 # config                      <- config::get()
 # path_input                  <- config$path_car_derived
 # Uncomment the lines above and delete the one below if value is stored in 'config.yml'.
@@ -40,21 +40,21 @@ histogram_discrete <- function(
     d_observed |>
     dplyr::ungroup()
 
-  if( !base::is.factor(d_observed[[variable_name]]) )
+  if (!base::is.factor(d_observed[[variable_name]]))
     d_observed[[variable_name]] <- base::factor(d_observed[[variable_name]])
 
   d_observed$iv <- base::ordered(d_observed[[variable_name]], levels=rev(levels(d_observed[[variable_name]])))
 
-  d_count <- dplyr::count(d_observed, iv)
+  d_count <- dplyr::count(d_observed, .data$iv)
   # if( base::length(levels_to_exclude)>0 ) { }
   d_count <- d_count[!(d_count$iv %in% levels_to_exclude), ]
 
   d_summary <- d_count |>
     dplyr::rename(
-      count    =  n
+      count    =  .data$n
     ) |>
     dplyr::mutate(
-      proportion = count / sum(count)
+      proportion = .data$count / sum(.data$count)
     )
   d_summary$percentage <- base::paste0(base::round(d_summary$proportion*100), "%")
 
@@ -63,7 +63,7 @@ histogram_discrete <- function(
   g <-
     ggplot(d_summary, aes_string(x="iv", y="count", fill="iv", label="percentage")) +
     geom_bar(stat="identity") +
-    geom_text(stat="identity", size=text_size_percentage, hjust=.8, na.rm=T) +
+    geom_text(stat="identity", size=text_size_percentage, hjust=.8, na.rm = TRUE) +
     scale_y_continuous(labels=scales::comma_format()) +
     labs(title=main_title, x=x_title, y=y_title) +
     coord_flip()
@@ -92,7 +92,7 @@ histogram_continuous <- function(
   font_base_size          = 12
 ) {
 
-  if( !inherits(d_observed, "data.frame") )
+  if (!inherits(d_observed, "data.frame"))
     stop("`d_observed` should inherit from the data.frame class.")
 
   d_observed <- tidyr::drop_na(d_observed, !! variable_name)
@@ -101,7 +101,7 @@ histogram_continuous <- function(
   ds_mid_points$value         <- c(stats::median(d_observed[[variable_name]]), base::mean(d_observed[[variable_name]]))
   ds_mid_points$value_rounded <- base::round(ds_mid_points$value, rounded_digits)
 
-  if( ds_mid_points$value[1] < ds_mid_points$value[2] ) {
+  if (ds_mid_points$value[1] < ds_mid_points$value[2]) {
     h_just <- c(1.1, -0.1)
   } else {
     h_just <- c(-0.1, 1.1)
@@ -112,7 +112,7 @@ histogram_continuous <- function(
     ggplot2::ggplot(ggplot2::aes_string(x=variable_name)) +
     ggplot2::geom_histogram(binwidth=bin_width, position=ggplot2::position_identity(), fill="gray70", color="gray90", alpha=.7) +
     ggplot2::geom_vline(xintercept=ds_mid_points$value, color="gray30") +
-    ggplot2::geom_text(data=ds_mid_points, ggplot2::aes_string(x="value", y=0, label="value_rounded"), color="tomato", hjust=h_just, vjust=.5, na.rm=T) +
+    ggplot2::geom_text(data=ds_mid_points, ggplot2::aes_string(x="value", y=0, label="value_rounded"), color="tomato", hjust=h_just, vjust=.5, na.rm=TRUE) +
     ggplot2::scale_x_continuous(labels=scales::comma_format()) +
     ggplot2::scale_y_continuous(labels=scales::comma_format()) +
     ggplot2::labs(title=main_title, x=x_title, y=y_title)

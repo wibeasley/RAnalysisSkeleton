@@ -3,6 +3,10 @@ rm(list = ls(all.names = TRUE))
 spelling::spell_check_package()
 # spelling::update_wordlist()
 
+lintr::lint_package()
+lintr::lint_dir(".")
+lintr::lint("flow.R")
+
 devtools::document()
 devtools::check_man() #Should return NULL
 # devtools::clean_vignettes()

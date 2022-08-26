@@ -13,6 +13,7 @@
 # Files used in many R-centric repos.
 ^_pkgdown\.yml$
 ^\.gitignore$
+^\.lintr$
 ^\.travis\.yml$
 ^appveyor\.yml$
 ^CONDUCT\.md$

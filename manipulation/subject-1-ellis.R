@@ -25,7 +25,7 @@ requireNamespace("OuhscMunge"   ) # remotes::install_github(repo="OuhscBbmc/Ouhs
 config                         <- config::get()
 path_db                        <- config$path_database
 
-figure_path <- 'stitched-output/manipulation/ellis/subject-1-ellis/'
+figure_path <- "stitched-output/manipulation/ellis/subject-1-ellis/"
 
 # Execute to specify the column types.  It might require some manual adjustment (eg doubles to integers).
 #   OuhscMunge::readr_spec_aligned(config$path_subject_1_raw)
@@ -150,7 +150,7 @@ sql_create |>
 DBI::dbListTables(cnn)
 
 # Write to database
-DBI::dbWriteTable(cnn, name='subject',            value=ds_slim,        append=TRUE, row.names=FALSE)
+DBI::dbWriteTable(cnn, name="subject",            value=ds_slim,        append=TRUE, row.names=FALSE)
 
 # Allow database to optimize its internal arrangement
 DBI::dbExecute(cnn, "VACUUM;")

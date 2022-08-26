@@ -30,7 +30,7 @@ requireNamespace("OuhscMunge"   ) # remotes::install_github(repo="OuhscBbmc/Ouhs
 config                         <- config::get()
 path_db                        <- config$path_database
 
-figure_path <- 'stitched-output/manipulation/ellis/mlm-1-ellis/'
+figure_path <- "stitched-output/manipulation/ellis/mlm-1-ellis/"
 
 # Execute to specify the column types.  It might require some manual adjustment (eg doubles to integers).
 #   OuhscMunge::readr_spec_aligned(config$path_mlm_1_raw)
@@ -86,7 +86,7 @@ ds <-
   dplyr::mutate(
     subject_id  = factor(subject_id),
     year        = as.integer(lubridate::year(date_at_visit)),
-    age_cut_4   = cut(age, breaks=c(50, 60, 70, 80, Inf), labels=c("50s", "60s", "70s", "80+"), include.lowest = T),
+    age_cut_4   = cut(age, breaks=c(50, 60, 70, 80, Inf), labels=c("50s", "60s", "70s", "80+"), include.lowest = TRUE),
     age_80_plus = (80L <= age),
   ) |>
   dplyr::arrange(subject_id, wave_id) |>
@@ -102,7 +102,7 @@ ds_subject <-
     year,
     age,
   ) |>
-  dplyr::distinct(.keep_all = T) |>
+  dplyr::distinct(.keep_all = TRUE) |>
   dplyr::group_by(subject_id) |>
   dplyr::summarize(
     county_id_count = dplyr::n_distinct(county_id),
@@ -264,8 +264,8 @@ ds_slim |>
   dplyr::mutate(
     date_at_visit   = as.character(date_at_visit    )
   ) |>
-  {\(.)
-    DBI::dbWriteTable(cnn, name='mlm_1',              value=.,        append=TRUE, row.names=FALSE)
+  { \(.)
+    DBI::dbWriteTable(cnn, name="mlm_1",              value=.,        append=TRUE, row.names=FALSE)
   }()
 
 # DBI::dbWriteTable(cnn, name='subject',            value=ds_subject,        append=TRUE, row.names=FALSE)

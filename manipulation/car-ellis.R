@@ -26,7 +26,7 @@ requireNamespace("testit"                  ) # For asserting conditions meet exp
 
 path_input  <- "data-public/raw/mtcar.csv"
 path_output <- "data-public/derived/car.rds"
-figure_path <- 'stitched-output/manipulation/car/'
+figure_path <- "stitched-output/manipulation/car/"
 
 miles_per_gallon_threshold    <- 2.2 # I'm pretending that low values that are artifacts of the measurement equipment.
 days_per_week                 <- 7L

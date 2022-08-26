@@ -100,12 +100,12 @@ ds_county_year <-
   ds |>
   dplyr::group_by(county_id, county, year) |>
   dplyr::summarize(
-    cog_1_mean      = mean(cog_1    , na.rm=T),
-    cog_2_mean      = mean(cog_2    , na.rm=T),
-    cog_3_mean      = mean(cog_3    , na.rm=T),
-    phys_1_mean     = mean(phys_1   , na.rm=T),
-    phys_2_mean     = mean(phys_2   , na.rm=T),
-    phys_3_mean     = mean(phys_3   , na.rm=T)
+    cog_1_mean      = mean(cog_1    , na.rm = TRUE),
+    cog_2_mean      = mean(cog_2    , na.rm = TRUE),
+    cog_3_mean      = mean(cog_3    , na.rm = TRUE),
+    phys_1_mean     = mean(phys_1   , na.rm = TRUE),
+    phys_2_mean     = mean(phys_2   , na.rm = TRUE),
+    phys_3_mean     = mean(phys_3   , na.rm = TRUE)
   ) |>
   dplyr::ungroup()
 

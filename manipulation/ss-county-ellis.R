@@ -143,7 +143,7 @@ sql_create |>
 DBI::dbListTables(cnn)
 
 # Write to database
-DBI::dbWriteTable(cnn, name='dim_county',            value=ds_slim,        append=TRUE, row.names=FALSE)
+DBI::dbWriteTable(cnn, name="dim_county",            value=ds_slim,        append=TRUE, row.names=FALSE)
 
 # Allow database to optimize its internal arrangement
 DBI::dbExecute(cnn, "VACUUM;")

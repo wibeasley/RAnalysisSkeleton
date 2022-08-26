@@ -37,10 +37,10 @@ ds <-
   dplyr::group_by(block_id) |>
   dplyr::mutate(
     condition           = sample(assignment_possible_block, replace=FALSE),
-    client_id           = '-to be assigned-',
+    client_id           = "-to be assigned-",
     year_assigned       = 2016L,
     month_assigned      = 9L,
-    day_assigned        = '-enter today-'
+    day_assigned        = "-enter today-"
   ) |>
   dplyr::ungroup()
 

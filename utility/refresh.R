@@ -5,6 +5,8 @@ options(device = deviceType) #https://support.rstudio.org/help/discussions/probl
 spelling::spell_check_package()
 # spelling::update_wordlist()
 lintr::lint_package()
+lintr::lint_dir("manipulation/")
+
 urlchecker::url_check(); urlchecker::url_update()
 
 devtools::document()

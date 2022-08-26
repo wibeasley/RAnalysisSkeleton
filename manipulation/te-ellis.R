@@ -38,7 +38,7 @@ counties_to_drop_from_rural    <- c("Central Office", "Tulsa", "Oklahoma") #Excl
 default_day_of_month           <- 15L      # Summarize each month at its (rough) midpoint.
 possible_county_ids            <- 1:77     #There are 77 counties.
 threshold_mean_fte_t_fill_in   <- 10L      #Any county averaging over 10 hours can be filled in with its mean.
-figure_path <- 'stitched-output/manipulation/te/'
+figure_path                    <- "stitched-output/manipulation/te/"
 
 # URIs of CSV and County lookup table
 path_in_oklahoma  <- "data-public/raw/te/nurse-month-oklahoma.csv"
@@ -152,7 +152,7 @@ ds_month_oklahoma <-
   ds_nurse_month_oklahoma |>
   dplyr::group_by(county_id, month) |>                  # Split by County & month into sub-datasets
   dplyr::summarize(                                      # Aggregate/summarize within sub-datasets
-    fte                = sum(fte, na.rm=T),
+    fte                = sum(fte, na.rm=TRUE),
     # fmla_hours       = sum(fmla_hours, na.rm=T)
     fte_approximated   = FALSE,                          # This variable helps the later union query.
   ) |>
@@ -216,9 +216,9 @@ ds_nurse_month_rural <-
   dplyr::filter(!(county_name %in% counties_to_drop_from_rural)) |>
   dplyr::mutate(
     month       = as.Date(paste0(month, "-", default_day_of_month), format="%m/%Y-%d"),
-    fte_string  = gsub("^(\\d{1,3})\\s*%$", "\\1", fte_percent),                            # Extract digits before the '%' sign.
+    fte_string  = sub("^(\\d{1,3})\\s*%$", "\\1", fte_percent),                            # Extract digits before the '%' sign.
     fte         = .01 * dplyr::if_else(nchar(fte_string)==0L, 0, as.numeric(fte_string)),
-    county_name = dplyr::recode(county_name, `Cimmarron`='Cimarron', `Leflore`='Le Flore'), # Or consider `car::recode()`.
+    county_name = dplyr::recode(county_name, `Cimmarron`="Cimarron", `Leflore`="Le Flore"),
   ) |>
   dplyr::arrange(county_name, month, name_full) |>
   dplyr::select(
@@ -294,7 +294,7 @@ ds <-
     fte                         = dplyr::coalesce(fte, 0),
     month_missing               = is.na(fte_approximated),
     fte_approximated            = month_missing & (month %in% months_rural_not_collected),
-    fte_rolling_median_11_month = zoo::rollmedian(x=fte, 11, na.pad=T, align="right"),
+    fte_rolling_median_11_month = zoo::rollmedian(x=fte, 11, na.pad=TRUE, align="right"),
   ) |>
   dplyr::group_by(county_id) |>                # Group by county.
   dplyr::mutate(
@@ -305,12 +305,12 @@ ds
 
 # Loop through each county to determine which (if any) months need to be approximated.
 #   The dataset is small enough that it's not worth vectorizing.
-for( id in sort(unique(ds$county_id)) ) {# for( id in 13 ) {}
+for (id in sort(unique(ds$county_id))) {# for( id in 13 ) {}
   ds_county_approx <- dplyr::filter(ds, county_id==id)
   missing          <- ds_county_approx$fte_approximated #is.na(ds_county_approx$fte_approximated)
 
   # Attempt to fill in values only for counties missing something.
-  if( any(ds_county_approx$county_any_missing) ) {
+  if (any(ds_county_approx$county_any_missing)) {
 
     # This statement interpolates missing FTE values
     ds_county_approx$fte[missing] <- as.numeric(approx(
@@ -320,8 +320,8 @@ for( id in sort(unique(ds$county_id)) ) {# for( id in 13 ) {}
     )$y)
 
     # This statement extrapolates missing FTE values, which occurs when the first/last few months are missing.
-    if( mean(ds_county_approx$fte, na.rm=T) >= threshold_mean_fte_t_fill_in ) {
-      ds_county_approx$fte_approximated <- (ds_county_approx$fte==0)
+    if (mean(ds_county_approx$fte, na.rm = TRUE) >= threshold_mean_fte_t_fill_in) {
+      ds_county_approx$fte_approximated <- (ds_county_approx$fte == 0)
       ds_county_approx$fte              <- dplyr::if_else(ds_county_approx$fte==0, ds_county_approx$fte_rolling_median_11_month, ds_county_approx$fte)
     }
 
@@ -423,7 +423,7 @@ sql_create <- c(
       fte                                real        not null,
       fte_approximated                   bit         not null,
       month_missing                      int         not null,         -- there's no bit/boolean type in sqlite
-      fte_rolling_median_11_month        int     
+      fte_rolling_median_11_month        int
 
       -- FOREIGN KEY(county_id) REFERENCES county(county_id)
     );
@@ -448,7 +448,7 @@ sql_create |>
 DBI::dbListTables(cnn)
 
 # Write to database
-DBI::dbWriteTable(cnn, name='county',              value=ds_county,        append=TRUE, row.names=FALSE)
+DBI::dbWriteTable(cnn, name = "county", value = ds_county, append = TRUE, row.names = FALSE)
 ds |>
   dplyr::mutate(
     month               = strftime(month, "%Y-%m-%d"),
@@ -456,7 +456,7 @@ ds |>
     month_missing       = as.logical(month_missing),
   ) |>
   dplyr::select(county_month_id, county_id, month, fte, fte_approximated, month_missing, fte_rolling_median_11_month) |>
-  DBI::dbWriteTable(conn=cnn, name='te_month', append=TRUE, row.names=FALSE)
+  DBI::dbWriteTable(conn=cnn, name = "te_month", append = TRUE, row.names = FALSE)
 
 # Allow database to optimize its internal arrangement
 DBI::dbExecute(cnn, "VACUUM;")

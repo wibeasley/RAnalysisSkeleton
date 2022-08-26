@@ -18,9 +18,9 @@ salt <- round(runif(1, min=1000000, max=9999999))
 # ---- load-data ---------------------------------------------------------------
 # Retrieve URIs of CSV, and retrieve County lookup table
 channel <- DBI::dbConnect(odbc::odbc(), "zzzzChanelNamezzzz") #getSqlTypeInfo("Microsoft SQL Server") #odbcGetInfo(channel)
-path_oklahoma     <- DBI::dbSendQuery(channel, "EXEC Security.prcUri @UriName = 'C1TEOklahoma'")[1, 'Value']
-path_tulsa        <- DBI::dbSendQuery(channel, "EXEC Security.prcUri @UriName = 'C1TETulsa'"   )[1, 'Value']
-path_rural        <- DBI::dbSendQuery(channel, "EXEC Security.prcUri @UriName = 'C1TERural'"   )[1, 'Value']
+path_oklahoma     <- DBI::dbSendQuery(channel, "EXEC Security.prcUri @UriName = 'C1TEOklahoma'")[1, "Value"]
+path_tulsa        <- DBI::dbSendQuery(channel, "EXEC Security.prcUri @UriName = 'C1TETulsa'"   )[1, "Value"]
+path_rural        <- DBI::dbSendQuery(channel, "EXEC Security.prcUri @UriName = 'C1TERural'"   )[1, "Value"]
 ds_county         <- DBI::dbReadTable(channel, "Osdh.tblLUCounty")
 DBI::dbDisconnect(channel); rm(channel)
 
@@ -30,7 +30,7 @@ ds_month_tulsa            <- readr::read_csv(path_tulsa)
 ds_nurse_month_rural      <- readr::read_csv(path_rural)
 rm(path_oklahoma, path_tulsa, path_rural)
 
-ds_fake_name <- readr::read_csv("utility/te-generation/fake-names.csv", col_names = F) # From http://listofrandomnames.com/
+ds_fake_name <- readr::read_csv("utility/te-generation/fake-names.csv", col_names = FALSE) # From http://listofrandomnames.com/
 
 # ---- tweak-data --------------------------------------------------------------
 ds_fake_name <-
@@ -50,7 +50,7 @@ ds_nurse_month_oklahoma <-
   dplyr::mutate(
     Employee..      = as.integer(as.factor(Employee..)),
     # Name          = OuhscMunge::hash_and_salt_sha_256(Name, salt_to_add=salt, required_mode="character", min_length_inclusive=1, max_length_inclusive=100),
-    FTE             = sample(x=c(.5, .76, 1.0), size=dplyr::n(), replace=T, prob=c(.07, .03, .9)) ,
+    FTE             = sample(x=c(.5, .76, 1.0), size=dplyr::n(), replace=TRUE, prob=c(.07, .03, .9)) ,
     # Year          = Year - 1,
     FMLA.Hours      = round(ifelse(runif(dplyr::n()) > .03, NA_real_, runif(dplyr::n(), min=0, max=160))),
     Training.Hours  = round(ifelse(runif(dplyr::n()) > .2,  NA_real_, runif(dplyr::n(), min=0, max=60)))
@@ -72,7 +72,7 @@ ds_nurse_month_rural <-
   dplyr::mutate(
     EMPLOYEEID  = as.integer(as.factor(NAME)) + max(ds_nurse_month_oklahoma$Employee..),
     REGIONID    = as.integer(as.factor(LEAD_NURSE)),
-    FTE         = paste0(sample(x=c(50, 76, 100), size=dplyr::n(), replace=T, prob=c(.07, .03, .9)), " %")
+    FTE         = paste0(sample(x=c(50, 76, 100), size=dplyr::n(), replace=TRUE, prob=c(.07, .03, .9)), " %")
   ) |>
   dplyr::select(
     -LASTNAME

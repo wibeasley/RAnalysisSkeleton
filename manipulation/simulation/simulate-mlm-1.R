@@ -26,7 +26,7 @@ requireNamespace("OuhscMunge"   ) # remotes::install_github(repo="OuhscBbmc/Ouhs
 # Constant values that won't change.
 config                         <- config::get()
 set.seed(453)
-figure_path <- 'stitched-output/manipulation/simulation/simulate-mlm-1/'
+figure_path <- "stitched-output/manipulation/simulation/simulate-mlm-1/"
 
 subject_count       <- 20
 wave_count          <- 10
@@ -70,22 +70,22 @@ sigma_factor_2      <- c(.2, .3, .5)
 ds_subject <-
   tibble::tibble(
     subject_id      = factor(1000 + seq_len(subject_count)),
-    year_start      = sample(possible_year_start, size=subject_count, replace=T),
-    age_start       = sample(possible_age_start , size=subject_count, replace=T),
-    county_index    = sample(possible_county_index , size=subject_count, replace=T),
+    year_start      = sample(possible_year_start   , size = subject_count, replace = TRUE),
+    age_start       = sample(possible_age_start    , size = subject_count, replace = TRUE),
+    county_index    = sample(possible_county_index , size = subject_count, replace = TRUE),
     county_id       = possible_county_id[county_index],
 
-    gender_id       = sample(possible_gender_id , size=subject_count, replace=T, prob=c(.4, .5, .1)),
-    race            = sample(possible_race      , size=subject_count, replace=T),
-    ethnicity       = sample(possible_ethnicity , size=subject_count, replace=T)
+    gender_id       = sample(possible_gender_id , size = subject_count, replace = TRUE, prob=c(.4, .5, .1)),
+    race            = sample(possible_race      , size = subject_count, replace = TRUE),
+    ethnicity       = sample(possible_ethnicity , size = subject_count, replace = TRUE)
 
   ) |>
   dplyr::mutate(
-    int_factor_1    = int_county[county_index]   + rnorm(n=subject_count, mean=10.0, sd=2.0),
+    int_factor_1    = int_county[county_index]   + rnorm(n=subject_count, mean=10.0 , sd=2.0),
     slope_factor_1  = slope_county[county_index] + rnorm(n=subject_count, mean= 0.05, sd=0.04),
 
-    int_factor_2    = rnorm(n=subject_count, mean=5.0, sd=0.8) + (cor_factor_1_vs_2[1] * int_factor_1),
-    slope_factor_2  = rnorm(n=subject_count, mean= 0.03, sd=0.02) + (cor_factor_1_vs_2[2] * int_factor_1)
+    int_factor_2    = rnorm(n = subject_count, mean = 5.0 , sd = 0.8 ) + (cor_factor_1_vs_2[1] * int_factor_1),
+    slope_factor_2  = rnorm(n = subject_count, mean = 0.03, sd = 0.02) + (cor_factor_1_vs_2[2] * int_factor_1)
   )
 ds_subject
 
@@ -99,7 +99,11 @@ ds <-
     year            = wave_id + year_start - 1L,
     age             = wave_id + age_start  - 1L,
 
-    date_at_visit   = as.Date(ISOdate(year, 1, 1) + lubridate::days(sample(possible_date_offset, size=dplyr::n(), replace=T)))
+    date_at_visit   =
+      as.Date(
+        ISOdate(year, 1, 1) +
+          lubridate::days(sample(possible_date_offset, size = dplyr::n(), replace = TRUE))
+      )
   ) |>
   dplyr::mutate( # Generate cognitive manifest variables (ie, from factor 1)
     cog_1           =
@@ -129,7 +133,7 @@ ds <-
       slope_factor_2 * wave_id +
       rnorm(n=dplyr::n(), mean=0, sd=sigma_factor_2[3])
   ) |>
-  dplyr::mutate( # Keep tha manifest variables positive (which will throw off the correlations)
+  dplyr::mutate( # Keep the manifest variables positive (which will throw off the correlations)
     cog_1   = pmax(0, cog_1),
     cog_2   = pmax(0, cog_2),
     cog_3   = pmax(0, cog_3),
@@ -137,7 +141,7 @@ ds <-
     phys_2  = pmax(0, phys_2),
     phys_3  = pmax(0, phys_3)
   ) |>
-  dplyr::mutate( # Don't simulate unrealistically precise manfiest variables
+  dplyr::mutate( # Don't simulate unrealistically precise manifest variables
     int_factor_1    = round(int_factor_1  , 3),
     slope_factor_1  = round(slope_factor_1, 3),
     int_factor_2    = round(int_factor_2  , 3),
@@ -242,7 +246,7 @@ ds_slim <-
     age, county_id,
     int_factor_1, slope_factor_1,
     cog_1 , cog_2 , cog_3,
-    phys_1, phys_2, phys_3
+    phys_1, phys_2, phys_3,
   )
 ds_slim
 
@@ -254,7 +258,7 @@ ds_slim_subject <-
     county_id, # May intentionally exclude this from the output, to mimic what the ellis has to do sometimes.
     gender_id,
     race,
-    ethnicity
+    ethnicity,
   )
 ds_slim
 

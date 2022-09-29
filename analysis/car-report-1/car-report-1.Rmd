@@ -109,6 +109,13 @@ Scatterplots
 ```
 
 
+Correlation Matrixes
+---------------------------------------------------------------------------
+
+```{r correlation-matrixes, echo=echo_chunks, message=message_chunks, fig.width=9, fig.height=9, results='asis'}
+```
+
+
 Models
 ===========================================================================
 

@@ -184,6 +184,38 @@ ggplot(ds, aes(x=weight_gear_z, color=forward_gear_count_f, fill=forward_gear_co
   theme_minimal() +
   labs(x=expression(z[gear]))
 
+# ---- correlation-matrixes ----------------------------------------------------
+predictor_names <-
+  c(
+    "miles_per_gallon", "displacement_inches_cubed",
+    "cylinder_count", "horsepower",
+    "forward_gear_count"
+  )
+
+cat("### Hyp 1: Prediction of quarter mile time\n\n")
+ds_hyp <- ds[, c("quarter_mile_sec", predictor_names)]
+colnames(ds_hyp) <- gsub("_", "\n", colnames(ds_hyp))
+cor_matrix <- cor(ds_hyp)
+corrplot::corrplot(cor_matrix, method="ellipse", addCoef.col="gray30", tl.col="gray20", diag=F)
+pairs(x=ds_hyp, lower.panel=panel.smooth, upper.panel=panel.smooth)
+
+colnames(cor_matrix) <- gsub("\n", "<br>", colnames(cor_matrix))
+rownames(cor_matrix) <- gsub("\n", "<br>", rownames(cor_matrix))
+knitr::kable(cor_matrix, digits = 3)
+rm(ds_hyp, cor_matrix)
+
+cat("### Hyp 2: Prediction of z-score of weight/gear\n\n")
+ds_hyp <- ds[, c("weight_gear_z", predictor_names)]
+colnames(ds_hyp) <- gsub("_", "\n", colnames(ds_hyp))
+cor_matrix <- cor(ds_hyp)
+corrplot::corrplot(cor_matrix, method="ellipse", addCoef.col="gray30", tl.col="gray20", diag=F)
+pairs(x=ds_hyp, lower.panel=panel.smooth, upper.panel=panel.smooth)
+
+colnames(cor_matrix) <- gsub("\n", "<br>", colnames(cor_matrix))
+rownames(cor_matrix) <- gsub("\n", "<br>", rownames(cor_matrix))
+knitr::kable(cor_matrix, digits = 3)
+rm(ds_hyp, cor_matrix)
+
 # ---- models ------------------------------------------------------------------
 cat("============= Simple model that's just an intercept. =============")
 m0 <- lm(quarter_mile_sec ~ 1, data=ds)

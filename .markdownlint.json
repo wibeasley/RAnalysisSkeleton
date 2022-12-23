@@ -8,7 +8,10 @@
       "details",
       "img",
       "li",
-      "ol"
+      "ol",
+      "span",
+      "summary",
+      "table"
     ]
   }
 }

@@ -24,7 +24,6 @@ sessioninfo::platform_info() |>
     position          = "left"
   )
 
-# devtools::session_info()$packages |>
 sessioninfo::package_info(include_base = TRUE, pkgs = "loaded") |> 
   dplyr::select(
     -path,

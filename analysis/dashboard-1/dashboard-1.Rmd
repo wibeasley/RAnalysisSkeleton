@@ -187,24 +187,24 @@ By implementing plans for self-care activities with established clients, primary
 
 * [Current PDSA](https://docs.google.com/document/d/1IcwCCkr1EkoeBJpEKdF2v-E0gKI6wGacCv9oZU1CE7I/edit#) (This is accessible only to CQI participants.)
 
-<!-- The dashboard documentation that's common to all reports. Unfortunately, the working directory is the Rmd directory, to the repo root. -->
+<!-- The dashboard documentation that's common to all reports. -->
 
 ### Explanation -All CQI Dashboards
 
-```{r, child = "../common/dashboard/documentation-all-dashboards-1.Rmd"}
+```{r, child = "analysis/common/dashboard/documentation-all-dashboards-1.Rmd"}
 ```
 
 ### Glossary
 
-```{r, child = "../common/dashboard/documentation-glossary-1.Rmd"}
+```{r, child = "analysis/common/dashboard/documentation-glossary-1.Rmd"}
 ```
 
 ### Tips
 
-```{r, child = "../common/dashboard/documentation-tips-1.Rmd"}
+```{r, child = "analysis/common/dashboard/documentation-tips-1.Rmd"}
 ```
 
 ### Config
 
-```{r, child = "../common/dashboard/documentation-config-1.Rmd"}
+```{r, child = "analysis/common/dashboard/documentation-config-1.Rmd"}
 ```

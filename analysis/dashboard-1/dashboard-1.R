@@ -6,7 +6,7 @@ base::source(file="analysis/common/display-1.R") #Load common graphing functions
 # ---- load-packages -----------------------------------------------------------
 library(ggplot2) #For graphing
 library(plotly)
-import::from("magrittr", "%>%")
+# import::from("magrittr", "%>%")
 requireNamespace("scales")
 requireNamespace("dplyr")
 requireNamespace("tidyr") #For converting wide to long
@@ -94,12 +94,13 @@ ds_county_year |>
    dplyr::select(
      county, year, cog_1_mean, cog_2_mean, cog_3_mean, phys_1_mean, phys_2_mean, phys_3_mean
    ) |>
-   DT::datatable(
-     colnames=gsub("_", " ", colnames(.)),
-     options = list(
-       pageLength = 16
-     )
-  ) |>
+  { \(.)
+    DT::datatable(
+      data     = .,
+      colnames = gsub("_", " ", colnames(.)),
+      options  = list(pageLength = 16)
+    )
+  }() |>
   DT::formatCurrency(
     columns  = c(
       "cog_1_mean", "cog_2_mean", "cog_3_mean",
@@ -115,12 +116,13 @@ ds_county |>
   dplyr::select(
     county, cog_1_mean, cog_2_mean, cog_3_mean, phys_1_mean, phys_2_mean, phys_3_mean
   ) |>
-  DT::datatable(
-    colnames=gsub("_", " ", colnames(.)),
-    options = list(
-      pageLength = 16
+  { \(.)
+    DT::datatable(
+      data     = .,
+      colnames = gsub("_", " ", colnames(.)),
+      options  = list(pageLength = 16)
     )
-  ) |>
+  }() |>
   DT::formatCurrency(
     columns  = c(
       "cog_1_mean", "cog_2_mean", "cog_3_mean",
@@ -132,13 +134,13 @@ ds_county |>
 
 # ---- tables-annotation ----------------------------------------------------------
 ds_annotation |>
-  DT::datatable(
-    colnames=gsub("_", " ", colnames(.)),
-    options = list(
-      pageLength = 16
+  { \(.)
+    DT::datatable(
+      data     = .,
+      colnames = gsub("_", " ", colnames(.)),
+      options  = list(pageLength = 16)
     )
-  )
-
+  }()
 
 # ---- spaghetti --------------------------------------------
 cat("\n\n### Cog 1<br/><b>County-Year</b>\n\n")
@@ -194,7 +196,6 @@ ds_county_year |>
 cat("\n\n### Cog 2<br/><b>County-Year</b>\n\n")
 ds_county_year |>
   spaghetti_1(
-    d                   = .,
     response_variable   = "cog_1_mean",
     time_variable       = "year",
     color_variable      = "county",

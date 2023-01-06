@@ -36,7 +36,7 @@ spaghetti_1 <- function(
   width=c("focus"=1, "background"=.25)
   # width=c("focus"=.25, "background"=.25)
 ) {
-  group_symbol      <- dplyr::if_else(is.null(group_variable), NULL, rlang::sym(group_variable))
+  group_symbol      <- ifelse(is.null(group_variable), NULL, rlang::sym(group_variable))
   time_symbol       <- rlang::sym(time_variable)
   response_symbol   <- rlang::sym(response_variable)
   color_symbol      <- rlang::sym(color_variable)
@@ -208,6 +208,7 @@ histogram_2 <- function(
     plot    = FALSE
   )
 
+  # browser()
   ds_stoplight_bin <- tibble::tibble(
     boundary_left   = histrv$breaks[-length(histrv$breaks)],
     boundary_right  = histrv$breaks[-1],
@@ -224,8 +225,10 @@ histogram_2 <- function(
 
     #category        = cut(boundary_left, breaks=c(-Inf, .3, 1.4, 3, Inf), labels = c("Good", "Ok", "Bad", "Jesum")),
     category        = cut(boundary_left, breaks=c(-Inf, Inf), labels = c("")),
-    hover_text      = glue::glue_data(., hover_text_template)
+    # hover_text      = glue::glue_data(., hover_text_template)
   )
+
+  ds_stoplight_bin$hover_text      = glue::glue_data(ds_stoplight_bin, hover_text_template)
 
   title_graph_font <- list(
     family  = "'Oswald', sans-serif",

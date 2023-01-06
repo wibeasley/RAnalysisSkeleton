@@ -1,6 +1,6 @@
 ---
 title: Time and Effort Report 1
-date: "Date: 2023-01-03"
+date: "Date: 2023-01-06"
 output:
   # radix::radix_article: # radix is a newer alternative that has some advantages over `html_document`.
   html_document:
@@ -252,7 +252,7 @@ For the sake of documentation and reproducibility, the current report was render
   <summary>Environment <span class="glyphicon glyphicon-plus-sign"></span></summary>
 
 ```
-─ Session info ─────────────────────────────────────────────────────────────────
+─ Session info ────────────────────────────────────────────────────────────────────────────────
  setting  value
  version  R version 4.2.2 Patched (2022-12-09 r83428 ucrt)
  os       Windows 10 x64 (build 22621)
@@ -262,11 +262,11 @@ For the sake of documentation and reproducibility, the current report was render
  collate  English_United States.utf8
  ctype    English_United States.utf8
  tz       America/Chicago
- date     2023-01-03
+ date     2023-01-06
  rstudio  2022.12.0+353 Elsbeth Geranium (desktop)
  pandoc   2.19.2 @ C:/Program Files/RStudio/resources/app/bin/quarto/bin/tools/ (via rmarkdown)
 
-─ Packages ─────────────────────────────────────────────────────────────────────
+─ Packages ────────────────────────────────────────────────────────────────────────────────────
  ! package         * version     date (UTC) lib source
  D archive           1.1.5       2022-05-06 [1] CRAN (R 4.2.2)
    assertthat        0.2.1       2019-03-21 [1] CRAN (R 4.2.2)
@@ -375,10 +375,10 @@ For the sake of documentation and reproducibility, the current report was render
 
  D ── DLL MD5 mismatch, broken installation.
 
-────────────────────────────────────────────────────────────────────────────────
+───────────────────────────────────────────────────────────────────────────────────────────────
 ```
 </details>
 
 
 
-Report rendered by wibea at 2023-01-03, 17:33 -0600 in 4 seconds.
+Report rendered by wibea at 2023-01-06, 08:43 -0600 in 3 seconds.

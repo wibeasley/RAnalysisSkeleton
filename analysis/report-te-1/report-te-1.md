@@ -82,11 +82,7 @@ Marginals County-Month
 Scatterplots
 ---------------------------------------------------------------------------
 
-![](figure-png/scatterplots-1.png)<!-- -->
-
-```
-NULL
-```
+![](figure-png/scatterplots-1.png)<!-- -->![](figure-png/scatterplots-2.png)<!-- -->
 
 ```
 $y
@@ -279,7 +275,6 @@ For the sake of documentation and reproducibility, the current report was render
    bit64             4.0.5       2020-08-30 [1] CRAN (R 4.2.2)
    blob              1.2.3       2022-04-10 [1] CRAN (R 4.2.2)
    boot              1.3-28.1    2022-11-22 [2] CRAN (R 4.2.2)
-   broom             1.0.2       2022-12-15 [1] CRAN (R 4.2.2)
    bslib             0.4.2       2022-12-16 [1] CRAN (R 4.2.2)
    cachem            1.0.6       2021-08-19 [1] CRAN (R 4.2.2)
    callr             3.7.3       2022-11-02 [1] CRAN (R 4.2.2)
@@ -289,19 +284,15 @@ For the sake of documentation and reproducibility, the current report was render
    config            0.3.1       2020-12-17 [1] CRAN (R 4.2.2)
    corrplot          0.92        2021-11-18 [1] CRAN (R 4.2.2)
    crayon            1.5.2       2022-09-29 [1] CRAN (R 4.2.2)
-   crosstalk         1.2.0       2021-11-04 [1] CRAN (R 4.2.2)
-   data.table        1.14.6      2022-11-16 [1] CRAN (R 4.2.2)
    DBI               1.1.3       2022-06-18 [1] CRAN (R 4.2.2)
    devtools          2.4.5       2022-10-11 [1] CRAN (R 4.2.2)
    digest            0.6.31      2022-12-11 [1] CRAN (R 4.2.2)
    dplyr             1.0.10      2022-09-01 [1] CRAN (R 4.2.2)
-   DT                0.26        2022-10-19 [1] CRAN (R 4.2.2)
    ellipsis          0.3.2       2021-04-29 [1] CRAN (R 4.2.2)
    evaluate          0.19        2022-12-13 [1] CRAN (R 4.2.2)
    fansi             1.0.3       2022-03-24 [1] CRAN (R 4.2.2)
    farver            2.1.1       2022-07-06 [1] CRAN (R 4.2.2)
    fastmap           1.1.0       2021-01-25 [1] CRAN (R 4.2.2)
-   flexdashboard   * 0.6.0       2022-08-05 [1] CRAN (R 4.2.2)
    forcats           0.5.2       2022-08-19 [1] CRAN (R 4.2.2)
    fs                1.5.2       2021-12-08 [1] CRAN (R 4.2.2)
    generics          0.1.3       2022-07-05 [1] CRAN (R 4.2.2)
@@ -313,16 +304,13 @@ For the sake of documentation and reproducibility, the current report was render
    htmltools         0.5.4       2022-12-07 [1] CRAN (R 4.2.2)
    htmlwidgets       1.6.0       2022-12-15 [1] CRAN (R 4.2.2)
    httpuv            1.6.7       2022-12-14 [1] CRAN (R 4.2.2)
-   httr              1.4.4       2022-08-17 [1] CRAN (R 4.2.2)
    import            1.3.0       2022-05-23 [1] CRAN (R 4.2.2)
    jquerylib         0.1.4       2021-04-26 [1] CRAN (R 4.2.2)
    jsonlite          1.8.4       2022-12-06 [1] CRAN (R 4.2.2)
-   kableExtra        1.3.4       2021-02-20 [1] CRAN (R 4.2.2)
    knitr           * 1.41        2022-11-18 [1] CRAN (R 4.2.2)
    labeling          0.4.2       2020-10-20 [1] CRAN (R 4.2.0)
    later             1.3.0       2021-08-18 [1] CRAN (R 4.2.2)
    lattice           0.20-45     2021-09-22 [2] CRAN (R 4.2.2)
-   lazyeval          0.2.2       2019-03-15 [1] CRAN (R 4.2.2)
    lifecycle         1.0.3       2022-10-07 [1] CRAN (R 4.2.2)
    lme4            * 1.1-31      2022-11-01 [1] CRAN (R 4.2.2)
    lubridate         1.9.0       2022-11-06 [1] CRAN (R 4.2.2)
@@ -343,7 +331,6 @@ For the sake of documentation and reproducibility, the current report was render
    pkgbuild          1.4.0       2022-11-27 [1] CRAN (R 4.2.2)
    pkgconfig         2.0.3       2019-09-22 [1] CRAN (R 4.2.2)
    pkgload           1.3.2       2022-11-16 [1] CRAN (R 4.2.2)
-   plotly          * 4.10.1      2022-11-07 [1] CRAN (R 4.2.2)
    prettyunits       1.1.1       2020-01-24 [1] CRAN (R 4.2.2)
    processx          3.8.0       2022-10-26 [1] CRAN (R 4.2.2)
    profvis           0.3.7       2020-11-02 [1] CRAN (R 4.2.2)
@@ -351,7 +338,6 @@ For the sake of documentation and reproducibility, the current report was render
    ps                1.7.2       2022-10-26 [1] CRAN (R 4.2.2)
    purrr             1.0.0       2022-12-20 [1] CRAN (R 4.2.2)
    R6                2.5.1       2021-08-19 [1] CRAN (R 4.2.2)
-   RColorBrewer      1.1-3       2022-04-03 [1] CRAN (R 4.2.0)
    Rcpp              1.0.9       2022-07-08 [1] CRAN (R 4.2.2)
    readr             2.1.3       2022-10-01 [1] CRAN (R 4.2.2)
    remotes           2.4.2       2021-11-30 [1] CRAN (R 4.2.2)
@@ -359,15 +345,12 @@ For the sake of documentation and reproducibility, the current report was render
    rmarkdown         2.19        2022-12-15 [1] CRAN (R 4.2.2)
    RSQLite           2.2.20      2022-12-22 [1] CRAN (R 4.2.2)
    rstudioapi        0.14        2022-08-22 [1] CRAN (R 4.2.2)
-   rvest             1.0.3       2022-08-19 [1] CRAN (R 4.2.2)
    sass              0.4.4       2022-11-24 [1] CRAN (R 4.2.2)
    scales            1.2.1       2022-08-20 [1] CRAN (R 4.2.2)
    sessioninfo       1.2.2       2021-12-06 [1] CRAN (R 4.2.2)
    shiny             1.7.4       2022-12-15 [1] CRAN (R 4.2.2)
    stringi           1.7.8       2022-07-11 [1] CRAN (R 4.2.1)
    stringr           1.5.0       2022-12-02 [1] CRAN (R 4.2.2)
-   svglite           2.1.0       2022-02-03 [1] CRAN (R 4.2.2)
-   systemfonts       1.0.4       2022-02-11 [1] CRAN (R 4.2.2)
    TabularManifest   0.1-16.9003 2022-12-11 [1] Github (Melinae/TabularManifest@b966a2b)
    testit            0.13        2021-04-14 [1] CRAN (R 4.2.2)
    tibble            3.1.8       2022-07-22 [1] CRAN (R 4.2.2)
@@ -381,10 +364,8 @@ For the sake of documentation and reproducibility, the current report was render
    vctrs             0.5.1       2022-11-16 [1] CRAN (R 4.2.2)
    viridisLite       0.4.1       2022-08-22 [1] CRAN (R 4.2.2)
    vroom             1.6.0       2022-09-30 [1] CRAN (R 4.2.2)
-   webshot           0.5.4       2022-09-26 [1] CRAN (R 4.2.2)
    withr             2.5.0       2022-03-03 [1] CRAN (R 4.2.2)
    xfun              0.36        2022-12-21 [1] CRAN (R 4.2.2)
-   xml2              1.3.3       2021-11-30 [1] CRAN (R 4.2.2)
    xtable            1.8-4       2019-04-21 [1] CRAN (R 4.2.2)
    yaml              2.3.6       2022-10-18 [1] CRAN (R 4.2.2)
    zoo               1.8-11      2022-09-17 [1] CRAN (R 4.2.2)
@@ -400,4 +381,4 @@ For the sake of documentation and reproducibility, the current report was render
 
 
 
-Report rendered by wibea at 2023-01-06, 10:51 -0600 in 3 seconds.
+Report rendered by wibea at 2023-01-06, 11:48 -0600 in 4 seconds.

@@ -51,7 +51,7 @@ histogram_discrete <- function(
 
   d_summary <- d_count |>
     dplyr::rename(
-      count    =  .data$n
+      count    =  n
     ) |>
     dplyr::mutate(
       proportion = .data$count / sum(.data$count)
@@ -61,7 +61,7 @@ histogram_discrete <- function(
   y_title <- base::paste0(y_title, " (n=", scales::comma(base::sum(d_summary$count)), ")")
 
   g <-
-    ggplot(d_summary, aes_string(x="iv", y="count", fill="iv", label="percentage")) +
+    ggplot(d_summary, aes(x=iv, y=count, fill=iv, label=percentage)) +
     geom_bar(stat="identity") +
     geom_text(stat="identity", size=text_size_percentage, hjust=.8, na.rm = TRUE) +
     scale_y_continuous(labels=scales::comma_format()) +
@@ -109,10 +109,10 @@ histogram_continuous <- function(
 
   g <-
     d_observed |>
-    ggplot2::ggplot(ggplot2::aes_string(x=variable_name)) +
+    ggplot2::ggplot(ggplot2::aes(x= !!rlang::ensym(variable_name))) +
     ggplot2::geom_histogram(binwidth=bin_width, position=ggplot2::position_identity(), fill="gray70", color="gray90", alpha=.7) +
     ggplot2::geom_vline(xintercept=ds_mid_points$value, color="gray30") +
-    ggplot2::geom_text(data=ds_mid_points, ggplot2::aes_string(x="value", y=0, label="value_rounded"), color="tomato", hjust=h_just, vjust=.5, na.rm=TRUE) +
+    ggplot2::geom_text(data=ds_mid_points, ggplot2::aes(x=value, y=0, label=value_rounded), color="tomato", hjust=h_just, vjust=.5, na.rm=TRUE) +
     ggplot2::scale_x_continuous(labels=scales::comma_format()) +
     ggplot2::scale_y_continuous(labels=scales::comma_format()) +
     ggplot2::labs(title=main_title, x=x_title, y=y_title)
@@ -121,7 +121,7 @@ histogram_continuous <- function(
     ggplot2::theme_light(base_size = font_base_size) +
     ggplot2::theme(axis.ticks             = ggplot2::element_blank())
 
-  g <- g + ggplot2::geom_text(data=ds_mid_points, ggplot2::aes_string(x="value", y=Inf, label="label"), color="tomato", hjust=h_just, vjust=2, parse=TRUE)
+  g <- g + ggplot2::geom_text(data=ds_mid_points, ggplot2::aes(x=value, y=Inf, label=label), color="tomato", hjust=h_just, vjust=2, parse=TRUE)
   return( g )
 }
 
@@ -174,10 +174,8 @@ g1 <-
   theme(axis.ticks = element_blank())
 g1
 
-g1 %+% aes(color=cylinder_count)
+g1 %+% aes(color=NULL)
 g1 %+% aes(color=factor(cylinder_count))
-
-ggplot2::qplot(ds$weight_gear_z, color=ds$forward_gear_count_f, geom="density")  # mean(ds$weight_gear_z, na.rm=T)
 
 ggplot(ds, aes(x=weight_gear_z, color=forward_gear_count_f, fill=forward_gear_count_f)) +
   geom_density(alpha=.1) +

@@ -218,15 +218,15 @@ sql_create <- c(
   # ",
   "
     CREATE TABLE mlm_1 (
-      subject_wave_id         int        not null primary key,
-      subject_id              int        not null,
-      wave_id                 int        not null,
-      year                    int        not null,
+      subject_wave_id         integer    not null primary key,
+      subject_id              integer    not null,
+      wave_id                 integer    not null,
+      year                    integer    not null,
       date_at_visit           date       not null,
-      age                     int        not null,
+      age                     integer    not null,
       age_cut_4               varchar(5) not null,
-      -- county_id            int        not null,
-      age_80_plus             bit        not null,
+      -- county_id            integer    not null,
+      age_80_plus             boolean    not null,             -- stored as int by SQLite
       int_factor_1            real       not null,
       slope_factor_1          real       not null,
       cog_1                   real       not null,

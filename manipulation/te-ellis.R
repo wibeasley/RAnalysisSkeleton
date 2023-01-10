@@ -407,9 +407,9 @@ sql_create <- c(
   ",
   "
     CREATE TABLE `county` (
-      county_id              int         not null primary key,
+      county_id              integer     not null primary key,
       county_name            varchar(15) not null,
-      region_id              int         not null
+      region_id              integer     not null
     );
   ",
   "
@@ -419,11 +419,11 @@ sql_create <- c(
     CREATE TABLE `te_month` (
       county_month_id                    integer     not null primary key,
       county_id                          integer     not null,
-      month                              char(10)    not null,         -- there's no date type in sqlite.  make sure it's iso8601: yyyy-mm-dd
+      month                              date        not null,         -- there's no date type in sqlite.  make sure it's iso8601: yyyy-mm-dd
       fte                                real        not null,
-      fte_approximated                   bit         not null,
-      month_missing                      int         not null,         -- there's no bit/boolean type in sqlite
-      fte_rolling_median_11_month        int
+      fte_approximated                   boolean     not null,
+      month_missing                      integer     not null,         -- there's no bit/boolean type in sqlite
+      fte_rolling_median_11_month        integer
 
       -- FOREIGN KEY(county_id) REFERENCES county(county_id)
     );

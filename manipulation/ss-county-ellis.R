@@ -116,7 +116,7 @@ sql_create <- c(
   ",
   "
     CREATE TABLE `dim_county` (
-      county_id               int         not null primary key,
+      county_id               integer     not null primary key,
       county_name             varchar(25) not null,
       category                varchar(10) not null,
       time_zone               varchar(25) not null

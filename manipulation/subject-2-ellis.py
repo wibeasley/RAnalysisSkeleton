@@ -41,11 +41,11 @@ cnn.execute(
 cnn.execute(
     "\
         CREATE TABLE `subject_py` (\
-            subject_id      int   primary key,\
-            county_id       int   not null,\
-            gender_id       float not null,\
-            race            float not null,\
-            ethnicity       float not null\
+            subject_id      integer not null primary key,\
+            county_id       integer not null,\
+            gender_id       integer not null,\
+            race            integer not null,\
+            ethnicity       integer not null\
         )\
     "
 )

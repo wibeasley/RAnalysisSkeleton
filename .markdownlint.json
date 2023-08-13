@@ -6,11 +6,14 @@
       "a",
       "br",
       "details",
+      "div",
       "img",
       "li",
       "ol",
       "span",
+      "sub",
       "summary",
+      "sup",
       "table"
     ]
   }

@@ -6,6 +6,7 @@ rm(list = ls(all.names = TRUE)) # Clear the memory of variables from previous ru
 # ---- load-packages -----------------------------------------------------------
 # import::from("magrittr", "%>%")
 
+requireNamespace("config")
 requireNamespace("purrr")
 requireNamespace("rlang")
 # requireNamespace("checkmate")

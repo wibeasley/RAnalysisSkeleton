@@ -4,7 +4,7 @@ Description: Files and settings commonly used in analysis projects with R.
 Version: 1.0.0
 Authors@R: c(person("Will", "Beasley", role = c("aut", "cre"), email =
     "wibeasley@hotmail.com", comment = c(ORCID = "0000-0002-5613-5006")),
-    person("Andrey", "Koval", role = "aut"))
+    person("Andriy", "Koval", role = "aut"))
 URL: https://github.com/wibeasley/RAnalysisSkeleton
 BugReports: https://github.com/wibeasley/RAnalysisSkeleton/issues
 Depends:

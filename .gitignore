@@ -5,6 +5,7 @@
 .Rdata
 .Ruserdata
 .Rapp.history
+.Renviron
 
 # Output files from R CMD build
 /*.tar.gz

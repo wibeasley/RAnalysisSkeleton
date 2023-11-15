@@ -4,20 +4,26 @@
 
 # ---- Potential PHI -----------------------------------------------
 # Anywhere
-*.zip
-*.Zip
 *.ZIP
+*.Zip
+*.zip
 
 # I'm afraid this might contain PHI if someone knew how to decode it.
 us.stackdump
 
 # Data formats that potentially contain PHI
-*.rdata
-*.Rdata
-*.RData
+*.RDA
+*.Rda
+*.rda
 *.RDATA
+*.RData
+*.Rdata
+*.rdata
 *.RDS
+*.Rds
 *.rds
+*.CSV
+*.Csv
 *.csv
 *.mdb
 *.accdb

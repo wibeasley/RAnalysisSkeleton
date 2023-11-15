@@ -31,6 +31,9 @@ us.stackdump
 *.sas7bdat
 *.xls
 *.xlsx
+*.XPT
+*.Xpt
+*.xpt
 
 # Dataset Exceptions
 !recruitment-productivity/recruitment-zones/zipcodes-to-zone.csv

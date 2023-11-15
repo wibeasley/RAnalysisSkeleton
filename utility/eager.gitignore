@@ -83,6 +83,12 @@ devtools.zip
 *.utf8.md
 *.knit.md
 
+# Example code in package build process
+*-Ex.R
+
+# Shiny token, see https://shiny.rstudio.com/articles/shinyapps.html
+rsconnect/
+
 # ---- Protected Information -----------------------------------------------
 # see cubuspl42's answer in http://stackoverflow.com/questions/2415873/exceptions-in-gitignore
 /unshared-material/*
@@ -124,6 +130,8 @@ Desktop.ini
 
 # ---- Visual Studio Code (text editor) ----------------------
 .vscode/
+!.vscode/settings.json
+!.vscode/launch.json
 
 # ---- Locks ----------------------
 # Do not commit lock files.
@@ -142,10 +150,12 @@ Desktop.ini
 
 # Temporary locks used by LibreOffice.
 *.odb.lck
+.~*.csv#
 .~*.odf#
 .~*.odp#
 .~*.ods#
 .~*.odt#
+.~*.doc#
 .~*.docx#
 .~*.pptx#
 .~*.xlsx#

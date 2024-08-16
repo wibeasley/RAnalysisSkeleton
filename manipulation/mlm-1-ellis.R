@@ -165,7 +165,7 @@ ds_slim <-
   ds |>
   # dplyr::slice(1:100) |>
   dplyr::select(
-        subject_wave_id,
+    subject_wave_id,
     subject_id,
     wave_id,
     year,

@@ -10,6 +10,7 @@ rm(list = ls(all.names = TRUE)) # Clear the memory of variables from previous ru
 requireNamespace("DBI")
 requireNamespace("odbc")
 requireNamespace("tibble")
+requireNamespace("arrow") # For parquet files
 requireNamespace("readr"                      )  # remotes::install_github("tidyverse/readr")
 requireNamespace("dplyr"                      )
 requireNamespace("checkmate"                  )
@@ -191,6 +192,6 @@ ds_slim <-
 ds_slim
 
 # ---- save-to-disk ------------------------------------------------------------
-readr::write_rds(ds_county        , config$path_county_derived          , compress="gz")
-readr::write_rds(ds_county_year   , config$path_county_year_derived     , compress="gz")
-readr::write_rds(ds_slim          , config$path_mlm_1_derived           , compress="gz")
+arrow::write_parquet(ds_county        , config$path_county_derived          , compress="gz")
+arrow::write_parquet(ds_county_year   , config$path_county_year_derived     , compress="gz")
+arrow::write_parquet(ds_slim          , config$path_mlm_1_derived           , compress="gz")

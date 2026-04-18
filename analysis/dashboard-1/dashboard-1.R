@@ -7,6 +7,7 @@ base::source(file="analysis/common/display-1.R") #Load common graphing functions
 library(ggplot2) #For graphing
 library(plotly)
 # import::from("magrittr", "%>%")
+requireNamespace("arrow") # For parquet files
 requireNamespace("scales")
 requireNamespace("dplyr")
 requireNamespace("tidyr") #For converting wide to long
@@ -29,9 +30,9 @@ palette_county_dark   <- c("Muskogee"="#b0d794"  , "Oklahoma"="#83c1b2"  ,  "Tul
 palette_county_light  <- c("Muskogee"="#b0d79433", "Oklahoma"="#83c1b233",  "Tulsa"="#f4a97133")
 
 # ---- load-data ---------------------------------------------------------------
-ds                <- readr::read_rds(config$path_mlm_1_derived)
-ds_county         <- readr::read_rds(config$path_county_derived)
-ds_county_year    <- readr::read_rds(config$path_county_year_derived)
+ds                <- arrow::read_parquet(config$path_mlm_1_derived)
+ds_county         <- arrow::read_parquet(config$path_county_derived)
+ds_county_year    <- arrow::read_parquet(config$path_county_year_derived)
 
 ds_annotation       <- read.csv(path_in_annotation)
 

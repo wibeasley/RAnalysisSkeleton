@@ -32,6 +32,7 @@ Imports:
     yaml
 Suggests:
     codified (>= 0.2.0),
+    corrplot,
     devtools (>= 1.13.0),
     DT,
     flexdashboard,

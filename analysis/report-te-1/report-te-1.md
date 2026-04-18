@@ -1,6 +1,6 @@
 ---
 title: Time and Effort Report 1
-date: "Date: 2023-01-10"
+date: "Date: 2026-04-18"
 output:
   # radix::radix_article: # radix is a newer alternative that has some advantages over `html_document`.
   html_document:
@@ -85,14 +85,9 @@ Scatterplots
 ![](figure-png/scatterplots-1.png)<!-- -->![](figure-png/scatterplots-2.png)<!-- -->
 
 ```
-$y
-[1] "Sum of FTE for County"
-
-$title
-[1] "Zoomed: FTE sum each month (by county)"
-
-attr(,"class")
-[1] "labels"
+<ggplot2::labels> List of 2
+ $ y    : chr "Sum of FTE for County"
+ $ title: chr "Zoomed: FTE sum each month (by county)"
 ```
 
 
@@ -225,9 +220,9 @@ Data: ds_county_month
 Models:
 m2: fte ~ 1 + (1 | county)
 m3: fte ~ 1 + month + (1 | county)
-   npar    AIC    BIC  logLik deviance  Chisq Df Pr(>Chisq)
-m2    3 5216.1 5234.2 -2605.1   5210.1                     
-m3    4 5159.2 5183.3 -2575.6   5151.2 58.899  1   1.66e-14
+   npar    AIC    BIC  logLik -2*log(L)  Chisq Df Pr(>Chisq)
+m2    3 5216.1 5234.2 -2605.1    5210.1                     
+m3    4 5159.2 5183.3 -2575.6    5151.2 58.899  1   1.66e-14
 ```
 
 
@@ -252,127 +247,136 @@ For the sake of documentation and reproducibility, the current report was render
   <summary>Environment <span class="glyphicon glyphicon-plus-sign"></span></summary>
 
 ```
-─ Session info ─────────────────────────────────────────────────────────────────────────────────────────────────
+─ Session info ───────────────────────────────────────────────────────────────────────────────────
  setting  value
- version  R version 4.2.2 Patched (2022-12-09 r83428 ucrt)
- os       Windows 10 x64 (build 22621)
- system   x86_64, mingw32
+ version  R version 4.5.3 (2026-03-11)
+ os       Ubuntu 22.04.5 LTS
+ system   x86_64, linux-gnu
  ui       RStudio
  language (EN)
- collate  English_United States.utf8
- ctype    English_United States.utf8
+ collate  en_US.UTF-8
+ ctype    en_US.UTF-8
  tz       America/Chicago
- date     2023-01-10
- rstudio  2022.12.0+353 Elsbeth Geranium (desktop)
- pandoc   2.19.2 @ C:/Program Files/RStudio/resources/app/bin/quarto/bin/tools/ (via rmarkdown)
+ date     2026-04-18
+ rstudio  2026.01.1+403 Apple Blossom (desktop)
+ pandoc   3.6.3 @ /usr/lib/rstudio/resources/app/bin/quarto/bin/tools/x86_64/ (via rmarkdown)
+ quarto   1.5.57 @ /usr/local/bin/quarto
 
-─ Packages ─────────────────────────────────────────────────────────────────────────────────────────────────────
- ! package         * version     date (UTC) lib source
- D archive           1.1.5       2022-05-06 [1] CRAN (R 4.2.2)
-   assertthat        0.2.1       2019-03-21 [1] CRAN (R 4.2.2)
-   backports         1.4.1       2021-12-13 [1] CRAN (R 4.2.0)
-   base            * 4.2.2       2022-12-10 [?] local
-   bit               4.0.5       2022-11-15 [1] CRAN (R 4.2.2)
-   bit64             4.0.5       2020-08-30 [1] CRAN (R 4.2.2)
-   blob              1.2.3       2022-04-10 [1] CRAN (R 4.2.2)
-   boot              1.3-28.1    2022-11-22 [2] CRAN (R 4.2.2)
-   bslib             0.4.2       2022-12-16 [1] CRAN (R 4.2.2)
-   cachem            1.0.6       2021-08-19 [1] CRAN (R 4.2.2)
-   checkmate         2.1.0       2022-04-21 [1] CRAN (R 4.2.2)
-   cli               3.6.0       2023-01-09 [1] CRAN (R 4.2.2)
-   colorspace        2.0-3       2022-02-21 [1] CRAN (R 4.2.2)
- P compiler          4.2.2       2022-12-10 [2] local
-   config            0.3.1       2020-12-17 [1] CRAN (R 4.2.2)
-   corrplot          0.92        2021-11-18 [1] CRAN (R 4.2.2)
-   crayon            1.5.2       2022-09-29 [1] CRAN (R 4.2.2)
- P datasets        * 4.2.2       2022-12-10 [2] local
-   DBI               1.1.3       2022-06-18 [1] CRAN (R 4.2.2)
-   digest            0.6.31      2022-12-11 [1] CRAN (R 4.2.2)
-   dplyr             1.0.10      2022-09-01 [1] CRAN (R 4.2.2)
-   ellipsis          0.3.2       2021-04-29 [1] CRAN (R 4.2.2)
-   evaluate          0.19        2022-12-13 [1] CRAN (R 4.2.2)
-   fansi             1.0.3       2022-03-24 [1] CRAN (R 4.2.2)
-   farver            2.1.1       2022-07-06 [1] CRAN (R 4.2.2)
-   fastmap           1.1.0       2021-01-25 [1] CRAN (R 4.2.2)
-   forcats           0.5.2       2022-08-19 [1] CRAN (R 4.2.2)
-   fs                1.5.2       2021-12-08 [1] CRAN (R 4.2.2)
-   generics          0.1.3       2022-07-05 [1] CRAN (R 4.2.2)
-   ggplot2         * 3.4.0       2022-11-04 [1] CRAN (R 4.2.2)
-   glue              1.6.2       2022-02-24 [1] CRAN (R 4.2.2)
- P graphics        * 4.2.2       2022-12-10 [2] local
- P grDevices       * 4.2.2       2022-12-10 [2] local
- P grid              4.2.2       2022-12-10 [2] local
-   gtable            0.3.1       2022-09-01 [1] CRAN (R 4.2.2)
-   highr             0.10        2022-12-22 [1] CRAN (R 4.2.2)
-   hms               1.1.2       2022-08-19 [1] CRAN (R 4.2.2)
-   htmltools         0.5.4       2022-12-07 [1] CRAN (R 4.2.2)
-   import            1.3.0       2022-05-23 [1] CRAN (R 4.2.2)
-   jquerylib         0.1.4       2021-04-26 [1] CRAN (R 4.2.2)
-   jsonlite          1.8.4       2022-12-06 [1] CRAN (R 4.2.2)
-   knitr           * 1.41        2022-11-18 [1] CRAN (R 4.2.2)
-   labeling          0.4.2       2020-10-20 [1] CRAN (R 4.2.0)
-   lattice           0.20-45     2021-09-22 [2] CRAN (R 4.2.2)
-   lifecycle         1.0.3       2022-10-07 [1] CRAN (R 4.2.2)
-   lme4            * 1.1-31      2022-11-01 [1] CRAN (R 4.2.2)
-   lubridate         1.9.0       2022-11-06 [1] CRAN (R 4.2.2)
-   magrittr          2.0.3       2022-03-30 [1] CRAN (R 4.2.2)
-   MASS              7.3-58.1    2022-08-03 [2] CRAN (R 4.2.2)
-   Matrix          * 1.5-3       2022-11-11 [2] CRAN (R 4.2.2)
-   memoise           2.0.1       2021-11-26 [1] CRAN (R 4.2.2)
- P methods         * 4.2.2       2022-12-10 [2] local
-   mgcv              1.8-41      2022-10-21 [2] CRAN (R 4.2.2)
-   minqa             1.2.5       2022-10-19 [1] CRAN (R 4.2.2)
-   munsell           0.5.0       2018-06-12 [1] CRAN (R 4.2.2)
-   nlme              3.1-160     2022-10-10 [2] CRAN (R 4.2.2)
-   nloptr            2.0.3       2022-05-26 [1] CRAN (R 4.2.2)
-   odbc              1.3.3       2021-11-30 [1] CRAN (R 4.2.2)
-   OuhscMunge        0.2.0.9015  2022-12-11 [1] Github (OuhscBbmc/OuhscMunge@4e04b6f)
- P parallel          4.2.2       2022-12-10 [2] local
-   pillar            1.8.1       2022-08-19 [1] CRAN (R 4.2.2)
-   pkgconfig         2.0.3       2019-09-22 [1] CRAN (R 4.2.2)
-   purrr             1.0.0       2022-12-20 [1] CRAN (R 4.2.2)
-   R6                2.5.1       2021-08-19 [1] CRAN (R 4.2.2)
-   Rcpp              1.0.9       2022-07-08 [1] CRAN (R 4.2.2)
-   readr             2.1.3       2022-10-01 [1] CRAN (R 4.2.2)
-   rlang             1.0.6       2022-09-24 [1] CRAN (R 4.2.2)
-   rmarkdown         2.19        2022-12-15 [1] CRAN (R 4.2.2)
-   RSQLite           2.2.20      2022-12-22 [1] CRAN (R 4.2.2)
-   rstudioapi        0.14        2022-08-22 [1] CRAN (R 4.2.2)
-   sass              0.4.4       2022-11-24 [1] CRAN (R 4.2.2)
-   scales            1.2.1       2022-08-20 [1] CRAN (R 4.2.2)
-   sessioninfo       1.2.2       2021-12-06 [1] CRAN (R 4.2.2)
- P splines           4.2.2       2022-12-10 [2] local
- P stats           * 4.2.2       2022-12-10 [2] local
-   stringi           1.7.8       2022-07-11 [1] CRAN (R 4.2.1)
-   stringr           1.5.0       2022-12-02 [1] CRAN (R 4.2.2)
-   TabularManifest   0.1-16.9003 2022-12-11 [1] Github (Melinae/TabularManifest@b966a2b)
-   testit            0.13        2021-04-14 [1] CRAN (R 4.2.2)
-   tibble            3.1.8       2022-07-22 [1] CRAN (R 4.2.2)
-   tidyr             1.2.1       2022-09-08 [1] CRAN (R 4.2.2)
-   tidyselect        1.2.0       2022-10-10 [1] CRAN (R 4.2.2)
-   timechange        0.1.1       2022-11-04 [1] CRAN (R 4.2.2)
- P tools             4.2.2       2022-12-10 [2] local
-   tzdb              0.3.0       2022-03-28 [1] CRAN (R 4.2.2)
-   utf8              1.2.2       2021-07-24 [1] CRAN (R 4.2.2)
- P utils           * 4.2.2       2022-12-10 [2] local
-   vctrs             0.5.1       2022-11-16 [1] CRAN (R 4.2.2)
-   viridisLite       0.4.1       2022-08-22 [1] CRAN (R 4.2.2)
-   vroom             1.6.0       2022-09-30 [1] CRAN (R 4.2.2)
-   withr             2.5.0       2022-03-03 [1] CRAN (R 4.2.2)
-   xfun              0.36        2022-12-21 [1] CRAN (R 4.2.2)
-   yaml              2.3.6       2022-10-18 [1] CRAN (R 4.2.2)
-   zoo               1.8-11      2022-09-17 [1] CRAN (R 4.2.2)
+─ Packages ───────────────────────────────────────────────────────────────────────────────────────
+ package           * version    date (UTC) lib source
+ arrow               23.0.1.2   2026-03-25 [1] CRAN (R 4.5.3)
+ assertthat          0.2.1      2019-03-21 [1] CRAN (R 4.5.3)
+ backports           1.5.0      2024-05-23 [1] CRAN (R 4.5.0)
+ base              * 4.5.3      2026-03-14 [4] local
+ bit                 4.6.0      2025-03-06 [1] CRAN (R 4.5.0)
+ bit64               4.6.0-1    2025-01-16 [1] CRAN (R 4.5.0)
+ blob                1.3.0      2026-01-14 [1] CRAN (R 4.5.2)
+ boot                1.3-32     2025-08-29 [1] CRAN (R 4.5.1)
+ bslib               0.10.0     2026-01-26 [1] CRAN (R 4.5.2)
+ cachem              1.1.0      2024-05-16 [1] CRAN (R 4.5.0)
+ callr               3.7.6      2024-03-25 [1] CRAN (R 4.5.0)
+ checkmate           2.3.4      2026-02-03 [1] CRAN (R 4.5.2)
+ cli                 3.6.5      2025-04-23 [1] CRAN (R 4.5.0)
+ compiler            4.5.3      2026-03-14 [4] local
+ config              0.3.2      2023-08-30 [1] CRAN (R 4.5.0)
+ corrplot            0.95       2024-10-14 [1] CRAN (R 4.5.3)
+ crayon              1.5.3      2024-06-20 [1] CRAN (R 4.5.0)
+ curl                7.0.0      2025-08-19 [1] CRAN (R 4.5.1)
+ datasets          * 4.5.3      2026-03-14 [4] local
+ DBI                 1.3.0      2026-02-25 [1] CRAN (R 4.5.2)
+ desc                1.4.3      2023-12-10 [1] CRAN (R 4.5.0)
+ digest              0.6.39     2025-11-19 [1] CRAN (R 4.5.2)
+ dplyr               1.2.0      2026-02-03 [1] CRAN (R 4.5.2)
+ evaluate            1.0.5      2025-08-27 [1] CRAN (R 4.5.1)
+ farver              2.1.2      2024-05-13 [1] CRAN (R 4.5.0)
+ fastmap             1.2.0      2024-05-15 [1] CRAN (R 4.5.0)
+ flexdashboard     * 0.6.3      2026-01-28 [1] CRAN (R 4.5.3)
+ forcats             1.0.1      2025-09-25 [1] CRAN (R 4.5.3)
+ fs                  1.6.7      2026-03-06 [1] CRAN (R 4.5.2)
+ generics            0.1.4      2025-05-09 [1] CRAN (R 4.5.1)
+ ggplot2           * 4.0.2      2026-02-03 [1] CRAN (R 4.5.2)
+ glue                1.8.0      2024-09-30 [1] CRAN (R 4.5.0)
+ graphics          * 4.5.3      2026-03-14 [4] local
+ grDevices         * 4.5.3      2026-03-14 [4] local
+ grid                4.5.3      2026-03-14 [4] local
+ gtable              0.3.6      2024-10-25 [1] CRAN (R 4.5.0)
+ hms                 1.1.4      2025-10-17 [1] CRAN (R 4.5.2)
+ htmltools           0.5.9      2025-12-04 [1] CRAN (R 4.5.2)
+ import              1.3.4      2025-10-19 [1] CRAN (R 4.5.2)
+ jquerylib           0.1.4      2021-04-26 [1] CRAN (R 4.5.0)
+ jsonlite            2.0.0      2025-03-27 [1] CRAN (R 4.5.0)
+ knitr             * 1.51       2025-12-20 [1] CRAN (R 4.5.2)
+ labeling            0.4.3      2023-08-29 [1] CRAN (R 4.5.0)
+ lattice             0.22-9     2026-02-09 [1] CRAN (R 4.5.2)
+ lifecycle           1.0.5      2026-01-08 [1] CRAN (R 4.5.2)
+ lme4              * 2.0-1      2026-03-05 [1] CRAN (R 4.5.2)
+ lubridate           1.9.5      2026-02-04 [1] CRAN (R 4.5.2)
+ magrittr            2.0.4      2025-09-12 [1] CRAN (R 4.5.1)
+ MASS                7.3-65     2025-02-28 [1] CRAN (R 4.5.0)
+ Matrix            * 1.7-4      2025-08-28 [1] CRAN (R 4.5.1)
+ memoise             2.0.1      2021-11-26 [1] CRAN (R 4.5.0)
+ methods           * 4.5.3      2026-03-14 [4] local
+ mgcv                1.9-4      2025-11-07 [1] CRAN (R 4.5.2)
+ minqa               1.2.8      2024-08-17 [1] CRAN (R 4.5.0)
+ nlme                3.1-168    2025-03-31 [1] CRAN (R 4.5.0)
+ nloptr              2.2.1      2025-03-17 [1] CRAN (R 4.5.0)
+ odbc                1.6.4.1    2025-12-24 [1] CRAN (R 4.5.2)
+ otel                0.2.0      2025-08-29 [1] CRAN (R 4.5.2)
+ OuhscMunge          1.0.1.9000 2025-04-25 [1] Github (OuhscBbmc/OuhscMunge@5da3270)
+ parallel            4.5.3      2026-03-14 [4] local
+ pillar              1.11.1     2025-09-17 [1] CRAN (R 4.5.1)
+ pkgbuild            1.4.8      2025-05-26 [1] CRAN (R 4.5.1)
+ pkgconfig           2.0.3      2019-09-22 [1] CRAN (R 4.5.0)
+ processx            3.8.6      2025-02-21 [1] CRAN (R 4.5.0)
+ ps                  1.9.1      2025-04-12 [1] CRAN (R 4.5.0)
+ purrr               1.2.1      2026-01-09 [1] CRAN (R 4.5.2)
+ R6                  2.6.1      2025-02-15 [1] CRAN (R 4.5.0)
+ RAnalysisSkeleton * 1.0.0      2026-04-18 [1] local
+ rbibutils           2.4.1      2026-01-21 [1] CRAN (R 4.5.2)
+ RColorBrewer        1.1-3      2022-04-03 [1] CRAN (R 4.5.0)
+ Rcpp                1.1.1      2026-01-10 [1] CRAN (R 4.5.2)
+ Rdpack              2.6.6      2026-02-08 [1] CRAN (R 4.5.2)
+ readr               2.2.0      2026-02-19 [1] CRAN (R 4.5.2)
+ reformulas          0.4.4      2026-02-02 [1] CRAN (R 4.5.2)
+ remotes             2.5.0      2024-03-17 [1] CRAN (R 4.5.0)
+ rlang               1.1.7      2026-01-09 [1] CRAN (R 4.5.2)
+ rmarkdown           2.30       2025-09-28 [1] CRAN (R 4.5.2)
+ RSQLite             2.4.6      2026-02-06 [1] CRAN (R 4.5.2)
+ rstudioapi          0.18.0     2026-01-16 [1] CRAN (R 4.5.2)
+ S7                  0.2.1      2025-11-14 [1] CRAN (R 4.5.2)
+ sass                0.4.10     2025-04-11 [1] CRAN (R 4.5.0)
+ scales              1.4.0      2025-04-24 [1] CRAN (R 4.5.0)
+ sessioninfo         1.2.3      2025-02-05 [1] CRAN (R 4.5.0)
+ splines             4.5.3      2026-03-14 [4] local
+ stats             * 4.5.3      2026-03-14 [4] local
+ TabularManifest     0.2.1      2026-04-18 [1] Github (Melinae/TabularManifest@3c80a34)
+ testit              0.17       2026-03-06 [1] CRAN (R 4.5.2)
+ tibble              3.3.1      2026-01-11 [1] CRAN (R 4.5.2)
+ tidyr               1.3.2      2025-12-19 [1] CRAN (R 4.5.2)
+ tidyselect          1.2.1      2024-03-11 [1] CRAN (R 4.5.0)
+ timechange          0.4.0      2026-01-29 [1] CRAN (R 4.5.2)
+ tools               4.5.3      2026-03-14 [4] local
+ tzdb                0.5.0      2025-03-15 [1] CRAN (R 4.5.0)
+ utf8                1.2.6      2025-06-08 [1] CRAN (R 4.5.1)
+ utils             * 4.5.3      2026-03-14 [4] local
+ vctrs               0.7.1      2026-01-23 [1] CRAN (R 4.5.2)
+ viridisLite         0.4.3      2026-02-04 [1] CRAN (R 4.5.2)
+ vroom               1.7.0      2026-01-27 [1] CRAN (R 4.5.2)
+ withr               3.0.2      2024-10-28 [1] CRAN (R 4.5.0)
+ xfun                0.56       2026-01-18 [1] CRAN (R 4.5.2)
+ yaml                2.3.12     2025-12-10 [1] CRAN (R 4.5.2)
+ zoo                 1.8-15     2025-12-15 [1] CRAN (R 4.5.2)
 
- [1] C:/Users/wibea/AppData/Local/R/win-library/4.2
- [2] C:/Program Files/R/R-4.2.2patched/library
+ [1] /home/wibeasley/R/x86_64-pc-linux-gnu-library/4.5
+ [2] /usr/local/lib/R/site-library
+ [3] /usr/lib/R/site-library
+ [4] /usr/lib/R/library
+ * ── Packages attached to the search path.
 
- P ── Loaded and on-disk path mismatch.
- D ── DLL MD5 mismatch, broken installation.
-
-────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+──────────────────────────────────────────────────────────────────────────────────────────────────
 ```
 </details>
 
 
 
-Report rendered by wibea at 2023-01-10, 10:41 -0600 in 3 seconds.
+Report rendered by wibeasley at 2026-04-18, 18:40 -0500 in 14 seconds.

@@ -21,7 +21,7 @@ default:
   path_te_county:           "data-public/derived/te/te-county.rds"
   path_te_county_month:     "data-public/derived/te/te-county-month.rds"
 
-  path_car_derived:         "data-public/derived/car.rds" # Actually produced by an Ellis
+  path_car_derived:         "data-public/derived/car.parquet" # Actually produced by an Ellis
 
   path_annotation:          "data-public/metadata/cqi-annotation.csv"
 

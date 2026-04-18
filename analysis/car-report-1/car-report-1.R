@@ -9,6 +9,7 @@ rm(list = ls(all.names = TRUE)) # Clear the memory of variables from previous ru
 library(ggplot2) #For graphing
 # import::from("magrittr", "%>%")
 requireNamespace("dplyr")
+requireNamespace("arrow") # For parquet files
 # requireNamespace("RColorBrewer")
 # requireNamespace("scales") #For formating values in graphs
 # requireNamespace("mgcv) #For the Generalized Additive Model that smooths the longitudinal graphs.
@@ -20,7 +21,7 @@ options(show.signif.stars = FALSE) #Turn off the annotations on p-values
 # path_input                  <- config$path_car_derived
 # Uncomment the lines above and delete the one below if value is stored in 'config.yml'.
 
-path_input <- "data-public/derived/car.rds"
+path_input <- "data-public/derived/car.parquet"
 
 # The two graphing functions are copied from https://github.com/Melinae/TabularManifest.
 histogram_discrete <- function(
@@ -126,7 +127,7 @@ histogram_continuous <- function(
 }
 
 # ---- load-data ---------------------------------------------------------------
-ds <- readr::read_rds(path_input) # 'ds' stands for 'datasets'
+ds <- arrow::read_parquet(path_input) # 'ds' stands for 'datasets'
 
 # ---- tweak-data --------------------------------------------------------------
 ds <-

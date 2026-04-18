@@ -16,6 +16,7 @@ requireNamespace("readr"                   )
 requireNamespace("tidyr"                   )
 requireNamespace("dplyr"                   ) # Avoid attaching dplyr, b/c its function names conflict with a lot of packages (esp base, stats, and plyr).
 requireNamespace("testit"                  ) # For asserting conditions meet expected patterns.
+requireNamespace("arrow"                   ) # For parquet files
 
 # ---- declare-globals ---------------------------------------------------------
 # Constant values that won't change.
@@ -25,7 +26,7 @@ requireNamespace("testit"                  ) # For asserting conditions meet exp
 # Uncomment the lines above and delete the two below if values are stored in 'config.yml'.
 
 path_input  <- "data-public/raw/mtcar.csv"
-path_output <- "data-public/derived/car.rds"
+path_output <- "data-public/derived/car.parquet"
 figure_path <- "stitched-output/manipulation/car/"
 
 miles_per_gallon_threshold    <- 2.2 # I'm pretending that low values that are artifacts of the measurement equipment.
@@ -153,7 +154,7 @@ ds_slim
 
 # ---- save-to-disk ------------------------------------------------------------
 # Save as a compress, binary R dataset.  It's no longer readable with a text editor, but it saves metadata (eg, factor information).
-readr::write_rds(ds_slim, path_output, compress="gz")
+arrow::write_parquet(ds_slim, path_output)
 
 # ---- inspect, fig.width=10, fig.height=6, fig.path=figure_path -----------------------------------------------------------------
 # This last section is kinda cheating, and should belong in an 'analysis' file, not a 'manipulation' file.

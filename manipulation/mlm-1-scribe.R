@@ -192,6 +192,6 @@ ds_slim <-
 ds_slim
 
 # ---- save-to-disk ------------------------------------------------------------
-arrow::write_parquet(ds_county        , config$path_county_derived          , compress="gz")
-arrow::write_parquet(ds_county_year   , config$path_county_year_derived     , compress="gz")
-arrow::write_parquet(ds_slim          , config$path_mlm_1_derived           , compress="gz")
+arrow::write_parquet(ds_county        , config$path_county_derived      )
+arrow::write_parquet(ds_county_year   , config$path_county_year_derived )
+arrow::write_parquet(ds_slim          , config$path_mlm_1_derived       )

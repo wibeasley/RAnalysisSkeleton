@@ -16,7 +16,7 @@ default:
 
   path_county_derived:      "data-public/derived/county.parquet"
   path_county_year_derived: "data-public/derived/county-year.parquet"
-  path_mlm_1_derived:       "data-public/derived/mlm-1.rds"
+  path_mlm_1_derived:       "data-public/derived/mlm-1.parquet"
 
   path_te_county:           "data-public/derived/te/te-county.rds"
   path_te_county_month:     "data-public/derived/te/te-county-month.rds"

@@ -1,4 +1,5 @@
 # ---- R and RStudio files -----------------------------------------------
+.positai
 .Rproj.user/
 .Rhistory
 .RData
